@@ -1,0 +1,63 @@
+@font-face {
+    font-family: "Zaptron-Regular";
+    src: url('../fonts/zaptron.woff2') format('woff2'), url('../fonts/zaptron.woff') format('woff');
+}
+
+/*@font-face {font-family: "DIN Next LT W04 Medium Cond";
+    src: url("../fonts/DinNextLtW04MediumCond.eot"); !* IE9*!
+    src: url("../fonts/DinNextLtW04MediumCond.eot?#iefix") format("embedded-opentype"), !* IE6-IE8 *!
+    url("../fonts/DinNextLtW04MediumCond.woff2") format("woff2"), !* chrome、firefox *!
+    url("../fonts/DinNextLtW04MediumCond.woff") format("woff"), !* chrome、firefox *!
+    url("../fonts/DinNextLtW04MediumCond.ttf") format("truetype"), !* chrome、firefox、opera、Safari, Android, iOS 4.2+*!
+    url("../fonts/DinNextLtW04MediumCond.svg#DIN Next LT W04 Medium Cond") format("svg"); !* iOS 4.1- *!
+}
+@font-face {font-family: "DIN Next LT W04 Regular Cond";
+    src: url("../fonts/DinNextLtW04MediumCond.eot"); !* IE9*!
+    src: url("../fonts/DinNextLtW04MediumCond.eot?#iefix") format("embedded-opentype"), !* IE6-IE8 *!
+    url("../fonts/DinNextLtW04MediumCond.woff2") format("woff2"), !* chrome、firefox *!
+    url("../fonts/DinNextLtW04MediumCond.woff") format("woff"), !* chrome、firefox *!
+    url("../fonts/DinNextLtW04MediumCond.ttf") format("truetype"), !* chrome、firefox、opera、Safari, Android, iOS 4.2+*!
+    url("../fonts/DinNextLtW04MediumCond.svg#DIN Next LT W04 Regular Cond") format("svg"); !* iOS 4.1- *!
+}
+
+@font-face {font-family: "Raleway Regular";
+    src: url("../fonts/RalewayRegular.eot"); !* IE9*!
+    src: url("../fonts/RalewayRegular.eot?#iefix") format("embedded-opentype"), !* IE6-IE8 *!
+    url("../fonts/RalewayRegular.woff2") format("woff2"), !* chrome、firefox *!
+    url("../fonts/RalewayRegular.woff") format("woff"), !* chrome、firefox *!
+    url("../fonts/RalewayRegular.ttf") format("truetype"), !* chrome、firefox、opera、Safari, Android, iOS 4.2+*!
+    url("../fonts/RalewayRegular.svg#Raleway Regular") format("svg"); !* iOS 4.1- *!
+}*/
+
+@font-face {font-family: "Proxima Nova Regular";
+    src: url("../fonts/proxima-nova-regular.eot"); /* IE9*/
+    src: url("../fonts/proxima-nova-regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/proxima-nova-regular.woff2") format("woff2"), /* chrome、firefox */
+    url("../fonts/proxima-nova-regular.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+}
+@font-face {font-family: "Proxima Nova Bold";
+    src: url("../fonts/proxima-nova-bold.eot"); /* IE9*/
+    src: url("../fonts/proxima-nova-bold.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/proxima-nova-bold.woff2") format("woff2"), /* chrome、firefox */
+    url("../fonts/proxima-nova-bold.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+}
+@font-face {font-family: "Proxima Nova Condensed Black";
+    src: url("../fonts/proxima-nova-condesed-black.eot"); /* IE9*/
+    src: url("../fonts/proxima-nova-condesed-black.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/proxima-nova-condesed-black.woff2") format("woff2"), /* chrome、firefox */
+    url("../fonts/proxima-nova-condesed-black.woff") format("woff"), /* chrome、firefox */
+    url("../fonts/proxima-nova-condesed-black.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url("../fonts/proxima-nova-condesed-black.svg#Proxima Nova Condensed Black") format("svg"); /* iOS 4.1- */
+}
+@font-face {font-family: "Proxima Nova Condensed";
+    src: url("../fonts/proxima-nova-condesed.eot"); /* IE9*/
+    src: url("../fonts/proxima-nova-condesed.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/proxima-nova-condesed.woff2") format("woff2"), /* chrome、firefox */
+    url("../fonts/proxima-nova-condesed.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+}
+@font-face {font-family: "Proxima Nova Black";
+    src: url("../fonts/proxima-nova-black.eot"); /* IE9*/
+    src: url("../fonts/proxima-nova-black.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/proxima-nova-black.woff2") format("woff2"), /* chrome、firefox */
+    url("../fonts/proxima-nova-black.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+}

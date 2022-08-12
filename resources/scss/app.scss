@@ -1,0 +1,259 @@
+@use "base";
+@use "fontawesome/fontawesome";
+@use "fontawesome/brands";
+//@use "fontawesome/duotone";
+@use "fontawesome/light";
+@use "fontawesome/regular";
+@use "fontawesome/solid";
+//@use "fontawesome/thin";
+
+body{
+
+}
+
+// Navbar
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    z-index: 1000;
+    user-select: none;
+
+    .leftPart{
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 1rem;
+
+        .logo{
+            font-family: "Zaptron-Regular", sans-serif;
+            color: white;
+            font-size: 4rem;
+            line-height: 1;
+            height: 3.2rem;
+            padding-right: .5rem;
+            border-right: solid 3px white;
+        }
+
+        .navLinks{
+            ul{
+                list-style-type: none;
+                padding: 0;
+            }
+            ul li{
+                display: inline-block;
+                margin: 0 .25rem;
+            }
+            a{
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+                padding: .4rem 0;
+                transition: margin 500ms ease-out;
+
+                &:not(.circle){
+                    &:hover{
+                        @extend .active;
+                        position: relative;
+                        //animation: 1s ease-in 0s startHover;
+                        &:before{
+                            content: "";
+                            position: absolute;
+                            left: -20px;
+                            bottom: 0;
+                            width: 20px;
+                            height: 100%;
+                            background-color: white;
+                            clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+                        }
+                        &:after{
+                            content: "";
+                            position: absolute;
+                            right: -20px;
+                            bottom: 0;
+                            width: 20px;
+                            height: 100%;
+                            background-color: white;
+                            clip-path: polygon(0 0, 0 100%, 100% 0);
+                        }
+                    }
+                }
+            }
+
+            .active{
+                color: var(--primaryOrange);
+                background-color: white;
+                padding: .4rem;
+                margin: 0 .25rem;
+                &:not(.circle){
+                    margin: 0 1rem;
+                }
+
+                a{
+                    color: var(--primaryOrange);
+                }
+            }
+            .active.circle{
+                border-radius: 50%;
+                clip-path: none;
+            }
+        }
+    }
+
+    .rightPart{
+        background-color: var(--secondaryOrange);
+        clip-path: polygon(100% 0, 100% 85%, 30% 100%, 0 50%, 30% 0);
+
+        .linksContainer{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            margin: 1rem 1rem 1rem 3rem;
+            height: 3.2rem;
+
+            &>*{
+                margin: 0 .5rem;
+            }
+
+            a{
+                color: white;
+                font-weight: bold;
+                text-decoration: none;
+            }
+            a:hover{
+                color: white;
+            }
+
+            #navUserProfile{
+                .disconnected{
+                    font-size: 1.2rem;
+                }
+            }
+        }
+    }
+}
+
+// Animation
+@keyframes startHover{
+    from{
+        padding: 0;
+    }
+    to{
+        padding: .5rem;
+    }
+}
+// Fin Navbar
+
+// Vitrine
+.vitrine{
+    height: 100vh;
+    width: 100%;
+    background-color: var(--primaryOrange);
+    user-select: none;
+    z-index: 0;
+
+    #backgroundVideo{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+
+        video{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        #videoOverlay{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primaryOrange);
+            opacity: 0.8;
+            z-index: 2;
+        }
+    }
+
+    .content{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .text-content{
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            color: white;
+
+            &>*{
+                margin: 0 5rem;
+            }
+
+            .title{
+                display: flex;
+                flex-direction: column;
+                font-family: "Proxima Nova Black", sans-serif;
+                text-transform: uppercase;
+
+                .first{
+                    font-size: 1.8rem;
+                    font-weight: bold;
+                    margin-bottom: .25rem;
+                }
+                .second{
+                    font-size: 5rem;
+                    font-weight: bold;
+                    margin-bottom: .25rem;
+                }
+            }
+            .description{
+                font-size: 1.6rem;
+                p{
+                    margin: 0;
+                    line-height: 1.2;
+                }
+            }
+        }
+
+        .projectsForms{
+            position: relative;
+            height: 50rem;
+            width: 50rem;
+
+            background-color: red;
+
+            .projectForm{
+                position: absolute;
+                width: 8rem;
+                height: 8rem;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .first{
+                top: 0;
+                left: 0;
+                clip-path: polygon(100% 25%, 79% 100%, 25% 86%, 0 50%, 46% 0);
+                background-image: url("../images/vitrine/Station service Désert.jpg");
+            }
+        }
+    }
+}
