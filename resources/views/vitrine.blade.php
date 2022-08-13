@@ -35,4 +35,6 @@
             </div>
         </div>
     </div>
+
+    <div class="transitionVitrine"></div>
 @endsection

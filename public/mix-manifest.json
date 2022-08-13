@@ -1,0 +1,21 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/js/fontawesome/all.js": "/js/fontawesome/all.js",
+    "/js/fontawesome/brands.js": "/js/fontawesome/brands.js",
+    "/js/fontawesome/conflict-detection.js": "/js/fontawesome/conflict-detection.js",
+    "/js/fontawesome/duotone.js": "/js/fontawesome/duotone.js",
+    "/js/fontawesome/light.js": "/js/fontawesome/light.js",
+    "/js/fontawesome/regular.js": "/js/fontawesome/regular.js",
+    "/js/fontawesome/solid.js": "/js/fontawesome/solid.js",
+    "/js/fontawesome/thin.js": "/js/fontawesome/thin.js",
+    "/js/fontawesome/v4-shims.js": "/js/fontawesome/v4-shims.js",
+    "/css/fontawesome/light.css": "/css/fontawesome/light.css",
+    "/css/fontawesome/fontawesome.css": "/css/fontawesome/fontawesome.css",
+    "/css/fontawesome/duotone.css": "/css/fontawesome/duotone.css",
+    "/css/fontawesome/brands.css": "/css/fontawesome/brands.css",
+    "/css/app.css": "/css/app.css",
+    "/css/fontawesome/v4-shims.css": "/css/fontawesome/v4-shims.css",
+    "/css/fontawesome/thin.css": "/css/fontawesome/thin.css",
+    "/css/fontawesome/solid.css": "/css/fontawesome/solid.css",
+    "/css/fontawesome/regular.css": "/css/fontawesome/regular.css"
+}
