@@ -26,15 +26,25 @@
             </div>
 
             <div class="projectsForms">
-                <div class="projectForm first"></div>
-                <div class="projectForm second"></div>
-                <div class="projectForm third"></div>
-                <div class="projectForm fourth"></div>
-                <div class="projectForm fifth"></div>
-                <div class="projectForm sixth"></div>
+                <div class="first"></div>
+                <div class="second"></div>
+                <div class="third"></div>
+                <div class="fourth"></div>
+                <div class="fifth"></div>
+                <div class="sixth"></div>
             </div>
         </div>
     </div>
 
     <div class="transitionVitrine"></div>
+    <div class="transitionDetails">
+        <div class="first"></div>
+        <div class="second"></div>
+        <div class="third"></div>
+        <div class="fourth"></div>
+    </div>
+
+    <div class="container">
+        <h1>Titre génial</h1>
+    </div>
 @endsection

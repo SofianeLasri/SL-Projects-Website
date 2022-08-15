@@ -237,7 +237,7 @@ body{
             height: 43rem;
             width: 50rem;
 
-            .projectForm{
+            &>*{
                 position: absolute;
                 background-size: cover;
                 background-repeat: no-repeat;
@@ -298,6 +298,9 @@ body{
     }
 }
 
+// Fin Vitrine
+
+// Transition
 .transitionVitrine{
     width: 100%;
     position: relative;
@@ -306,4 +309,44 @@ body{
     background-color: var(--secondaryOrange);
     clip-path: polygon(100% 14%, 91% 0, 83% 22%, 75% 19%, 65% 31%, 56% 29%, 51% 34%, 42% 32%, 36% 36%, 30% 33%, 20% 42%, 10% 36%, 0 50%, 0 86%, 6% 94%, 13% 86%, 19% 96%, 30% 88%, 41% 96%, 48% 86%, 55% 94%, 71% 97%, 82% 85%, 93% 100%, 100% 89%);
     z-index: 5;
+}
+
+.transitionDetails{
+    width: 100%;
+    position: absolute;
+    height: 16rem;
+    z-index: -1;
+
+    &>*{
+        position: absolute;
+        background-color: var(--secondaryOrange);
+    }
+    .first{
+        top: 9rem;
+        left: 3rem;
+        height: 4.5rem;
+        width: 5rem;
+        clip-path: polygon(89% 1%, 100% 65%, 68% 100%, 0 75%, 13% 0);
+    }
+    .second{
+        top: 0;
+        left: 8rem;
+        width: 9em;
+        height: 8rem;
+        clip-path: polygon(70% 0, 100% 46%, 68% 100%, 0 75%, 0 9%);
+    }
+    .third{
+        top: .5rem;
+        left: 23rem;
+        width: 3rem;
+        height: 2.5rem;
+        clip-path: polygon(81% 1%, 100% 48%, 43% 100%, 0 29%, 30% 0);
+    }
+    .fourth{
+        top: 2rem;
+        right: 7rem;
+        height: 5rem;
+        width: 5rem;
+        clip-path: polygon(70% 0, 100% 46%, 68% 100%, 0 75%, 0 9%);
+    }
 }
