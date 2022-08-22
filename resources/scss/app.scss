@@ -58,7 +58,6 @@ body{
                     &:hover{
                         @extend .active;
                         position: relative;
-                        //animation: 1s ease-in 0s startHover;
                         &:before{
                             content: "";
                             position: absolute;
@@ -137,15 +136,6 @@ body{
     }
 }
 
-// Animation
-@keyframes startHover{
-    from{
-        padding: 0;
-    }
-    to{
-        padding: .5rem;
-    }
-}
 // Fin Navbar
 
 // Vitrine
@@ -348,5 +338,205 @@ body{
         height: 5rem;
         width: 5rem;
         clip-path: polygon(70% 0, 100% 46%, 68% 100%, 0 75%, 0 9%);
+    }
+}
+// Fin Transition
+
+// Contenu de la page
+.vitrineFirstContainer{
+    margin-top: 6rem;
+    display: flex;
+    flex-direction: row;
+
+    > :first-child{
+        flex-grow: 1;
+    }
+    > :nth-child(2){
+        width: 20rem;
+    }
+
+    .lastProjects{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .cardContainer{
+            display: flex;
+            flex-direction: row;
+
+            $marginSize: .5rem;
+
+            .projectCard{
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                // Développement seulement
+                background-image: url("../images/vitrine/Motel Starisland.jpg");
+
+                $cardHeight: 16rem;
+                $cardPadding: .5rem;
+
+                .category, .date{
+                    font-size: .8rem;
+                    font-family: "Proxima Nova Bold", sans-serif;
+                }
+                .title{
+                    font-size: 1.5rem;
+                    font-family: "Proxima Nova Bold", sans-serif;
+                    text-transform: uppercase;
+                    margin-bottom: calc($marginSize / 2);
+                }
+
+                // Si on a une autre projectCard après et que l'on est pas une demi carte
+                &:not(&.mid){
+                    &:not(:last-child){
+                        margin-right: $marginSize;
+                    }
+                }
+                &.typeA{
+                    width: calc(($cardHeight * (16 / 9)));
+                    height: $cardHeight;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+
+                    > :first-child{
+                        background-color: var(--semiTransparentRed);
+                        padding: calc($cardPadding / 2) $cardPadding;
+                    }
+                    > :nth-child(2){
+                        background-color: var(--semiTransparentWhite);
+                        padding: $cardPadding;
+                    }
+
+                    .category{
+                        color: white;
+                    }
+                    .date{
+                        margin: 0 0 $marginSize 0;
+                    }
+                }
+
+                &.typeB{
+                    width: $cardHeight;
+                    height: $cardHeight;
+                    display: flex;
+                    position: relative;
+
+                    .overlay{
+                        position: relative;
+                        background-color: var(--semiTransparentRed);
+                        color: white;
+                        display: flex;
+                        flex-direction: column;
+                        padding: $cardPadding;
+
+                        .title{
+                            font-family: "Proxima Nova Black", sans-serif;
+                            font-size: 1.9rem;
+                            line-height: 1.2;
+                            margin-bottom: 0;
+                        }
+                        .date{
+                            $datePadding: calc($cardPadding / 5);
+                            position: absolute;
+                            bottom: calc($cardPadding - $datePadding);
+                            left: calc($cardPadding - $datePadding);
+                            padding: $datePadding;
+
+                            transition: background-color 500ms ease-out;
+                            &:hover{
+                                background-color: black;
+                                &>*{
+                                    color: white;
+                                }
+                            }
+                        }
+                    }
+
+                    &.mid{
+                        width: $cardHeight;
+                        height: calc($cardHeight / 2 - $marginSize / 2);
+
+                        .title{
+                            font-family: "Proxima Nova Black", sans-serif;
+                            font-size: 1.4rem;
+                        }
+                    }
+
+                    &.red{
+                        .overlay{
+                            background-color: var(--semiTransparentRed);
+                        }
+                    }
+                    &.green{
+                        .overlay{
+                            background-color: var(--semiTransparentGreen);
+                        }
+                    }
+                    &.blue{
+                        .overlay{
+                            background-color: var(--semiTransparentBlue);
+                        }
+                    }
+                    &.white{
+                        .overlay{
+                            background-color: var(--semiTransparentWhite);
+                            color: black;
+                        }
+                    }
+                }
+            }
+
+            .vertical{
+                display: flex;
+                flex-direction: column;
+
+                .projectCard{
+                    @extend .projectCard;
+                    &.mid{
+                        &:not(:last-child){
+                            margin-bottom: $marginSize;
+                        }
+                    }
+                }
+            }
+        }
+        > :nth-child(2){
+            flex-grow: 1;
+            &>*{
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+.recentActivity{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .blogPostCard{
+        $cardHeaderHeight: 13rem;
+        $cardHeaderWidth: calc(($cardHeaderHeight * (16 / 9)));
+
+        height: auto;
+        width: $cardHeaderWidth;
+
+        .header{
+            height: $cardHeaderHeight;
+            width: 100%;
+            background-color: var(--primaryOrange);
+            clip-path: polygon(0 5%, 100% 0, 100% 95%, 0% 100%);
+        }
+
+        &:not(:last-child){
+            margin-right: 2rem;
+        }
+        &:nth-child(2n){
+            .header{
+                clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+            }
+        }
     }
 }
