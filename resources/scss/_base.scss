@@ -4,10 +4,16 @@
     --primaryOrange: #F78E57;
     --secondaryOrange: #BD6233;
 
+    --semiTransparentPrimaryOrange: rgba(247, 142, 87, 0.5);
+    --semiTransparentSecondaryOrange: rgba(189, 98, 51, 0.5);
+
+    // RGB
     --semiTransparentRed: rgba(220, 7, 7, 0.6);
     --semiTransparentBlue: rgba(31, 67, 150, 0.5);
     --semiTransparentGreen: rgba(9, 140, 0, 0.5);
     --semiTransparentWhite: rgba(255, 255, 255, 0.8);
+
+    --mutedGrey: #7E7E7E;
 }
 
 $breakpoints: (

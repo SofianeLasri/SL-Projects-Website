@@ -105,11 +105,16 @@
                         @for ($i = 0; $i < 3; $i++)
                             <div class="blogPostCard">
                                 <div class="header">
+                                    <div class="bg">
+                                        <a class="linkOverlay" href="#"></a>
+                                    </div>
                                     <div class="tip">
                                         <span>Blog</span>
                                     </div>
                                 </div>
-                                <a href="#" class="postCategory">Source Engine</a>
+                                <div class="postCategory">
+                                    <a href="#">Source Engine</a>
+                                </div>
                                 <h4 class="postTitle">
                                     <a href="#">
                                         <span>S&Box, mon avis sur le successeur de Garry's Mod</span>
