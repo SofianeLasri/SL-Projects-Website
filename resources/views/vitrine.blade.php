@@ -45,6 +45,10 @@
     </div>
 
     <div id="indexPageContent">
+        <div id="desktopStarislandStatue">
+            <div class="statue"></div>
+        </div>
+
         <div class="container vitrineFirstContainer">
             <div>
                 <section>

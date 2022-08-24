@@ -343,8 +343,27 @@ body{
 // Fin Transition
 
 // Contenu de la page
+#desktopStarislandStatue{
+    position: absolute;
+    right: 0;
+    width: 50rem;
+
+    .statue{
+        position: absolute;
+        top: 0;
+        right: 3rem;
+        width: 19rem;
+        height: 40rem;
+        background-image: url("../images/vitrine/Starisland - The world is yours.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
+
 .vitrineFirstContainer{
     margin-top: 6rem;
+    margin-bottom: 5rem;
     display: flex;
     flex-direction: row;
 
@@ -590,7 +609,7 @@ body{
             }
         }
         .postTitle{
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-family: "Proxima Nova Bold", sans-serif;
             margin-bottom: .5rem;
             &>*{
