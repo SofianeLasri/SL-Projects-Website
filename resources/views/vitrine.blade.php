@@ -20,8 +20,8 @@
                     <span class="second">Projects</span>
                 </div>
                 <div class="description">
-                    <p>Développeur web Full-Stack,
-                    <br>UX & Game Designer.</p>
+                    <p>{{ __("pages/vitrine.vitrine.description_first") }}
+                    <br>{{ __("pages/vitrine.vitrine.description_second") }}</p>
                 </div>
             </div>
 

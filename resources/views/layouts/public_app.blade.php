@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +19,5 @@
 @yield('footer')
 
 <script src="{{ mix('/js/app.js') }}"></script>
-<script src="{{ mix('/js/fontawesome/all.js') }}"></script>
 @stack('scripts')
 </html>

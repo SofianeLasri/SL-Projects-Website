@@ -100,7 +100,7 @@
                 width: 15rem;
                 height: 12rem;
                 clip-path: polygon(100% 25%, 79% 100%, 25% 86%, 0 50%, 46% 0);
-                background-image: url("/resources/images/vitrine/Station service Désert.jpg");
+                background-image: url("../../images/vitrine/Station service Désert.jpg");
                 background-position: left;
             }
 
@@ -110,7 +110,7 @@
                 width: 19rem;
                 height: 21rem;
                 clip-path: polygon(10% 20%, 61% 0, 99% 28%, 100% 79%, 49% 100%, 0 73%);
-                background-image: url("/resources/images/vitrine/Lifeinvaders square.jpg");
+                background-image: url("../../images/vitrine/Lifeinvaders square.jpg");
             }
             .third{
                 top: 0;
@@ -118,7 +118,7 @@
                 width: 17rem;
                 height: 13rem;
                 clip-path: polygon(31% 0, 83% 1%, 100% 79%, 31% 100%, 0 41%);
-                background-image: url("/resources/images/vitrine/Mairie Rosewood.jpg");
+                background-image: url("../../images/vitrine/Mairie Rosewood.jpg");
             }
             .fourth{
                 bottom: 0;
@@ -126,7 +126,7 @@
                 width: 18rem;
                 height: 18rem;
                 clip-path: polygon(45% 0, 100% 36%, 83% 100%, 10% 93%, 0 26%);
-                background-image: url("/resources/images/vitrine/Motel Starisland.jpg");
+                background-image: url("../../images/vitrine/Motel Starisland.jpg");
             }
             .fifth{
                 bottom: 0;
@@ -134,7 +134,7 @@
                 width: 16rem;
                 height: 14.5rem;
                 clip-path: polygon(75% 0, 100% 50%, 71% 100%, 0 90%, 10% 28%);
-                background-image: url("/resources/images/vitrine/Rockford Atlas.jpg");
+                background-image: url("../../images/vitrine/Rockford Atlas.jpg");
             }
             .sixth{
                 bottom: 14rem;
@@ -142,7 +142,7 @@
                 width: 13rem;
                 height: 13rem;
                 clip-path: polygon(93% 0, 100% 64%, 68% 100%, 5% 74%, 0 3%);
-                background-image: url("/resources/images/vitrine/Commissariat Rosewood.jpg");
+                background-image: url("../../images/vitrine/Commissariat Rosewood.jpg");
             }
         }
     }
@@ -214,7 +214,7 @@
         right: 3rem;
         width: 19rem;
         height: 40rem;
-        background-image: url("/resources/images/vitrine/Starisland - The world is yours.png");
+        background-image: url("../../images/vitrine/Starisland - The world is yours.png");
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
@@ -250,7 +250,7 @@
                 background-repeat: no-repeat;
                 background-position: center;
                 // Développement seulement
-                background-image: url("/resources/images/vitrine/Motel Starisland.jpg");
+                background-image: url("../../images/vitrine/Motel Starisland.jpg");
 
                 $cardHeight: 16rem;
                 $cardPadding: .5rem;
@@ -446,7 +446,7 @@
                 background-position: center;
                 clip-path: polygon(0 5%, 100% 0, 100% 95%, 0% 100%);
                 // Développement seulement
-                background-image: url("/resources/images/vitrine/Rockford Atlas.jpg");
+                background-image: url("../../images/vitrine/Rockford Atlas.jpg");
             }
             .tip{
                 position: absolute;
