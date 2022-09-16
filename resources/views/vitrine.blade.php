@@ -7,7 +7,7 @@
         <div id="backgroundVideo">
             <noscript>
                 <video autoplay loop muted>
-                    <source src="{{ asset('videos/vitrine/starisland-1080p-2000kbps.webm') }}" type="video/webm">
+                    <source src="{{ mix('/videos/vitrine/starisland-1080p-2000kbps.webm') }}" type="video/webm">
                 </video>
             </noscript>
             <div id="videoOverlay"></div>
@@ -136,6 +136,17 @@
             </div>
             <div>
                 <!-- Cette div représente l'espace à la droite du conteneur -->
+            </div>
+        </div>
+
+        <div class="container-fluid steamWorkshopProfile">
+            <div class="container">
+                <div class="profile">
+                    <div class="profilePic"></div>
+                    <div class="profileMeta">
+                        <span>Cornflakes</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

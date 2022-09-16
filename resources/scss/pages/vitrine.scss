@@ -1,0 +1,504 @@
+// Vitrine
+.vitrine{
+    height: 100vh;
+    width: 100%;
+    background-color: var(--primaryOrange);
+    user-select: none;
+    z-index: 0;
+
+    #backgroundVideo{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+
+        video{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        #videoOverlay{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primaryOrange);
+            opacity: 0.8;
+            z-index: 2;
+        }
+    }
+
+    .content{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .text-content{
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            color: white;
+
+            &>*{
+                margin: 0 5rem;
+            }
+
+            .title{
+                display: flex;
+                flex-direction: column;
+                font-family: "Proxima Nova Black", sans-serif;
+                text-transform: uppercase;
+
+                .first{
+                    font-size: 1.8rem;
+                    font-weight: bold;
+                    margin-bottom: .25rem;
+                }
+                .second{
+                    font-size: 5rem;
+                    font-weight: bold;
+                    margin-bottom: .25rem;
+                }
+            }
+            .description{
+                font-size: 1.6rem;
+                p{
+                    margin: 0;
+                    line-height: 1.2;
+                }
+            }
+        }
+
+        .projectsForms{
+            position: relative;
+            height: 43rem;
+            width: 50rem;
+
+            &>*{
+                position: absolute;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
+
+            .first{
+                top: 11rem;
+                left: 0;
+                width: 15rem;
+                height: 12rem;
+                clip-path: polygon(100% 25%, 79% 100%, 25% 86%, 0 50%, 46% 0);
+                background-image: url("/resources/images/vitrine/Station service Désert.jpg");
+                background-position: left;
+            }
+
+            .second{
+                top: 8rem;
+                left: 16rem;
+                width: 19rem;
+                height: 21rem;
+                clip-path: polygon(10% 20%, 61% 0, 99% 28%, 100% 79%, 49% 100%, 0 73%);
+                background-image: url("/resources/images/vitrine/Lifeinvaders square.jpg");
+            }
+            .third{
+                top: 0;
+                right: 2rem;
+                width: 17rem;
+                height: 13rem;
+                clip-path: polygon(31% 0, 83% 1%, 100% 79%, 31% 100%, 0 41%);
+                background-image: url("/resources/images/vitrine/Mairie Rosewood.jpg");
+            }
+            .fourth{
+                bottom: 0;
+                left: 4rem;
+                width: 18rem;
+                height: 18rem;
+                clip-path: polygon(45% 0, 100% 36%, 83% 100%, 10% 93%, 0 26%);
+                background-image: url("/resources/images/vitrine/Motel Starisland.jpg");
+            }
+            .fifth{
+                bottom: 0;
+                right: 11rem;
+                width: 16rem;
+                height: 14.5rem;
+                clip-path: polygon(75% 0, 100% 50%, 71% 100%, 0 90%, 10% 28%);
+                background-image: url("/resources/images/vitrine/Rockford Atlas.jpg");
+            }
+            .sixth{
+                bottom: 14rem;
+                right: 0.5rem;
+                width: 13rem;
+                height: 13rem;
+                clip-path: polygon(93% 0, 100% 64%, 68% 100%, 5% 74%, 0 3%);
+                background-image: url("/resources/images/vitrine/Commissariat Rosewood.jpg");
+            }
+        }
+    }
+}
+
+// Fin Vitrine
+
+// Transition
+.transitionVitrine{
+    width: 100%;
+    position: relative;
+    height: 16rem;
+    margin-top: -8rem; // 50% de la hauteur
+    background-color: var(--secondaryOrange);
+    clip-path: polygon(100% 14%, 91% 0, 83% 22%, 75% 19%, 65% 31%, 56% 29%, 51% 34%, 42% 32%, 36% 36%, 30% 33%, 20% 42%, 10% 36%, 0 50%, 0 86%, 6% 94%, 13% 86%, 19% 96%, 30% 88%, 41% 96%, 48% 86%, 55% 94%, 71% 97%, 82% 85%, 93% 100%, 100% 89%);
+    z-index: 5;
+}
+
+.transitionDetails{
+    width: 100%;
+    position: absolute;
+    height: 16rem;
+    z-index: -1;
+
+    &>*{
+        position: absolute;
+        background-color: var(--secondaryOrange);
+    }
+    .first{
+        top: 9rem;
+        left: 3rem;
+        height: 4.5rem;
+        width: 5rem;
+        clip-path: polygon(89% 1%, 100% 65%, 68% 100%, 0 75%, 13% 0);
+    }
+    .second{
+        top: 0;
+        left: 8rem;
+        width: 9em;
+        height: 8rem;
+        clip-path: polygon(70% 0, 100% 46%, 68% 100%, 0 75%, 0 9%);
+    }
+    .third{
+        top: .5rem;
+        left: 23rem;
+        width: 3rem;
+        height: 2.5rem;
+        clip-path: polygon(81% 1%, 100% 48%, 43% 100%, 0 29%, 30% 0);
+    }
+    .fourth{
+        top: 2rem;
+        right: 7rem;
+        height: 5rem;
+        width: 5rem;
+        clip-path: polygon(70% 0, 100% 46%, 68% 100%, 0 75%, 0 9%);
+    }
+}
+// Fin Transition
+
+// Contenu de l'accueil
+#desktopStarislandStatue{
+    position: absolute;
+    right: 0;
+    width: 50rem;
+
+    .statue{
+        position: absolute;
+        top: 0;
+        right: 3rem;
+        width: 19rem;
+        height: 40rem;
+        background-image: url("/resources/images/vitrine/Starisland - The world is yours.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
+
+.vitrineFirstContainer{
+    margin-top: 6rem;
+    margin-bottom: 5rem;
+    display: flex;
+    flex-direction: row;
+
+    > :first-child{
+        flex-grow: 1;
+    }
+    > :nth-child(2){
+        width: 20rem;
+    }
+
+    .lastProjects{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .cardContainer{
+            display: flex;
+            flex-direction: row;
+
+            $marginSize: .5rem;
+
+            .projectCard{
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                // Développement seulement
+                background-image: url("/resources/images/vitrine/Motel Starisland.jpg");
+
+                $cardHeight: 16rem;
+                $cardPadding: .5rem;
+
+                .category, .date{
+                    font-size: .8rem;
+                    font-family: "Proxima Nova Bold", sans-serif;
+                }
+                .title{
+                    font-size: 1.5rem;
+                    font-family: "Proxima Nova Bold", sans-serif;
+                    text-transform: uppercase;
+                    margin-bottom: calc($marginSize / 2);
+                }
+
+                // Si on a une autre projectCard après et que l'on est pas une demi carte
+                &:not(&.mid){
+                    &:not(:last-child){
+                        margin-right: $marginSize;
+                    }
+                }
+                &.typeA{
+                    width: calc(($cardHeight * (16 / 9)));
+                    height: $cardHeight;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+
+                    > :first-child{
+                        background-color: var(--semiTransparentRed);
+                        padding: calc($cardPadding / 2) $cardPadding;
+                    }
+                    > :nth-child(2){
+                        background-color: var(--semiTransparentWhite);
+                        padding: $cardPadding;
+                    }
+
+                    .category{
+                        color: white;
+                    }
+                    .date{
+                        margin: 0 0 $marginSize 0;
+                    }
+                }
+
+                &.typeB{
+                    width: $cardHeight;
+                    height: $cardHeight;
+                    display: flex;
+                    position: relative;
+
+                    .overlay{
+                        position: relative;
+                        background-color: var(--semiTransparentRed);
+                        color: white;
+                        display: flex;
+                        flex-direction: column;
+                        padding: $cardPadding;
+
+                        .title{
+                            font-family: "Proxima Nova Black", sans-serif;
+                            font-size: 1.9rem;
+                            line-height: 1.2;
+                            margin-bottom: 0;
+                        }
+                        .date{
+                            $datePadding: calc($cardPadding / 5);
+                            position: absolute;
+                            bottom: calc($cardPadding - $datePadding);
+                            left: calc($cardPadding - $datePadding);
+                            padding: $datePadding;
+
+                            transition: background-color 500ms ease-out;
+                            &:hover{
+                                background-color: black;
+                                &>*{
+                                    color: white;
+                                }
+                            }
+                        }
+                    }
+
+                    &.mid{
+                        width: $cardHeight;
+                        height: calc($cardHeight / 2 - $marginSize / 2);
+
+                        .title{
+                            font-family: "Proxima Nova Black", sans-serif;
+                            font-size: 1.4rem;
+                        }
+                    }
+
+                    &.red{
+                        .overlay{
+                            background-color: var(--semiTransparentRed);
+                        }
+                    }
+                    &.green{
+                        .overlay{
+                            background-color: var(--semiTransparentGreen);
+                        }
+                    }
+                    &.blue{
+                        .overlay{
+                            background-color: var(--semiTransparentBlue);
+                        }
+                    }
+                    &.white{
+                        .overlay{
+                            background-color: var(--semiTransparentWhite);
+                            color: black;
+                        }
+                    }
+                }
+            }
+
+            .vertical{
+                display: flex;
+                flex-direction: column;
+
+                .projectCard{
+                    @extend .projectCard;
+                    &.mid{
+                        &:not(:last-child){
+                            margin-bottom: $marginSize;
+                        }
+                    }
+                }
+            }
+        }
+        > :nth-child(2){
+            flex-grow: 1;
+            &>*{
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+.recentActivity{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .blogPostCard{
+        $cardHeaderHeight: 13rem;
+        $cardHeaderWidth: calc(($cardHeaderHeight * (16 / 9)));
+
+        height: auto;
+        width: $cardHeaderWidth;
+
+        a{
+            text-decoration: none;
+        }
+
+        .header{
+            position: relative;
+            height: $cardHeaderHeight;
+            width: 100%;
+            margin-bottom: .5rem;
+
+            .linkOverlay{
+                display: block;
+                height: 100%;
+                width: 100%;
+                background-color: var(--semiTransparentSecondaryOrange);
+                opacity: 0;
+                transition: opacity 500ms ease-out;
+
+                &:hover{
+                    opacity: 1;
+                }
+                &:after{
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    color:white;
+                    font-family: "FontAwesome-Solid", sans-serif;
+                    padding: 1rem;
+                    background-color: var(--primaryOrange);
+                    transform: translate(-50%, -50%);
+                    border-radius: 50%;
+                }
+            }
+            .bg{
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                background-color: var(--secondaryOrange);
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                clip-path: polygon(0 5%, 100% 0, 100% 95%, 0% 100%);
+                // Développement seulement
+                background-image: url("/resources/images/vitrine/Rockford Atlas.jpg");
+            }
+            .tip{
+                position: absolute;
+                right: 0;
+                bottom: -1%;
+                padding: .5rem;
+                background-color: var(--primaryOrange);
+                color: white;
+                font-size: 1.1rem;
+                font-family: "Proxima Nova Bold", sans-serif;
+                clip-path: polygon(0 5%, 100% 0, 100% 95%, 0% 100%);
+            }
+        }
+
+        .postCategory{
+            font-size: .8rem;
+            font-family: "Proxima Nova Bold", sans-serif;
+            &>*{
+                color: var(--primaryOrange);
+            }
+        }
+        .postTitle{
+            font-size: 1.4rem;
+            font-family: "Proxima Nova Bold", sans-serif;
+            margin-bottom: .5rem;
+            &>*{
+                color:black;
+            }
+        }
+        .postMeta{
+            font-size: .8rem;
+            &>*{
+                color: var(--mutedGrey);
+
+                &:not(:last-child){
+                    margin-right: .5rem;
+                }
+            }
+        }
+
+        &:not(:last-child){
+            margin-right: 2rem;
+        }
+        &:nth-child(2n){
+            .header{
+                .bg{
+                    clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+                }
+            }
+        }
+    }
+}
+// Fin contenu de l'accueil
+
+// Bandeau Workshop Steam

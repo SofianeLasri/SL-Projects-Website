@@ -1,0 +1,126 @@
+// Navbar
+.navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    z-index: 1000;
+    user-select: none;
+
+    .leftPart{
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 1rem;
+
+        .logo{
+            font-family: "Zaptron-Regular", sans-serif;
+            color: white;
+            font-size: 4rem;
+            line-height: 1;
+            height: 3.2rem;
+            padding-right: .5rem;
+            border-right: solid 3px white;
+        }
+
+        .navLinks{
+            ul{
+                list-style-type: none;
+                padding: 0;
+            }
+            ul li{
+                display: inline-block;
+                margin: 0 .25rem;
+            }
+            a{
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+                padding: .4rem 0;
+                transition: margin 500ms ease-out;
+
+                &:not(.circle){
+                    &:hover{
+                        @extend .active;
+                        position: relative;
+                        &:before{
+                            content: "";
+                            position: absolute;
+                            left: -20px;
+                            bottom: 0;
+                            width: 20px;
+                            height: 100%;
+                            background-color: white;
+                            clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+                        }
+                        &:after{
+                            content: "";
+                            position: absolute;
+                            right: -20px;
+                            bottom: 0;
+                            width: 20px;
+                            height: 100%;
+                            background-color: white;
+                            clip-path: polygon(0 0, 0 100%, 100% 0);
+                        }
+                    }
+                }
+            }
+
+            .active{
+                color: var(--primaryOrange);
+                background-color: white;
+                padding: .4rem;
+                margin: 0 .25rem;
+                &:not(.circle){
+                    margin: 0 1rem;
+                }
+
+                a{
+                    color: var(--primaryOrange);
+                }
+            }
+            .active.circle{
+                border-radius: 50%;
+                clip-path: none;
+            }
+        }
+    }
+
+    .rightPart{
+        background-color: var(--secondaryOrange);
+        clip-path: polygon(100% 0, 100% 85%, 30% 100%, 0 50%, 30% 0);
+
+        .linksContainer{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            margin: 1rem 1rem 1rem 3rem;
+            height: 3.2rem;
+
+            &>*{
+                margin: 0 .5rem;
+            }
+
+            a{
+                color: white;
+                font-weight: bold;
+                text-decoration: none;
+            }
+            a:hover{
+                color: white;
+            }
+
+            #navUserProfile{
+                .disconnected{
+                    font-size: 1.2rem;
+                }
+            }
+        }
+    }
+}
+
+// Fin Navbar

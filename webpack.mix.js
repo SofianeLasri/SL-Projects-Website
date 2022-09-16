@@ -15,7 +15,7 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/scss/app.scss', 'public/css');
 
 // Fonts awesome
-mix.js('resources/js/fontawesome/all.js', 'public/js/fontawesome/all.js')
+mix/*.js('resources/js/fontawesome/all.js', 'public/js/fontawesome/all.js')
     .js('resources/js/fontawesome/brands.js', 'public/js/fontawesome/brands.js')
     .js('resources/js/fontawesome/conflict-detection.js', 'public/js/fontawesome/conflict-detection.js')
     .js('resources/js/fontawesome/duotone.js', 'public/js/fontawesome/duotone.js')
@@ -23,7 +23,7 @@ mix.js('resources/js/fontawesome/all.js', 'public/js/fontawesome/all.js')
     .js('resources/js/fontawesome/regular.js', 'public/js/fontawesome/regular.js')
     .js('resources/js/fontawesome/solid.js', 'public/js/fontawesome/solid.js')
     .js('resources/js/fontawesome/thin.js', 'public/js/fontawesome/thin.js')
-    .js('resources/js/fontawesome/v4-shims.js', 'public/js/fontawesome/v4-shims.js')
+    .js('resources/js/fontawesome/v4-shims.js', 'public/js/fontawesome/v4-shims.js')*/
 
     .sass('resources/scss/fontawesome/brands.scss', 'public/css/fontawesome/brands.css')
     .sass('resources/scss/fontawesome/duotone.scss', 'public/css/fontawesome/duotone.css')
