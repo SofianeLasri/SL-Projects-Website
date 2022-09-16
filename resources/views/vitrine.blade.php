@@ -52,25 +52,25 @@
         <div class="container vitrineFirstContainer">
             <div>
                 <section>
-                    <h2>Derniers projets</h2>
+                    <h2>{{ __("generic.last_projects") }}</h2>
                     <div class="lastProjects">
                         <div class="cardContainer">
                             <div class="projectCard typeA">
                                 <div>
-                                    <span class="category">Développement Unity</span>
+                                    <span class="category">{{ __("categories.development.Unity") }}</span>
                                 </div>
                                 <div>
                                     <h1 class="title">Interface avec UI Toolkit</h1>
-                                    <p class="date">Réalisé le 12/08/2022</p>
+                                    <p class="date">{{ __("generic.made.on.date") }} 12/08/2022</p>
                                 </div>
                             </div>
 
                             <div class="projectCard typeB red">
                                 <div class="overlay">
                                     <h1 class="title">Site internet serveur MC SL-Craft</h1>
-                                    <span class="category">Développement web</span>
+                                    <span class="category">{{ __("categories.development.Web") }}</span>
                                     <div class="date">
-                                        <span>Réalisé le 16/07/2022</span>
+                                        <span>{{ __("generic.made.on.date") }} 16/07/2022</span>
                                     </div>
                                 </div>
                             </div>
@@ -79,18 +79,18 @@
                                 <div class="projectCard typeB mid green">
                                     <div class="overlay">
                                         <h1 class="title">Plugin Minecraft Spigot mc</h1>
-                                        <span class="category">Développement web</span>
+                                        <span class="category">{{ __("categories.development.Web") }}</span>
                                         <div class="date">
-                                            <span>Réalisé le 16/07/2022</span>
+                                            <span>{{ __("generic.made.on.date") }} 16/07/2022</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="projectCard typeB mid blue">
                                     <div class="overlay">
                                         <h1 class="title">Rosewood RP Serveur darkrp</h1>
-                                        <span class="category">Développement web</span>
+                                        <span class="category">{{ __("categories.development.Web") }}</span>
                                         <div class="date">
-                                            <span>Réalisé le 16/07/2022</span>
+                                            <span>{{ __("generic.made.on.date") }} 16/07/2022</span>
                                         </div>
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@
                                         <a class="linkOverlay" href="#"></a>
                                     </div>
                                     <div class="tip">
-                                        <span>Blog</span>
+                                        <span>{{ __("singleWords.blog") }}</span>
                                     </div>
                                 </div>
                                 <div class="postCategory">
@@ -126,8 +126,8 @@
                                 </h4>
                                 <div class="postMeta">
                                     <span>6 août 2021</span>
-                                    <span><i class="fa-solid fa-eye"></i> 856 vues</span>
-                                    <a href="#"><i class="fa-solid fa-share-nodes"></i> Partager</a>
+                                    <span><i class="fa-solid fa-eye"></i> 856 {{ strtolower(__("singleWords.views")) }}</span>
+                                    <a href="#"><i class="fa-solid fa-share-nodes"></i> {{ __("singleWords.share") }}</a>
                                 </div>
                             </div>
                         @endfor
