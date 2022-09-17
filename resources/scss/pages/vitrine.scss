@@ -502,3 +502,11 @@
 // Fin contenu de l'accueil
 
 // Bandeau Workshop Steam
+.steamWorkshopProfile{
+    background-color: var(--steam-darker-blue);
+    color: white;
+
+    .container{
+        display: flex;
+    }
+}

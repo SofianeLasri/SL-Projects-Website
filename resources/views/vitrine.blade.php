@@ -142,9 +142,22 @@
         <div class="container-fluid steamWorkshopProfile">
             <div class="container">
                 <div class="profile">
-                    <div class="profilePic"></div>
+                    <a class="profilePic" href="https://steamcommunity.com/profiles/{{ $steamUserProfileInformations->get("steamid") }}"></a>
                     <div class="profileMeta">
-                        <span>Cornflakes</span>
+                        <a href="https://steamcommunity.com/profiles/{{ $steamUserProfileInformations->get("steamid") }}">{{ $steamUserProfileInformations->get("personaname") }}</a>
+                    </div>
+                </div>
+
+                <div class="creations">
+                    <div class="creation">
+                        <div class="cover">
+                            <img src="" alt="Creation Picture">
+                        </div>
+                        <div class="meta">
+                            <span class="stars"></span>
+                            <span class="votes">421 votes</span>
+                        </div>
+                        <span class="title">Nom création</span>
                     </div>
                 </div>
             </div>

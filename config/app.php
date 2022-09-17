@@ -212,4 +212,28 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Steam API Key
+    |--------------------------------------------------------------------------
+    |
+    | La clé Steam API Key permet d'accéder aux api web de Steam.
+    |
+    */
+
+    'steam_api_key' => env('STEAM_API_KEY', '19861735D9918C1C70EF003D732EEC79'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | SteamID64
+    |--------------------------------------------------------------------------
+    |
+    | Le Steam ID permet d'identifier le compte qui sera utilisé pour la
+    | vitrine des projets.
+    |
+    */
+
+    'steam_profile_id64' => env('STEAM_PROFILE_ID64', '76561198148455403'),
+    'steam_profile_avatar_hash' => env('STEAM_PROFILE_AVATAR_HASH', 'ee6f9c9ffd6bb2fd2114a378f3f03d997f79e4b9'),
+
 ];
