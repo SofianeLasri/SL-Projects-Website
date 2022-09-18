@@ -38,4 +38,4 @@ mix/*.js('resources/js/fontawesome/all.js', 'public/js/fontawesome/all.js')
 mix.copy('resources/videos/vitrine/starisland-1080p-2000kbps.webm', 'public/videos/vitrine/starisland-1080p-2000kbps.webm');
 
 // Images
-mix.copy('resources/images/steam/cornflakes-fullres.png', 'public/images/steam/cornflakes-fullres.png');
+mix.copy('resources/images/', 'public/images/');

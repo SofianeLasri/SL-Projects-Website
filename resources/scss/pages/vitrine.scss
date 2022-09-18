@@ -503,10 +503,93 @@
 
 // Bandeau Workshop Steam
 .steamWorkshopProfile{
+    $inset-blur: .25rem;
+    $shadow-blur: .375rem;
+    $box-shadow: 0 0 $shadow-blur 0 var(--steam-light-blue), inset 0 0 $inset-blur 0 var(--steam-light-blue);
     background-color: var(--steam-darker-blue);
     color: white;
 
     .container{
         display: flex;
+
+        .profile{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 30rem;
+
+            .profilePic{
+                $size: 12.5rem;
+                display: block;
+                height: $size;
+                width: $size;
+                overflow: hidden;
+                border-radius: 50%;
+                box-shadow: $box-shadow;
+
+                background-size: cover;
+                background-position: center;
+
+                margin-bottom: 1rem;
+            }
+
+            .profileMeta{
+                .accountName{
+                    font-family: "Proxima Nova Bold", sans-serif;
+                    font-size: 1.4rem;
+                }
+
+                a {
+                    color: white;
+                    text-decoration: none;
+                }
+            }
+        }
+
+        .creations{
+            padding: 2rem 0;
+
+            .creation{
+                $width: 10rem;
+                width: $width;
+
+                a{
+                    text-decoration: none;
+                    color: white;
+                }
+                .cover{
+                    width: $width;
+                    height: $width;
+                    background-size: cover;
+                    background-position: center;
+                    box-shadow: $box-shadow;
+                    margin-bottom: .5rem;
+                    display: block;
+                }
+                .meta{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .stars{
+                        width: 5rem;
+
+                        img{
+                            max-width: 100%;
+                            max-height: 100%;
+                        }
+                    }
+                    .votes{
+                        color: var(--mutedGrey);
+                        font-size: .8rem;
+                    }
+                }
+
+                &:not(:last-child){
+                    margin-right: 1rem;
+                }
+            }
+        }
     }
 }

@@ -7,5 +7,7 @@ return [
             'object' => "Réalisé sur"
         ],
         'with' => "Réalisé avec"
-    ]
+    ],
+    'link_to_my_steam_profile' => "Liens vers mon profil Steam",
+    'link_to' => "Lien vers"
 ];

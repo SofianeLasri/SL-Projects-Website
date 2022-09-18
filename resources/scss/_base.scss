@@ -126,3 +126,11 @@ section{
         clip-path: polygon(70% 0, 100% 46%, 68% 100%, 0 75%, 0 9%);
     }
 }
+
+// Utils
+.d-flex{
+    display: flex;
+}
+.flex-column{
+    flex-direction: column;
+}

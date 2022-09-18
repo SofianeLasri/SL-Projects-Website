@@ -4,5 +4,8 @@ return [
     'categories' => "Catégories",
     'blog' => "Blog",
     'share' => "Partager",
-    'views' => "Vues"
+    'views' => "Vues",
+    'stars' => "Étoiles",
+    'star' => "Étoiles",
+    'ratings' => "Votes",
 ];

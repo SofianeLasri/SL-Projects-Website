@@ -142,24 +142,40 @@
         <div class="container-fluid steamWorkshopProfile">
             <div class="container">
                 <div class="profile">
-                    <a class="profilePic" href="https://steamcommunity.com/profiles/{{ $steamUserProfileInformations->get("steamid") }}"></a>
+                    <a class="profilePic"
+                       title="{{ __("generic.link_to_my_steam_profile") }}"
+                       href="https://steamcommunity.com/profiles/{{ $steamUserProfileInformations->get("steamid") }}"
+                       style="background-image: url('{{ $steamUserProfileInformations->get("avatarfull") }}');"></a>
                     <div class="profileMeta">
-                        <a href="https://steamcommunity.com/profiles/{{ $steamUserProfileInformations->get("steamid") }}">{{ $steamUserProfileInformations->get("personaname") }}</a>
+                        <a href="https://steamcommunity.com/profiles/{{ $steamUserProfileInformations->get("steamid") }}" class="accountName">{{ $steamUserProfileInformations->get("personaname") }}</a>
                     </div>
                 </div>
 
-                <div class="creations">
-                    <div class="creation">
-                        <div class="cover">
-                            <img src="" alt="Creation Picture">
-                        </div>
-                        <div class="meta">
-                            <span class="stars"></span>
-                            <span class="votes">421 votes</span>
-                        </div>
-                        <span class="title">Nom création</span>
+                <section class="creations">
+                    <h2>Mon Workshop Steam</h2>
+                    <div class="d-flex">
+                        @foreach($workshopItems as $workshopItem)
+                            <div class="creation">
+                                <a class="cover"
+                                   style="background-image: url('/images/steam/workshop/covers/{{ $workshopItem['id'] }}.jpg');"
+                                   href="https://steamcommunity.com/sharedfiles/filedetails/?id={{ $workshopItem['id'] }}"
+                                   title="{{ __("generic.link_to") }} {{ $workshopItem['name'] }}"></a>
+                                <div class="meta">
+                                    <div class="stars">
+                                        <img src="/images/steam/workshop/stars/{{ $workshopItem['stars'] }}-star_large.png"
+                                             alt="{{ $workshopItem['stars'] > 0 ? __("singleWords.stars") : __("singleWords.star") }}">
+                                    </div>
+                                    <span class="votes">{{ $workshopItem['votes'] }} {{ __("singleWords.ratings") }}</span>
+                                </div>
+                                <a class="title"
+                                   href="https://steamcommunity.com/sharedfiles/filedetails/?id={{ $workshopItem['id'] }}"
+                                   title="{{ __("generic.link_to") }} {{ $workshopItem['name'] }}">
+                                    {{ $workshopItem['name'] }}
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
-                </div>
+                </section>
             </div>
         </div>
     </div>
