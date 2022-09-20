@@ -1,0 +1,27 @@
+footer{
+    width: 100%;
+    background-color: var(--primaryOrange);
+    color: white;
+
+    a{
+        color: white;
+        text-decoration: none;
+    }
+    .container{
+        display: flex;
+        align-items: flex-start;
+        padding: 2rem 0;
+
+        .col{
+            width: 100%;
+
+            .logo {
+                font-family: "Zaptron-Regular", sans-serif;
+                font-size: 4rem;
+            }
+            ul, ol, li{
+                padding: 0;
+            }
+        }
+    }
+}

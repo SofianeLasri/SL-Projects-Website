@@ -16,7 +16,7 @@
 <body>
 @yield('body')
 
-@yield('footer')
+<x-footer></x-footer>
 
 <script src="{{ mix('/js/app.js') }}"></script>
 @stack('scripts')

@@ -1,6 +1,8 @@
 <nav class="navbar">
     <div class="leftPart">
-        <div class="logo">SL</div>
+        <div class="logo">
+            <span>SL</span>
+        </div>
         <div class="navLinks">
             <ul>
                 <li><a href="#" class="active circle"><i class="fa-solid fa-house"></i></a></li>
