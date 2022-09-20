@@ -15,7 +15,7 @@ class VitrineController extends Controller
                 "id" => 1849444176,
                 "name" => "GTA IV : TBoGT - Maisonette 9",
                 "stars" => 5,
-                "votes" => 425,
+                "votes" => 426,
                 "published_date" => "30/08/2019 17H45",
                 "updated_date" => "02/09/2019 14H55"
             ],

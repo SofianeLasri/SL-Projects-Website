@@ -145,9 +145,12 @@
                     <a class="profilePic"
                        title="{{ __("generic.link_to_my_steam_profile") }}"
                        href="https://steamcommunity.com/profiles/{{ $steamUserProfileInformations->get("steamid") }}"
-                       style="background-image: url('{{ $steamUserProfileInformations->get("avatarfull") }}');"></a>
+                       style="background-image: url('{{ $steamUserProfileInformations->get("avatarfull") }}');"
+                       target="_blank"></a>
                     <div class="profileMeta">
-                        <a href="https://steamcommunity.com/profiles/{{ $steamUserProfileInformations->get("steamid") }}" class="accountName">{{ $steamUserProfileInformations->get("personaname") }}</a>
+                        <a href="https://steamcommunity.com/profiles/{{ $steamUserProfileInformations->get("steamid") }}"
+                           class="accountName"
+                           target="_blank">{{ $steamUserProfileInformations->get("personaname") }}</a>
                     </div>
                 </div>
 
@@ -159,7 +162,8 @@
                                 <a class="cover"
                                    style="background-image: url('/images/steam/workshop/covers/{{ $workshopItem['id'] }}.jpg');"
                                    href="https://steamcommunity.com/sharedfiles/filedetails/?id={{ $workshopItem['id'] }}"
-                                   title="{{ __("generic.link_to") }} {{ $workshopItem['name'] }}"></a>
+                                   title="{{ __("generic.link_to") }} {{ $workshopItem['name'] }}"
+                                   target="_blank"></a>
                                 <div class="meta">
                                     <div class="stars">
                                         <img src="/images/steam/workshop/stars/{{ $workshopItem['stars'] }}-star_large.png"
@@ -169,7 +173,8 @@
                                 </div>
                                 <a class="title"
                                    href="https://steamcommunity.com/sharedfiles/filedetails/?id={{ $workshopItem['id'] }}"
-                                   title="{{ __("generic.link_to") }} {{ $workshopItem['name'] }}">
+                                   title="{{ __("generic.link_to") }} {{ $workshopItem['name'] }}"
+                                   target="_blank">
                                     {{ $workshopItem['name'] }}
                                 </a>
                             </div>
