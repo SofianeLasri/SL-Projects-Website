@@ -35,7 +35,7 @@ mix/*.js('resources/js/fontawesome/all.js', 'public/js/fontawesome/all.js')
     .sass('resources/scss/fontawesome/v4-shims.scss', 'public/css/fontawesome/v4-shims.css');
 
 // Videos
-mix.copy('resources/videos/vitrine/starisland-1080p-2000kbps.webm', 'public/videos/vitrine/starisland-1080p-2000kbps.webm');
+mix.copy('resources/videos/vitrine/', 'public/videos/vitrine/');
 
 // Images
 mix.copy('resources/images/', 'public/images/');
