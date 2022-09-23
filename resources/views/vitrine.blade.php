@@ -1,5 +1,14 @@
 @extends('layouts.public_app')
 
+@section('head')
+    <meta name="description" content="Site internet personnel de SofianeLasri">
+    <meta name="author" content="SofianeLasri">
+    <meta property="og:title" content="The Rock" />
+    <meta property="og:type" content="video.movie" />
+    <meta property="og:url" content="https://www.imdb.com/title/tt0117500/" />
+    <meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" /
+@endsection
+
 @section('body')
     <x-navbar></x-navbar>
 
