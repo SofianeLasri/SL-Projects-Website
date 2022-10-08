@@ -3,10 +3,14 @@
 @section('head')
     <meta name="description" content="Site internet personnel de SofianeLasri">
     <meta name="author" content="SofianeLasri">
-    <meta property="og:title" content="The Rock" />
-    <meta property="og:type" content="video.movie" />
-    <meta property="og:url" content="https://www.imdb.com/title/tt0117500/" />
-    <meta property="og:image" content="https://ia.media-imdb.com/images/rock.jpg" />
+    <meta property="og:title" content="SL-Projects" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ config('app.url') }}" />
+    <meta property="og:image" content="{{ config('app.url').config('app.img.og.large') }}" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale:alternate" content="en_US" />
 @endsection
 
 @section('body')
@@ -221,11 +225,11 @@
         const screenWithouDPI = window.screen.width * window.devicePixelRatio;
 
         if((isMobileOrTablet && window.matchMedia("(min-width: 2500px)").matches) || (!isMobileOrTablet && screenWithouDPI > 2500)){
-            vitrineIntroVideo.src = websiteUrl + "videos/vitrine/" + currentProjectName + "-1440p-2666kbps.webm";
+            vitrineIntroVideo.src = websiteUrl + "/videos/vitrine/" + currentProjectName + "-1440p-2666kbps.webm";
         }else if((isMobileOrTablet && window.matchMedia("(min-width: 1900px)").matches) || (!isMobileOrTablet && screenWithouDPI > 1900)){
-            vitrineIntroVideo.src = websiteUrl + "videos/vitrine/" + currentProjectName + "-1080p-2000kbps.webm";
+            vitrineIntroVideo.src = websiteUrl + "/videos/vitrine/" + currentProjectName + "-1080p-2000kbps.webm";
         }else{
-            vitrineIntroVideo.src = websiteUrl + "videos/vitrine/" + currentProjectName + "-720p-1333kbps.webm";
+            vitrineIntroVideo.src = websiteUrl + "/videos/vitrine/" + currentProjectName + "-720p-1333kbps.webm";
         }
         vitrineIntroVideo.play();
 
