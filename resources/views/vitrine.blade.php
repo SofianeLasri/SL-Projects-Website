@@ -73,7 +73,7 @@
                 <section>
                     <h2>{{ __("generic.last_projects") }}</h2>
                     <div class="lastProjects">
-                        <div class="cardContainer">
+                        <div class="cardContainer d-flex">
                             <div class="projectCard typeA">
                                 <div>
                                     <span class="category">{{ __("categories.development.Unity") }}</span>
@@ -94,7 +94,7 @@
                                 </div>
                             </div>
 
-                            <div class="vertical cardContainer">
+                            <div class="vertical d-flex flex-column">
                                 <div class="projectCard typeB mid green">
                                     <div class="overlay">
                                         <h1 class="title">Plugin Minecraft Spigot mc</h1>

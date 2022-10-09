@@ -162,10 +162,15 @@
 }
 
 .transitionDetails{
+    display: none;
     width: 100%;
     position: absolute;
     height: 16rem;
     z-index: -1;
+
+    @media screen and (min-width: 1900px) and (orientation: landscape){
+        display: block;
+    }
 
     &>*{
         position: absolute;
@@ -204,6 +209,7 @@
 
 // Contenu de l'accueil
 #desktopStarislandStatue{
+    display: none;
     position: absolute;
     right: 0;
     width: 50rem;
@@ -240,21 +246,39 @@
             margin: 0;
             line-height: 1.25rem;
         }
+
+        @media screen and (max-width: 2000px){
+            right: 21rem
+        }
+    }
+
+    @media screen and (min-width: 1900px) and (orientation: landscape){
+        display: block;
     }
 }
 
 .vitrineFirstContainer{
-    margin-top: 6rem;
+    margin-top: 2rem;
     margin-bottom: 5rem;
     display: flex;
     flex-direction: row;
+
+    @media screen and (min-width: 1900px) and (orientation: landscape){
+        margin-top: 6rem;
+    }
 
     > :first-child{
         flex-grow: 1;
     }
     > :nth-child(2){
+        display: none;
         width: 20rem;
+
+        @media screen and (min-width: 1900px) and (orientation: landscape){
+            display: block;
+        }
     }
+
 
     .lastProjects{
         display: flex;
@@ -262,9 +286,9 @@
         align-items: center;
 
         .cardContainer{
-            display: flex;
-            flex-direction: row;
-
+            /*width: 80rem;
+            height: 28rem;
+            background-color: green;*/
             $marginSize: .5rem;
 
             .projectCard{
@@ -276,6 +300,7 @@
 
                 $cardHeight: 16rem;
                 $cardPadding: .5rem;
+                $responsiveZoomMultiplier: 1.25;
 
                 .category, .date{
                     font-size: .8rem;
@@ -295,8 +320,8 @@
                     }
                 }
                 &.typeA{
-                    width: calc(($cardHeight * (16 / 9)));
-                    height: $cardHeight;
+                    width: calc((($cardHeight * $responsiveZoomMultiplier) * (16 / 9)));
+                    height: calc($cardHeight * $responsiveZoomMultiplier);
                     display: flex;
                     flex-direction: column;
                     justify-content: flex-end;
@@ -316,11 +341,15 @@
                     .date{
                         margin: 0 0 $marginSize 0;
                     }
+                    @media screen and (min-width: 1900px) and (orientation: landscape){
+                        width: calc(($cardHeight * (16 / 9)));
+                        height: $cardHeight;
+                    }
                 }
 
                 &.typeB{
-                    width: $cardHeight;
-                    height: $cardHeight;
+                    width: calc($cardHeight * $responsiveZoomMultiplier);
+                    height: calc($cardHeight * $responsiveZoomMultiplier);
                     display: flex;
                     position: relative;
 
@@ -356,12 +385,16 @@
                     }
 
                     &.mid{
-                        width: $cardHeight;
-                        height: calc($cardHeight / 2 - $marginSize / 2);
+                        width: calc($cardHeight * $responsiveZoomMultiplier);
+                        height: calc(($cardHeight * $responsiveZoomMultiplier) / 2 - $marginSize / 2);
 
                         .title{
                             font-family: "Proxima Nova Black", sans-serif;
                             font-size: 1.4rem;
+                        }
+                        @media screen and (min-width: 1900px) and (orientation: landscape){
+                            width: $cardHeight;
+                            height: calc($cardHeight / 2 - $marginSize / 2);
                         }
                     }
 
@@ -386,6 +419,11 @@
                             color: black;
                         }
                     }
+
+                    @media screen and (min-width: 1900px) and (orientation: landscape){
+                        width: $cardHeight;
+                        height: $cardHeight;
+                    }
                 }
             }
 
@@ -405,6 +443,7 @@
         }
         > :nth-child(2){
             flex-grow: 1;
+
             &>*{
                 margin: 0 auto;
             }
