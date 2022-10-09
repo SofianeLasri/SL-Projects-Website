@@ -61,6 +61,11 @@
     <div id="indexPageContent">
         <div id="desktopStarislandStatue">
             <div class="statue"></div>
+            <div class="comment">
+                <div class="title">The world is yours... Almost.</div>
+                <p>Cette satue issue du film Scarface avait été commandée par un ancien riche gouverneur de l'île
+                    Starisland... <i class="fa-solid fa-right"></i></p>
+            </div>
         </div>
 
         <div class="container vitrineFirstContainer">

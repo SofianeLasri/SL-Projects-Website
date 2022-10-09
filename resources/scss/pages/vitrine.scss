@@ -219,6 +219,28 @@
         background-repeat: no-repeat;
         background-position: center;
     }
+
+    .comment{
+        width: 18rem;
+        position: absolute;
+        top: 0;
+        right: 23rem;
+
+        background-color: var(--primaryOrange);
+        color: white;
+        padding: .5rem;
+
+        .title{
+            font-family: "Proxima Nova Black", sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin-bottom: .5rem;
+        }
+        p{
+            margin: 0;
+            line-height: 1.25rem;
+        }
+    }
 }
 
 .vitrineFirstContainer{
