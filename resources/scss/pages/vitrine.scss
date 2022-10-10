@@ -84,8 +84,8 @@
 
         .projectsForms{
             position: relative;
-            height: 43rem;
-            width: 50rem;
+            height: 76%;
+            width: 49%;
 
             &>*{
                 position: absolute;
@@ -95,52 +95,52 @@
             }
 
             .first{
-                top: 11rem;
+                top: 26%;
                 left: 0;
-                width: 15rem;
-                height: 12rem;
+                width: 30%;
+                height: 28%;
                 clip-path: polygon(100% 25%, 79% 100%, 25% 86%, 0 50%, 46% 0);
                 background-image: url("../../images/vitrine/Station service Désert.jpg");
                 background-position: left;
             }
 
             .second{
-                top: 8rem;
-                left: 16rem;
-                width: 19rem;
-                height: 21rem;
+                top: 20%;
+                left: 30%;
+                width: 38%;
+                height: 49%;
                 clip-path: polygon(10% 20%, 61% 0, 99% 28%, 100% 79%, 49% 100%, 0 73%);
                 background-image: url("../../images/vitrine/Lifeinvaders square.jpg");
             }
             .third{
                 top: 0;
-                right: 2rem;
-                width: 17rem;
-                height: 13rem;
+                right: 5%;
+                width: 34%;
+                height: 30%;
                 clip-path: polygon(31% 0, 83% 1%, 100% 79%, 31% 100%, 0 41%);
                 background-image: url("../../images/vitrine/Mairie Rosewood.jpg");
             }
             .fourth{
                 bottom: 0;
-                left: 4rem;
-                width: 18rem;
-                height: 18rem;
+                left: 6%;
+                width: 36%;
+                height: 42%;
                 clip-path: polygon(45% 0, 100% 36%, 83% 100%, 10% 93%, 0 26%);
                 background-image: url("../../images/vitrine/Motel Starisland.jpg");
             }
             .fifth{
                 bottom: 0;
-                right: 11rem;
-                width: 16rem;
-                height: 14.5rem;
+                right: 22%;
+                width: 32%;
+                height: 37%;
                 clip-path: polygon(75% 0, 100% 50%, 71% 100%, 0 90%, 10% 28%);
                 background-image: url("../../images/vitrine/Rockford Atlas.jpg");
             }
             .sixth{
-                bottom: 14rem;
-                right: 0.5rem;
-                width: 13rem;
-                height: 13rem;
+                bottom: 34%;
+                right: 2%;
+                width: 26%;
+                height: 30%;
                 clip-path: polygon(93% 0, 100% 64%, 68% 100%, 5% 74%, 0 3%);
                 background-image: url("../../images/vitrine/Commissariat Rosewood.jpg");
             }
@@ -159,6 +159,11 @@
     background-color: var(--secondaryOrange);
     clip-path: polygon(100% 14%, 91% 0, 83% 22%, 75% 19%, 65% 31%, 56% 29%, 51% 34%, 42% 32%, 36% 36%, 30% 33%, 20% 42%, 10% 36%, 0 50%, 0 86%, 6% 94%, 13% 86%, 19% 96%, 30% 88%, 41% 96%, 48% 86%, 55% 94%, 71% 97%, 82% 85%, 93% 100%, 100% 89%);
     z-index: 5;
+
+    @media screen and (max-width: 1899px){
+        height: 14rem;
+        margin-top: -7rem; // 50% de la hauteur
+    }
 }
 
 .transitionDetails{
@@ -168,7 +173,7 @@
     height: 16rem;
     z-index: -1;
 
-    @media screen and (min-width: 1900px) and (orientation: landscape){
+    @media screen and (min-width: 1900px){
         display: block;
     }
 
@@ -252,7 +257,7 @@
         }
     }
 
-    @media screen and (min-width: 1900px) and (orientation: landscape){
+    @media screen and (min-width: 1900px){
         display: block;
     }
 }
@@ -263,7 +268,7 @@
     display: flex;
     flex-direction: row;
 
-    @media screen and (min-width: 1900px) and (orientation: landscape){
+    @media screen and (min-width: 1900px){
         margin-top: 6rem;
     }
 
@@ -274,7 +279,7 @@
         display: none;
         width: 20rem;
 
-        @media screen and (min-width: 1900px) and (orientation: landscape){
+        @media screen and (min-width: 1900px){
             display: block;
         }
     }
@@ -341,7 +346,7 @@
                     .date{
                         margin: 0 0 $marginSize 0;
                     }
-                    @media screen and (min-width: 1900px) and (orientation: landscape){
+                    @media screen and (min-width: 1900px){
                         width: calc(($cardHeight * (16 / 9)));
                         height: $cardHeight;
                     }
@@ -392,7 +397,7 @@
                             font-family: "Proxima Nova Black", sans-serif;
                             font-size: 1.4rem;
                         }
-                        @media screen and (min-width: 1900px) and (orientation: landscape){
+                        @media screen and (min-width: 1900px){
                             width: $cardHeight;
                             height: calc($cardHeight / 2 - $marginSize / 2);
                         }
@@ -420,7 +425,7 @@
                         }
                     }
 
-                    @media screen and (min-width: 1900px) and (orientation: landscape){
+                    @media screen and (min-width: 1900px){
                         width: $cardHeight;
                         height: $cardHeight;
                     }
