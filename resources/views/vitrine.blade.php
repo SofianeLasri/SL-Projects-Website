@@ -1,16 +1,16 @@
 @extends('layouts.public_app')
 
+{{--@section('pageName', "Accueil")--}}
+{{--@section('pageDesc', "Sofiane est le meilleur.")--}}
+
 @section('head')
-    <meta name="description" content="Site internet personnel de SofianeLasri">
     <meta name="author" content="SofianeLasri">
-    <meta property="og:title" content="SL-Projects" />
+    {{--<meta property="article:author" content="SofianeLasri">--}}
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{ config('app.url') }}" />
     <meta property="og:image" content="{{ config('app.url').config('app.img.og.large') }}" />
     <meta property="og:image:width" content="512" />
     <meta property="og:image:height" content="512" />
-    <meta property="og:locale" content="fr_FR" />
-    <meta property="og:locale:alternate" content="en_US" />
 @endsection
 
 @section('body')

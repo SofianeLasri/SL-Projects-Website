@@ -1,5 +1,6 @@
 <?php
 return [
+    'global_website_description' => "Description d'exemple.",
     'last_projects' => "Derniers projets",
     'made' => [
         'on' => [
