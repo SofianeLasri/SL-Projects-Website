@@ -305,7 +305,10 @@
 
                 $cardHeight: 16rem;
                 $cardPadding: .5rem;
-                $responsiveZoomMultiplier: 1.25;
+
+                // Coef multiplicateurs pour le responsive -> La carte est petite de base
+                $deskMedWidthZoomMultiplier: 1.25;
+                $deskLowWidthZoomMultiplier: 1.15;
 
                 .category, .date{
                     font-size: .8rem;
@@ -325,8 +328,8 @@
                     }
                 }
                 &.typeA{
-                    width: calc((($cardHeight * $responsiveZoomMultiplier) * (16 / 9)));
-                    height: calc($cardHeight * $responsiveZoomMultiplier);
+                    width: calc((($cardHeight * $deskLowWidthZoomMultiplier) * (16 / 9)));
+                    height: calc($cardHeight * $deskLowWidthZoomMultiplier);
                     display: flex;
                     flex-direction: column;
                     justify-content: flex-end;
@@ -350,11 +353,15 @@
                         width: calc(($cardHeight * (16 / 9)));
                         height: $cardHeight;
                     }
+                    @media screen and (min-width: 1536px) and (max-width: 1899px){
+                        width: calc((($cardHeight * $deskMedWidthZoomMultiplier) * (16 / 9)));
+                        height: calc($cardHeight * $deskMedWidthZoomMultiplier);
+                    }
                 }
 
                 &.typeB{
-                    width: calc($cardHeight * $responsiveZoomMultiplier);
-                    height: calc($cardHeight * $responsiveZoomMultiplier);
+                    width: calc($cardHeight * $deskLowWidthZoomMultiplier);
+                    height: calc($cardHeight * $deskLowWidthZoomMultiplier);
                     display: flex;
                     position: relative;
 
@@ -390,8 +397,8 @@
                     }
 
                     &.mid{
-                        width: calc($cardHeight * $responsiveZoomMultiplier);
-                        height: calc(($cardHeight * $responsiveZoomMultiplier) / 2 - $marginSize / 2);
+                        width: calc($cardHeight * $deskLowWidthZoomMultiplier);
+                        height: calc(($cardHeight * $deskLowWidthZoomMultiplier) / 2 - $marginSize / 2);
 
                         .title{
                             font-family: "Proxima Nova Black", sans-serif;
@@ -400,6 +407,10 @@
                         @media screen and (min-width: 1900px){
                             width: $cardHeight;
                             height: calc($cardHeight / 2 - $marginSize / 2);
+                        }
+                        @media screen and (min-width: 1536px) and (max-width: 1899px){
+                            width: calc($cardHeight * $deskMedWidthZoomMultiplier);
+                            height: calc(($cardHeight * $deskMedWidthZoomMultiplier) / 2 - $marginSize / 2);
                         }
                     }
 
@@ -429,6 +440,10 @@
                         width: $cardHeight;
                         height: $cardHeight;
                     }
+                    @media screen and (min-width: 1536px) and (max-width: 1899px){
+                        width: calc($cardHeight * $deskMedWidthZoomMultiplier);
+                        height: calc($cardHeight * $deskMedWidthZoomMultiplier);
+                    }
                 }
             }
 
@@ -448,9 +463,11 @@
         }
         > :nth-child(2){
             flex-grow: 1;
+            display: flex;
+            justify-content: center;
 
             &>*{
-                margin: 0 auto;
+                margin: 1rem;
             }
         }
     }
