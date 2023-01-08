@@ -90,17 +90,14 @@
         }
 
         .nav-links {
-            display: flex;
+            display: none;
             flex-direction: column;
             align-items: center;
-            height: 0;
-            transition: height .5s;
             color: white;
             font-weight: bold;
-            overflow: hidden;
 
             &.open {
-                height: auto;
+                display: flex;
             }
 
             .nav-link {
