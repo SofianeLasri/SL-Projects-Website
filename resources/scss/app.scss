@@ -1,19 +1,152 @@
 @use "base";
-@use "fontawesome/fontawesome";
-@use "fontawesome/brands";
-//@use "fontawesome/duotone";
-@use "fontawesome/light";
-@use "fontawesome/regular";
-@use "fontawesome/solid";
-//@use "fontawesome/thin";
 
-// Fichiers styles du site internet
-@use "components/navbar";
-@use "pages/vitrine";
-@use "components/footer";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+// Font-Awesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/solid";
+@import "~@fortawesome/fontawesome-free/scss/brands";
 
-body{
+// Navbar
+.navbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, .75);
+    border-bottom: var(--primary-orange) base.$border-width solid;
+    backdrop-filter: blur(base.$blur-radius);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    $polygon-margin: 0.5rem;
 
+    .desktop {
+        display: none;
+
+        @include base.breakpoint("desktop-up") {
+            display: flex;
+        }
+
+        .left-part {
+            display: flex;
+            align-items: center;
+
+            .logo {
+                margin-right: $polygon-margin*2;
+            }
+        }
+
+        .right-part .search {
+            button {
+                margin: 0 $polygon-margin*2;
+                color: white;
+
+                &:hover {
+                    color: var(--primary-orange);
+                }
+            }
+
+            &:hover {
+                input {
+                    border-bottom: base.$border-width solid white;
+                }
+            }
+
+            input {
+                font-weight: bold;
+                color: white;
+                background-color: transparent;
+                border: none;
+                padding: .5rem 0;
+                width: 5rem;
+                transition: width .5s;
+
+                &::placeholder {
+                    color: white;
+                }
+
+                &:focus {
+                    width: 15rem;
+                    outline: none;
+                    box-shadow: none;
+                    border-bottom: base.$border-width solid var(--primary-orange);
+                }
+            }
+        }
+    }
+
+    .mobile {
+        display: flex;
+        flex-direction: column;
+
+        .top-bar {
+            display: flex;
+
+            button {
+                font-size: 1.25rem;
+            }
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 0;
+            transition: height .5s;
+            color: white;
+            font-weight: bold;
+            overflow: hidden;
+
+            &.open {
+                height: auto;
+            }
+
+            .nav-link {
+                margin: $polygon-margin*2 0;
+            }
+        }
+
+        @include base.breakpoint("desktop-up") {
+            display: none;
+        }
+    }
+
+    .top-bar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        $padding-height: .75rem;
+        padding: $padding-height 2rem;
+        height: calc($padding-height * 2 + 1.5rem);
+        color: white;
+
+        * {
+            height: 100%;
+        }
+    }
+
+    .nav-link {
+        font-weight: bold;
+
+        .link-container {
+            margin: 0 $polygon-margin*2;
+        }
+
+        &:hover {
+            background-color: var(--primary-orange);
+            clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
+
+        }
+
+        &.active {
+            background-color: white;
+            color: var(--primary-orange);
+            clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
+
+        }
+    }
 }
 
-
+// Fin navbar

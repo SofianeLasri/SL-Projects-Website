@@ -1,19 +1,7 @@
 @use "fonts";
 
-:root{
-    --primaryOrange: #F78E57;
-    --secondaryOrange: #BD6233;
-
-    --semiTransparentPrimaryOrange: rgba(247, 142, 87, 0.5);
-    --semiTransparentSecondaryOrange: rgba(189, 98, 51, 0.5);
-
-    // RGB
-    --semiTransparentRed: rgba(220, 7, 7, 0.6);
-    --semiTransparentBlue: rgba(31, 67, 150, 0.5);
-    --semiTransparentGreen: rgba(9, 140, 0, 0.5);
-    --semiTransparentWhite: rgba(255, 255, 255, 0.8);
-
-    --mutedGrey: #7E7E7E;
+:root {
+    --primary-orange: #F78E57;
 
     // Other brands main colors
     --steam-darker-blue: #171a21;
@@ -22,6 +10,9 @@
     --steam-light-blue: #66c0f4;
     --steam-light-grey: #c7d5e0;
 }
+
+$border-width: .25rem;
+$blur-radius: 8px;
 
 $breakpoints: (
     "phone-down": 500px,
@@ -32,107 +23,17 @@ $breakpoints: (
     "widescreen-up": 1440px
 );
 
-body{
-    margin: 0;
-    font-family: "Proxima Nova Regular", sans-serif !important;
-    line-height: 1;
+@mixin breakpoint($breakpoint) {
+    @media (min-width: map-get($breakpoints, $breakpoint)) {
+        @content;
+    }
 }
-h1, h2, h3, h4, h5, h6{
+
+body {
+    font-family: "Proxima Nova Regular", sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
     font-family: "Proxima Nova Bold", sans-serif;
     font-weight: lighter !important;
-    margin: 0 0 1rem 0;
-}
-h1{
-    font-size: 2.5rem;
-}
-h2{
-    font-size: 2rem;
-}
-h3{
-    font-size: 1.5rem;
-}
-h4{
-    font-size: 1.25rem;
-}
-h5{
-    font-size: 1rem;
-}
-h6{
-    font-size: 0.75rem;
-}
-strong b{
-    font-family: "Proxima Nova Bold", sans-serif;
-}
-
-// Container
-.container{
-    width: 100%;
-    margin: 0 auto;
-}
-@media (min-width: 640px){
-    .container{
-        max-width: 640px;
-    }
-}
-@media (min-width: 768px){
-    .container{
-        max-width: 768px;
-    }
-}
-@media (min-width: 1024px){
-    .container{
-        max-width: 1024px;
-    }
-}
-@media (min-width: 1280px){
-    .container{
-        max-width: 1280px;
-    }
-}
-@media (min-width: 1536px){
-    .container{
-        //max-width: 1536px;
-        max-width: 1400px;
-    }
-}
-
-.container-fluid{
-    width: 100%;
-}
-
-section{
-    width: 100%;
-    margin: 0 auto;
-
-    &:not(:last-child){
-        margin-bottom: 2rem;
-    }
-}
-
-// Bouton
-.pentaButton{
-    height: 4rem;
-    width: 4rem;
-    display: flex;
-    justify-content: center;
-    font-size: 2rem;
-    align-items: center;
-    text-decoration: none;
-    &:hover{
-        text-decoration: none;
-    }
-
-    &.light{
-        background-color: #E8E8E8;
-        color: #4D4D4D!important;
-        clip-path: polygon(70% 0, 100% 46%, 68% 100%, 0 75%, 0 9%);
-    }
-}
-
-// Utils
-.d-flex{
-    display: flex;
-}
-.flex-column{
-    flex-direction: column;
 }

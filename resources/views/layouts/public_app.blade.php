@@ -6,10 +6,10 @@
 
     @hasSection('pageName')
         <title>@yield('pageName') - {{ config('app.name') }}</title>
-        <meta property="og:title" content="@yield('pageName') - {{ config('app.name') }}" />
+        <meta property="og:title" content="@yield('pageName') - {{ config('app.name') }}"/>
     @else
         <title>{{ config('app.name') }}</title>
-        <meta property="og:title" content="{{ config('app.name') }}" />
+        <meta property="og:title" content="{{ config('app.name') }}"/>
     @endif
 
     @hasSection('pageDesc')
@@ -20,17 +20,17 @@
         <meta property="og:description" content="{{ __('generic.global_website_description') }}"/>
     @endif
 
-    <meta property="og:locale" content="fr_FR" />
-    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:locale" content="fr_FR"/>
+    <meta property="og:locale:alternate" content="en_US"/>
 
     @yield('head')
 
-    <link href="{{ mix('/css/app.css') }}" rel="stylesheet" />
+    <link href="{{ mix('/css/app.css') }}" rel="stylesheet"/>
 </head>
 <body>
 @yield('body')
 
-<x-footer></x-footer>
+{{--<x-footer/>--}}
 
 <script src="{{ mix('/js/app.js') }}"></script>
 @stack('scripts')
