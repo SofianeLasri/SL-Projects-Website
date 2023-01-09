@@ -38,41 +38,23 @@
             }
         }
 
-        .right-part .search {
-            button {
-                margin: 0 $polygon-margin*2;
-                color: white;
+        .nav-link {
+            font-weight: bold;
 
-                &:hover {
-                    color: var(--primary-orange);
-                }
+            .link-container {
+                margin: 0 $polygon-margin*2;
             }
 
             &:hover {
-                input {
-                    border-bottom: base.$border-width solid white;
-                }
+                background-color: var(--primary-orange);
+                clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
+
             }
 
-            input {
-                font-weight: bold;
-                color: white;
-                background-color: transparent;
-                border: none;
-                padding: .5rem 0;
-                width: 5rem;
-                transition: width .5s;
-
-                &::placeholder {
-                    color: white;
-                }
-
-                &:focus {
-                    width: 15rem;
-                    outline: none;
-                    box-shadow: none;
-                    border-bottom: base.$border-width solid var(--primary-orange);
-                }
+            &.active {
+                background-color: white;
+                color: var(--primary-orange);
+                clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
             }
         }
     }
@@ -80,9 +62,11 @@
     .mobile {
         display: flex;
         flex-direction: column;
+        align-items: center;
 
         .top-bar {
             display: flex;
+            width: 100%;
 
             button {
                 font-size: 1.25rem;
@@ -92,16 +76,35 @@
         .nav-links {
             display: none;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
             color: white;
             font-weight: bold;
+            font-size: 1.25rem;
+            padding: 0 2rem;
+            width: 100%;
 
             &.open {
                 display: flex;
             }
 
             .nav-link {
-                margin: $polygon-margin*2 0;
+                margin: $polygon-margin 0;
+
+                &.active {
+                    color: var(--primary-orange);
+                }
+            }
+
+            .search {
+                display: flex;
+                width: 100%;
+                margin: $polygon-margin 0;
+                border-top: base.$border-width solid white;
+
+                input {
+                    width: auto !important;
+                    flex-grow: 1;
+                }
             }
         }
 
@@ -124,26 +127,52 @@
         }
     }
 
-    .nav-link {
-        font-weight: bold;
-
-        .link-container {
+    .search {
+        button {
             margin: 0 $polygon-margin*2;
+            color: white;
+
+            &:hover {
+                color: var(--primary-orange);
+            }
         }
 
         &:hover {
-            background-color: var(--primary-orange);
-            clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
-
+            input {
+                border-bottom: base.$border-width solid white;
+            }
         }
 
-        &.active {
-            background-color: white;
-            color: var(--primary-orange);
-            clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
+        input {
+            font-weight: bold;
+            color: white;
+            background-color: transparent;
+            border: none;
+            padding: .5rem 0;
+            width: 5rem;
+            transition: width .5s;
 
+            &::placeholder {
+                color: white;
+            }
+
+            &:focus {
+                width: 15rem;
+                outline: none;
+                box-shadow: none;
+                border-bottom: base.$border-width solid var(--primary-orange);
+            }
         }
     }
 }
 
 // Fin navbar
+
+// Vitrine - vedette
+.home-showcase {
+    position: relative;
+    height: 100vh;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/images/dev/starisland-motel.jpg');
+    background-size: cover;
+    background-position: center;
+}

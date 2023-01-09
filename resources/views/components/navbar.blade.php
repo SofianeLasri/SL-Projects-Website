@@ -33,13 +33,13 @@
     {{--Navbar mobile--}}
     <div class="mobile">
         <div class="top-bar">
-            <button id="openMobileMenu" type="button" title="{{ __('verbal.open-menu') }}" class="burger"><i
+            <button id="openMobileMenu" type="button" title="{{ __('verbal.open-menu') }}"><i
                     class="fa-solid fa-bars"></i>
             </button>
             <a href="{{ route('home') }}">
                 <img src="{{ mix('/images/logos/white-short.svg') }}" alt="Logo">
             </a>
-            <button type="button" class="search" title="{{ __('verb.to_search') }}"><i
+            <button id="focusMobileSearchBar" type="button" title="{{ __('verb.to_search') }}"><i
                     class="fa-solid fa-magnifying-glass"></i></button>
         </div>
         {{--Masqué par défaut--}}
@@ -59,6 +59,11 @@
             <x-nav-link href="https://sofianelasri.fr">
                 {{ __('non-verbal.about-me') }}
             </x-nav-link>
+            <form class="search" type="get">
+                <input id="mobileSearchBar" type="text" name="search" placeholder="{{ __('verb.to_search') }}">
+                <button type="submit" title="{{ __('verb.to_search') }}"><i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
         </div>
     </div>
 </div>
@@ -69,6 +74,15 @@
         // Ouverture du menu mobile
         document.getElementById('openMobileMenu').addEventListener('click', function () {
             document.getElementById('mobileMenu').classList.toggle('open');
+        });
+
+        // Focus sur la barre de recherche mobile
+        document.getElementById('focusMobileSearchBar').addEventListener('click', function () {
+            // On check si le menu n'est pas déjà ouvert
+            if (!document.getElementById('mobileMenu').classList.contains('open')) {
+                document.getElementById('mobileMenu').classList.toggle('open');
+            }
+            document.getElementById('mobileSearchBar').focus();
         });
     </script>
 @endpush
