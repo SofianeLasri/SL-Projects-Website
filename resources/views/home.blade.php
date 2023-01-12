@@ -15,6 +15,63 @@
 
     {{--Vitrine--}}
     <div class="home-showcase">
-
+        <div class="projects-presentations">
+            <div class="desktop-controls">
+                <div class="left">
+                    <button class="control-button" type="button" title="{{ __('word.previous') }}"><i class="fa-solid fa-chevron-left"></i></button>
+                </div>
+                <div class="right">
+                    <button class="control-button" type="button" title="{{ __('word.next') }}"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="presentation first active">
+                <div class="content">
+                    <div class="notice-text">
+                        <span>Projet en vedette</span>
+                    </div>
+                    <h1>Starisland</h1>
+                    <p>Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod empor incididunt.</p>
+                </div>
+            </div>
+            <div class="presentation second">
+                <div class="content">
+                    <div class="notice-text">
+                        <span>Projet en vedette</span>
+                    </div>
+                    <h1>Rosewood</h1>
+                    <p>Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod empor incididunt.</p>
+                </div>
+            </div>
+            <div class="presentation">
+                <div class="content">
+                    <div class="notice-text">
+                        <span>Projet en vedette</span>
+                    </div>
+                    <h1>Maisonette 9</h1>
+                    <p>Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod empor incididunt.</p>
+                </div>
+            </div>
+        </div>
+        <div class="projects-cards">
+            <div class="cards">
+                <div class="card active">
+                    <div class="title">Starisland</div>
+                    <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod empor incididunt.</div>
+                </div>
+                <div class="card">
+                    <div class="title">Rosewood</div>
+                    <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod empor incididunt.</div>
+                </div>
+                <div class="card">
+                    <div class="title">Maisonette 9</div>
+                    <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod empor incididunt.</div>
+                </div>
+            </div>
+            <div class="dots-indicators">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
     </div>
 @endsection
