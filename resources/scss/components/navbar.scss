@@ -5,7 +5,7 @@
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
+    z-index: 1000;
     background-color: rgba(0, 0, 0, .75);
     border-bottom: var(--primary-orange) base.$border-width solid;
     backdrop-filter: blur(base.$blur-radius);
@@ -129,6 +129,7 @@
 
         &:hover {
             input {
+                width: 15rem;
                 border-bottom: base.$border-width solid white;
             }
         }
@@ -147,7 +148,6 @@
             }
 
             &:focus {
-                width: 15rem;
                 outline: none;
                 box-shadow: none;
                 border-bottom: base.$border-width solid var(--primary-orange);
