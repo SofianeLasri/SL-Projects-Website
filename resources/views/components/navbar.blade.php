@@ -84,5 +84,12 @@
             }
             document.getElementById('mobileSearchBar').focus();
         });
+
+        // Fermeture du menu mobile lorsqu'on clique en dehors
+        document.addEventListener('click', function (event) {
+            if (!event.target.closest('#mobileMenu') && !event.target.closest('#openMobileMenu') && !event.target.closest('#focusMobileSearchBar')) {
+                document.getElementById('mobileMenu').classList.remove('open');
+            }
+        });
     </script>
 @endpush

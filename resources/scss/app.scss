@@ -5,6 +5,7 @@
 .home-showcase {
     position: relative;
     height: 100vh;
+    $desktop-controls-width: 10rem;
 
     .projects-presentations {
         position: absolute;
@@ -36,8 +37,7 @@
             bottom: 0;
 
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            padding: 0 $desktop-controls-width;
             align-items: center;
             clip-path: inset(0 100% 0 0);
             transition: clip-path 1s;
@@ -50,17 +50,30 @@
             }
 
             .content {
+                color: white;
+                max-width: 35rem;
 
                 .notice-text {
-
+                    font-family: "Proxima Nova Black", sans-serif;
+                    text-transform: uppercase;
+                    background-color: var(--primary-orange);
+                    padding: 0 .5rem;
+                    margin-bottom: .25rem;
+                    width: fit-content;
                 }
 
                 h1 {
-
+                    $font-size: 3.75rem;
+                    font-family: "Proxima Nova Black", sans-serif;
+                    text-transform: uppercase;
+                    font-size: $font-size;
+                    line-height: $font-size;
+                    margin: 0;
                 }
 
                 p {
-
+                    font-size: 1.25rem;
+                    line-height: 1.3rem;
                 }
             }
         }
@@ -75,7 +88,7 @@
 
         > * {
             position: absolute;
-            width: 10rem;
+            width: $desktop-controls-width;
             height: 100%;
             opacity: 0.5;
             transition: opacity .1s;
