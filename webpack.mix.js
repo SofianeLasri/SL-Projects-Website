@@ -20,3 +20,4 @@ mix.js('resources/js/app.js', 'public/js')
 
 // Images
 mix.copy('resources/images/', 'public/images/');
+

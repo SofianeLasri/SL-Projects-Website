@@ -133,18 +133,95 @@
     }
 
     .projects-cards {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0 $desktop-controls-width;
 
         .cards {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: .5rem;
 
-            .active {
+            .card {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: flex-start;
+                height: 12rem;
+                width: 23rem;
+                color: white;
+                background-size: cover;
+                background-position: center;
+                padding: .5rem;
 
+                .title {
+                    font-family: "Proxima Nova Black", sans-serif;
+                    text-transform: uppercase;
+                    font-size: 1.4rem;
+                    font-weight: lighter;
+                    line-height: 1.5rem;
+                }
+
+                .description {
+                    font-size: 1rem;
+                    line-height: 1.25rem;
+                }
+
+                &.active {
+                    box-shadow: -8px 8px 0px var(--primary-orange);
+                }
+
+                &.first {
+                    background-image: linear-gradient(to bottom,
+                        rgba(0, 0, 0, 0.5),
+                        rgba(0, 0, 0, 0.5)),
+                    url('../images/dev/starisland-motel.jpg');
+                }
+
+                &.second {
+                    background-image: linear-gradient(to bottom,
+                        rgba(0, 0, 0, 0.5),
+                        rgba(0, 0, 0, 0.5)),
+                    url('../images/dev/rosewood.jpg');
+                }
+
+                &.third {
+                    background-image: linear-gradient(to bottom,
+                        rgba(0, 0, 0, 0.5),
+                        rgba(0, 0, 0, 0.5)),
+                    url('../images/dev/maisonette9.jpg');
+                }
             }
         }
 
         .dots-indicators {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1rem 0;
+            $dots-size: .5rem;
+            gap: $dots-size*1.5;
 
-            .active {
+            > * {
+                width: $dots-size;
+                height: $dots-size;
+                border-radius: 50%;
+                background-color: rgba(255, 255, 255, 0.5);
+                cursor: pointer;
+                transition: background-color 0.5s;
 
+                &.active {
+                    background-color: rgba(255, 255, 255, 0.9);
+                }
             }
         }
     }

@@ -12,6 +12,10 @@
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
     $polygon-margin: 0.5rem;
 
+    font-family: "Proxima Nova Bold", sans-serif;
+    font-weight: lighter;
+    color: white;
+
     .desktop {
         display: none;
 
@@ -29,7 +33,6 @@
         }
 
         .nav-link {
-            font-weight: bold;
 
             .link-container {
                 margin: 0 $polygon-margin*2;
@@ -67,8 +70,6 @@
             display: none;
             flex-direction: column;
             align-items: flex-start;
-            color: white;
-            font-weight: bold;
             font-size: 1.25rem;
             padding: 0 2rem;
             width: 100%;
@@ -135,12 +136,11 @@
         }
 
         input {
-            font-weight: bold;
             color: white;
             background-color: transparent;
             border: none;
             padding: .5rem 0;
-            width: 5rem;
+            width: 5.5rem;
             transition: width .5s;
 
             &::placeholder {
@@ -151,6 +151,7 @@
                 outline: none;
                 box-shadow: none;
                 border-bottom: base.$border-width solid var(--primary-orange);
+                width: 15rem;
             }
         }
     }

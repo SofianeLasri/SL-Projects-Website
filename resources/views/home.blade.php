@@ -54,15 +54,15 @@
         </div>
         <div class="projects-cards">
             <div class="cards">
-                <div class="card active">
+                <div class="card active first">
                     <div class="title">Starisland</div>
                     <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod empor incididunt.</div>
                 </div>
-                <div class="card">
+                <div class="card second">
                     <div class="title">Rosewood</div>
                     <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod empor incididunt.</div>
                 </div>
-                <div class="card">
+                <div class="card third">
                     <div class="title">Maisonette 9</div>
                     <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod empor incididunt.</div>
                 </div>
