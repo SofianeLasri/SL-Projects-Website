@@ -6,6 +6,7 @@
     position: relative;
     height: 100vh;
     $desktop-controls-width: 10rem;
+    $transition-time: 1s;
 
     .projects-presentations {
         position: absolute;
@@ -28,6 +29,13 @@
             url('../images/dev/rosewood.jpg');
         }
 
+        .third {
+            background-image: linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0.2)),
+            url('../images/dev/maisonette9.jpg');
+        }
+
         .presentation {
             // Will show with a slider when active
             position: absolute;
@@ -40,13 +48,48 @@
             padding: 0 $desktop-controls-width;
             align-items: center;
             clip-path: inset(0 100% 0 0);
-            transition: clip-path 1s;
 
             background-size: cover;
             background-position: center;
 
             &.active {
                 clip-path: inset(0 0 0 0);
+            }
+
+            @keyframes showRightToLeft {
+                0% {
+                    clip-path: inset(0 100% 0 0);
+                }
+                100% {
+                    clip-path: inset(0 0 0 0);
+                }
+            }
+
+            @keyframes showLeftToRight {
+                0% {
+                    clip-path: inset(0 0 0 100%);
+                }
+                100% {
+                    clip-path: inset(0 0 0 0);
+                }
+            }
+
+            @keyframes hideRightToLeft {
+                0% {
+                    clip-path: inset(0 0 0 0);
+                }
+                100% {
+                    clip-path: inset(0 100% 0 0);
+                }
+            }
+
+            @keyframes hideLeftToRight {
+                0% {
+                    clip-path: inset(0 0 0 0);
+                }
+                100% {
+                    clip-path: inset(0 0 0 100%);
+                }
             }
 
             .content {
@@ -92,7 +135,7 @@
             height: 100%;
             opacity: 0.5;
             transition: opacity .1s;
-            z-index: 50;
+            z-index: 500;
 
             &:hover {
                 opacity: 1;
@@ -137,6 +180,7 @@
         bottom: 0;
         left: 0;
         right: 0;
+        z-index: 500;
 
         display: flex;
         flex-direction: column;
@@ -162,6 +206,8 @@
                 background-size: cover;
                 background-position: center;
                 padding: .5rem;
+                box-shadow: 0 0 0 var(--primary-orange);
+                transition: box-shadow $transition-time;
 
                 .title {
                     font-family: "Proxima Nova Black", sans-serif;
