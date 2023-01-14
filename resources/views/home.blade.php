@@ -93,6 +93,15 @@
         const showCase = document.getElementById('homeShowcase');
         const presentations = showCase.getElementsByClassName('presentation');
         const presentationsCards = showCase.getElementsByClassName('card');
+        var transitionInProgress = false;
+
+        function initPresentationsCards() {
+            for (let i = 0; i < presentationsCards.length; i++) {
+                presentationsCards[i].addEventListener('click', function () {
+                    showPresentation(i);
+                });
+            }
+        }
 
         function getActivePresentationIndex() {
             for (let i = 0; i < presentations.length; i++) {
@@ -102,44 +111,66 @@
             }
         }
 
+        function showPresentation(index) {
+            if (!transitionInProgress) {
+                const activePresentationIndex = getActivePresentationIndex();
+                if (activePresentationIndex !== index) {
+                    presentations[activePresentationIndex].classList.remove('active');
+                    presentations[index].classList.add('active');
+                    presentationsCards[activePresentationIndex].classList.remove('active');
+                    presentationsCards[index].classList.add('active');
+
+                    updatePresentationCards(index);
+                }
+            }
+        }
+
         function nextPresentation() {
-            let activePresentationIndex = getActivePresentationIndex();
-            let activePresentation = presentations[activePresentationIndex];
-            let nextPresentation = presentations[activePresentationIndex + 1] || presentations[0];
-            let nextPresentationIndex = activePresentationIndex + 1 < presentations.length ? activePresentationIndex + 1 : 0;
+            if (!transitionInProgress) {
+                let activePresentationIndex = getActivePresentationIndex();
+                let activePresentation = presentations[activePresentationIndex];
+                let nextPresentation = presentations[activePresentationIndex + 1] || presentations[0];
+                let nextPresentationIndex = activePresentationIndex + 1 < presentations.length ? activePresentationIndex + 1 : 0;
 
-            nextPresentation.style.zIndex = 200;
-            activePresentation.style.animation = 'hideRightToLeft ' + presentationTransitionTime + 'ms ease-in-out';
-            nextPresentation.style.animation = 'showLeftToRight ' + presentationTransitionTime + 'ms ease-in-out';
-            nextPresentation.classList.add('active');
-            setTimeout(() => {
-                nextPresentation.style.removeProperty('z-index');
-                nextPresentation.style.removeProperty('animation');
-                activePresentation.style.removeProperty('animation');
-                activePresentation.classList.remove('active');
-            }, presentationTransitionTime);
+                transitionInProgress = true;
+                nextPresentation.style.zIndex = 200;
+                activePresentation.style.animation = 'hideRightToLeft ' + presentationTransitionTime + 'ms ease-in-out';
+                nextPresentation.style.animation = 'showLeftToRight ' + presentationTransitionTime + 'ms ease-in-out';
+                nextPresentation.classList.add('active');
+                setTimeout(() => {
+                    nextPresentation.style.removeProperty('z-index');
+                    nextPresentation.style.removeProperty('animation');
+                    activePresentation.style.removeProperty('animation');
+                    activePresentation.classList.remove('active');
+                    transitionInProgress = false;
+                }, presentationTransitionTime);
 
-            updatePresentationCards(nextPresentationIndex);
+                updatePresentationCards(nextPresentationIndex);
+            }
         }
 
         function previousPresentation() {
-            let activePresentationIndex = getActivePresentationIndex();
-            let activePresentation = presentations[activePresentationIndex];
-            let previousPresentation = presentations[activePresentationIndex - 1] || presentations[presentations.length - 1];
-            let previousPresentationIndex = activePresentationIndex - 1 < 0 ? presentations.length - 1 : activePresentationIndex - 1;
+            if (!transitionInProgress) {
+                let activePresentationIndex = getActivePresentationIndex();
+                let activePresentation = presentations[activePresentationIndex];
+                let previousPresentation = presentations[activePresentationIndex - 1] || presentations[presentations.length - 1];
+                let previousPresentationIndex = activePresentationIndex - 1 < 0 ? presentations.length - 1 : activePresentationIndex - 1;
 
-            previousPresentation.style.zIndex = 200;
-            activePresentation.style.animation = 'hideLeftToRight ' + presentationTransitionTime + 'ms ease-in-out';
-            previousPresentation.style.animation = 'showRightToLeft ' + presentationTransitionTime + 'ms ease-in-out';
-            previousPresentation.classList.add('active');
-            setTimeout(() => {
-                previousPresentation.style.removeProperty('z-index');
-                previousPresentation.style.removeProperty('animation');
-                activePresentation.style.removeProperty('animation');
-                activePresentation.classList.remove('active');
-            }, presentationTransitionTime);
+                transitionInProgress = true;
+                previousPresentation.style.zIndex = 200;
+                activePresentation.style.animation = 'hideLeftToRight ' + presentationTransitionTime + 'ms ease-in-out';
+                previousPresentation.style.animation = 'showRightToLeft ' + presentationTransitionTime + 'ms ease-in-out';
+                previousPresentation.classList.add('active');
+                setTimeout(() => {
+                    previousPresentation.style.removeProperty('z-index');
+                    previousPresentation.style.removeProperty('animation');
+                    activePresentation.style.removeProperty('animation');
+                    activePresentation.classList.remove('active');
+                    transitionInProgress = false;
+                }, presentationTransitionTime);
 
-            updatePresentationCards(previousPresentationIndex);
+                updatePresentationCards(previousPresentationIndex);
+            }
         }
 
         function updatePresentationCards(newPresentationIndex) {
@@ -157,6 +188,7 @@
             activePresentationCardDot.classList.add('active');
         }
 
+        initPresentationsCards();
         setInterval(nextPresentation, presentationTime);
     </script>
 @endpush
