@@ -84,6 +84,10 @@
             </div>
         </div>
     </div>
+
+    <div class="randomDiv">
+
+    </div>
 @endsection
 
 @push('scripts')
@@ -186,6 +190,23 @@
 
             activePresentationCard.classList.add('active');
             activePresentationCardDot.classList.add('active');
+            autoMoveCardsContainerSlider();
+        }
+
+        function autoMoveCardsContainerSlider() {
+            // Si le container cards a une barre de scroll, on va bouger le slider pour avoir la carte au centre
+            if (showCase.getElementsByClassName('cards')[0].scrollWidth > showCase.getElementsByClassName('cards')[0].clientWidth) {
+                let activePresentationCard = showCase.getElementsByClassName('card active')[0];
+                let activePresentationCardIndex = Array.prototype.indexOf.call(presentationsCards, activePresentationCard);
+                let activePresentationCardWidth = activePresentationCard.clientWidth;
+                let activePresentationCardMargin = parseInt(window.getComputedStyle(activePresentationCard).getPropertyValue('margin-right'));
+                let activePresentationCardOffset = activePresentationCardWidth + activePresentationCardMargin;
+                let activePresentationCardPosition = activePresentationCardOffset * activePresentationCardIndex;
+                let activePresentationCardCenterPosition = activePresentationCardPosition - (showCase.getElementsByClassName('cards')[0].clientWidth / 2) + (activePresentationCardWidth / 2);
+
+                showCase.getElementsByClassName('cards')[0].scrollTo(activePresentationCardCenterPosition, 0);
+            }
+
         }
 
         initPresentationsCards();

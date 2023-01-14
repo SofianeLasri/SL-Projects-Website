@@ -4,16 +4,25 @@
 // Vitrine - vedette
 .home-showcase {
     position: relative;
-    height: 100vh;
     $desktop-controls-width: 10rem;
     $transition-time: 1s;
 
+    @include base.breakpoint("large-desktop-down") {
+        height: 100vh;
+    }
+
     .projects-presentations {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        position: relative;
+        height: 100vh;
+        width: 100%;
+
+        @include base.breakpoint("large-desktop-down") {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
 
         .first {
             background-image: linear-gradient(to bottom,
@@ -45,12 +54,17 @@
             bottom: 0;
 
             display: flex;
-            padding: 0 $desktop-controls-width;
+            padding: 1rem;
             align-items: center;
             clip-path: inset(0 100% 0 0);
+            word-wrap: break-word;
 
             background-size: cover;
             background-position: center;
+
+            @include base.breakpoint("desktop-up") {
+                padding: 0 $desktop-controls-width;
+            }
 
             &.active {
                 clip-path: inset(0 0 0 0);
@@ -106,12 +120,17 @@
                 }
 
                 h1 {
-                    $font-size: 3.75rem;
+                    $font-size: 2.75rem;
                     font-family: "Proxima Nova Black", sans-serif;
                     text-transform: uppercase;
                     font-size: $font-size;
                     line-height: $font-size;
                     margin: 0;
+
+                    @include base.breakpoint("desktop-up") {
+                        font-size: $font-size*1.5;
+                        line-height: $font-size*1.5;
+                    }
                 }
 
                 p {
@@ -123,11 +142,16 @@
     }
 
     .desktop-controls {
+        display: none;
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
+
+        @include base.breakpoint("desktop-up") {
+            display: block;
+        }
 
         > * {
             position: absolute;
@@ -176,24 +200,36 @@
     }
 
     .projects-cards {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 500;
-
+        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 0 $desktop-controls-width;
+        background-color: white;
+        width: 100%;
+
+        @include base.breakpoint("large-desktop-down") {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            background-color: transparent;
+        }
 
         .cards {
             display: flex;
-            justify-content: center;
             align-items: center;
             gap: 2rem;
-            margin-bottom: .5rem;
+            padding: 1rem;
+
+            @include base.breakpoint("large-desktop-down") {
+                padding: 1rem $desktop-controls-width;
+            }
+
+            // Must not overflow the container
+            max-width: 100%;
+            overflow-x: auto;
 
             .card {
                 display: flex;
@@ -208,6 +244,7 @@
                 padding: .5rem;
                 box-shadow: 0 0 0 var(--primary-orange);
                 transition: box-shadow $transition-time;
+                flex-shrink: 0;
 
                 .title {
                     font-family: "Proxima Nova Black", sans-serif;
@@ -253,22 +290,35 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 1rem 0;
             $dots-size: .5rem;
             gap: $dots-size*1.5;
+            margin-top: .5rem;
+            margin-bottom: 1rem;
 
             > * {
                 width: $dots-size;
                 height: $dots-size;
                 border-radius: 50%;
-                background-color: rgba(255, 255, 255, 0.5);
+                background-color: black;
+                opacity: 0.5;
                 cursor: pointer;
                 transition: background-color 0.5s;
 
                 &.active {
-                    background-color: rgba(255, 255, 255, 0.9);
+                    opacity: 0.9;
+                }
+
+                @include base.breakpoint("large-desktop-down") {
+                    background-color: white;
                 }
             }
         }
     }
+}
+// Fin Vitrine
+
+.randomDiv {
+    height: 35rem;
+    width: 100%;
+    background-color: var(--primary-orange);
 }
