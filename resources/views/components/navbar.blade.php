@@ -1,6 +1,6 @@
 {{--Navbar--}}
 <div class="navbar">
-    <div class="desktop top-bar">
+    <div class="desktop top-bar custom-container">
         <div class="left-part">
             <a href="{{ route('home') }}" class="logo">
                 <img src="{{ mix('/images/logos/white-short.svg') }}" alt="Logo">
@@ -32,7 +32,7 @@
 
     {{--Navbar mobile--}}
     <div class="mobile">
-        <div class="top-bar">
+        <div class="top-bar custom-container">
             <button id="openMobileMenu" type="button" title="{{ __('verbal.open-menu') }}"><i
                     class="fa-solid fa-bars"></i>
             </button>
@@ -44,26 +44,28 @@
         </div>
         {{--Masqué par défaut--}}
         <div id="mobileMenu" class="nav-links">
-            <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
-                {{ __('word.home') }}
-            </x-nav-link>
-            <x-nav-link href="{{ route('projects') }}" :active="request()->routeIs('projects')">
-                {{ __('word.projects') }}
-            </x-nav-link>
-            <x-nav-link href="#">
-                {{ __('word.blog') }}
-            </x-nav-link>
-            <x-nav-link href="#">
-                {{ __('word.community') }}
-            </x-nav-link>
-            <x-nav-link href="https://sofianelasri.fr">
-                {{ __('non-verbal.about-me') }}
-            </x-nav-link>
-            <form class="search" type="get">
-                <input id="mobileSearchBar" type="text" name="search" placeholder="{{ __('verb.to_search') }}">
-                <button type="submit" title="{{ __('verb.to_search') }}"><i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
+            <div class="custom-container">
+                <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+                    {{ __('word.home') }}
+                </x-nav-link>
+                <x-nav-link href="{{ route('projects') }}" :active="request()->routeIs('projects')">
+                    {{ __('word.projects') }}
+                </x-nav-link>
+                <x-nav-link href="#">
+                    {{ __('word.blog') }}
+                </x-nav-link>
+                <x-nav-link href="#">
+                    {{ __('word.community') }}
+                </x-nav-link>
+                <x-nav-link href="https://sofianelasri.fr">
+                    {{ __('non-verbal.about-me') }}
+                </x-nav-link>
+                <form class="search" type="get">
+                    <input id="mobileSearchBar" type="text" name="search" placeholder="{{ __('verb.to_search') }}">
+                    <button type="submit" title="{{ __('verb.to_search') }}"><i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

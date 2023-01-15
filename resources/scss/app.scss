@@ -54,7 +54,6 @@
             bottom: 0;
 
             display: flex;
-            padding: 1rem;
             align-items: center;
             clip-path: inset(0 100% 0 0);
             word-wrap: break-word;
@@ -108,7 +107,12 @@
 
             .content {
                 color: white;
-                max-width: 35rem;
+                @extend .custom-container;
+
+                @include base.breakpoint("desktop-up") {
+                    max-width: 35rem !important;
+                    margin: 0;
+                }
 
                 .notice-text {
                     font-family: "Proxima Nova Black", sans-serif;
@@ -201,12 +205,9 @@
 
     .projects-cards {
         position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: white;
+        background-color: #191919;
         width: 100%;
+        padding: 1rem 0;
 
         @include base.breakpoint("large-desktop-down") {
             position: absolute;
@@ -215,19 +216,23 @@
             right: 0;
             z-index: 500;
             background-color: transparent;
+
+            .responsive-title {
+                display: none;
+            }
         }
 
         .cards {
             display: flex;
             align-items: center;
             gap: 2rem;
-            padding: 1rem;
+            padding: 0 1rem 1rem 1rem;
 
             @include base.breakpoint("large-desktop-down") {
-                padding: 1rem $desktop-controls-width;
+                padding: 0;
             }
 
-            // Must not overflow the container
+            // Must not overflow the custom-container
             max-width: 100%;
             overflow-x: auto;
 
@@ -245,6 +250,7 @@
                 box-shadow: 0 0 0 var(--primary-orange);
                 transition: box-shadow $transition-time;
                 flex-shrink: 0;
+                cursor: pointer;
 
                 .title {
                     font-family: "Proxima Nova Black", sans-serif;
@@ -293,13 +299,12 @@
             $dots-size: .5rem;
             gap: $dots-size*1.5;
             margin-top: .5rem;
-            margin-bottom: 1rem;
 
             > * {
                 width: $dots-size;
                 height: $dots-size;
                 border-radius: 50%;
-                background-color: black;
+                background-color: white;
                 opacity: 0.5;
                 cursor: pointer;
                 transition: background-color 0.5s;
@@ -308,13 +313,14 @@
                     opacity: 0.9;
                 }
 
-                @include base.breakpoint("large-desktop-down") {
+                /*@include base.breakpoint("large-desktop-down") {
                     background-color: white;
-                }
+                }*/
             }
         }
     }
 }
+
 // Fin Vitrine
 
 .randomDiv {

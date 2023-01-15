@@ -57,36 +57,43 @@
             </div>
         </div>
         <div class="projects-cards">
-            <div class="cards">
-                <div class="card active first">
-                    <div class="title">Starisland</div>
-                    <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        empor incididunt.
+            <div class="custom-container flex flex-col items-center">
+                <div class="responsive-title section-title text-white">
+                    <span>Projets en vedette</span>
+                </div>
+                <div class="cards">
+                    <div class="card active first">
+                        <div class="title">Starisland</div>
+                        <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            empor incididunt.
+                        </div>
+                    </div>
+                    <div class="card second">
+                        <div class="title">Rosewood</div>
+                        <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            empor incididunt.
+                        </div>
+                    </div>
+                    <div class="card third">
+                        <div class="title">Maisonette 9</div>
+                        <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            empor incididunt.
+                        </div>
                     </div>
                 </div>
-                <div class="card second">
-                    <div class="title">Rosewood</div>
-                    <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        empor incididunt.
-                    </div>
+                <div class="dots-indicators">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
                 </div>
-                <div class="card third">
-                    <div class="title">Maisonette 9</div>
-                    <div class="description">Lorem ispum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                        empor incididunt.
-                    </div>
-                </div>
-            </div>
-            <div class="dots-indicators">
-                <div class="dot active"></div>
-                <div class="dot"></div>
-                <div class="dot"></div>
             </div>
         </div>
     </div>
 
     <div class="randomDiv">
-
+        <div class="custom-container">
+            <p>Ceci est un texte de test.</p>
+        </div>
     </div>
 @endsection
 
