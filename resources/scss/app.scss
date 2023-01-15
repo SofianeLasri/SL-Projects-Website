@@ -228,10 +228,6 @@
             gap: 2rem;
             padding: 0 1rem 1rem 1rem;
 
-            @include base.breakpoint("large-desktop-down") {
-                padding: 0;
-            }
-
             // Must not overflow the custom-container
             max-width: 100%;
             overflow-x: auto;
