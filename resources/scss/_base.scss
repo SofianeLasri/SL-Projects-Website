@@ -30,9 +30,7 @@ $breakpoints: (
     "desktop-up": 1024px,
     "desktop-down": 1280px,
     "large-desktop-up": 1440px,
-    "large-desktop-down": 1600px,
-    "widescreen-up": 1440px,
-    "widescreen-down": 1920px,
+    "large-desktop-down": 1600px
 );
 
 @mixin breakpoint($breakpoint) {
