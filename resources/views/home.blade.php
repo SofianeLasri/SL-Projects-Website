@@ -104,7 +104,7 @@
         const showCase = document.getElementById('homeShowcase');
         const presentations = showCase.getElementsByClassName('presentation');
         const presentationsCards = showCase.getElementsByClassName('card');
-        var transitionInProgress = false;
+        let transitionInProgress = false;
 
         function initPresentationsCards() {
             for (let i = 0; i < presentationsCards.length; i++) {
