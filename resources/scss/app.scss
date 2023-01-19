@@ -1,325 +1,66 @@
 @use "base";
 @use "components/navbar";
+@use "components/home-showcase";
 
-// Vitrine - vedette
-.home-showcase {
-    position: relative;
-    $desktop-controls-width: 10rem;
-    $transition-time: 1s;
+.news-card-full {
+    width: 100%;
 
-    @include base.breakpoint("large-desktop-down") {
-        height: 100vh;
+    > *:not(:last-child) {
+        margin-bottom: .5rem;
     }
 
-    .projects-presentations {
-        position: relative;
-        height: 100vh;
+    .image {
+        background-size: cover;
+        background-position: center;
+        height: 25rem;
         width: 100%;
 
-        @include base.breakpoint("large-desktop-down") {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-
-        .first {
-            background-image: linear-gradient(to bottom,
-                rgba(0, 0, 0, 0.2),
-                rgba(0, 0, 0, 0.2)),
-            url('../images/dev/starisland-motel.jpg');
-        }
-
-        .second {
-            background-image: linear-gradient(to bottom,
-                rgba(0, 0, 0, 0.2),
-                rgba(0, 0, 0, 0.2)),
-            url('../images/dev/rosewood.jpg');
-        }
-
-        .third {
-            background-image: linear-gradient(to bottom,
-                rgba(0, 0, 0, 0.2),
-                rgba(0, 0, 0, 0.2)),
-            url('../images/dev/maisonette9.jpg');
-        }
-
-        .presentation {
-            // Will show with a slider when active
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-
-            display: flex;
-            align-items: center;
-            clip-path: inset(0 100% 0 0);
-            word-wrap: break-word;
-
-            background-size: cover;
-            background-position: center;
-
-            @include base.breakpoint("desktop-up") {
-                padding: 0 $desktop-controls-width;
-            }
-
-            &.active {
-                clip-path: inset(0 0 0 0);
-            }
-
-            @keyframes showRightToLeft {
-                0% {
-                    clip-path: inset(0 100% 0 0);
-                }
-                100% {
-                    clip-path: inset(0 0 0 0);
-                }
-            }
-
-            @keyframes showLeftToRight {
-                0% {
-                    clip-path: inset(0 0 0 100%);
-                }
-                100% {
-                    clip-path: inset(0 0 0 0);
-                }
-            }
-
-            @keyframes hideRightToLeft {
-                0% {
-                    clip-path: inset(0 0 0 0);
-                }
-                100% {
-                    clip-path: inset(0 100% 0 0);
-                }
-            }
-
-            @keyframes hideLeftToRight {
-                0% {
-                    clip-path: inset(0 0 0 0);
-                }
-                100% {
-                    clip-path: inset(0 0 0 100%);
-                }
-            }
-
-            .content {
-                color: white;
-                @extend .custom-container;
-
-                @include base.breakpoint("desktop-up") {
-                    max-width: 35rem !important;
-                    margin: 0;
-                }
-
-                .notice-text {
-                    font-family: "Proxima Nova Black", sans-serif;
-                    text-transform: uppercase;
-                    background-color: var(--primary-orange);
-                    padding: 0 .5rem;
-                    margin-bottom: .25rem;
-                    width: fit-content;
-                }
-
-                h1 {
-                    $font-size: 2.75rem;
-                    font-family: "Proxima Nova Black", sans-serif;
-                    text-transform: uppercase;
-                    font-size: $font-size;
-                    line-height: $font-size;
-                    margin: 0;
-
-                    @include base.breakpoint("desktop-up") {
-                        font-size: $font-size*1.5;
-                        line-height: $font-size*1.5;
-                    }
-                }
-
-                p {
-                    font-size: 1.25rem;
-                    line-height: 1.3rem;
-                }
-            }
-        }
-    }
-
-    .desktop-controls {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-
-        @include base.breakpoint("desktop-up") {
+        .linkOverlay{
+            position: relative;
             display: block;
-        }
-
-        > * {
-            position: absolute;
-            width: $desktop-controls-width;
             height: 100%;
-            opacity: 0.5;
-            transition: opacity .1s;
-            z-index: 500;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.25);
+            opacity: 0;
+            transition: opacity 250ms ease-out;
 
-            &:hover {
+            &:hover{
                 opacity: 1;
             }
-
-            &.left {
-                left: 0;
-            }
-
-            &.right {
-                right: 0;
-            }
-
-            .control-button {
+            &:after{
+                content: "\2b";
                 position: absolute;
                 top: 50%;
                 left: 50%;
+                color:white;
+                font-size: 1.5rem;
+                line-height: 1.5rem;
+                font-family: "Font Awesome 6 Free", sans-serif;
+                padding: 1rem;
+                background-color: var(--primary-orange);
                 transform: translate(-50%, -50%);
-
-                width: 2.75rem;
-                height: 2.75rem;
                 border-radius: 50%;
-                background-color: rgba(0, 0, 0, .75);
-                backdrop-filter: blur(base.$blur-radius);
-                color: white;
-                font-size: 1.2rem;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                cursor: pointer;
-                transition: background-color 0.5s;
-
-                &:hover {
-                    background-color: var(--primary-orange);
-                }
             }
+        }
+
+    }
+
+    .meta {
+        font-family: "Proxima Nova Bold", sans-serif;
+        font-weight: lighter;
+
+        .category {
+            color: var(--primary-orange);
+            background-color: white;
+            padding: .25rem .5rem;
         }
     }
 
-    .projects-cards {
-        position: relative;
-        background-color: #191919;
-        width: 100%;
-        padding: 1rem 0;
-
-        @include base.breakpoint("large-desktop-down") {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 500;
-            background-color: transparent;
-
-            .responsive-title {
-                display: none;
-            }
-        }
-
-        .cards {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            padding: 0 1rem 1rem 1rem;
-
-            // Must not overflow the custom-container
-            max-width: 100%;
-            overflow-x: auto;
-
-            .card {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-end;
-                align-items: flex-start;
-                height: 12rem;
-                width: 23rem;
-                color: white;
-                background-size: cover;
-                background-position: center;
-                padding: .5rem;
-                box-shadow: 0 0 0 var(--primary-orange);
-                transition: box-shadow $transition-time;
-                flex-shrink: 0;
-                cursor: pointer;
-
-                .title {
-                    font-family: "Proxima Nova Black", sans-serif;
-                    text-transform: uppercase;
-                    font-size: 1.4rem;
-                    font-weight: lighter;
-                    line-height: 1.5rem;
-                }
-
-                .description {
-                    font-size: 1rem;
-                    line-height: 1.25rem;
-                }
-
-                &.active {
-                    box-shadow: -8px 8px 0px var(--primary-orange);
-                }
-
-                &.first {
-                    background-image: linear-gradient(to bottom,
-                        rgba(0, 0, 0, 0.5),
-                        rgba(0, 0, 0, 0.5)),
-                    url('../images/dev/starisland-motel.jpg');
-                }
-
-                &.second {
-                    background-image: linear-gradient(to bottom,
-                        rgba(0, 0, 0, 0.5),
-                        rgba(0, 0, 0, 0.5)),
-                    url('../images/dev/rosewood.jpg');
-                }
-
-                &.third {
-                    background-image: linear-gradient(to bottom,
-                        rgba(0, 0, 0, 0.5),
-                        rgba(0, 0, 0, 0.5)),
-                    url('../images/dev/maisonette9.jpg');
-                }
-            }
-        }
-
-        .dots-indicators {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            $dots-size: .5rem;
-            gap: $dots-size*1.5;
-            margin-top: .5rem;
-
-            > * {
-                width: $dots-size;
-                height: $dots-size;
-                border-radius: 50%;
-                background-color: white;
-                opacity: 0.5;
-                transition: background-color 0.5s;
-
-                &.active {
-                    opacity: 0.9;
-                }
-
-                /*@include base.breakpoint("large-desktop-down") {
-                    background-color: white;
-                }*/
-            }
-        }
+    .title {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+        font-family: "Proxima Nova Black", sans-serif;
+        text-transform: uppercase;
+        font-weight: lighter;
     }
-}
-
-// Fin Vitrine
-
-.randomDiv {
-    height: 35rem;
-    width: 100%;
-    background-color: var(--primary-orange);
 }

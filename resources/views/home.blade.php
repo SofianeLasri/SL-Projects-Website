@@ -89,12 +89,28 @@
             </div>
         </div>
     </div>
+    {{--Fin vitrine--}}
 
-    <div class="randomDiv">
+    {{--Section 1--}}
+    <section class="bg-primary">
         <div class="custom-container">
-            <p>Ceci est un texte de test.</p>
+            <h1 class="section-title">Projets récents</h1>
+            <div class="flex flex-row">
+                <div class="basis-1/2">
+                    <div class="news-card-full">
+                        <div class="image" style="background-image: url('{{ mix('/images/dev/placeholder.jpg') }}')">
+                            <a href="#" class="linkOverlay"></a>
+                        </div>
+                        <div class="meta">
+                            <span class="category"><a href="#">Catégorie</a></span>
+                            <span>11 décembre 2022</span>
+                        </div>
+                        <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do eiusmod tempor incidi</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 @endsection
 
 @push('scripts')
