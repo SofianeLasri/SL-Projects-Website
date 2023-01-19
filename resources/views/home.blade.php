@@ -95,9 +95,9 @@
     <section class="bg-primary">
         <div class="custom-container">
             <h1 class="section-title">Projets récents</h1>
-            <div class="flex flex-row">
-                <div class="basis-1/2">
-                    <div class="news-card-full">
+            <div class="recent-projects">
+                <div>
+                    <div class="news-card">
                         <div class="image" style="background-image: url('{{ mix('/images/dev/placeholder.jpg') }}')">
                             <a href="#" class="linkOverlay"></a>
                         </div>
@@ -106,6 +106,33 @@
                             <span>11 décembre 2022</span>
                         </div>
                         <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do eiusmod tempor incidi</a>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <div class="news-card horizontal-cards">
+                        <div class="image" style="background-image: url('{{ mix('/images/dev/placeholder.jpg') }}')">
+                            <a href="#" class="linkOverlay"></a>
+                        </div>
+                        <div>
+                            <div class="meta">
+                                <span class="category"><a href="#">Catégorie</a></span>
+                                <span>11 décembre 2022</span>
+                            </div>
+                            <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do eiusmod tempor incidi</a>
+                        </div>
+                    </div>
+
+                    <div class="news-card flex horizontal-cards">
+                        <div class="image" style="background-image: url('{{ mix('/images/dev/placeholder.jpg') }}')">
+                            <a href="#" class="linkOverlay"></a>
+                        </div>
+                        <div>
+                            <div class="meta">
+                                <span class="category"><a href="#">Catégorie</a></span>
+                                <span>11 décembre 2022</span>
+                            </div>
+                            <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do eiusmod tempor incidi</a>
+                        </div>
                     </div>
                 </div>
             </div>
