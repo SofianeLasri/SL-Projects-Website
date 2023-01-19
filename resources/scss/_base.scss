@@ -10,7 +10,12 @@
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
 :root {
-    --primary-orange: #F78E57;
+    --primary-disabled: #ffb38b;
+    --primary: #F78E57;
+    --primary-hovered: #e26b2c;
+
+    --white: #FFFFFF;
+    --white-hovered: #F2F2F2;
 
     // Other brands main colors
     --steam-darker-blue: #171a21;
@@ -107,6 +112,52 @@ section {
 }
 
 .bg-primary {
-    background-color: var(--primary-orange);
+    background-color: var(--primary);
     color: white;
+}
+
+.btn {
+    font-family: "Proxima Nova Bold", sans-serif;
+    font-weight: lighter;
+    font-size: 1rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    border: 0;
+    border-radius: 5px;
+    padding: .5rem .75rem;
+    background-color: var(--primary);
+    color: white;
+    transition: all .2s ease-in-out;
+    width: fit-content;
+
+    &:hover {
+        background-color: var(--primary-hovered);
+        color: white;
+    }
+
+    &:disabled {
+        background-color: var(--primary-disabled);
+        color: white;
+    }
+
+    &.square {
+        border-radius: 0;
+        font-family: "Proxima Nova Black", sans-serif;
+        font-weight: lighter;
+    }
+}
+
+.btn-white {
+    background-color: var(--white);
+    color: var(--primary);
+
+    &:hover {
+        background-color: var(--white-hovered);
+        color: var(--primary-hovered);
+    }
+
+    &:disabled {
+        background-color: var(--white);
+        color: var(--primary-disabled);
+    }
 }

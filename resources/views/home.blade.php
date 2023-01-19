@@ -134,6 +134,8 @@
                             <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do eiusmod tempor incidi</a>
                         </div>
                     </div>
+
+                    <a class="btn square btn-white" href="#">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>

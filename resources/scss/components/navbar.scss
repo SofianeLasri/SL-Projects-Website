@@ -12,7 +12,7 @@
     right: 0;
     z-index: 1000;
     background-color: rgba(0, 0, 0, .75);
-    border-bottom: var(--primary-orange) base.$border-width solid;
+    border-bottom: var(--primary) base.$border-width solid;
     backdrop-filter: blur(base.$blur-radius);
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
@@ -56,14 +56,14 @@
             }
 
             &:hover {
-                background-color: var(--primary-orange);
+                background-color: var(--primary);
                 clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
 
             }
 
             &.active {
                 background-color: white;
-                color: var(--primary-orange);
+                color: var(--primary);
                 clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
             }
         }
@@ -98,7 +98,7 @@
                 margin: $polygon-margin 0;
 
                 &.active {
-                    color: var(--primary-orange);
+                    color: var(--primary);
                 }
             }
 
@@ -126,7 +126,7 @@
             color: white;
 
             &:hover {
-                color: var(--primary-orange);
+                color: var(--primary);
             }
         }
 
@@ -152,7 +152,7 @@
             &:focus {
                 outline: none;
                 box-shadow: none;
-                border-bottom: base.$border-width solid var(--primary-orange);
+                border-bottom: base.$border-width solid var(--primary);
                 width: 15rem;
             }
         }

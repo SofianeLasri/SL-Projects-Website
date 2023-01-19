@@ -115,7 +115,7 @@
                 .notice-text {
                     font-family: "Proxima Nova Black", sans-serif;
                     text-transform: uppercase;
-                    background-color: var(--primary-orange);
+                    background-color: var(--primary);
                     padding: 0 .5rem;
                     margin-bottom: .25rem;
                     width: fit-content;
@@ -195,7 +195,7 @@
                 transition: background-color 0.5s;
 
                 &:hover {
-                    background-color: var(--primary-orange);
+                    background-color: var(--primary);
                 }
             }
         }
@@ -243,7 +243,7 @@
                 background-size: cover;
                 background-position: center;
                 padding: .5rem;
-                box-shadow: 0 0 0 var(--primary-orange);
+                box-shadow: 0 0 0 var(--primary);
                 transition: box-shadow $transition-time;
                 flex-shrink: 0;
                 cursor: pointer;
@@ -262,7 +262,7 @@
                 }
 
                 &.active {
-                    box-shadow: -8px 8px 0px var(--primary-orange);
+                    box-shadow: -8px 8px 0px var(--primary);
                 }
 
                 &.first {

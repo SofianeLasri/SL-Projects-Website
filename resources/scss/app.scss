@@ -24,6 +24,12 @@
             margin-right: base.$section-vertical-padding / 2;
         }
     }
+
+    .btn {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+        padding: 0.75rem 1rem;
+    }
 }
 
 .news-card {
@@ -59,7 +65,7 @@
                 line-height: 1.5rem;
                 font-family: "Font Awesome 6 Free", sans-serif;
                 padding: 1rem;
-                background-color: var(--primary-orange);
+                background-color: var(--primary);
                 transform: translate(-50%, -50%);
                 border-radius: 50%;
             }
@@ -79,7 +85,7 @@
         }
 
         .category {
-            color: var(--primary-orange);
+            color: var(--primary);
             background-color: white;
             padding: 0 .5rem;
         }
