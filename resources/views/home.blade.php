@@ -165,6 +165,9 @@
             </div>
         </div>
     </section>
+    {{--Fin section 2--}}
+
+    <x-footer/>
 @endsection
 
 @push('scripts')
@@ -319,6 +322,6 @@
             initPublicProjectsCards();
         });
 
-        //initPublicProjectsCards();
+        initPublicProjectsCards();
     </script>
 @endpush
