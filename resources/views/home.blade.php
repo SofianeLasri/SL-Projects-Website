@@ -105,7 +105,8 @@
                             <span class="category"><a href="#">Catégorie</a></span>
                             <span>11 décembre 2022</span>
                         </div>
-                        <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do eiusmod tempor incidi</a>
+                        <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do
+                            eiusmod tempor incidi</a>
                     </div>
                 </div>
                 <div class="flex flex-col">
@@ -118,7 +119,8 @@
                                 <span class="category"><a href="#">Catégorie</a></span>
                                 <span>11 décembre 2022</span>
                             </div>
-                            <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do eiusmod tempor incidi</a>
+                            <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do
+                                eiusmod tempor incidi</a>
                         </div>
                     </div>
 
@@ -131,12 +133,35 @@
                                 <span class="category"><a href="#">Catégorie</a></span>
                                 <span>11 décembre 2022</span>
                             </div>
-                            <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do eiusmod tempor incidi</a>
+                            <a href="#" class="title">Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing elit, sed do
+                                eiusmod tempor incidi</a>
                         </div>
                     </div>
 
                     <a class="btn square btn-white" href="#">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
+            </div>
+        </div>
+    </section>
+    {{--Fin section 1--}}
+
+    {{--Section 2--}}
+    <section>
+        <div class="custom-container">
+            <h1 class="section-title">Création publiques</h1>
+            <div id="publicProjects">
+                @for($i = 0; $i <6; $i++)
+                    <div class="project-card">
+                        <a href="#" class="cover"  style="background-image: url('{{ mix('/images/dev/placeholder.jpg') }}')">
+                            <div class="category">
+                                <span>Catégorie</span>
+                            </div>
+                        </a>
+                        <div class="meta">
+                            <a href="#" class="title">Nom création</a>
+                        </div>
+                    </div>
+                @endfor
             </div>
         </div>
     </section>
@@ -263,5 +288,37 @@
 
         initPresentationsCards();
         setInterval(nextPresentation, presentationTime);
+
+        // S'il y a trop de cartes dans publicProjects, on va masquer les autres
+        const publicProjects = document.getElementById('publicProjects');
+        const publicProjectsCards = publicProjects.getElementsByClassName('project-card');
+        const projectCardWith = publicProjectsCards[0].clientWidth;
+        const publicProjectsGap = parseInt(window.getComputedStyle(publicProjects).getPropertyValue('gap'));
+        const projectCardOffset = projectCardWith + publicProjectsGap;
+
+        function initPublicProjectsCards() {
+            // Ne doit s'exécuter que sur les écrans de largeur supérieure à 768px
+            if (window.innerWidth > 768) {
+                let projectCardVisibleCount = Math.floor(publicProjects.clientWidth / projectCardOffset);
+                let projectCardHiddenCount = publicProjectsCards.length - projectCardVisibleCount;
+
+                // On masque les cartes qui ne sont pas visibles
+                for (let i = 0; i < projectCardHiddenCount; i++) {
+                    publicProjectsCards[publicProjectsCards.length - 1 - i].style.display = 'none';
+                }
+
+                // On affiche les cartes qui sont cachées
+                for (let i = 0; i < projectCardVisibleCount; i++) {
+                    publicProjectsCards[i].style.display = 'block';
+                }
+            }
+        }
+
+        // Losque la fenêtre est redimensionnée, on va vérifier si on doit afficher ou masquer des cartes
+        window.addEventListener('resize', () => {
+            initPublicProjectsCards();
+        });
+
+        //initPublicProjectsCards();
     </script>
 @endpush
