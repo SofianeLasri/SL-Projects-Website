@@ -1,10 +1,10 @@
 <footer>
-    <div class="container">
-        <div class="col d-flex flex-column">
+    <div class="custom-container">
+        <div class="col">
             <div class="logo">
                 <span>SL</span>
             </div>
-            <span>2022 - Sofiane Lasri</span>
+            <span>2023 - Sofiane Lasri</span>
         </div>
         <div class="col">
             <h3>Derniers projets</h3>
