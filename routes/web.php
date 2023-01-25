@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\VitrineController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [VitrineController::class, 'index'])->name('home');
 Route::get('/projects', [VitrineController::class, 'index'])->name('projects');
+Route::get('/project/{project}', [ProjectController::class, 'index'])->name('project');
