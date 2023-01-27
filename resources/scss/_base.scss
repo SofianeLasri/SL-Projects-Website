@@ -15,7 +15,15 @@
     --primary-hovered: #e26b2c;
 
     --white: #FFFFFF;
-    --white-hovered: #F2F2F2;
+    --white-hovered: #f3f4f6;
+
+    --black: #000000;
+
+    --dark: #1f2937;
+    --dark-hovered: #4b5563;
+
+    --light: #e5e7eb;
+    --light-hovered: #d1d5db;
 
     // Other brands main colors
     --steam-darker-blue: #171a21;
@@ -47,6 +55,7 @@ $breakpoints: (
 
 body {
     font-family: "Proxima Nova Regular", sans-serif !important;
+    color: var(--black);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -122,57 +131,11 @@ section {
 
 .bg-white {
     background-color: var(--white);
-    color: black;
+    color: var(--black);
 }
 
 .shadows {
     box-shadow: -8px 8px 0px var(--primary);
-}
-
-.btn {
-    font-family: "Proxima Nova Bold", sans-serif;
-    font-weight: lighter;
-    font-size: 1rem;
-    line-height: 1rem;
-    text-transform: uppercase;
-    border: 0;
-    border-radius: 5px;
-    padding: .5rem .75rem;
-    background-color: var(--primary);
-    color: white;
-    transition: all .2s ease-in-out;
-    width: fit-content;
-
-    &:hover {
-        background-color: var(--primary-hovered);
-        color: white;
-    }
-
-    &:disabled {
-        background-color: var(--primary-disabled);
-        color: white;
-    }
-
-    &.square {
-        border-radius: 0;
-        font-family: "Proxima Nova Black", sans-serif;
-        font-weight: lighter;
-    }
-}
-
-.btn-white {
-    background-color: var(--white);
-    color: var(--primary);
-
-    &:hover {
-        background-color: var(--white-hovered);
-        color: var(--primary-hovered);
-    }
-
-    &:disabled {
-        background-color: var(--white);
-        color: var(--primary-disabled);
-    }
 }
 
 .notice-text {

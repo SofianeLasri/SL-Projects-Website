@@ -21,12 +21,12 @@
                 <div class="w-80">
                     <!-- Supposée être vide -->
                 </div>
-                <div class="h-16">
+                <div class="h-16 pl-4">
                     <h1 class="font-black uppercase">StarIsland</h1>
                 </div>
             </div>
             <div class="flex bg-white p-8">
-                <div class="w-80">
+                <div class="w-80 space-y-2">
                     <div class="shadows aspect-square -mt-24">
                         <img src="{{ mix('/images/dev/logo-starisland.jpg') }}" alt="Image du projet"
                              class="object-cover mb-4">
@@ -35,9 +35,32 @@
                     <div class="notice-text">
                         <span>Informations du projet</span>
                     </div>
+                    <div class="projectMeta">
+                        <div class="flex justify-between">
+                            <div><strong>Date de début</strong></div>
+                            <div>Janvier 2017</div>
+                        </div>
+                        <div class="flex justify-between">
+                            <div><strong>Date de fin</strong></div>
+                            <div>Juin 2019</div>
+                        </div>
+                        <div class="flex justify-between">
+                            <div><strong>Plateforme</strong></div>
+                            <div>Garry's Mod (Source Engine)</div>
+                        </div>
+                        <div class="flex justify-between">
+                            <div><strong>Type de projet</strong></div>
+                            <div>Mapmaking</div>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2">
+                        <a href="#" class="btn square btn-primary" target="_blank">Voir le Workshop</a>
+                        <a href="#" class="btn square btn-light" target="_blank"><i class="fa-sharp fa-solid fa-download"></i></a>
+                    </div>
                 </div>
-                <div>
-                    <strong>Galerie</strong>
+                <div class="pl-4">
+                    <h3>Galerie</h3>
                 </div>
             </div>
         </div>

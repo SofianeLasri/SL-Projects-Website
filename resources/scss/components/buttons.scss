@@ -1,0 +1,74 @@
+@use "../base";
+
+.btn {
+    font-family: "Proxima Nova Bold", sans-serif;
+    font-weight: lighter;
+    font-size: 1rem;
+    line-height: 1rem;
+    border: 0;
+    border-radius: 5px;
+    padding: .5rem .75rem;
+    background-color: var(--primary);
+    color: white;
+    transition: all .2s ease-in-out;
+    width: fit-content;
+
+    &:hover {
+        background-color: var(--primary-hovered);
+        color: white;
+    }
+
+    &:disabled {
+        background-color: var(--primary-disabled);
+        color: white;
+    }
+
+    &.square {
+        border-radius: 0;
+    }
+}
+
+.btn-white {
+    background-color: var(--white);
+    color: var(--primary);
+
+    &:hover {
+        background-color: var(--white-hovered);
+        color: var(--primary-hovered);
+    }
+
+    &:disabled {
+        background-color: var(--white);
+        color: var(--primary-disabled);
+    }
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+
+    &:hover {
+        background-color: var(--primary-hovered);
+        color: white;
+    }
+
+    &:disabled {
+        background-color: var(--primary-disabled);
+        color: white;
+    }
+}
+
+.btn-light {
+    background-color: var(--light);
+    color: var(--black);
+
+    &:hover {
+        background-color: var(--light-hovered);
+        color: var(--black);
+    }
+
+    &:disabled {
+        background-color: var(--light-disabled);
+        color: var(--black);
+    }
+}
