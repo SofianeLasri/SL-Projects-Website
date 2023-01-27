@@ -78,6 +78,10 @@ h6 {
     font-size: .75rem;
 }
 
+.font-black {
+    font-family: "Proxima Nova Black", sans-serif;
+}
+
 .container {
     margin: 0 auto;
 }
@@ -114,6 +118,15 @@ section {
 .bg-primary {
     background-color: var(--primary);
     color: white;
+}
+
+.bg-white {
+    background-color: var(--white);
+    color: black;
+}
+
+.shadows {
+    box-shadow: -8px 8px 0px var(--primary);
 }
 
 .btn {
@@ -160,4 +173,13 @@ section {
         background-color: var(--white);
         color: var(--primary-disabled);
     }
+}
+
+.notice-text {
+    font-family: "Proxima Nova Black", sans-serif;
+    text-transform: uppercase;
+    background-color: var(--primary);
+    color: white;
+    padding: 0 .5rem;
+    width: fit-content;
 }

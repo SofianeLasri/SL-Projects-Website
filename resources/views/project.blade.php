@@ -15,6 +15,61 @@
 @section('body')
     <x-navbar/>
 
+    <div class="w-full bg-primary">
+        <div class="custom-container flex flex-col pt-60 pb-10">
+            <div class="flex px-8">
+                <div class="w-80">
+                    <!-- Supposée être vide -->
+                </div>
+                <div class="h-16">
+                    <h1 class="font-black uppercase">StarIsland</h1>
+                </div>
+            </div>
+            <div class="flex bg-white p-8">
+                <div class="w-80">
+                    <div class="shadows aspect-square -mt-24">
+                        <img src="{{ mix('/images/dev/logo-starisland.jpg') }}" alt="Image du projet"
+                             class="object-cover mb-4">
+                    </div>
+
+                    <div class="notice-text">
+                        <span>Informations du projet</span>
+                    </div>
+                </div>
+                <div>
+                    <strong>Galerie</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="custom-container">
+        <h1>Présentation</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua. Ut faucibus pulvinar elementum integer enim neque. Adipiscing elit ut aliquam purus sit amet.
+            Potenti nullam ac tortor vitae. Amet consectetur adipiscing elit ut aliquam purus sit. Scelerisque viverra
+            mauris in aliquam sem fringilla ut morbi tincidunt. Ipsum dolor sit amet consectetur adipiscing elit duis
+            tristique sollicitudin. Diam quis enim lobortis scelerisque. Mattis rhoncus urna neque viverra justo nec.
+            Odio morbi quis commodo odio aenean sed adipiscing diam. Tortor at risus viverra adipiscing.</p>
+
+        <h2>Lorem ipsum</h2>
+        <p>Varius morbi enim nunc faucibus a pellentesque sit amet porttitor. Augue neque gravida in fermentum et
+            sollicitudin ac orci. Facilisis magna etiam tempor orci. Eget dolor morbi non arcu risus quis varius quam.
+            Aliquam vestibulum morbi blandit cursus risus. Magna sit amet purus gravida. Convallis a cras semper auctor.
+            Diam maecenas ultricies mi eget. Maecenas sed enim ut sem viverra aliquet. Tellus mauris a diam maecenas sed
+            enim ut sem viverra. Diam quis enim lobortis scelerisque fermentum dui. Mi eget mauris pharetra et ultrices.
+            Donec ac odio tempor orci dapibus ultrices in iaculis.</p>
+
+        <p>Non quam lacus suspendisse faucibus interdum posuere lorem ipsum dolor. Hendrerit dolor magna eget est. In
+            egestas erat imperdiet sed euismod nisi porta lorem mollis. Fusce ut placerat orci nulla. Ultrices tincidunt
+            arcu non sodales neque sodales ut. Posuere ac ut consequat semper viverra. Egestas dui id ornare arcu odio
+            ut sem nulla pharetra. Fringilla urna porttitor rhoncus dolor. Rhoncus mattis rhoncus urna neque viverra.
+            Adipiscing bibendum est ultricies integer quis auctor. Metus vulputate eu scelerisque felis imperdiet proin
+            fermentum. Aliquam malesuada bibendum arcu vitae. Suspendisse faucibus interdum posuere lorem ipsum dolor.
+            Amet justo donec enim diam vulputate ut pharetra sit. Massa sed elementum tempus egestas sed. Pellentesque
+            elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at. Vulputate ut pharetra sit amet.
+            Semper viverra nam libero justo laoreet sit amet.</p>
+    </div>
 
     <x-footer/>
 @endsection
