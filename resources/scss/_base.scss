@@ -53,6 +53,30 @@ $breakpoints: (
     }
 }
 
+// scroll bar pour chromium
+::-webkit-scrollbar {
+    width: 1rem;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-hovered);
+}
+
+html {
+    // scroll bar pour firefox
+    scrollbar-color: var(--primary) var(--light);
+    scrollbar-width: thin;
+}
+
+
 body {
     font-family: "Proxima Nova Regular", sans-serif !important;
     color: var(--black);
@@ -122,20 +146,6 @@ h6 {
 
 section {
     padding: $section-vertical-padding 0;
-}
-
-.bg-primary {
-    background-color: var(--primary);
-    color: white;
-}
-
-.bg-white {
-    background-color: var(--white);
-    color: var(--black);
-}
-
-.shadows {
-    box-shadow: -8px 8px 0px var(--primary);
 }
 
 .notice-text {

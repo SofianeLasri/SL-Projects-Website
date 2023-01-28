@@ -3,7 +3,7 @@
     <div class="desktop top-bar">
         <div class="left-part">
             <a href="{{ route('home') }}" class="logo">
-                <img src="{{ mix('/images/logos/white-short.svg') }}" alt="Logo">
+                <x-logo-short/>
             </a>
             <x-nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                 {{ __('word.home') }}

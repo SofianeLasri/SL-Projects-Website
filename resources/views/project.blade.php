@@ -16,51 +16,67 @@
     <x-navbar/>
 
     <div class="w-full bg-primary">
-        <div class="custom-container flex flex-col pt-60 pb-10">
-            <div class="flex px-8">
-                <div class="w-80">
+        <div class="custom-container flex flex-col pt-32 lg:pt-60 pb-10">
+            <div class="flex lg:px-8">
+                <div class="hidden lg:block w-80">
                     <!-- Supposée être vide -->
                 </div>
-                <div class="h-16 pl-4">
+                <div class="h-16 lg:pl-4">
                     <h1 class="font-black uppercase">StarIsland</h1>
                 </div>
             </div>
-            <div class="flex bg-white p-8">
-                <div class="w-80 space-y-2">
-                    <div class="shadows aspect-square -mt-24">
+            <div class="flex flex-col items-center lg:flex-row lg:items-start bg-white p-8 space-y-8 lg:space-y-0">
+                <div class="lg:w-80 space-y-2 shrink-0 flex flex-col md:flex-row lg:flex-col md:space-x-2 lg:space-x-0">
+                    <div class="shadows aspect-square lg:-mt-24 mb-2 max-lg:flex-1">
                         <img src="{{ mix('/images/dev/logo-starisland.jpg') }}" alt="Image du projet"
-                             class="object-cover mb-4">
+                             class="object-cover">
                     </div>
 
-                    <div class="notice-text">
-                        <span>Informations du projet</span>
-                    </div>
-                    <div class="projectMeta">
-                        <div class="flex justify-between">
-                            <div><strong>Date de début</strong></div>
-                            <div>Janvier 2017</div>
+                    <div class="space-y-2 max-lg:flex-1">
+                        <div class="notice-text">
+                            <span>Informations du projet</span>
                         </div>
-                        <div class="flex justify-between">
-                            <div><strong>Date de fin</strong></div>
-                            <div>Juin 2019</div>
+                        <div class="projectMeta">
+                            <div class="flex justify-between">
+                                <div><strong>Date de début</strong></div>
+                                <div class="text-right">Janvier 2017</div>
+                            </div>
+                            <div class="flex justify-between">
+                                <div><strong>Date de fin</strong></div>
+                                <div class="text-right">Juin 2019</div>
+                            </div>
+                            <div class="flex justify-between">
+                                <div><strong>Plateforme</strong></div>
+                                <div class="text-right">Garry's Mod (Source Engine)</div>
+                            </div>
+                            <div class="flex justify-between">
+                                <div><strong>Type de projet</strong></div>
+                                <div class="text-right">Mapmaking</div>
+                            </div>
                         </div>
-                        <div class="flex justify-between">
-                            <div><strong>Plateforme</strong></div>
-                            <div>Garry's Mod (Source Engine)</div>
-                        </div>
-                        <div class="flex justify-between">
-                            <div><strong>Type de projet</strong></div>
-                            <div>Mapmaking</div>
-                        </div>
-                    </div>
 
-                    <div class="flex space-x-2">
-                        <a href="#" class="btn square btn-primary" target="_blank">Voir le Workshop</a>
-                        <a href="#" class="btn square btn-light" target="_blank"><i class="fa-sharp fa-solid fa-download"></i></a>
+                        <div class="flex space-x-2">
+                            <a href="#" class="btn square btn-primary" target="_blank">Voir le Workshop</a>
+                            <a href="#" class="btn square btn-light" target="_blank"><i
+                                    class="fa-sharp fa-solid fa-download"></i></a>
+                        </div>
                     </div>
                 </div>
-                <div class="pl-4">
+                <div class="lg:pl-4">
                     <h3>Galerie</h3>
+                    <div id="gallery" class="flex flex-wrap gap-2">
+                        @for($i = 1; $i <= 7; $i++)
+                            <div style="background-image: url('{{ mix('/images/dev/starisland-motel.jpg') }}');"
+                                 class="bg-cover aspect-video h-32">
+                                <div class="linkOverlay black"></div>
+                            </div>
+                        @endfor
+                            <div class="bg-light aspect-video h-32 flex items-center justify-center">
+                                <div class="h-6">
+                                    <x-logo-short color="#000"/>
+                                </div>
+                            </div>
+                    </div>
                 </div>
             </div>
         </div>
