@@ -33,3 +33,20 @@
         border-radius: 50%;
     }
 }
+
+.line-before {
+    position: relative;
+    padding-left: 2.5rem;
+
+    &:before {
+        content: "";
+        display: block;
+        width: 2rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        height: base.$border-width;
+        background-color: var(--primary);
+    }
+}
