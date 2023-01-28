@@ -21,22 +21,22 @@
                 <div class="hidden lg:block w-80">
                     <!-- Supposée être vide -->
                 </div>
-                <div class="h-16 lg:pl-4">
+                <div class="h-16 lg:pl-8">
                     <h1 class="font-black uppercase">StarIsland</h1>
                 </div>
             </div>
             <div class="flex flex-col items-center lg:flex-row lg:items-start bg-white p-8 space-y-8 lg:space-y-0">
-                <div class="lg:w-80 space-y-2 shrink-0 flex flex-col md:flex-row lg:flex-col md:space-x-2 lg:space-x-0">
-                    <div class="shadows aspect-square lg:-mt-24 mb-2 max-lg:flex-1">
+                <div class="lg:w-80 shrink-0 flex flex-col md:flex-row lg:flex-col md:space-x-2 lg:space-x-0">
+                    <div class="shadows aspect-square lg:-mt-24 mb-6 max-lg:flex-1">
                         <img src="{{ mix('/images/dev/logo-starisland.jpg') }}" alt="Image du projet"
                              class="object-cover">
                     </div>
 
-                    <div class="space-y-2 max-lg:flex-1">
-                        <div class="notice-text">
+                    <div class="max-lg:flex-1">
+                        <div class="notice-text mb-2">
                             <span>Informations du projet</span>
                         </div>
-                        <div class="projectMeta">
+                        <div class="projectMeta mb-4">
                             <div class="flex justify-between">
                                 <div><strong>Date de début</strong></div>
                                 <div class="text-right">Janvier 2017</div>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="lg:pl-4">
+                <div class="lg:pl-8">
                     <h3>Galerie</h3>
                     <div id="gallery" class="flex flex-wrap gap-2">
                         @for($i = 1; $i <= 7; $i++)
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <div class="custom-container px-8 py-10 flex flex-col lg:flex-row gap-2">
+    <div class="custom-container px-8 py-10 flex flex-col lg:flex-row gap-8">
         <div>
             <h1>Présentation</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -130,12 +130,15 @@
             <div class="flex flex-col">
                 <h3><i class="fa-solid fa-clock-rotate-left"></i> Chronologie</h3>
 
-                <div class="space-y-2">
+                <div class="space-y-4">
                     <div>
                         <strong class="line-before">Janvier 2017</strong>
                         <ul class="list-disc ml-8">
                             <li>Création du projet</li>
-                            <li>Recherche d'un partenaire</li>
+                            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                                incididunt ut labore et dolore magna aliqua. Ut faucibus pulvinar elementum integer enim
+                                neque.
+                            </li>
                         </ul>
                     </div>
                     <div>
