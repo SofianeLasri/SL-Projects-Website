@@ -15,10 +15,11 @@
     background-color: rgba(0, 0, 0, .75);
     backdrop-filter: blur(base.$blur-radius);
 
-    display: flex;
+    display: none; // flex
     flex-direction: column;
 
     .top-bar {
+        display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
@@ -43,6 +44,15 @@
             .title {
                 font-family: "Proxima Nova Bold", sans-serif;
                 font-weight: lighter;
+            }
+        }
+
+        .right-part {
+            display: flex;
+            align-items: center;
+
+            #closeButton {
+                margin-left: $polygon-margin*2;
             }
         }
     }

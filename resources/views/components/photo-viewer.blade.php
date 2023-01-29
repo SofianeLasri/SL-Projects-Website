@@ -8,6 +8,9 @@
                 <span>{{ $title }}</span>
             </div>
         </div>
+        <div class="right-part">
+            <button id="closeButton"><i class="fa-solid fa-times"></i></button>
+        </div>
     </div>
     <div class="photos-list">
         <button id="goFirst" class="preview-container" title="Aller à la première photo" disabled><i
@@ -29,7 +32,6 @@
                 @for($i = 0; $i < 1; $i++)
                     <div class="photo-container">
                         <img src="{{ mix('/images/dev/starisland-motel.jpg') }}" alt="Photo super passionnante">
-                        {{--<div style="height: 100%; width: 100%;background-color: red;"></div>--}}
                     </div>
                 @endfor
             </div>
@@ -46,6 +48,16 @@
 @push('scripts')
     <script type="text/javascript">
         // On va bloquer le scroll de la page
-        document.body.style.overflow = 'hidden';
+
+        function openPhotoViewer() {
+            document.getElementById('photoViewer').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoViewer() {
+            document.getElementById('photoViewer').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        document.getElementById('closeButton').addEventListener('click', closePhotoViewer);
     </script>
 @endpush
