@@ -9,13 +9,12 @@ return new class extends Migration {
     {
         Schema::create('file_uploads', function (Blueprint $table) {
             $table->integer("id", true, true);
-            $table->string('name');
-            $table->string('filename');
+            $table->string('name')->nullable();
+            $table->string('filename')->unique();
             $table->enum('type', ['image', 'video', 'audio', 'document', 'other']);
             $table->bigInteger('size');
 
             $table->timestamps();
-            $table->unique(['name', 'filename']);
         });
     }
 

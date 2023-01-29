@@ -55,7 +55,7 @@
 
         .category {
             color: var(--primary);
-            background-color: white;
+            background-color: var(--white);
             padding: 0 .5rem;
         }
     }
@@ -140,7 +140,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            color: white;
+            color: var(--white);
             font-family: "Proxima Nova Bold", sans-serif;
             font-weight: lighter;
             background-color: var(--primary);

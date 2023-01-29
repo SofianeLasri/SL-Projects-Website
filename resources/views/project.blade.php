@@ -162,6 +162,8 @@
     </div>
 
     <x-footer/>
+
+    <x-photo-viewer/>
 @endsection
 
 @push('scripts')
@@ -209,5 +211,9 @@
         window.addEventListener('resize', () => {
             setPlaceholderImages();
         });
+
+        /*projectHeader.addEventListener('mouseleave', () => {
+            projectHeader.style.backgroundImage = '';
+        });*/
     </script>
 @endpush

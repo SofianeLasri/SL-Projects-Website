@@ -104,7 +104,7 @@
             }
 
             .content {
-                color: white;
+                color: var(--white);
                 @extend .custom-container;
 
                 @include base.breakpoint("desktop-up") {
@@ -181,7 +181,7 @@
                 border-radius: 50%;
                 background-color: rgba(0, 0, 0, .75);
                 backdrop-filter: blur(base.$blur-radius);
-                color: white;
+                color: var(--white);
                 font-size: 1.2rem;
                 display: flex;
                 justify-content: center;
@@ -234,7 +234,7 @@
                 align-items: flex-start;
                 height: 12rem;
                 width: 23rem;
-                color: white;
+                color: var(--white);
                 background-size: cover;
                 background-position: center;
                 padding: .5rem;
@@ -295,7 +295,7 @@
                 width: $dots-size;
                 height: $dots-size;
                 border-radius: 50%;
-                background-color: white;
+                background-color: var(--white);
                 opacity: 0.5;
                 transition: background-color 0.5s;
 
@@ -304,7 +304,7 @@
                 }
 
                 /*@include base.breakpoint("large-desktop-down") {
-                    background-color: white;
+                    background-color: var(--white);
                 }*/
             }
         }
