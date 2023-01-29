@@ -15,7 +15,7 @@
 @section('body')
     <x-navbar/>
 
-    <div class="w-full bg-primary">
+    <div id="projectHeader" class="w-full bg-primary bg-cover">
         <div class="custom-container flex flex-col pt-32 lg:pt-60 pb-10">
             <div class="flex lg:px-8">
                 <div class="hidden lg:block w-80">
@@ -62,20 +62,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="lg:pl-8">
+                <div class="lg:pl-8 w-full">
                     <h3>Galerie</h3>
-                    <div id="gallery" class="flex flex-wrap gap-2">
+                    <div id="gallery" class="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-4 gap-2">
                         @for($i = 1; $i <= 7; $i++)
                             <div style="background-image: url('{{ mix('/images/dev/starisland-motel.jpg') }}');"
-                                 class="bg-cover aspect-video h-32">
+                                 class="bg-cover aspect-video is-real-media"
+                                 data-src="{{ mix('/images/dev/starisland-motel.jpg') }}">
                                 <div class="linkOverlay black"></div>
                             </div>
                         @endfor
-                        <div class="bg-light aspect-video h-32 flex items-center justify-center">
+                        {{--<div class="bg-light aspect-video  flex items-center justify-center">
                             <div class="h-6">
                                 <x-logo-short color="#000"/>
                             </div>
-                        </div>
+                        </div>--}}
                     </div>
                 </div>
             </div>
@@ -165,6 +166,48 @@
 
 @push('scripts')
     <script type="text/javascript">
+        const projectHeader = document.getElementById('projectHeader');
+        const gallery = document.getElementById('gallery');
+        const galleryItems = gallery.querySelectorAll('.is-real-media');
+        const galleryItemsCount = galleryItems.length;
+        const placeholderHtml = `<div class="bg-light aspect-video  flex items-center justify-center placeholder"><div class="h-6"><x-logo-short color="#000"/> </div></div>`;
 
+        galleryItems.forEach((item) => {
+            item.addEventListener('click', () => {
+                projectHeader.style.backgroundImage = `linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0.2)),
+            url('${item.dataset.src}')`;
+            });
+        });
+
+        function setPlaceholderImages() {
+            let columns;
+            let placeholders = document.querySelectorAll('.placeholder');
+
+            placeholders.forEach((placeholder) => {
+                placeholder.remove();
+            });
+
+            if (window.innerWidth >= 768 && window.innerWidth < 1440) {
+                columns = 3;
+            } else if(window.innerWidth >= 1440) {
+                columns = 4;
+            }
+
+            let maxGalleryItems = (Math.ceil(galleryItemsCount / columns) * columns);
+            if (placeholders.length < maxGalleryItems) {
+                let placeholderCount = maxGalleryItems - galleryItemsCount;
+                for (let i = 0; i < placeholderCount; i++) {
+                    gallery.insertAdjacentHTML('beforeend', placeholderHtml);
+                }
+            }
+        }
+
+        setPlaceholderImages();
+
+        window.addEventListener('resize', () => {
+            setPlaceholderImages();
+        });
     </script>
 @endpush
