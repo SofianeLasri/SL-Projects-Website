@@ -24,12 +24,12 @@
             @endfor
         </div>
         <button id="goLast" class="preview-container" title="Aller à la dernière photo"><i
-                class="fa-solid fa-forward-step"></i>
+                class="fa-solid fa-forward-step"></i></button>
     </div>
     <div class="main-frame">
         <div class="photos-carousel">
-            <div class="carousel-items">
-                @for($i = 0; $i < 1; $i++)
+            <div id="caroussel" class="carousel-items">
+                @for($i = 0; $i < 24; $i++)
                     <div class="photo-container">
                         <img src="{{ mix('/images/dev/starisland-motel.jpg') }}" alt="Photo super passionnante">
                     </div>
@@ -47,8 +47,6 @@
 
 @push('scripts')
     <script type="text/javascript">
-        // On va bloquer le scroll de la page
-
         function openPhotoViewer() {
             document.getElementById('photoViewer').style.display = 'flex';
             document.body.style.overflow = 'hidden';
@@ -58,6 +56,46 @@
             document.getElementById('photoViewer').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
+
         document.getElementById('closeButton').addEventListener('click', closePhotoViewer);
+        openPhotoViewer();
+
+        // Carousel
+        const carousel = document.getElementById('caroussel');
+        const carouselParent = carousel.parentElement;
+        const carouselItems = carousel.querySelectorAll('.photo-container');
+        const carouselItemsCount = carouselItems.length;
+        const carouselItemWidth = carouselItems[0].offsetWidth;
+        let mouseDown = false;
+        let cursorX;
+        let scrollLeft;
+
+        carouselParent.addEventListener('mousedown', (e) => {
+            mouseDown = true;
+            cursorX = e.offsetX - carousel.offsetLeft;
+            carousel.style.cursor = 'grabbing';
+        });
+        // Pour mobiles
+        carouselParent.addEventListener('touchstart', (e) => {
+            mouseDown = true;
+            cursorX = e.touches[0].clientX - carousel.offsetLeft;
+            carousel.style.cursor = 'grabbing';
+        });
+
+        carouselParent.addEventListener('mousemove', (e) => {
+            if (!mouseDown) return;
+            e.preventDefault();
+            carousel.style.left = `${e.offsetX - cursorX}px`;
+        });
+        // Pour mobiles
+        carouselParent.addEventListener('touchmove', (e) => {
+            if (!mouseDown) return;
+            e.preventDefault();
+            carousel.style.left = `${e.touches[0].clientX - cursorX}px`;
+        });
+
+        window.addEventListener('mouseup', () => {
+            mouseDown = false;
+        });
     </script>
 @endpush
