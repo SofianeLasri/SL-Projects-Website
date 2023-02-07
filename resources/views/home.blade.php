@@ -151,16 +151,7 @@
             <h1 class="section-title">Création publiques</h1>
             <div id="publicProjects">
                 @for($i = 0; $i <6; $i++)
-                    <div class="project-card">
-                        <a href="#" class="cover"  style="background-image: url('{{ mix('/images/dev/placeholder.jpg') }}')">
-                            <div class="category">
-                                <span>Catégorie</span>
-                            </div>
-                        </a>
-                        <div class="meta">
-                            <a href="#" class="title">Nom création</a>
-                        </div>
-                    </div>
+                    <x-project-card projectSlug="placeholder"/>
                 @endfor
             </div>
         </div>
