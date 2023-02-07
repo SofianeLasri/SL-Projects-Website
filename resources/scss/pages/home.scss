@@ -115,6 +115,10 @@
     align-items: center;
     gap: base.$section-vertical-padding;
 
+    .project-card {
+        width: 15rem;
+    }
+
     @include base.breakpoint("tablet-up") {
         flex-direction: row;
         justify-content: space-between;

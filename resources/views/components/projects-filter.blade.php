@@ -1,5 +1,5 @@
 <form id="{{ $id }}" method="get" class="projet-filter" data-opened="true" data-see-all="true">
-    <div class="title-bar">
+    <div class="component title-bar white">
         <span class="title">{{ $title }}</span>
         <span class="toggle-icon">
             <i class="fa-solid fa-chevron-up"></i>

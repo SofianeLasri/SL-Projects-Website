@@ -23,13 +23,13 @@
     </div>
 
     <div class="custom-container py-8">
-        <div class="flex">
-            <div class="flex flex-col gap-4">
+        <div class="flex flex-col lg:flex-row">
+            <div class="flex flex-col lg:w-72 gap-4">
                 @foreach($filters as $filter)
                     <x-projects-filter title="{{ $filter['title'] }}" :filters="$filter['filter']"/>
                 @endforeach
             </div>
-            <div class="flex flex-col grow pl-8 gap-8">
+            <div class="flex flex-col grow lg:pl-8 gap-4">
                 @foreach($yearGroupedProjects as $year => $projects)
                     <x-project-date-container year="{{ $year }}" :projects="$projects"/>
                 @endforeach
