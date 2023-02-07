@@ -29,3 +29,28 @@
         </div>
     </div>
 </footer>
+
+@push('scripts')
+    <script type="text/javascript">
+        // Si le footer n'est pas tout en bas de la page car il y a peu de contenu
+        // On le place tout en bas de la page
+        function footerPosition() {
+            let footer = document.querySelector('footer');
+            let footerHeight = footer.offsetHeight;
+            let windowHeight = window.innerHeight;
+            let bodyHeight = document.body.offsetHeight;
+
+            if (bodyHeight < windowHeight) {
+                footer.style.position = 'absolute';
+                footer.style.bottom = '0';
+            } else {
+                footer.style.position = 'relative';
+                footer.style.bottom = '0';
+            }
+        }
+
+        footerPosition();
+
+        window.addEventListener('resize', footerPosition);
+    </script>
+@endpush
