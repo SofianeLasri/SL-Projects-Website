@@ -58,7 +58,6 @@
         }
 
         document.getElementById('closeButton').addEventListener('click', closePhotoViewer);
-        openPhotoViewer();
 
         // Carousel
         const carousel = document.getElementById('caroussel');
