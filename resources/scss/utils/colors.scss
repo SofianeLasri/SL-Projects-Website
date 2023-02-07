@@ -15,6 +15,11 @@
     color: var(--black);
 }
 
+.bg-dark {
+    background-color: var(--dark);
+    color: var(--white);
+}
+
 .shadows {
     box-shadow: -8px 8px 0px var(--primary);
 }

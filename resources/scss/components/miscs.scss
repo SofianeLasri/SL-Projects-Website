@@ -50,3 +50,51 @@
         background-color: var(--primary);
     }
 }
+
+.projet-filter {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary);
+    color: var(--white);
+    width: 17rem;
+    padding: base.$border-width * 2;
+    font-family: "Proxima Nova Bold", sans-serif;
+    gap: base.$border-width * 2;
+
+    .title-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: base.$border-width / 1.5 solid var(--white);
+        cursor: pointer;
+        font-size: 1.25rem;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        max-height: 15rem;
+        background-color: var(--white);
+        color: var(--black);
+        overflow-y: auto;
+        padding: base.$border-width * 2;
+
+        .filter-item {
+            display: flex;
+            gap: base.$border-width * 2;
+
+            input {
+                accent-color: var(--primary);
+            }
+
+            &:not(:last-child) {
+                margin-bottom: base.$border-width;
+            }
+        }
+    }
+
+    .controls {
+        display: flex;
+        gap: base.$border-width * 2;
+    }
+}

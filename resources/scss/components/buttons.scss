@@ -72,3 +72,18 @@
         color: var(--black);
     }
 }
+
+.btn-dark {
+    background-color: var(--dark);
+    color: var(--white);
+
+    &:hover {
+        background-color: var(--dark-hovered);
+        color: var(--white);
+    }
+
+    &:disabled {
+        background-color: var(--dark-disabled);
+        color: var(--white);
+    }
+}
