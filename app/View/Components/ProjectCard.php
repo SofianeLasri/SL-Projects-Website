@@ -24,6 +24,7 @@ class ProjectCard extends Component
      */
     public function __construct(string $projectSlug)
     {
+        // TODO: Pouvoir passer en paramètre un objet Project
         if (!hash_equals(Str::kebab($projectSlug), $projectSlug)) {
             throw new Exception('Project name must be kebab case', 500);
         }

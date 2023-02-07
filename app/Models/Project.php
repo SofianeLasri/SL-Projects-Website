@@ -6,6 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    protected $table = 'projects';
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'project_start_date',
+        'project_end_date',
+        'status',
+        'visibility',
+        'logo_file_upload_id',
+        'cover_file_upload_id',
+    ];
+    
     public function galleryPictures()
     {
         return $this->hasMany(ProjectGalleryPicture::class);

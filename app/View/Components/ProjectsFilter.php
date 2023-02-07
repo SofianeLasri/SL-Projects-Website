@@ -21,15 +21,15 @@ class ProjectsFilter extends Component
         foreach ($filters as $filter) {
             if (!isset($filter['name']) || !isset($filter['label'])) {
                 throw new Exception('Filter must have name and label');
-            }else{
-                if(strcmp(Str::snake($filter['name']), $filter['name']) !== 0){
-                    throw new Exception('Filter name must be snake case', 500);
+            } else {
+                if (!hash_equals(Str::kebab($filter['name']), $filter['name'])) {
+                    throw new Exception('Filter name must be kebab case', 500);
                 }
             }
         }
         $this->filters = $filters;
         $this->title = $title;
-        $this->id = "projects-filter-" . uniqid();
+        $this->id = "projectsFilter-" . uniqid();
     }
 
     public function render(): View

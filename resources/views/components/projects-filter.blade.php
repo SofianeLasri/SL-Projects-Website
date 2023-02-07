@@ -19,7 +19,7 @@
         @endforeach
     </div>
     <div class="controls">
-        <button class="btn square btn-dark" id="seeMore{{ $id }}" type="button">
+        <button class="btn square btn-dark" id="seeMore-{{ $id }}" type="button">
             <i class="fa-solid fa-plus"></i>
             <span>Voir plus</span>
         </button>
@@ -46,18 +46,18 @@
             }
         });
 
-        document.getElementById("seeMore{{ $id }}").addEventListener("click", function () {
+        document.getElementById("seeMore-{{ $id }}").addEventListener("click", function () {
             let parent = document.getElementById("{{ $id }}");
             let icon = parent.getElementsByClassName("toggle-icon")[0];
             let content = parent.getElementsByClassName("content")[0];
 
             if (parent.dataset.seeAll === "true") {
                 parent.dataset.seeAll = "false";
-                this.innerText = "Voir plus";
+                this.innerText = "Voir moins";
                 content.style.maxHeight = "none";
             } else {
                 parent.dataset.seeAll = "true";
-                this.innerText = "Voir moins";
+                this.innerText = "Voir plus";
                 content.style.maxHeight = "20rem";
             }
 

@@ -172,7 +172,7 @@
         const gallery = document.getElementById('gallery');
         const galleryItems = gallery.querySelectorAll('.is-real-media');
         const galleryItemsCount = galleryItems.length;
-        const placeholderHtml = `<div class="bg-light aspect-video  flex items-center justify-center placeholder"><div class="h-6"><x-logo-short color="#000"/> </div></div>`;
+        const placeholderHtml = `<div class="bg-light aspect-video  flex items-center justify-center placeholder"><div class="h-6"><x-logo-short color="#000"/></div></div>`;
 
         galleryItems.forEach((item) => {
             item.addEventListener('click', () => {
