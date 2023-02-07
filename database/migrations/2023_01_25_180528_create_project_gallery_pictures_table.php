@@ -9,8 +9,8 @@ return new class extends Migration {
     {
         Schema::create('project_gallery_pictures', function (Blueprint $table) {
             $table->integer("id", true, true);
-            $table->integer("project_id");
-            $table->integer("file_upload_id");
+            $table->integer("project_id")->unsigned();
+            $table->integer("file_upload_id")->unsigned();
 
             $table->timestamps();
 

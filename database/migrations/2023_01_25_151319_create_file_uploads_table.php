@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->integer("id", true, true);
             $table->string('name')->nullable();
             $table->string('filename')->unique();
+            $table->string('path');
             $table->enum('type', ['image', 'video', 'audio', 'document', 'other']);
             $table->bigInteger('size');
 

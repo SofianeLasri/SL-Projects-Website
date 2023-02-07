@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class ProjectCategory extends Model
 {
-    public function galleryPictures()
+    public function projects()
     {
-        return $this->hasMany(ProjectGalleryPicture::class);
+        return $this->belongsToMany(Project::class, 'project_category_pivots');
     }
 
     public function getLogoFile()
@@ -19,10 +19,5 @@ class Project extends Model
     public function getCoverFile()
     {
         return $this->belongsTo(FileUpload::class, 'cover_file_upload_id');
-    }
-
-    public function getCategories()
-    {
-        return $this->belongsToMany(ProjectCategory::class, 'project_category_pivots');
     }
 }
