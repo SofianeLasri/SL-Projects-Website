@@ -25,7 +25,7 @@
             <form class="search" type="get">
                 <button type="submit" title="{{ __('verb.to_search') }}"><i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-                <input type="text" name="search" placeholder="{{ __('verb.to_search') }}">
+                <input type="text" name="search" placeholder="{{ __('verb.to_search') }}" required>
             </form>
         </div>
     </div>
@@ -61,8 +61,10 @@
                     {{ __('non-verbal.about-me') }}
                 </x-nav-link>
                 <form class="search" type="get">
-                    <input id="mobileSearchBar" type="text" name="search" placeholder="{{ __('verb.to_search') }}">
-                    <button type="submit" title="{{ __('verb.to_search') }}"><i class="fa-solid fa-magnifying-glass"></i>
+                    <input id="mobileSearchBar" type="text" name="search" placeholder="{{ __('verb.to_search') }}"
+                           required>
+                    <button type="submit" title="{{ __('verb.to_search') }}"><i
+                            class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </form>
             </div>
