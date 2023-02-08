@@ -5,7 +5,7 @@
             <i class="fa-solid fa-chevron-up"></i>
         </span>
     </div>
-    <div class="content grid lg:grid-cols-4 gap-8">
+    <div class="content grid lg:grid-cols-2 xl:grid-cols-4 gap-8">
         @foreach($projects as $project)
             <x-project-card projectSlug="{{ $project['slug'] }}"/>
         @endforeach
