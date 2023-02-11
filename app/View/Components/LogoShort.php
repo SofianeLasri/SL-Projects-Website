@@ -18,16 +18,24 @@ class LogoShort extends Component
     public string $color;
 
     /**
+     * La hauteur du logo.
+     * @var string
+     */
+    public string $height;
+
+    /**
      * LogoShort constructor.
      * @param string $color
      */
-    public function __construct(string $color = '#fff')
+    public function __construct(string $color = '#fff', string $height = '100%')
     {
         if (Str::contains($color, "#")) {
             $this->color = $color;
         } else {
             $this->color = "#" . $color;
         }
+
+        $this->height = $height;
     }
 
     /**
