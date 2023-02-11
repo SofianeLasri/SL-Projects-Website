@@ -10,6 +10,7 @@ return new class extends Migration {
         Schema::create('file_uploads', function (Blueprint $table) {
             $table->integer("id", true, true);
             $table->string('name')->nullable();
+            $table->text('description')->nullable();
             $table->string('filename')->unique();
             $table->string('path');
             $table->enum('type', ['image', 'video', 'audio', 'document', 'other']);
