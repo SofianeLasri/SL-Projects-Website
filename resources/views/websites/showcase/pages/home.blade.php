@@ -1,4 +1,4 @@
-@extends('layouts.public_app')
+@extends('websites.showcase.layouts.public_app')
 
 @section('head')
     <meta name="author" content="SofianeLasri">
@@ -11,7 +11,7 @@
 @endsection
 
 @section('body')
-    <x-navbar/>
+    <x-showcase.navbar/>
 
     {{--Vitrine--}}
     <div class="home-showcase" id="homeShowcase">
@@ -98,7 +98,8 @@
             <div class="recent-projects">
                 <div>
                     <div class="news-card">
-                        <div class="image" style="background-image: url('{{ mix('/images/dev/placeholder.jpg') }}')">
+                        <div class="image"
+                             style="background-image: url('{{ Vite::asset('resources/images/dev/placeholder.jpg') }}')">
                             <a href="#" class="linkOverlay"></a>
                         </div>
                         <div class="meta">
@@ -111,7 +112,8 @@
                 </div>
                 <div class="flex flex-col">
                     <div class="news-card horizontal-cards">
-                        <div class="image" style="background-image: url('{{ mix('/images/dev/placeholder.jpg') }}')">
+                        <div class="image"
+                             style="background-image: url('{{ Vite::asset('resources/images/dev/placeholder.jpg') }}')">
                             <a href="#" class="linkOverlay"></a>
                         </div>
                         <div>
@@ -125,7 +127,8 @@
                     </div>
 
                     <div class="news-card flex horizontal-cards">
-                        <div class="image" style="background-image: url('{{ mix('/images/dev/placeholder.jpg') }}')">
+                        <div class="image"
+                             style="background-image: url('{{ Vite::asset('resources/images/dev/placeholder.jpg') }}')">
                             <a href="#" class="linkOverlay"></a>
                         </div>
                         <div>
@@ -151,14 +154,14 @@
             <h1 class="section-title">Création publiques</h1>
             <div id="publicProjects">
                 @for($i = 0; $i <6; $i++)
-                    <x-project-card projectSlug="placeholder"/>
+                    <x-showcase.project-card projectSlug="placeholder"/>
                 @endfor
             </div>
         </div>
     </section>
     {{--Fin section 2--}}
 
-    <x-footer/>
+    <x-showcase.footer/>
 @endsection
 
 @push('scripts')

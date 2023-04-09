@@ -233,7 +233,7 @@ class ProjectsController extends Controller
             $yearGroupedProjects[$project['project_start_date']->year][] = $project;
         }
         krsort($yearGroupedProjects);
-        return view("projects", [
+        return view("websites.showcase.pages.projects", [
             'filters' => $filters,
             'yearGroupedProjects' => $yearGroupedProjects,
         ]);

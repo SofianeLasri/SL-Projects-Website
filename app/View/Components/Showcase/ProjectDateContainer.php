@@ -1,11 +1,10 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Showcase;
 
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use Str;
 
 class ProjectDateContainer extends Component
 {
@@ -25,7 +24,7 @@ class ProjectDateContainer extends Component
     }
     public function render(): View
     {
-        return view('components.project-date-container', [
+        return view('components.showcase.project-date-container', [
             'id' => $this->id
         ]);
     }

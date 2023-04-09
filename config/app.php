@@ -236,38 +236,5 @@ return [
     'steam_profile_id64' => env('STEAM_PROFILE_ID64', '76561198148455403'),
     'steam_profile_avatar_hash' => env('STEAM_PROFILE_AVATAR_HASH', 'ee6f9c9ffd6bb2fd2114a378f3f03d997f79e4b9'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Charte graphique
-    |--------------------------------------------------------------------------
-    |
-    | Définition des images générales à utiliser.
-    |
-    */
-
-    'img' => [
-        'logo' => [
-            'short' => [
-                'white' => [
-                    'favicon' => mix('/images/logos/white-favicon.png'),
-                    'normal' => mix('/images/logos/white-short.png'),
-                    'normal_svg' => mix('/images/logos/white-short.svg')
-                ],
-                'black' => [
-                    'favicon' => mix('/images/logos/black-favicon.png'),
-                    'normal' => null,
-                    'normal_svg' => null
-                ]
-            ],
-            'long' => [
-                'white' => mix('/images/logos/white-long.png'),
-                'black' => mix('/images/logos/black-long.png')
-            ],
-        ],
-        'og' => [
-            'logo' => mix('/images/logos/og-logo-orange.jpg'),
-            'large' => mix('/images/logos/og-image-orange.jpg')
-        ]
-    ]
 
 ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Showcase;
 
 use Exception;
 use Illuminate\Contracts\View\View;
@@ -34,7 +34,7 @@ class ProjectsFilter extends Component
 
     public function render(): View
     {
-        return view('components.projects-filter', [
+        return view('components.showcase.projects-filter', [
             'id' => $this->id
         ]);
     }

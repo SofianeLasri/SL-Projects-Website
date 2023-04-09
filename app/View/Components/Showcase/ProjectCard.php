@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Showcase;
 
 use App\Models\FileUpload;
 use App\Models\Project;
@@ -63,7 +63,7 @@ class ProjectCard extends Component
 
     public function render(): View
     {
-        return view('components.project-card', [
+        return view('components.showcase.project-card', [
             'projectSlug' => $this->projectSlug,
             'coverFile' => $this->coverFile,
             'projectName' => $this->projectName,

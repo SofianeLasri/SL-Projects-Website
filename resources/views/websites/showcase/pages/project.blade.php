@@ -1,4 +1,4 @@
-@extends('layouts.public_app')
+@extends('websites.showcase.layouts.public_app')
 
 @section('pageName', 'Project')
 
@@ -13,7 +13,7 @@
 @endsection
 
 @section('body')
-    <x-navbar/>
+    <x-showcase.navbar/>
 
     <div id="projectHeader" class="w-full bg-primary bg-cover">
         <div class="custom-container flex flex-col pt-32 lg:pt-60 pb-10">
@@ -28,7 +28,7 @@
             <div class="flex flex-col items-center lg:flex-row lg:items-start bg-white p-8 space-y-8 lg:space-y-0">
                 <div class="lg:w-80 shrink-0 flex flex-col md:flex-row lg:flex-col md:space-x-2 lg:space-x-0">
                     <div class="shadows aspect-square lg:-mt-24 mb-6 max-lg:flex-1">
-                        <img src="{{ mix('/images/dev/logo-starisland.jpg') }}" alt="Image du projet"
+                        <img src="{{ Vite::asset('resources/images/dev/logo-starisland.jpg') }}" alt="Image du projet"
                              class="object-cover">
                     </div>
 
@@ -66,9 +66,10 @@
                     <h3>Galerie</h3>
                     <div id="gallery" class="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-4 gap-2">
                         @for($i = 1; $i <= 7; $i++)
-                            <div style="background-image: url('{{ mix('/images/dev/starisland-motel.jpg') }}');"
-                                 class="bg-cover aspect-video is-real-media"
-                                 data-src="{{ mix('/images/dev/starisland-motel.jpg') }}">
+                            <div
+                                style="background-image: url('{{ Vite::asset('resources/images/dev/starisland-motel.jpg') }}');"
+                                class="bg-cover aspect-video is-real-media"
+                                data-src="{{ Vite::asset('resources/images/dev/starisland-motel.jpg') }}">
                                 <div class="linkOverlay black"></div>
                             </div>
                         @endfor
@@ -161,9 +162,9 @@
         </div>
     </div>
 
-    <x-footer/>
+    <x-showcase.footer/>
 
-    <x-photo-viewer/>
+    <x-showcase.photo-viewer/>
 @endsection
 
 @push('scripts')
@@ -193,7 +194,7 @@
 
             if (window.innerWidth >= 768 && window.innerWidth < 1440) {
                 columns = 3;
-            } else if(window.innerWidth >= 1440) {
+            } else if (window.innerWidth >= 1440) {
                 columns = 4;
             }
 

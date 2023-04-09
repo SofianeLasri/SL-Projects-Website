@@ -25,14 +25,14 @@
 
     @yield('head')
 
-    <link href="{{ mix('/css/app.css') }}" rel="stylesheet"/>
+    @vite(['resources/scss/app.scss'])
 </head>
 <body>
 @yield('body')
 
 {{--<x-footer/>--}}
 
-<script src="{{ mix('/js/app.js') }}"></script>
+@vite(['resources/js/app.js'])
 @stack('scripts')
 </body>
 </html>

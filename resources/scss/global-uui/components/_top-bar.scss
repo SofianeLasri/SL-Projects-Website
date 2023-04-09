@@ -1,0 +1,39 @@
+@use "sass:map";
+
+.top-bar{
+    // Variables
+    $padding-height: .75rem;
+    $padding-width: map.get($spacers, 3);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: $dark;
+    border-bottom: $primary map.get($border-widths, 2) solid;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+    font-weight: bold;
+    color: $white;
+    padding: $padding-height $padding-width;
+    // Hauteur = padding haut & bas + hauteur de contenu = 1.5rem + la largeur de la bordure
+    height: $padding-height * 2 + 1.5rem + map.get($border-widths, 2);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    button {
+        background-color: transparent;
+        border: 0;
+        color: $white;
+        font-size: 1.25rem;
+        padding: 0;
+        cursor: pointer;
+
+        &:hover {
+            color: $primary;
+        }
+    }
+}

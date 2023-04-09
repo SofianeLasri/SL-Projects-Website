@@ -1,0 +1,32 @@
+@use "sass:map";
+
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    width: 17rem;
+    background-color: $dark;
+
+    display: flex;
+    flex-direction: column;
+
+    .top-bar {
+        position: relative;
+        box-shadow: none;
+    }
+
+    #sidebarNav {
+        .header {
+            .title {
+                color: $primary;
+                font-weight: bold;
+            }
+
+            .description {
+                color: $dark-hovered;
+            }
+        }
+    }
+}

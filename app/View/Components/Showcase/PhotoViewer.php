@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Showcase;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -19,6 +19,6 @@ class PhotoViewer extends Component
     }
     public function render(): View
     {
-        return view('components.photo-viewer');
+        return view('components.showcase.photo-viewer');
     }
 }

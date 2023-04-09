@@ -19,7 +19,7 @@
         <div id="photoPreviewList" class="photos">
             @for($i = 0; $i < 24; $i++)
                 <div class="preview-container">
-                    <img src="{{ mix('/images/dev/starisland-motel.jpg') }}" alt="Photo super passionnante">
+                    <img src="{{ Vite::asset('resources/images/dev/starisland-motel.jpg') }}" alt="Photo super passionnante">
                 </div>
             @endfor
         </div>
@@ -31,7 +31,7 @@
             <div id="caroussel" class="carousel-items">
                 @for($i = 0; $i < 24; $i++)
                     <div class="photo-container">
-                        <img src="{{ mix('/images/dev/starisland-motel.jpg') }}" alt="Photo super passionnante">
+                        <img src="{{ Vite::asset('resources/images/dev/starisland-motel.jpg') }}" alt="Photo super passionnante">
                     </div>
                 @endfor
             </div>

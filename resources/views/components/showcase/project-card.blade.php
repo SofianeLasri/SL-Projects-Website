@@ -3,7 +3,7 @@
        @if($coverFile)
            style="background-image: url('{{ $coverFile->getFileUrl() }}')"
        @else
-           style="background-image: url('{{ mix('/images/dev/placeholder.jpg') }}')"
+           style="background-image: url('{{ Vite::asset('resources/images/dev/placeholder.jpg') }}')"
         @endif
     >
         <div class="category">

@@ -1,4 +1,4 @@
-@extends('layouts.public_app')
+@extends('websites.showcase.layouts.public_app')
 
 @section('pageName', 'Projects')
 
@@ -13,7 +13,7 @@
 @endsection
 
 @section('body')
-    <x-navbar/>
+    <x-showcase.navbar/>
 
     <div id="pageHeader" class="w-full bg-dark">
         <div class="custom-container pt-32 pb-16">
@@ -26,18 +26,18 @@
         <div class="flex flex-col lg:flex-row gap-8">
             <div class="flex flex-col lg:w-72 gap-4">
                 @foreach($filters as $filter)
-                    <x-projects-filter title="{{ $filter['title'] }}" :filters="$filter['filter']"/>
+                    <x-showcase.projects-filter title="{{ $filter['title'] }}" :filters="$filter['filter']"/>
                 @endforeach
             </div>
             <div class="flex flex-col grow gap-4">
                 @foreach($yearGroupedProjects as $year => $projects)
-                    <x-project-date-container year="{{ $year }}" :projects="$projects"/>
+                    <x-showcase.project-date-container year="{{ $year }}" :projects="$projects"/>
                 @endforeach
             </div>
         </div>
     </div>
 
-    <x-footer/>
+    <x-showcase.footer/>
 @endsection
 
 @push('scripts')

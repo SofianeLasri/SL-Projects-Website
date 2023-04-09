@@ -7,7 +7,7 @@
     </div>
     <div class="content grid lg:grid-cols-2 xl:grid-cols-4 gap-8">
         @foreach($projects as $project)
-            <x-project-card projectSlug="{{ $project['slug'] }}"/>
+            <x-showcase.project-card projectSlug="{{ $project['slug'] }}"/>
         @endforeach
     </div>
 </div>
