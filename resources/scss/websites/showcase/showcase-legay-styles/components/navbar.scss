@@ -12,13 +12,13 @@
     right: 0;
     z-index: 1000;
     background-color: rgba(0, 0, 0, .75);
-    border-bottom: var(--primary) base.$border-width solid;
+    border-bottom: $primary base.$border-width solid;
     backdrop-filter: blur(base.$blur-radius);
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
     font-family: "Proxima Nova Bold", sans-serif;
     font-weight: lighter;
-    color: var(--white);
+    color: $white;
 
     .top-bar {
         flex-direction: row;
@@ -27,7 +27,6 @@
 
         padding: $padding-height $padding-width;
         height: calc($padding-height * 2 + 1.5rem);
-        color: var(--white);
 
         * {
             height: 100%;
@@ -50,20 +49,21 @@
         }
 
         .nav-link {
+            color: $white;
 
             .link-container {
                 margin: 0 $polygon-margin*2;
             }
 
             &:hover {
-                background-color: var(--primary);
+                background-color: $primary;
                 clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
 
             }
 
             &.active {
-                background-color: var(--white);
-                color: var(--primary);
+                background-color: $white;
+                color: $primary;
                 clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
             }
         }
@@ -98,7 +98,7 @@
                 margin: $polygon-margin 0;
 
                 &.active {
-                    color: var(--primary);
+                    color: $primary;
                 }
             }
 
@@ -106,7 +106,7 @@
                 display: flex;
                 width: 100%;
                 margin: $polygon-margin 0;
-                border-top: base.$border-width solid var(--white);
+                border-top: base.$border-width solid $white;
 
                 input {
                     width: auto !important;
@@ -123,36 +123,27 @@
     .search {
         button {
             margin: 0 $polygon-margin*2;
-            color: var(--white);
-
-            &:hover {
-                color: var(--primary);
-            }
         }
 
         &:hover {
             input {
                 width: 15rem;
-                border-bottom: base.$border-width solid var(--white);
+                border-bottom: base.$border-width solid $white;
             }
         }
 
         input {
-            color: var(--white);
+            color: $white;
             background-color: transparent;
             border: none;
             padding: .5rem 0;
             width: 5.5rem;
             transition: width .5s;
 
-            &::placeholder {
-                color: var(--white);
-            }
-
             &:focus {
                 outline: none;
                 box-shadow: none;
-                border-bottom: base.$border-width solid var(--primary);
+                border-bottom: base.$border-width solid $primary;
                 width: 15rem;
             }
         }

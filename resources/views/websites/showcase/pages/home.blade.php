@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="projects-cards">
-            <div class="custom-container flex flex-col items-center">
+            <div class="container flex flex-col items-center">
                 <div class="responsive-title section-title text-white">
                     <span>Projets en vedette</span>
                 </div>
@@ -93,7 +93,7 @@
 
     {{--Section 1--}}
     <section class="bg-primary">
-        <div class="custom-container">
+        <div class="container">
             <h1 class="section-title">Projets récents</h1>
             <div class="recent-projects">
                 <div>
@@ -150,7 +150,7 @@
 
     {{--Section 2--}}
     <section>
-        <div class="custom-container">
+        <div class="container">
             <h1 class="section-title">Création publiques</h1>
             <div id="publicProjects">
                 @for($i = 0; $i <6; $i++)

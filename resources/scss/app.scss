@@ -1,19 +1,7 @@
 @use "sass:map";
 
-// Legacy to port
-@use "websites/showcase/showcase-legay-styles/base";
-@use "websites/showcase/showcase-legay-styles/components/navbar";
-@use "websites/showcase/showcase-legay-styles/components/footer";
-@use "websites/showcase/showcase-legay-styles/components/home-showcase";
-@use "websites/showcase/showcase-legay-styles/components/buttons";
-@use "websites/showcase/showcase-legay-styles/components/photo-viewer";
-@use "websites/showcase/showcase-legay-styles/components/miscs";
-@use "websites/showcase/showcase-legay-styles/utils/colors";
-@use "websites/showcase/showcase-legay-styles/utils/text";
-@use "websites/showcase/showcase-legay-styles/pages/home";
-
 // Fonts
-@import "global-uui/fonts/fonts";
+@import "global-ui/fonts/fonts";
 
 // Font-Awesome
 @import "@fortawesome/fontawesome-free/css/all.css";
@@ -27,10 +15,11 @@
 // 2. Include any default variable overrides here
 
 // 3. Include remainder of required Bootstrap stylesheets
+@import "global-ui/variables";
 @import "~bootstrap/scss/variables";
 
 // 4. Include any default map overrides here
-@import "global-uui/variables";
+
 
 // 5. Include remainder of required parts
 @import "~bootstrap/scss/maps";
@@ -49,5 +38,21 @@
 // 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
 @import "~bootstrap/scss/utilities/api";
 
+// Global UI components
+@import "global-ui/components/buttons";
 
+// Custom global UI
+@import "global-ui/custom";
+
+// Legacy to port
+@import "websites/showcase/showcase-legay-styles/base";
+@import "websites/showcase/showcase-legay-styles/components/navbar";
+@import "websites/showcase/showcase-legay-styles/components/footer";
+@import "websites/showcase/showcase-legay-styles/components/home-showcase";
+@import "websites/showcase/showcase-legay-styles/components/buttons";
+@import "websites/showcase/showcase-legay-styles/components/photo-viewer";
+@import "websites/showcase/showcase-legay-styles/components/miscs";
+@import "websites/showcase/showcase-legay-styles/utils/colors";
+@import "websites/showcase/showcase-legay-styles/utils/text";
+@import "websites/showcase/showcase-legay-styles/pages/home";
 

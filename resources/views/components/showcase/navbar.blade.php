@@ -23,7 +23,7 @@
         </div>
         <div class="right-part">
             <form class="search" type="get">
-                <button type="submit" title="{{ __('verb.to_search') }}"><i class="fa-solid fa-magnifying-glass"></i>
+                <button class="transparent-button" type="submit" title="{{ __('verb.to_search') }}"><i class="fa-solid fa-magnifying-glass"></i>
                 </button>
                 <input type="text" name="search" placeholder="{{ __('verb.to_search') }}" required>
             </form>
@@ -33,13 +33,13 @@
     {{--Navbar mobile--}}
     <div class="mobile">
         <div class="top-bar custom-container">
-            <button id="openMobileMenu" type="button" title="{{ __('verbal.open-menu') }}"><i
+            <button class="transparent-button" id="openMobileMenu" type="button" title="{{ __('verbal.open-menu') }}"><i
                     class="fa-solid fa-bars"></i>
             </button>
             <a href="{{ route('home') }}">
                 <img src="{{ Vite::asset('resources/images/logos/white-short.svg') }}" alt="Logo">
             </a>
-            <button id="focusMobileSearchBar" type="button" title="{{ __('verb.to_search') }}"><i
+            <button class="transparent-button" id="focusMobileSearchBar" type="button" title="{{ __('verb.to_search') }}"><i
                     class="fa-solid fa-magnifying-glass"></i></button>
         </div>
         {{--Masqué par défaut--}}

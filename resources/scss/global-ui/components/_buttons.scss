@@ -45,3 +45,13 @@
         }
     }
 }
+
+.transparent-button {
+    background: transparent;
+    color: $white;
+    border: none;
+
+    &:hover {
+        color: $primary;
+    }
+}
