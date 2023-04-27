@@ -15,14 +15,14 @@
 @section('body')
     <x-showcase.navbar/>
 
-    <div id="pageHeader" class="w-full bg-dark">
-        <div class="custom-container pt-32 pb-16">
+    <div id="pageHeader" class="container-fluid bg-dark">
+        <div class="container pt-32 pb-16">
             <h1 class="font-black uppercase m-0">Projets</h1>
             <p>Retrouve tous mes projets, du premier au dernier !</p>
         </div>
     </div>
 
-    <div class="custom-container py-8">
+    <div class="container py-8">
         <div class="flex flex-col lg:flex-row gap-8">
             <div class="flex flex-col lg:w-72 gap-4">
                 @foreach($filters as $filter)

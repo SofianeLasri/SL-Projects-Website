@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="projects-cards">
-            <div class="container flex flex-col items-center">
+            <div class="container d-flex flex-column align-items-center">
                 <div class="responsive-title section-title text-white">
                     <span>Projets en vedette</span>
                 </div>

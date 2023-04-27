@@ -1,40 +1,46 @@
 @font-face {
     font-family: "Zaptron";
-    src: url('fonts/zaptron.woff2') format('woff2'), url('fonts/zaptron.woff') format('woff');
+    src: url('/resources/fonts/zaptron.woff2') format('woff2'), url('/resources/fonts/zaptron.woff') format('woff');
 }
 
 @font-face {
     font-family: "Proxima Nova";
-    src: local("Proxima Nova Regular"), url("fonts/proxima-nova-regular.woff2") format("woff2"), /* chrome、firefox */
-    url("fonts/proxima-nova-regular.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    src: local("Proxima Nova Regular"), url("/resources/fonts/proxima-nova-regular.woff2") format("woff2"), /* chrome、firefox */
+    url("/resources/fonts/proxima-nova-regular.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
     font-weight: 400;
 }
 
 @font-face {
     font-family: "Proxima Nova";
-    src: local("Proxima Nova Bold"), url("fonts/proxima-nova-bold.woff2") format("woff2"), /* chrome、firefox */
-    url("fonts/proxima-nova-bold.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    src: local("Proxima Nova Bold"), url("/resources/fonts/proxima-nova-bold.woff2") format("woff2"), /* chrome、firefox */
+    url("/resources/fonts/proxima-nova-bold.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
     font-weight: 700;
 }
 
 @font-face {
     font-family: "Proxima Nova Condensed";
-    src: local("Proxima Nova Condensed Black"), url("fonts/proxima-nova-condesed-black.woff2") format("woff2"), /* chrome、firefox */
-    url("fonts/proxima-nova-condesed-black.woff") format("woff"), /* chrome、firefox */
-    url("fonts/proxima-nova-condesed-black.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    src: local("Proxima Nova Condensed Black"), url("/resources/fonts/proxima-nova-condesed-black.woff2") format("woff2"), /* chrome、firefox */
+    url("/resources/fonts/proxima-nova-condesed-black.woff") format("woff"), /* chrome、firefox */
+    url("/resources/fonts/proxima-nova-condesed-black.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
     font-weight: 900;
 }
 
 @font-face {
     font-family: "Proxima Nova Condensed";
-    src: local("Proxima Nova Condensed Regular"), url("fonts/proxima-nova-condesed.woff2") format("woff2"), /* chrome、firefox */
-    url("fonts/proxima-nova-condesed.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    src: local("Proxima Nova Condensed Regular"), url("/resources/fonts/proxima-nova-condesed.woff2") format("woff2"), /* chrome、firefox */
+    url("/resources/fonts/proxima-nova-condesed.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
     font-weight: 400;
 }
 
 @font-face {
     font-family: "Proxima Nova";
-    src: local("Proxima Nova Black"), url("fonts/proxima-nova-black.woff2") format("woff2"), /* chrome、firefox */
-    url("fonts/proxima-nova-black.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    src: local("Proxima Nova Black"), url("/resources/fonts/proxima-nova-black.woff2") format("woff2"), /* chrome、firefox */
+    url("/resources/fonts/proxima-nova-black.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
     font-weight: 900;
+}
+
+@font-face {
+    font-family: "Proxima Nova Black";
+    src: url("/resources/fonts/proxima-nova-black.woff2") format("woff2"), /* chrome、firefox */
+    url("/resources/fonts/proxima-nova-black.ttf") format("truetype"); /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
 }

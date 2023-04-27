@@ -32,7 +32,7 @@
 
     {{--Navbar mobile--}}
     <div class="mobile">
-        <div class="top-bar custom-container">
+        <div class="top-bar container">
             <button class="transparent-button" id="openMobileMenu" type="button" title="{{ __('verbal.open-menu') }}"><i
                     class="fa-solid fa-bars"></i>
             </button>
@@ -44,7 +44,7 @@
         </div>
         {{--Masqué par défaut--}}
         <div id="mobileMenu" class="nav-links">
-            <div class="custom-container">
+            <div class="container">
                 <x-showcase.nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
                     {{ __('word.home') }}
                 </x-showcase.nav-link>
@@ -63,7 +63,7 @@
                 <form class="search" type="get">
                     <input id="mobileSearchBar" type="text" name="search" placeholder="{{ __('verb.to_search') }}"
                            required>
-                    <button type="submit" title="{{ __('verb.to_search') }}"><i
+                    <button class="transparent-button" type="submit" title="{{ __('verb.to_search') }}"><i
                             class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </form>

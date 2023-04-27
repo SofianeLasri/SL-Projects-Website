@@ -1,5 +1,5 @@
 <footer>
-    <div class="custom-container">
+    <div class="container">
         <div class="col">
             <div class="logo">
                 <span>SL</span>

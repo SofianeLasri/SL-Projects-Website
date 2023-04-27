@@ -16,7 +16,7 @@
     <x-showcase.navbar/>
 
     <div id="projectHeader" class="w-full bg-primary bg-cover">
-        <div class="custom-container flex flex-col pt-32 lg:pt-60 pb-10">
+        <div class="container flex flex-col pt-32 lg:pt-60 pb-10">
             <div class="flex lg:px-8">
                 <div class="hidden lg:block w-80">
                     <!-- Supposée être vide -->
@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <div class="custom-container px-8 py-10 flex flex-col lg:flex-row gap-8">
+    <div class="container px-8 py-10 flex flex-col lg:flex-row gap-8">
         <div>
             <h1>Présentation</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et

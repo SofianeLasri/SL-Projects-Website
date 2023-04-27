@@ -25,7 +25,7 @@
 
     @yield('head')
 
-    @vite(['resources/scss/app.scss'])
+    @vite(['resources/scss/websites/showcase/showcase.scss'])
 </head>
 <body>
 @yield('body')

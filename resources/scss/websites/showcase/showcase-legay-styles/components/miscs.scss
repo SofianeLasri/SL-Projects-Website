@@ -1,4 +1,7 @@
+@use "sass:math";
+
 @use "../base";
+@use "sass:map";
 
 .linkOverlay {
     position: relative;
@@ -46,7 +49,7 @@
         top: 50%;
         transform: translateY(-50%);
         left: 0;
-        height: base.$border-width;
+        height: map.get($border-widths, 2);
         background-color: var(--primary);
     }
 }
@@ -56,9 +59,9 @@
     flex-direction: column;
     background-color: var(--primary);
     color: var(--white);
-    padding: base.$border-width * 2;
+    padding: map.get($border-widths, 2) * 2;
     font-family: "Proxima Nova Bold", sans-serif;
-    gap: base.$border-width * 3;
+    gap: map.get($border-widths, 2) * 3;
     user-select: none;
 
     .content {
@@ -68,34 +71,34 @@
         background-color: var(--white);
         color: var(--black);
         overflow-y: auto;
-        padding: base.$border-width * 2;
+        padding: map.get($border-widths, 2) * 2;
 
         .filter-item {
             display: flex;
-            gap: base.$border-width * 2;
+            gap: map.get($border-widths, 2) * 2;
 
             input {
                 accent-color: var(--primary);
             }
 
             &:not(:last-child) {
-                margin-bottom: base.$border-width;
+                margin-bottom: map.get($border-widths, 2);
             }
         }
     }
 
     .controls {
         display: flex;
-        gap: base.$border-width * 2;
+        gap: map.get($border-widths, 2) * 2;
     }
 }
 
 .project-date-container {
     display: flex;
     flex-direction: column;
-    padding: base.$border-width * 2;
+    padding: map.get($border-widths, 2) * 2;
     font-family: "Proxima Nova Bold", sans-serif;
-    gap: base.$border-width * 3;
+    gap: map.get($border-widths, 2) * 3;
     user-select: none;
 
     .content {
@@ -107,7 +110,7 @@
     position: relative;
 
     > *:not(:last-child) {
-        margin-bottom: base.$section-vertical-padding / 2;
+        margin-bottom: base.$section-vertical-padding * 0.5;
     }
 
     .cover {
@@ -134,6 +137,7 @@
         user-select: text;
 
         .title {
+            color: $black;
             font-size: 1.5rem;
             line-height: 1.5rem;
             font-family: "Proxima Nova Black", sans-serif;
@@ -147,7 +151,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: base.$border-width / 1.5 solid var(--black);
+        border-bottom: math.div(map.get($border-widths, 2), 1.5) solid var(--black);
         cursor: pointer;
         font-size: 1.5rem;
 
