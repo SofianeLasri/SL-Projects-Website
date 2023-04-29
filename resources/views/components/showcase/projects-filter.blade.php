@@ -1,5 +1,5 @@
-<form id="{{ $id }}" method="get" class="projet-filter" data-opened="true" data-see-all="true">
-    <div class="component title-bar white">
+<form id="{{ $id }}" method="get" class="project-filter" data-opened="true" data-see-all="true">
+    <div class="toogleable-title-bar white">
         <span class="title">{{ $title }}</span>
         <span class="toggle-icon">
             <i class="fa-solid fa-chevron-up"></i>
@@ -19,11 +19,11 @@
         @endforeach
     </div>
     <div class="controls">
-        <button class="btn square btn-dark" id="seeMore-{{ $id }}" type="button">
+        <button class="btn btn-dark" id="seeMore-{{ $id }}" type="button">
             <i class="fa-solid fa-plus"></i>
             <span>Voir plus</span>
         </button>
-        <button class="btn square btn-white" type="submit">
+        <button class="btn btn-white" type="submit">
             <i class="fa-solid fa-filter"></i>
             <span>Filtrer</span>
         </button>
@@ -31,7 +31,7 @@
 </form>
 @push('scripts')
     <script type="text/javascript">
-        document.getElementById("{{ $id }}").getElementsByClassName("title-bar")[0].addEventListener("click", function () {
+        document.getElementById("{{ $id }}").getElementsByClassName("toogleable-title-bar")[0].addEventListener("click", function () {
             let content = this.parentElement.getElementsByClassName("content")[0];
             let icon = this.getElementsByClassName("toggle-icon")[0];
 

@@ -2,18 +2,21 @@
 
 // Legacy to port
 @import "showcase-legay-styles/base";
-@import "showcase-legay-styles/components/buttons";
 @import "showcase-legay-styles/components/photo-viewer";
 @import "showcase-legay-styles/components/miscs";
 @import "showcase-legay-styles/utils/colors";
-@import "showcase-legay-styles/utils/text";
 
 // Ported
 @import "base";
 @import "pages/home";
+@import "pages/projects";
 @import "components/navbar";
 @import "components/footer";
 @import "components/home-showcase";
+@import "components/project-filter";
+@import "components/toogleable-title-bar";
+@import "components/project-date-container";
+@import "components/project-card";
 
 .section-title {
     font-size: 1.5rem;

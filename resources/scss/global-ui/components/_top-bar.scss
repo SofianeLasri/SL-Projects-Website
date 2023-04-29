@@ -14,7 +14,7 @@
     border-bottom: $primary map.get($border-widths, 2) solid;
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
-    font-weight: bold;
+    font-weight: $font-weight-bold;
     color: $white;
     padding: $padding-height $padding-width;
     // Hauteur = padding haut & bas + hauteur de contenu = 1.5rem + la largeur de la bordure

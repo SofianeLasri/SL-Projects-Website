@@ -1,0 +1,25 @@
+@use "sass:map";
+
+.project-date-container {
+    display: flex;
+    flex-direction: column;
+    padding: map.get($border-widths, 2) * 2;
+    font-family: "Proxima Nova Bold", sans-serif;
+    gap: map.get($border-widths, 2) * 3;
+    user-select: none;
+
+    .content {
+        display: grid;
+        gap: map.get($spacers, 5);
+
+        @include media-breakpoint-up(lg) {
+            // 2 columns
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @include media-breakpoint-up(xl) {
+            // 3 columns
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+    }
+}

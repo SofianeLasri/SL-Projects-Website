@@ -1,11 +1,11 @@
 <div id="{{ $id }}" class="project-date-container" data-opened="true">
-    <div class="component title-bar">
+    <div class="toogleable-title-bar">
         <span class="title">{{ $year }}</span>
         <span class="toggle-icon">
             <i class="fa-solid fa-chevron-up"></i>
         </span>
     </div>
-    <div class="content grid lg:grid-cols-2 xl:grid-cols-4 gap-8">
+    <div class="content">
         @foreach($projects as $project)
             <x-showcase.project-card projectSlug="{{ $project['slug'] }}"/>
         @endforeach
@@ -13,7 +13,7 @@
 </div>
 @push('scripts')
     <script type="text/javascript">
-        document.getElementById("{{ $id }}").getElementsByClassName("title-bar")[0].addEventListener("click", function () {
+        document.getElementById("{{ $id }}").getElementsByClassName("toogleable-title-bar")[0].addEventListener("click", function () {
             let content = this.parentElement.getElementsByClassName("content")[0];
             let icon = this.getElementsByClassName("toggle-icon")[0];
 

@@ -1,0 +1,39 @@
+@use "sass:map";
+
+.project-card {
+    position: relative;
+
+    > *:not(:last-child) {
+        margin-bottom: $section-vertical-padding * 0.5;
+    }
+
+    .cover {
+        display: block;
+        // width: 15rem;
+        aspect-ratio: 29 / 38;
+        background-size: cover;
+        background-position: center;
+
+        .category {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: $white;
+            font-weight: $font-weight-bold;
+            background-color: $primary;
+            padding: 0 .5rem;
+            margin: .5rem;
+        }
+    }
+
+    .meta {
+        user-select: text;
+
+        .title {
+            color: $black;
+            font-size: 1.5rem;
+            line-height: 1.5rem;
+            font-weight: $font-weight-bold;
+        }
+    }
+}

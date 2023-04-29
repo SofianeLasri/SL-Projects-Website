@@ -15,25 +15,23 @@
 @section('body')
     <x-showcase.navbar/>
 
-    <div id="pageHeader" class="container-fluid bg-dark">
-        <div class="container pt-32 pb-16">
-            <h1 class="font-black uppercase m-0">Projets</h1>
+    <div id="pageHeader" class="project-page-header container-fluid bg-dark">
+        <div class="container">
+            <h1 class="font-black text-uppercase m-0">Projets</h1>
             <p>Retrouve tous mes projets, du premier au dernier !</p>
         </div>
     </div>
 
-    <div class="container py-8">
-        <div class="flex flex-col lg:flex-row gap-8">
-            <div class="flex flex-col lg:w-72 gap-4">
-                @foreach($filters as $filter)
-                    <x-showcase.projects-filter title="{{ $filter['title'] }}" :filters="$filter['filter']"/>
-                @endforeach
-            </div>
-            <div class="flex flex-col grow gap-4">
-                @foreach($yearGroupedProjects as $year => $projects)
-                    <x-showcase.project-date-container year="{{ $year }}" :projects="$projects"/>
-                @endforeach
-            </div>
+    <div class="project-page-container">
+        <div class="filters-col d-flex flex-column gap-3">
+            @foreach($filters as $filter)
+                <x-showcase.projects-filter title="{{ $filter['title'] }}" :filters="$filter['filter']"/>
+            @endforeach
+        </div>
+        <div class="d-flex flex-column flex-grow-1 gap-3">
+            @foreach($yearGroupedProjects as $year => $projects)
+                <x-showcase.project-date-container year="{{ $year }}" :projects="$projects"/>
+            @endforeach
         </div>
     </div>
 

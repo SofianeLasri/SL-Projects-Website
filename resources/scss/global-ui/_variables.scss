@@ -132,3 +132,13 @@ $container-max-widths: (
 // scss-docs-end container-max-widths
 
 $blur-radius: 8px;
+
+
+// Buttons
+//
+// For each of Bootstrap's buttons, define text, background, and border color.
+
+// Allows for customizing button radius independently from global border radius
+$btn-border-radius: 0;
+$btn-border-radius-sm: 0;
+$btn-border-radius-lg: 0;
