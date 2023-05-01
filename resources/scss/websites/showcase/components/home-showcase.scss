@@ -4,7 +4,7 @@
     $desktop-controls-width: 10rem;
     $transition-time: 1s;
 
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(xxl) {
         height: 100vh;
     }
 
@@ -13,7 +13,7 @@
         height: 100vh;
         width: 100%;
 
-        @include media-breakpoint-up(xl) {
+        @include media-breakpoint-up(xxl) {
             position: absolute;
             top: 0;
             left: 0;
@@ -49,6 +49,7 @@
             left: 0;
             right: 0;
             bottom: 0;
+            padding: $navbar-total-height 0 0;
 
             display: flex;
             align-items: center;
@@ -59,6 +60,12 @@
             background-position: center;
 
             @include media-breakpoint-up(lg) {
+                // Margin-top pour la barre de navigation
+                padding: $navbar-total-height $desktop-controls-width 0;
+            }
+
+            @include media-breakpoint-up(xxl) {
+                // On remet l'origine du cetre à 0 car des cartes s'affichent en dessous
                 padding: 0 $desktop-controls-width;
             }
 
@@ -139,13 +146,17 @@
     .desktop-controls {
         display: none;
         position: absolute;
-        top: 0;
+        top: $navbar-total-height;
         left: 0;
         right: 0;
         bottom: 0;
 
         @include media-breakpoint-up(lg) {
             display: block;
+        }
+
+        @include media-breakpoint-up(xxl) {
+            top: 0;
         }
 
         > * {
@@ -201,7 +212,7 @@
         width: 100%;
         padding: $section-vertical-padding 0;
 
-        @include media-breakpoint-up(xl) {
+        @include media-breakpoint-up(xxl) {
             position: absolute;
             bottom: 0;
             left: 0;
@@ -303,7 +314,7 @@
                     opacity: 0.9;
                 }
 
-                /*@include media-breakpoint-up(xl) {
+                /*@include media-breakpoint-up(xxl) {
                     background-color: var(--white);
                 }*/
             }

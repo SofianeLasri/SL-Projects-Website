@@ -10,7 +10,7 @@
 
     .content {
         display: grid;
-        gap: map.get($spacers, 5);
+        gap: map.get($spacers, 4);
 
         @include media-breakpoint-up(lg) {
             // 2 columns
@@ -20,6 +20,11 @@
         @include media-breakpoint-up(xl) {
             // 3 columns
             grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        @include media-breakpoint-up(xxl) {
+            // 4 columns
+            grid-template-columns: 1fr 1fr 1fr 1fr;
         }
     }
 }

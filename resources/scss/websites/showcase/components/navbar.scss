@@ -1,19 +1,21 @@
-@use "../showcase-legay-styles/base";
 @use "sass:map";
 // Navbar
-.navbar {
-    // Variables
-    $polygon-margin: 0.5rem;
-    $padding-height: .75rem;
-    $padding-width: 1rem;
+// Variables
+$navbar-polygon-margin: 0.5rem;
+$navbar-padding-height: .75rem;
+$navbar-padding-width: 1rem;
+$navbar-top-bar-height: calc($navbar-padding-height * 2 + 1.5rem);
+$navbar-border-width: map.get($border-widths, 2);
+$navbar-total-height: calc($navbar-top-bar-height + $navbar-border-width);
 
+.navbar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
     background-color: rgba(0, 0, 0, .75);
-    border-bottom: $primary map.get($border-widths, 2) solid;
+    border-bottom: $primary $navbar-border-width solid;
     backdrop-filter: blur($blur-radius);
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
@@ -25,8 +27,8 @@
         justify-content: space-between;
         align-items: center;
 
-        padding: $padding-height $padding-width;
-        height: calc($padding-height * 2 + 1.5rem);
+        padding: $navbar-padding-height $navbar-padding-width;
+        height: $navbar-top-bar-height;
 
         * {
             height: 100%;
@@ -44,7 +46,7 @@
             align-items: center;
 
             .logo {
-                margin-right: $polygon-margin*2;
+                margin-right: $navbar-polygon-margin*2;
             }
         }
 
@@ -52,19 +54,19 @@
             color: $white;
 
             .link-container {
-                margin: 0 $polygon-margin*2;
+                margin: 0 $navbar-polygon-margin*2;
             }
 
             &:hover {
                 background-color: $primary;
-                clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
+                clip-path: polygon($navbar-polygon-margin 0%, 100% 0%, calc(100% - $navbar-polygon-margin) 100%, 0% 100%);
 
             }
 
             &.active {
                 background-color: $white;
                 color: $primary;
-                clip-path: polygon($polygon-margin 0%, 100% 0%, calc(100% - $polygon-margin) 100%, 0% 100%);
+                clip-path: polygon($navbar-polygon-margin 0%, 100% 0%, calc(100% - $navbar-polygon-margin) 100%, 0% 100%);
             }
         }
     }
@@ -77,7 +79,7 @@
         .top-bar {
             display: flex;
             align-items: center;
-            padding: $padding-height 0;
+            padding: $navbar-padding-height 0;
 
             button {
                 font-size: 1.25rem;
@@ -96,7 +98,7 @@
             }
 
             .nav-link {
-                margin: $polygon-margin 0;
+                margin: $navbar-polygon-margin 0;
                 color: $white;
 
                 &.active {
@@ -107,7 +109,7 @@
             .search {
                 display: flex;
                 width: 100%;
-                margin: $polygon-margin 0;
+                margin: $navbar-polygon-margin 0;
                 border-top: map.get($border-widths, 2) solid $white;
 
                 input {
@@ -124,7 +126,7 @@
 
     .search {
         button {
-            margin: 0 $polygon-margin*2;
+            margin: 0 $navbar-polygon-margin*2;
         }
 
         &:hover {
