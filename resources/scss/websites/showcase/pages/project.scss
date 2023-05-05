@@ -1,0 +1,151 @@
+@use "sass:map";
+
+$project-logo-width: 20rem;
+#projectHeader {
+    background-color: $primary;
+    background-size: cover;
+    color: $white;
+
+    > * {
+        display: flex;
+        flex-direction: column;
+        padding-top: 8rem;
+        padding-bottom: 2.5rem;
+
+        @include media-breakpoint-up(lg) {
+            padding-top: 15rem;
+        }
+
+        .title-container {
+            display: flex;
+
+            @include media-breakpoint-up(lg) {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+
+            .hidden-part {
+                display: none;
+                width: $project-logo-width;
+
+                @include media-breakpoint-up(lg) {
+                    display: block;
+                }
+            }
+
+            .title {
+                height: 4rem;
+                @include media-breakpoint-up(lg) {
+                    padding-left: 2rem;
+                }
+            }
+        }
+
+        .project-details-container {
+            display: flex;
+            flex-direction: column;
+            align-content: center;
+            background-color: $white;
+            color: $black;
+            padding: 2rem;
+            margin-bottom: 2rem;
+
+            @include media-breakpoint-up(lg) {
+                flex-direction: row;
+                align-items: start;
+            }
+
+            .logo-and-details {
+                display: flex;
+                flex-direction: column;
+                flex-shrink: 0;
+
+                @include media-breakpoint-up(md) {
+                    flex-direction: row;
+                    margin-left: map.get($spacers, 2);
+                    margin-right: map.get($spacers, 2);
+                }
+                @include media-breakpoint-up(lg) {
+                    flex-direction: column;
+                    width: $project-logo-width;
+                    margin: 0;
+                }
+
+                .logo {
+                    aspect-ratio: 1 / 1;
+                    margin-bottom: map.get($spacers, 4);
+
+                    @include media-breakpoint-up(lg) {
+                        margin-top: -6rem;
+                    }
+
+                    @include media-breakpoint-down(lg) {
+                        flex: 1 1 0;
+                    }
+
+                    img {
+                        object-fit: cover !important;
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+
+                .details {
+                    @include media-breakpoint-down(lg) {
+                        flex: 1 1 0;
+                    }
+                }
+            }
+        }
+
+        .gallery-container {
+            @include media-breakpoint-up(lg) {
+                width: 100%;
+                padding-left: 2rem;
+            }
+
+            #gallery {
+                display: grid;
+                grid-template-columns: repeat(1, 1fr);
+                gap: map.get($spacers, 2);
+
+                @include media-breakpoint-up(md) {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+
+                @include media-breakpoint-up(xxl) {
+                    grid-template-columns: repeat(4, 1fr);
+                }
+
+                .media {
+                    background-size: cover;
+                    aspect-ratio: 16/9;
+                }
+            }
+        }
+    }
+}
+
+.project-description-container {
+    @extend .container;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem 2rem;
+    gap: 2rem;
+
+    @include media-breakpoint-up(lg) {
+        flex-direction: row;
+    }
+
+    .right-part{
+        flex-shrink: 0;
+        @include media-breakpoint-up(lg) {
+            width: $project-logo-width;
+        }
+
+        ul {
+            list-style: disc;
+            margin-left: 2rem;
+        }
+    }
+}

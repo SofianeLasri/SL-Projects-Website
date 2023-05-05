@@ -15,60 +15,59 @@
 @section('body')
     <x-showcase.navbar/>
 
-    <div id="projectHeader" class="w-full bg-primary bg-cover">
-        <div class="container flex flex-col pt-32 lg:pt-60 pb-10">
-            <div class="flex lg:px-8">
-                <div class="hidden lg:block w-80">
+    <div id="projectHeader" class="container-fluid">
+        <div class="container">
+            <div class="title-container flex lg:px-8">
+                <div class="hidden-part">
                     <!-- Supposée être vide -->
                 </div>
-                <div class="h-16 lg:pl-8">
-                    <h1 class="font-black uppercase">StarIsland</h1>
+                <div class="title">
+                    <h1 class="font-black text-uppercase m-0">StarIsland</h1>
                 </div>
             </div>
-            <div class="flex flex-col items-center lg:flex-row lg:items-start bg-white p-8 space-y-8 lg:space-y-0">
-                <div class="lg:w-80 shrink-0 flex flex-col md:flex-row lg:flex-col md:space-x-2 lg:space-x-0">
-                    <div class="shadows aspect-square lg:-mt-24 mb-6 max-lg:flex-1">
-                        <img src="{{ Vite::asset('resources/images/dev/logo-starisland.jpg') }}" alt="Image du projet"
-                             class="object-cover">
+            <div class="project-details-container">
+                <div class="logo-and-details">
+                    <div class="logo square-primary-shadows">
+                        <img src="{{ Vite::asset('resources/images/dev/logo-starisland.jpg') }}" alt="Image du projet">
                     </div>
 
-                    <div class="max-lg:flex-1">
+                    <div class="details">
                         <div class="notice-text mb-2">
                             <span>Informations du projet</span>
                         </div>
-                        <div class="projectMeta mb-4">
-                            <div class="flex justify-between">
+                        <div class="projectMeta mb-3">
+                            <div class="d-flex justify-content-between">
                                 <div><strong>Date de début</strong></div>
-                                <div class="text-right">Janvier 2017</div>
+                                <div class="text-end">Janvier 2017</div>
                             </div>
-                            <div class="flex justify-between">
+                            <div class="d-flex justify-content-between">
                                 <div><strong>Date de fin</strong></div>
-                                <div class="text-right">Juin 2019</div>
+                                <div class="text-end">Juin 2019</div>
                             </div>
-                            <div class="flex justify-between">
+                            <div class="d-flex justify-content-between">
                                 <div><strong>Plateforme</strong></div>
-                                <div class="text-right">Garry's Mod (Source Engine)</div>
+                                <div class="text-end">Garry's Mod (Source Engine)</div>
                             </div>
-                            <div class="flex justify-between">
+                            <div class="d-flex justify-content-between">
                                 <div><strong>Type de projet</strong></div>
-                                <div class="text-right">Mapmaking</div>
+                                <div class="text-end">Mapmaking</div>
                             </div>
                         </div>
 
-                        <div class="flex space-x-2">
-                            <a href="#" class="btn square btn-primary" target="_blank">Voir le Workshop</a>
-                            <a href="#" class="btn square btn-light" target="_blank"><i
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-primary" target="_blank">Voir le Workshop</a>
+                            <a href="#" class="btn btn-light" target="_blank"><i
                                     class="fa-sharp fa-solid fa-download"></i></a>
                         </div>
                     </div>
                 </div>
-                <div class="lg:pl-8 w-full">
+                <div class="gallery-container">
                     <h3>Galerie</h3>
-                    <div id="gallery" class="grid grid-cols-1 md:grid-cols-3 2xl:grid-cols-4 gap-2">
+                    <div id="gallery">
                         @for($i = 1; $i <= 7; $i++)
                             <div
                                 style="background-image: url('{{ Vite::asset('resources/images/dev/starisland-motel.jpg') }}');"
-                                class="bg-cover aspect-video is-real-media"
+                                class="media is-real-media"
                                 data-src="{{ Vite::asset('resources/images/dev/starisland-motel.jpg') }}">
                                 <div class="linkOverlay black"></div>
                             </div>
@@ -84,7 +83,7 @@
         </div>
     </div>
 
-    <div class="container px-8 py-10 flex flex-col lg:flex-row gap-8">
+    <div class="project-description-container">
         <div>
             <h1>Présentation</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -128,14 +127,14 @@
                 elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at. Vulputate ut pharetra sit amet.
                 Semper viverra nam libero justo laoreet sit amet.</p>
         </div>
-        <div class="lg:w-80 shrink-0">
-            <div class="flex flex-col">
+        <div class="right-part">
+            <div class="d-flex flex-column">
                 <h3><i class="fa-solid fa-clock-rotate-left"></i> Chronologie</h3>
 
-                <div class="space-y-4">
+                <div class="my-3">
                     <div>
                         <strong class="line-before">Janvier 2017</strong>
-                        <ul class="list-disc ml-8">
+                        <ul>
                             <li>Création du projet</li>
                             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                 incididunt ut labore et dolore magna aliqua. Ut faucibus pulvinar elementum integer enim
@@ -145,14 +144,14 @@
                     </div>
                     <div>
                         <strong class="line-before">Janvier 2017</strong>
-                        <ul class="list-disc ml-8">
+                        <ul>
                             <li>Création du projet</li>
                             <li>Recherche d'un partenaire</li>
                         </ul>
                     </div>
                     <div>
                         <strong class="line-before">Janvier 2017</strong>
-                        <ul class="list-disc ml-8">
+                        <ul>
                             <li>Création du projet</li>
                             <li>Recherche d'un partenaire</li>
                         </ul>
