@@ -79,7 +79,6 @@ $navbar-total-height: calc($navbar-top-bar-height + $navbar-border-width);
         .top-bar {
             display: flex;
             align-items: center;
-            padding: $navbar-padding-height 0;
 
             button {
                 font-size: 1.25rem;
