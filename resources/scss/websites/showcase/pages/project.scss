@@ -120,6 +120,18 @@ $project-logo-width: 20rem;
                 .media {
                     background-size: cover;
                     aspect-ratio: 16/9;
+
+                    &.placeholder {
+                        background-color: $light;
+                        color: $black;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+
+                        .logo {
+                            height: 1.5rem;
+                        }
+                    }
                 }
             }
         }
@@ -137,7 +149,7 @@ $project-logo-width: 20rem;
         flex-direction: row;
     }
 
-    .right-part{
+    .right-part {
         flex-shrink: 0;
         @include media-breakpoint-up(lg) {
             width: $project-logo-width;
