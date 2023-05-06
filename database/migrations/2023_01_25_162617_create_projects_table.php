@@ -5,9 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
+
     public function up()
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::connection('showcase')->create('projects', function (Blueprint $table) {
+            $mainDbName = DB::connection('main')->getDatabaseName();
             $table->integer("id", true, true);
             $table->string("name");
             $table->string("slug");
@@ -22,8 +24,8 @@ return new class extends Migration {
             $table->timestamps();
 
             $table->unique(["name", "slug"]);
-            $table->foreign("logo_file_upload_id")->references("id")->on("file_uploads");
-            $table->foreign("cover_file_upload_id")->references("id")->on("file_uploads");
+            $table->foreign("logo_file_upload_id")->references("id")->on("$mainDbName.file_uploads");
+            $table->foreign("cover_file_upload_id")->references("id")->on("$mainDbName.file_uploads");
         });
     }
 
