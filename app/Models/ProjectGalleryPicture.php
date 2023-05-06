@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectGalleryPicture extends Model
 {
+    protected $connection = 'showcase';
+
     public function project()
     {
         return $this->belongsTo(Project::class);

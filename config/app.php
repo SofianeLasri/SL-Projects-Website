@@ -54,7 +54,14 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'http_protocol' => env('HTTP_PROTOCOL', 'https'),
+    'domain' => [
+        'showcase' => env('SHOWCASE_DOMAIN', 'sl-projects.com'),
+        'api' => env('API_DOMAIN', 'api.sl-projects.com'),
+        'blog' => env('BLOG_DOMAIN', 'blog.sl-projects.com'),
+        'dashboard' => env('DASHBOARD_DOMAIN', 'dashboard.sl-projects.com'),
+        'auth' => env('AUTH_DOMAIN', 'auth.sl-projects.com'),
+    ],
 
     'asset_url' => env('ASSET_URL'),
 

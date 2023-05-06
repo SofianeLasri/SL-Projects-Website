@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PictureType extends Model
 {
+    protected $connection = 'main';
     protected $fillable = [
         'file_upload_id',
         'type',

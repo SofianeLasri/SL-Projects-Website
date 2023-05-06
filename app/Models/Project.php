@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
-    protected $table = 'projects';
-
+    protected $connection = 'showcase';
     protected $fillable = [
         'name',
         'slug',
@@ -19,7 +18,7 @@ class Project extends Model
         'logo_file_upload_id',
         'cover_file_upload_id',
     ];
-    
+
     public function galleryPictures()
     {
         return $this->hasMany(ProjectGalleryPicture::class);

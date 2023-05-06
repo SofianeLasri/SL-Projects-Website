@@ -16,6 +16,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [VitrineController::class, 'index'])->name('home');
-Route::get('/projects', [ProjectsController::class, 'index'])->name('projects');
-Route::get('/project/{project}', [ProjectController::class, 'index'])->name('project');
+

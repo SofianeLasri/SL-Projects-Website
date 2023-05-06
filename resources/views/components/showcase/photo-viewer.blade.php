@@ -1,7 +1,7 @@
 <div id="photoViewer">
     <div class="top-bar">
         <div class="left-part">
-            <a href="{{ route('home') }}" class="logo">
+            <a href="{{ route('showcase.home') }}" class="logo">
                 <x-logo-short/>
             </a>
             <div class="title">

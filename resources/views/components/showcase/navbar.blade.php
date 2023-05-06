@@ -2,13 +2,13 @@
 <div class="navbar">
     <div class="desktop top-bar">
         <div class="left-part">
-            <a href="{{ route('home') }}" class="logo">
+            <a href="{{ route('showcase.home') }}" class="logo">
                 <x-logo-short/>
             </a>
-            <x-showcase.nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+            <x-showcase.nav-link href="{{ route('showcase.home') }}" :active="request()->routeIs('showcase.home')">
                 {{ __('word.home') }}
             </x-showcase.nav-link>
-            <x-showcase.nav-link href="{{ route('projects') }}" :active="request()->routeIs('projects')">
+            <x-showcase.nav-link href="{{ route('showcase.projects') }}" :active="request()->routeIs('showcase.projects')">
                 {{ __('word.projects') }}
             </x-showcase.nav-link>
             <x-showcase.nav-link href="#">
@@ -36,7 +36,7 @@
             <button class="transparent-button" id="openMobileMenu" type="button" title="{{ __('verbal.open-menu') }}"><i
                     class="fa-solid fa-bars"></i>
             </button>
-            <a href="{{ route('home') }}">
+            <a href="{{ route('showcase.home') }}">
                 <img src="{{ Vite::asset('resources/images/logos/white-short.svg') }}" alt="Logo">
             </a>
             <button class="transparent-button" id="focusMobileSearchBar" type="button" title="{{ __('verb.to_search') }}"><i
@@ -45,10 +45,10 @@
         {{--Masqué par défaut--}}
         <div id="mobileMenu" class="nav-links">
             <div class="container">
-                <x-showcase.nav-link href="{{ route('home') }}" :active="request()->routeIs('home')">
+                <x-showcase.nav-link href="{{ route('showcase.home') }}" :active="request()->routeIs('home')">
                     {{ __('word.home') }}
                 </x-showcase.nav-link>
-                <x-showcase.nav-link href="{{ route('projects') }}" :active="request()->routeIs('projects')">
+                <x-showcase.nav-link href="{{ route('showcase.projects') }}" :active="request()->routeIs('projects')">
                     {{ __('word.projects') }}
                 </x-showcase.nav-link>
                 <x-showcase.nav-link href="#">

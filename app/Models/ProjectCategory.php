@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectCategory extends Model
 {
+    protected $connection = 'showcase';
     public function projects()
     {
         return $this->belongsToMany(Project::class, 'project_category_pivots');
