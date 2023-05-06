@@ -1,0 +1,29 @@
+@use "sass:map";
+
+.alert {
+    padding: map.get($spacers, 3);
+    background-color: $light;
+    color: $black;
+    font-weight: $font-weight-bold;
+
+    * {
+        &::selection {
+            background-color: $light;
+            color: $black;
+        }
+    }
+}
+
+@each $color, $value in $theme-colors {
+    .alert-#{$color} {
+        background-color: $value;
+        color: map.get($colors-contrast, $color);
+
+        * {
+            &::selection {
+                background-color: map.get($colors-contrast, $color);
+                color: $value;
+            }
+        }
+    }
+}

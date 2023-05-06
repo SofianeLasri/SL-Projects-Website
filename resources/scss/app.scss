@@ -40,8 +40,11 @@
 
 // Global UI components
 @import "global-ui/components/buttons";
+@import "global-ui/components/alerts";
+
+// Global UI utils
+@import "global-ui/utils/text";
+@import "global-ui/utils/colors";
 
 // Custom global UI
 @import "global-ui/custom";
-@import "global-ui/utils/text";
-@import "global-ui/utils/colors";
