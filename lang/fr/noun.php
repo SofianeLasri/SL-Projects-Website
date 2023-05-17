@@ -9,4 +9,5 @@ return [
     'next' => 'Suivant',
     'login' => 'Connexion',
     'logout' => 'Déconnexion',
+    'register' => 'Inscription',
 ];

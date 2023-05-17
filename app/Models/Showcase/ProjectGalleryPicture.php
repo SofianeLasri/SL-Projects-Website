@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Showcase;
 
+use App\Models\FileUpload;
 use Illuminate\Database\Eloquent\Model;
 
 class ProjectGalleryPicture extends Model

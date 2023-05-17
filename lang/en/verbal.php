@@ -10,6 +10,7 @@ return [
         'remember_me' => 'Remember me',
         'forgotten_password_page_explaination' => 'Enter your email adress and we will send you a link to reset your password.',
         'reset_password' => 'Reset password',
-        'go_back_to_the_login_page' => 'Go back to the login page'
+        'go_back_to_the_login_page' => 'Go back to the login page',
+        'create_an_account' => 'Create an account',
     ],
 ];

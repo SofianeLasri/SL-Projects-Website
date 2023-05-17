@@ -7,6 +7,7 @@ return [
     'blog' => 'Blog',
     'previous' => 'Previous',
     'next' => 'Next',
-    'login' => 'Connexion',
-    'logout' => 'Déconnexion',
+    'login' => 'Login',
+    'logout' => 'Logout',
+    'register' => 'Register',
 ];

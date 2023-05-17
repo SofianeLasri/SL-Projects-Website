@@ -3,7 +3,7 @@
 namespace App\View\Components\Showcase;
 
 use App\Models\FileUpload;
-use App\Models\Project;
+use App\Models\Showcase\Project;
 use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
