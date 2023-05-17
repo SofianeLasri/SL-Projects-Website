@@ -14,6 +14,7 @@ export default defineConfig({
             input: [
                 'resources/scss/app.scss',
                 'resources/scss/websites/showcase/showcase.scss',
+                'resources/scss/websites/auth/auth.scss',
                 'resources/js/app.js'
             ],
             refresh: true,

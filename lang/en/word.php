@@ -1,10 +1,10 @@
 <?php
 
 return [
-    'home' => 'Accueil',
-    'projects' => 'Projets',
-    'community' => 'Communauté',
+    'home' => 'Home',
+    'projects' => 'Projects',
+    'community' => 'Community',
     'blog' => 'Blog',
-    'previous' => 'Précédent',
-    'next' => 'Suivant',
+    'previous' => 'Previous',
+    'next' => 'Next',
 ];

@@ -1,24 +1,2 @@
 @use "sass:map";
-// scroll bar pour chromium
-::-webkit-scrollbar {
-    width: 1rem;
-}
-
-::-webkit-scrollbar-track {
-    background: $light;
-}
-
-::-webkit-scrollbar-thumb {
-    background: $primary;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: $primary-hovered;
-}
-
-html {
-    // scroll bar pour firefox
-    scrollbar-color: $primary $light;
-    scrollbar-width: thin;
-}
 $section-vertical-padding: map.get($spacers, 3) * 2;

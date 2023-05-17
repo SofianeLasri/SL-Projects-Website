@@ -39,8 +39,9 @@
 @import "~bootstrap/scss/utilities/api";
 
 // Global UI components
-@import "global-ui/components/buttons";
 @import "global-ui/components/alerts";
+@import "global-ui/components/buttons";
+@import "global-ui/components/forms";
 
 // Global UI utils
 @import "global-ui/utils/text";

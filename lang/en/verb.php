@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'to_search' => 'Rechercher',
+    'to_search' => 'Search',
 ];

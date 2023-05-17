@@ -1,0 +1,30 @@
+@import "../../app.scss";
+
+body {
+    background-color: $primary;
+}
+
+.authentication-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    min-height: 100vh;
+    gap: 1rem;
+
+    &::selection {
+        background-color: $primary;
+        color: $white;
+    }
+
+    @include media-breakpoint-up(sm) {
+        width: 24rem;
+    }
+
+    .logo {
+        height: 3rem;
+    }
+}
