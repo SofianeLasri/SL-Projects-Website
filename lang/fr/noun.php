@@ -7,4 +7,6 @@ return [
     'blog' => 'Blog',
     'previous' => 'Précédent',
     'next' => 'Suivant',
+    'login' => 'Connexion',
+    'logout' => 'Déconnexion',
 ];

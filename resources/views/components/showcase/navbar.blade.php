@@ -6,16 +6,16 @@
                 <x-logo-short/>
             </a>
             <x-showcase.nav-link href="{{ route('showcase.home') }}" :active="request()->routeIs('showcase.home')">
-                {{ __('word.home') }}
+                {{ __('noun.home') }}
             </x-showcase.nav-link>
             <x-showcase.nav-link href="{{ route('showcase.projects') }}" :active="request()->routeIs('showcase.projects')">
-                {{ __('word.projects') }}
+                {{ __('noun.projects') }}
             </x-showcase.nav-link>
             <x-showcase.nav-link href="#">
-                {{ __('word.blog') }}
+                {{ __('noun.blog') }}
             </x-showcase.nav-link>
             <x-showcase.nav-link href="#">
-                {{ __('word.community') }}
+                {{ __('noun.community') }}
             </x-showcase.nav-link>
             <x-showcase.nav-link href="https://sofianelasri.fr">
                 {{ __('non-verbal.about-me') }}
@@ -46,16 +46,16 @@
         <div id="mobileMenu" class="nav-links">
             <div class="container">
                 <x-showcase.nav-link href="{{ route('showcase.home') }}" :active="request()->routeIs('home')">
-                    {{ __('word.home') }}
+                    {{ __('noun.home') }}
                 </x-showcase.nav-link>
                 <x-showcase.nav-link href="{{ route('showcase.projects') }}" :active="request()->routeIs('projects')">
-                    {{ __('word.projects') }}
+                    {{ __('noun.projects') }}
                 </x-showcase.nav-link>
                 <x-showcase.nav-link href="#">
-                    {{ __('word.blog') }}
+                    {{ __('noun.blog') }}
                 </x-showcase.nav-link>
                 <x-showcase.nav-link href="#">
-                    {{ __('word.community') }}
+                    {{ __('noun.community') }}
                 </x-showcase.nav-link>
                 <x-showcase.nav-link href="https://sofianelasri.fr">
                     {{ __('non-verbal.about-me') }}
