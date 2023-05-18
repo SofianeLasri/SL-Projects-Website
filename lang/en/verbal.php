@@ -12,5 +12,6 @@ return [
         'reset_password' => 'Reset password',
         'go_back_to_the_login_page' => 'Go back to the login page',
         'create_an_account' => 'Create an account',
+        'enter_your_username' => 'Enter your username',
     ],
 ];

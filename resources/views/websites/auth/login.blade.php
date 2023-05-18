@@ -8,9 +8,9 @@
 
 @section("form")
     <div class="d-flex flex-column">
-        <label for="email" class="form-label">{{ __('compound.email_adress') }}</label>
-        <input type="email" name="email" id="email" placeholder="{{ __('verbal.authentication.enter_your_email_adress') }}"
-               data-form-type="email" value="{{ old('email') }}"
+        <label for="username" class="form-label">{{ __('compound.username') }}</label>
+        <input type="username" name="username" id="username" placeholder="{{ __('verbal.authentication.enter_your_username') }}"
+               data-form-type="username" value="{{ old('username') }}"
                class="form-control" required>
     </div>
     <div class="d-flex flex-column">

@@ -2,7 +2,7 @@
 
 @section("body")
     <div
-        class="authentication-container">
+            class="authentication-container">
         <div class="logo">
             <x-logo-short/>
         </div>
@@ -15,6 +15,10 @@
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
+                </div>
+            @elseif (session('status'))
+                <div class="alert alert-success">
+                    {!! Str::markdown(session('status')) !!}
                 </div>
             @endif
             <form method="post" class="p-3 bg-white d-flex flex-column gap-3 selection-primary"
