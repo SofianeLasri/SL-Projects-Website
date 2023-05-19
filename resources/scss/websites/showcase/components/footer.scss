@@ -1,0 +1,53 @@
+footer {
+    width: 100%;
+    background-color: $primary;
+    color: $white;
+
+    a {
+        color: $white;
+        text-decoration: none;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+
+        @include media-breakpoint-up(lg) {
+            flex-direction: row;
+        }
+
+        .col {
+            width: 100%;
+
+            &:not(:last-child) {
+                padding-bottom: 1rem;
+            }
+
+            @include media-breakpoint-up(lg) {
+                &:not(:last-child) {
+                    padding-right: 1rem;
+                    padding-bottom: 0;
+                }
+            }
+
+            .logo {
+                font-family: "Zaptron", sans-serif;
+                font-size: 4rem;
+                line-height: 1;
+            }
+
+            ul, ol, li {
+                padding: 0;
+            }
+
+            ol, li {
+                &:not(:last-child) {
+                    margin-bottom: .75rem;
+                }
+            }
+        }
+    }
+}

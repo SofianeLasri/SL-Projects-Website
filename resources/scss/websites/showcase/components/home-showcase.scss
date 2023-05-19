@@ -1,0 +1,325 @@
+// Vitrine - vedette
+.home-showcase {
+    position: relative;
+    $desktop-controls-width: 10rem;
+    $transition-time: 1s;
+
+    @include media-breakpoint-up(xxl) {
+        height: 100vh;
+    }
+
+    .projects-presentations {
+        position: relative;
+        height: 100vh;
+        width: 100%;
+
+        @include media-breakpoint-up(xxl) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .first {
+            background-image: linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0.2)),
+            url('/resources/images/dev/starisland-motel.jpg');
+        }
+
+        .second {
+            background-image: linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0.2)),
+            url('/resources/images/dev/rosewood.jpg');
+        }
+
+        .third {
+            background-image: linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.2),
+                rgba(0, 0, 0, 0.2)),
+            url('/resources/images/dev/maisonette9.jpg');
+        }
+
+        .presentation {
+            // Will show with a slider when active
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: $navbar-total-height 0 0;
+
+            display: flex;
+            align-items: center;
+            clip-path: inset(0 100% 0 0);
+            word-wrap: break-word;
+
+            background-size: cover;
+            background-position: center;
+
+            @include media-breakpoint-up(lg) {
+                // Margin-top pour la barre de navigation
+                padding: $navbar-total-height $desktop-controls-width 0;
+            }
+
+            @include media-breakpoint-up(xxl) {
+                // On remet l'origine du cetre à 0 car des cartes s'affichent en dessous
+                padding: 0 $desktop-controls-width;
+            }
+
+            &.active {
+                clip-path: inset(0 0 0 0);
+            }
+
+            @keyframes showRightToLeft {
+                0% {
+                    clip-path: inset(0 100% 0 0);
+                }
+                100% {
+                    clip-path: inset(0 0 0 0);
+                }
+            }
+
+            @keyframes showLeftToRight {
+                0% {
+                    clip-path: inset(0 0 0 100%);
+                }
+                100% {
+                    clip-path: inset(0 0 0 0);
+                }
+            }
+
+            @keyframes hideRightToLeft {
+                0% {
+                    clip-path: inset(0 0 0 0);
+                }
+                100% {
+                    clip-path: inset(0 100% 0 0);
+                }
+            }
+
+            @keyframes hideLeftToRight {
+                0% {
+                    clip-path: inset(0 0 0 0);
+                }
+                100% {
+                    clip-path: inset(0 0 0 100%);
+                }
+            }
+
+            .content {
+                color: var(--white);
+                @extend .container;
+
+                > * {
+                    max-width: 35rem;
+                }
+
+                .notice-text {
+                    margin-bottom: .25rem;
+                }
+
+                h1 {
+                    $font-size: 2.75rem;
+                    font-family: "Proxima Nova Black", sans-serif;
+                    text-transform: uppercase;
+                    font-size: $font-size;
+                    line-height: $font-size;
+                    margin: 0;
+
+                    @include media-breakpoint-up(lg) {
+                        font-size: $font-size*1.5;
+                        line-height: $font-size*1.5;
+                    }
+                }
+
+                p {
+                    font-size: 1.25rem;
+                    line-height: 1.3rem;
+                }
+            }
+        }
+    }
+
+    .desktop-controls {
+        display: none;
+        position: absolute;
+        top: $navbar-total-height;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        @include media-breakpoint-up(lg) {
+            display: block;
+        }
+
+        @include media-breakpoint-up(xxl) {
+            top: 0;
+        }
+
+        > * {
+            position: absolute;
+            width: $desktop-controls-width;
+            height: 100%;
+            opacity: 0.5;
+            transition: opacity .1s;
+            z-index: 500;
+
+            &:hover {
+                opacity: 1;
+            }
+
+            &.left {
+                left: 0;
+            }
+
+            &.right {
+                right: 0;
+            }
+
+            .control-button {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+
+                width: 2.75rem;
+                height: 2.75rem;
+                border-radius: 50%;
+                background-color: rgba(0, 0, 0, .75);
+                backdrop-filter: blur($blur-radius);
+                color: var(--white);
+                border: none;
+                font-size: 1.2rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                transition: background-color 0.5s;
+
+                &:hover {
+                    background-color: var(--primary);
+                }
+            }
+        }
+    }
+
+    .projects-cards {
+        position: relative;
+        background-color: #191919;
+        width: 100%;
+        padding: $section-vertical-padding 0;
+
+        @include media-breakpoint-up(xxl) {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            background-color: transparent;
+            padding: 1rem 0;
+
+            .responsive-title {
+                display: none;
+
+            }
+        }
+
+        .cards {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding-left: 1rem;
+            padding-bottom: 1rem;
+
+            // Must not overflow the container
+            max-width: 100%;
+            overflow-x: auto;
+
+            .card {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: flex-start;
+                height: 12rem;
+                width: 23rem;
+                color: var(--white);
+                background-size: cover;
+                background-position: center;
+                padding: .5rem;
+                box-shadow: 0 0 0 var(--primary);
+                transition: box-shadow $transition-time;
+                flex-shrink: 0;
+                cursor: pointer;
+
+                .title {
+                    font-family: "Proxima Nova Black", sans-serif;
+                    text-transform: uppercase;
+                    font-size: 1.4rem;
+                    font-weight: lighter;
+                    line-height: 1.5rem;
+                }
+
+                .description {
+                    font-size: 1rem;
+                    line-height: 1.25rem;
+                }
+
+                &.active {
+                    box-shadow: -8px 8px 0px var(--primary);
+                }
+
+                &.first {
+                    background-image: linear-gradient(to bottom,
+                        rgba(0, 0, 0, 0.5),
+                        rgba(0, 0, 0, 0.5)),
+                    url('/resources/images/dev/starisland-motel.jpg');
+                }
+
+                &.second {
+                    background-image: linear-gradient(to bottom,
+                        rgba(0, 0, 0, 0.5),
+                        rgba(0, 0, 0, 0.5)),
+                    url('/resources/images/dev/rosewood.jpg');
+                }
+
+                &.third {
+                    background-image: linear-gradient(to bottom,
+                        rgba(0, 0, 0, 0.5),
+                        rgba(0, 0, 0, 0.5)),
+                    url('/resources/images/dev/maisonette9.jpg');
+                }
+            }
+        }
+
+        .dots-indicators {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            $dots-size: .5rem;
+            gap: $dots-size*1.5;
+            margin-top: .5rem;
+
+            > * {
+                width: $dots-size;
+                height: $dots-size;
+                border-radius: 50%;
+                background-color: var(--white);
+                opacity: 0.5;
+                transition: background-color 0.5s;
+
+                &.active {
+                    opacity: 0.9;
+                }
+
+                /*@include media-breakpoint-up(xxl) {
+                    background-color: var(--white);
+                }*/
+            }
+        }
+    }
+}
+
+// Fin Vitrine

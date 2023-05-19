@@ -1,0 +1,128 @@
+@use "sass:map";
+
+.recent-projects {
+    display: flex;
+    flex-direction: column;
+
+    > *:not(:last-child) {
+        margin-bottom: $section-vertical-padding * 0.5;
+    }
+
+    @include media-breakpoint-up(xl) {
+        flex-direction: row;
+
+        // Premiers enfants
+        > * {
+            flex: 1;
+        }
+
+        > *:not(:last-child) {
+            margin-bottom: 0;
+            margin-right: $section-vertical-padding * 0.5;
+        }
+    }
+
+    .btn {
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+        padding: 0.75rem 1rem;
+        font-family: "Proxima Nova Black", sans-serif;
+        font-weight: lighter;
+        text-transform: uppercase;
+    }
+}
+
+.news-card {
+    width: 100%;
+    overflow: hidden;
+
+    .image {
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+    }
+
+    .meta {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        font-weight: $font-weight-bold;
+
+        > *:not(:last-child) {
+            margin-right: $section-vertical-padding * 0.25;
+        }
+
+        .category {
+            color: $primary;
+            background-color: $white;
+            padding: 0 .5rem;
+        }
+    }
+
+    .title {
+        color: $white;
+        font-size: 1.5rem;
+        line-height: 1.5rem;
+        font-family: "Proxima Nova Black", sans-serif;
+        text-transform: uppercase;
+        font-weight: lighter;
+    }
+
+    > *:not(:last-child) {
+        margin-bottom: $section-vertical-padding * 0.25;
+    }
+
+    &.horizontal-cards {
+        display: flex;
+        flex-direction: column;
+
+        margin-bottom: $section-vertical-padding * 0.5;
+
+        // Deuxième enfant -> contient le texte
+        > *:nth-child(2) {
+            > *:not(:last-child) {
+                margin-bottom: $section-vertical-padding * 0.25;
+            }
+        }
+
+        @include media-breakpoint-up(md) {
+            flex-direction: row;
+
+
+            // On annule la règle du margin bottom pour faire un margin right
+            > *:not(:last-child) {
+                margin-bottom: 0;
+                margin-right: $section-vertical-padding * 0.25;
+            }
+
+            // Deuxième enfant -> contient le texte
+            > *:nth-child(2) {
+                height: 0; // Si le texte est plus long que la hauteur de la carte, il sera coupé grâce à l'overflow hidden
+            }
+
+            // Tout ses enfants -> Pour avoir l'image de la même largeur que le texte
+            > * {
+                flex: 1;
+            }
+        }
+    }
+}
+
+#publicProjects {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $section-vertical-padding;
+
+    .project-card {
+        width: 15rem;
+    }
+
+    @include media-breakpoint-up(md) {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+}

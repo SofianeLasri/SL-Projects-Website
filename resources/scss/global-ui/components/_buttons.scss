@@ -1,0 +1,57 @@
+@use "sass:map";
+
+.btn {
+    border: none;
+    background-color: $light;
+    color: $black;
+    padding: .375rem .78rem;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $light-hovered;
+    }
+
+    &.btn-sm {
+        padding: .25rem .5rem;
+        font-size: .875rem;
+    }
+
+    &.btn-lg {
+        padding: .5rem 1rem;
+        font-size: 1.25rem;
+    }
+}
+
+@each $color, $value in $theme-colors {
+    .btn-#{$color} {
+        background-color: $value;
+        color: map.get($colors-contrast, $color);
+
+        &:hover {
+            background-color: map.get($colors-hovered, $color);
+        }
+    }
+
+    .btn-outline-#{$color} {
+        background-color: transparent;
+        color: $value;
+        border: $border-width solid $value;
+
+        &:hover {
+            background-color: $value;
+            color: map.get($colors-contrast, $color);
+        }
+    }
+}
+
+.transparent-button {
+    background: transparent;
+    color: $white;
+    border: none;
+
+    &:hover {
+        color: $primary;
+    }
+}

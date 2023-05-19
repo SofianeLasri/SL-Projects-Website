@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Project;
-use App\Models\ProjectCategory;
+use App\Models\Showcase\Project;
+use App\Models\Showcase\ProjectCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

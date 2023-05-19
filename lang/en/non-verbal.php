@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'about-me' => 'À propos de moi',
+    'about-me' => 'About me',
+    'password_confirmation' => 'Password confirmation',
 ];

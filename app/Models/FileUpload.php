@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class FileUpload extends Model
 {
+    protected $connection = 'main';
     protected $fillable = [
         'name',
         'filename',

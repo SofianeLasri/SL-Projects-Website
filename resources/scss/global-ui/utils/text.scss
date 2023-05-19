@@ -1,0 +1,16 @@
+@use "sass:map";
+
+.font-black {
+    font-family: "Proxima Nova Black", sans-serif;
+}
+
+@each $color, $value in $theme-colors {
+    .selection-#{ $color } {
+        * {
+            &::selection {
+                background-color: $value;
+                color: map.get($colors-contrast, $color);
+            }
+        }
+    }
+}

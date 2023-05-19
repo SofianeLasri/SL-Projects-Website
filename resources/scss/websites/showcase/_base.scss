@@ -1,0 +1,2 @@
+@use "sass:map";
+$section-vertical-padding: map.get($spacers, 3) * 2;

@@ -1,12 +1,51 @@
-@use "base";
-@use "components/navbar";
-@use "components/footer";
-@use "components/home-showcase";
-@use "components/buttons";
-@use "components/photo-viewer";
-@use "components/miscs";
-@use "utils/colors";
-@use "utils/text";
-@use "pages/home";
+@use "sass:map";
+
+// Fonts
+@import "global-ui/fonts/fonts";
+
+// Font-Awesome
+@import "@fortawesome/fontawesome-free/css/all.css";
+
+// Custom.scss
+// Option B: Include parts of Bootstrap
+
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "~bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "global-ui/variables";
+@import "~bootstrap/scss/variables";
+
+// 4. Include any default map overrides here
 
 
+// 5. Include remainder of required parts
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/root";
+
+// 6. Optionally include any other parts as needed
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+@import "~bootstrap/scss/images";
+@import "~bootstrap/scss/containers";
+@import "~bootstrap/scss/grid";
+@import "~bootstrap/scss/helpers";
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import "~bootstrap/scss/utilities/api";
+
+// Global UI components
+@import "global-ui/components/alerts";
+@import "global-ui/components/buttons";
+@import "global-ui/components/forms";
+
+// Global UI utils
+@import "global-ui/utils/text";
+@import "global-ui/utils/colors";
+
+// Custom global UI
+@import "global-ui/custom";

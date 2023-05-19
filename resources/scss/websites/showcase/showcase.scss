@@ -1,0 +1,46 @@
+@import "../../app.scss";
+
+// Legacy to port
+@import "showcase-legay-styles/base";
+@import "showcase-legay-styles/components/photo-viewer";
+@import "showcase-legay-styles/components/miscs";
+@import "showcase-legay-styles/utils/colors";
+
+// Ported
+@import "base";
+@import "pages/home";
+@import "pages/project";
+@import "pages/projects";
+@import "components/navbar";
+@import "components/footer";
+@import "components/home-showcase";
+@import "components/project-filter";
+@import "components/toogleable-title-bar";
+@import "components/project-date-container";
+@import "components/project-card";
+
+.section-title {
+    font-size: 1.5rem;
+    text-align: center;
+    font-family: "Proxima Nova Black", sans-serif;
+    font-weight: lighter;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+
+    @include media-breakpoint-up(lg) {
+        font-size: 2rem;
+    }
+}
+
+section {
+    padding: $section-vertical-padding 0;
+}
+
+.notice-text {
+    font-family: "Proxima Nova Black", sans-serif;
+    text-transform: uppercase;
+    background-color: $primary;
+    color: $white;
+    padding: 0 .5rem;
+    width: fit-content;
+}

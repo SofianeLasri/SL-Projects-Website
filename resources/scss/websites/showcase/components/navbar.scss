@@ -1,0 +1,156 @@
+@use "sass:map";
+// Navbar
+// Variables
+$navbar-polygon-margin: 0.5rem;
+$navbar-padding-height: .75rem;
+$navbar-padding-width: 1rem;
+$navbar-top-bar-height: calc($navbar-padding-height * 2 + 1.5rem);
+$navbar-border-width: map.get($border-widths, 2);
+$navbar-total-height: calc($navbar-top-bar-height + $navbar-border-width);
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, .75);
+    border-bottom: $primary $navbar-border-width solid;
+    backdrop-filter: blur($blur-radius);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+    font-weight: $font-weight-bold;
+    color: $white;
+
+    .top-bar {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: $navbar-padding-height $navbar-padding-width;
+        height: $navbar-top-bar-height;
+
+        * {
+            height: 100%;
+        }
+    }
+
+    .desktop {
+        display: none;
+        @include media-breakpoint-up(lg) {
+            display: flex;
+        }
+
+        .left-part {
+            display: flex;
+            align-items: center;
+
+            .logo {
+                margin-right: $navbar-polygon-margin*2;
+            }
+        }
+
+        .nav-link {
+            color: $white;
+
+            .link-container {
+                margin: 0 $navbar-polygon-margin*2;
+            }
+
+            &:hover {
+                background-color: $primary;
+                clip-path: polygon($navbar-polygon-margin 0%, 100% 0%, calc(100% - $navbar-polygon-margin) 100%, 0% 100%);
+
+            }
+
+            &.active {
+                background-color: $white;
+                color: $primary;
+                clip-path: polygon($navbar-polygon-margin 0%, 100% 0%, calc(100% - $navbar-polygon-margin) 100%, 0% 100%);
+            }
+        }
+    }
+
+    .mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+
+            button {
+                font-size: 1.25rem;
+            }
+        }
+
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 1.25rem;
+            width: 100%;
+
+            &.open {
+                display: flex;
+            }
+
+            .nav-link {
+                margin: $navbar-polygon-margin 0;
+                color: $white;
+
+                &.active {
+                    color: $primary;
+                }
+            }
+
+            .search {
+                display: flex;
+                width: 100%;
+                margin: $navbar-polygon-margin 0;
+                border-top: map.get($border-widths, 2) solid $white;
+
+                input {
+                    width: auto !important;
+                    flex-grow: 1;
+                }
+            }
+        }
+
+        @include media-breakpoint-up(lg) {
+            display: none;
+        }
+    }
+
+    .search {
+        button {
+            margin: 0 $navbar-polygon-margin*2;
+        }
+
+        &:hover {
+            input {
+                width: 15rem;
+                border-bottom: map.get($border-widths, 2) solid $white;
+            }
+        }
+
+        input {
+            color: $white;
+            background-color: transparent;
+            border: none;
+            padding: .5rem 0;
+            width: 5.5rem;
+            transition: width .5s;
+
+            &:focus {
+                outline: none;
+                box-shadow: none;
+                border-bottom: map.get($border-widths, 2) solid $primary;
+                width: 15rem;
+            }
+        }
+    }
+}
+
+// Fin navbar

@@ -1,0 +1,23 @@
+@use "../base";
+
+.bg-primary {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+.bg-white {
+    background-color: var(--white);
+    color: var(--black);
+}
+
+.bg-light {
+    background-color: var(--light);
+    color: var(--black);
+}
+
+.bg-dark {
+    background-color: var(--dark);
+    color: var(--white);
+}
+
+

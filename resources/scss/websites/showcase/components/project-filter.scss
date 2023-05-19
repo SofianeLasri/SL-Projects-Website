@@ -1,0 +1,40 @@
+@use "sass:map";
+
+.project-filter {
+    display: flex;
+    flex-direction: column;
+    background-color: $primary;
+    color: $white;
+    padding: map.get($border-widths, 2) * 2;
+    font-weight: $font-weight-bold;
+    gap: map.get($border-widths, 2) * 3;
+    user-select: none;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        max-height: 15rem;
+        background-color: $white;
+        color: $black;
+        overflow-y: auto;
+        padding: map.get($border-widths, 2) * 2;
+
+        .filter-item {
+            display: flex;
+            gap: map.get($border-widths, 2) * 2;
+
+            input {
+                accent-color: $primary;
+            }
+
+            &:not(:last-child) {
+                margin-bottom: map.get($border-widths, 2);
+            }
+        }
+    }
+
+    .controls {
+        display: flex;
+        gap: map.get($border-widths, 2) * 2;
+    }
+}
