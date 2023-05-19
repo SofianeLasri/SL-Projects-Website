@@ -2,15 +2,19 @@
 
 namespace App\Providers;
 
+use App\Actions\Auth\AuthenticateRedirectUrl;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\MessageBag;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\Contracts\LoginResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -19,7 +23,35 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->instance(LoginResponse::class, new class implements LoginResponse {
+            public function toResponse($request)
+            {
+                if (!empty(session()->get('url.intended'))) {
+                    $redirectUrl = AuthenticateRedirectUrl::getRedirectUrl($request, session()->get('url.intended'));
+
+                    if ($redirectUrl != null) {
+                        return redirect($redirectUrl);
+                    } else {
+                        Auth::logout();
+
+                        $request->session()->flash(
+                            'errors',
+                            new MessageBag([
+                                'redirect' => trans(
+                                    'validation.allowed_redirect_url',
+                                    [
+                                        'redirect' => $request->input('redirect')
+                                    ]
+                                )
+                            ])
+                        );
+                        return redirect()->route('login');
+                    }
+                } else {
+                    return redirect()->intended(config('fortify.home'));
+                }
+            }
+        });
     }
 
     /**
@@ -37,15 +69,13 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::requestPasswordResetLinkView("websites.auth.forgot-password");
 
         RateLimiter::for('login', function (Request $request) {
-            $email = (string) $request->email;
+            $email = (string)$request->input('email');
 
-            return Limit::perMinute(5)->by($email.$request->ip());
+            return Limit::perMinute(5)->by($email . $request->ip());
         });
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
-
-
     }
 }

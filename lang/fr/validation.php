@@ -16,6 +16,7 @@ return [
     'accepted' => 'Le champ :attribute doit être accepté.',
     'accepted_if' => 'Le champ :attribute doit être accepté quand :other est :value.',
     'active_url' => 'Le champ :attribute n\'est pas une URL valide.',
+    'allowed_redirect_url' => 'L\'URL de redirection spécifiée (:redirect) n\'est pas autorisée',
     'after' => 'Le champ :attribute doit être une date postérieure au :date.',
     'after_or_equal' => 'Le champ :attribute doit être une date postérieure ou égale au :date.',
     'alpha' => 'Le champ :attribute ne peut contenir que des lettres.',

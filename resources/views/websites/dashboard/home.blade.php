@@ -22,7 +22,7 @@
 
 <h3>Bienvenue</h3>
 <code>
-    {{ auth()->user()->name }}
+    {{ auth()->user()->username }}
 </code>
 
 {{--<x-footer/>--}}

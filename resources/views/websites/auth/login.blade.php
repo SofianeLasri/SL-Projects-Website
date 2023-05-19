@@ -19,7 +19,6 @@
                data-form-type="password"
                class="form-control" required>
     </div>
-
     <div class="form-check">
         <input class="form-check-input" type="checkbox" name="remember" id="remember">
         <label class="form-check-label" for="remember">{{ __('verbal.authentication.remember_me') }}</label>
@@ -29,4 +28,9 @@
             class="btn btn-primary p-2 mt-3">{{ __('verb.to_log_in') }}</button>
     <a href="{{ route('password.request') }}" class="text-center">{{ __('compound.forgotten_password') }}
         ?</a>
+
+    @php
+        if($request->has('redirect'))
+            Session::put('url.intended', $request->get('redirect'));
+    @endphp
 @endsection

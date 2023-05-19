@@ -191,7 +191,10 @@ Route::domain(config('app.domain.auth'))->group(function () {
         });
 
         Route::get('/redirects', function () {
-            return redirect(route('showcase.home'));
+            // TODO: Finir ça. :)
+            //return redirect(route('showcase.home'));
+            echo print_r(session()->all(), true);
+            die("att");
         });
     });
 });
