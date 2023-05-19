@@ -186,9 +186,12 @@ Route::domain(config('app.domain.auth'))->group(function () {
                 ->middleware($twoFactorMiddleware);
         }
 
-        // Redirection de / vers /login
         Route::get('/', function () {
             return redirect('/login');
+        });
+
+        Route::get('/redirects', function () {
+            return redirect(route('showcase.home'));
         });
     });
 });

@@ -9,7 +9,7 @@ return new class extends Migration {
     {
         Schema::create('ip_adresses', function (Blueprint $table) {
             $table->id();
-            $table->string('ip');
+            $table->string('ip')->unique();
             $table->timestamps();
         });
     }

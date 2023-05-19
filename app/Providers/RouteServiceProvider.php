@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/home';
+    public const HOME = '/redirects';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -38,6 +38,7 @@ class RouteServiceProvider extends ServiceProvider
                     base_path('routes/auth.php'),
                     base_path('routes/web.php'),
                     base_path('routes/showcase.php'),
+                    base_path('routes/dashboard.php'),
                 ]);
         });
     }

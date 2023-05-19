@@ -14,15 +14,15 @@ return new class extends Migration {
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(IpAdress::class);
-            $table->string('country_code');
+            $table->string('country_code')->nullable();
             $table->string('url');
             $table->enum('method', ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']);
-            $table->string('user_agent');
+            $table->string('user_agent')->nullable();
             $table->string('referer')->nullable();
             $table->string('origin')->nullable();
             $table->string('content_type')->nullable();
-            $table->text('content')->nullable();
-            $table->integer('status_code');
+            $table->integer('content_length')->nullable();
+            $table->integer('status_code')->nullable();
             $table->foreignIdFor(User::class)->nullable();
             $table->timestamps();
         });
