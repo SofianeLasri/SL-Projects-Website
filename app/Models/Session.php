@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Session extends Model
 {
@@ -24,8 +26,13 @@ class Session extends Model
         'last_activity' => 'datetime',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function sessionAccessTokens(): HasMany
+    {
+        return $this->hasMany(SessionAccessToken::class);
     }
 }

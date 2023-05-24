@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Actions\Auth\AuthenticateRedirectUrl;
+use App\Actions\Auth\CustomAuth;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
@@ -27,26 +27,7 @@ class FortifyServiceProvider extends ServiceProvider
             public function toResponse($request)
             {
                 if (!empty(session()->get('url.intended'))) {
-                    $redirectUrl = AuthenticateRedirectUrl::getRedirectUrl($request, session()->get('url.intended'));
-
-                    if ($redirectUrl != null) {
-                        return redirect($redirectUrl);
-                    } else {
-                        Auth::logout();
-
-                        $request->session()->flash(
-                            'errors',
-                            new MessageBag([
-                                'redirect' => trans(
-                                    'validation.allowed_redirect_url',
-                                    [
-                                        'redirect' => $request->input('redirect')
-                                    ]
-                                )
-                            ])
-                        );
-                        return redirect()->route('login');
-                    }
+                    return CustomAuth::authenticateOnRedirectedUrl($request, session()->get('url.intended'));
                 } else {
                     return redirect()->intended(config('fortify.home'));
                 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Actions\Auth\AuthenticateRedirectUrl;
+use App\Actions\Auth\CustomAuth;
 use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\RedirectResponse;
@@ -27,30 +27,10 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if (!empty($request->input('redirect'))) {
-                    $redirectUrl = AuthenticateRedirectUrl::getRedirectUrl($request, $request->input('redirect'));
-
-                    if ($redirectUrl != null) {
-                        return redirect($redirectUrl);
-                    } else {
-                        Auth::logout();
-
-                        $request->session()->flash(
-                            'errors',
-                            new MessageBag([
-                                'redirect' => trans(
-                                    'validation.allowed_redirect_url',
-                                    [
-                                        'redirect' => $request->input('redirect')
-                                    ]
-                                )
-                            ])
-                        );
-                        return redirect()->route('login');
-                    }
-                } else {
+                if (empty($request->input('redirect'))) {
                     return redirect(RouteServiceProvider::HOME);
                 }
+                return CustomAuth::authenticateOnRedirectedUrl($request, $request->input('redirect'));
             }
         }
 
