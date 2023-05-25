@@ -6,7 +6,8 @@ use App\Models\IpAdress;
 use App\Models\Session;
 use App\Models\SessionAccessToken;
 use Carbon\Carbon;
-use Illuminate\Foundation\Application;
+use Illuminate\Contracts\Foundation\Application as ContractsFoundationApplication;
+use Illuminate\Foundation\Application as FoundationApplication;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
@@ -22,9 +23,9 @@ class CustomAuth
      * Redirige vers l'url donnée avec le token en paramètre.
      * @param Request $request
      * @param string $redirectUrl
-     * @return Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+     * @return FoundationApplication|Redirector|RedirectResponse|ContractsFoundationApplication
      */
-    public static function authenticateOnRedirectedUrl(Request $request, string $redirectUrl): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public static function authenticateOnRedirectedUrl(Request $request, string $redirectUrl): FoundationApplication|Redirector|RedirectResponse|ContractsFoundationApplication
     {
         if (!self::isTrustedUrl($redirectUrl)) {
             Auth::logout();

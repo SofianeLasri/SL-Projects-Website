@@ -8,11 +8,10 @@ use Tests\TestCase;
 
 class AuthenticationTest extends TestCase
 {
-    use refreshDatabase;
-    use DatabaseMigrations;
+    use RefreshDatabase;
     public function testBasic()
     {
-        $response = $this->get('/');
+        $response = $this->get('showcase.home');
 
         $response->assertStatus(200);
     }
