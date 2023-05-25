@@ -6,9 +6,11 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
 
+    protected $connection = 'showcase';
+
     public function up()
     {
-        Schema::connection('showcase')->create('projects', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $mainDbName = DB::connection('main')->getDatabaseName();
             $table->integer("id", true, true);
             $table->string("name");
