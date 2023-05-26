@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('country_code')->nullable();
             $table->string('url');
             $table->enum('method', ['GET', 'POST', 'PUT', 'DELETE', 'PATCH']);
-            $table->string('user_agent')->nullable();
+            $table->text('user_agent')->nullable();
             $table->string('referer')->nullable();
             $table->string('origin')->nullable();
             $table->string('content_type')->nullable();
