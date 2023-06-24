@@ -16,6 +16,7 @@ export default defineConfig({
                 'resources/scss/websites/showcase/showcase.scss',
                 'resources/scss/websites/auth/auth.scss',
                 'resources/scss/websites/dashboard/dashboard.scss',
+                'resources/scss/websites/sofianelasri/sofianelasri.scss',
                 'resources/js/app.js'
             ],
             refresh: true,

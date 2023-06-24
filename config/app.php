@@ -61,6 +61,7 @@ return [
         'blog' => env('BLOG_DOMAIN', 'blog.sl-projects.com'),
         'dashboard' => env('DASHBOARD_DOMAIN', 'dashboard.sl-projects.com'),
         'auth' => env('AUTH_DOMAIN', 'auth.sl-projects.com'),
+        'sofianelasri' => env('SOFIANELASRI_DOMAIN', 'sofianelasri.fr'),
     ],
 
     'asset_url' => env('ASSET_URL'),

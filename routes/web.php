@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ProjectsController;
-use App\Http\Controllers\VitrineController;
+use App\Http\Controllers\SofianeLasri\IndexController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,4 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+Route::domain(config('app.domain.sofianelasri'))->group(function () {
+    Route::get('/', [IndexController::class, 'index'])->name('sofianelasri.home');
+});

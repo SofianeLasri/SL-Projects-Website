@@ -1,0 +1,145 @@
+@use "sass:map";
+@import "../../app.scss";
+
+body {
+    background-color: $dark;
+    color: $white;
+    font-weight: $font-weight-bold;
+}
+
+nav {
+    .title {
+        display: none;
+    }
+
+    @include media-breakpoint-up(lg) {
+        .title {
+            display: inline-block;
+        }
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            padding: .4rem 1.5rem;
+            border-radius: 20px;
+
+            &.active, &:hover {
+                background-color: $primary;
+            }
+
+            a {
+                color: $white;
+            }
+
+            @include media-breakpoint-up(md) {
+                display: inline-block;
+            }
+        }
+    }
+}
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: map.get($spacers, 5);
+    margin-bottom: map.get($spacers, 5);
+    text-align: center;
+
+    @include media-breakpoint-up(lg) {
+        flex-direction: row;
+        // calc(hauteur écran - (mt-4) - hauteur navbar)
+        height: calc(100vh - (16px * 1.5) - 40px);
+        margin-top: 0;
+        margin-bottom: 0;
+        text-align: left;
+    }
+
+
+    .meta {
+        display: flex;
+        flex-direction: column;
+
+        h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            line-height: 3.5rem;
+        }
+
+        .sub-title {
+            font-size: 1.5rem;
+        }
+    }
+
+    .bigHead {
+        aspect-ratio: 1/1;
+        width: 100%;
+        height: auto;
+
+        @include media-breakpoint-up(lg) {
+            height: 70vh;
+            width: auto;
+            max-width: 29rem;
+            max-height: 29rem;
+        }
+
+        border-radius: 50%;
+        background-size: cover;
+        background-position: center;
+    }
+}
+
+.sub-title {
+    color: $primary
+}
+
+.skills {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    gap: map.get($spacers, 5);
+
+    .skill {
+        display: flex;
+        gap: map.get($spacers, 3);
+
+        .icon {
+            display: flex;
+            flex-shrink: 0;
+            width: 6rem;
+            height: 6rem;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            background-color: $gray-100;
+            color: $dark;
+            font-size: 2.5rem;
+
+            img {
+                width: 3rem;
+                height: 3rem;
+                object-fit: cover;
+            }
+
+            .fa-laravel {
+                color: #F05340;
+            }
+        }
+
+        .desc {
+
+            p {
+                color: $gray-400;
+            }
+        }
+    }
+}
