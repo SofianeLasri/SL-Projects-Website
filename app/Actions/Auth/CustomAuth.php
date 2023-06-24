@@ -2,8 +2,6 @@
 
 namespace App\Actions\Auth;
 
-use App\Models\IpAdress;
-use App\Models\Session;
 use App\Models\SessionAccessToken;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application as ContractsFoundationApplication;
@@ -13,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\MessageBag;
-use Illuminate\Support\Str;
 use Spatie\Url\Url;
 
 class CustomAuth
@@ -60,9 +57,7 @@ class CustomAuth
         $sessionAccessToken->generateToken();
         $sessionAccessToken->save();
 
-        $newRedirectUrl = Url::fromString($redirectUrl);
-        $newRedirectUrl->withQueryParameter('session_access_token', $sessionAccessToken->token);
-
+        $newRedirectUrl = Url::fromString($redirectUrl)->withQueryParameter('session_access_token', $sessionAccessToken->token);
         return redirect($newRedirectUrl);
     }
 

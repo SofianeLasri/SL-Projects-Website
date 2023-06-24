@@ -11,7 +11,8 @@
         "laravel/framework": "^v10.0.3",
         "laravel/sanctum": "^v3.2.1",
         "laravel/tinker": "^2.7",
-        "spatie/url": "^2.2"
+        "spatie/url": "^2.2",
+      "ext-pdo": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
