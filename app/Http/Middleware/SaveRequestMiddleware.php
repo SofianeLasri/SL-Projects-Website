@@ -22,7 +22,7 @@ class SaveRequestMiddleware
         $this->savedRequest = new RequestModel([
             "ip_adress_id" => $savedIp->id,
             "country_code" => $request->header('CF-IPCountry'),
-            "url" => $request->url(),
+            "url" => $request->fullUrl(),
             "method" => $request->method(),
             "user_agent" => $request->header('User-Agent'),
             "referer" => $request->header('referer'),
