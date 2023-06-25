@@ -65,7 +65,7 @@
     </div>
 
     <section class="container mb-4">
-        <h2>Mes compétances</h2>
+        <h2>Mes compétences</h2>
         <h4 class="sub-title mb-4">En programmation</h4>
 
         <div class="skills">
@@ -89,7 +89,7 @@
                 <div class="desc">
                     <h3>PHP</h3>
                     <p>Programmant en PHP depuis de nombreuses années (2019), j’ai créé de nombreux projets avec ce
-                        langage. Allant du du simple site internet au framework maison, je me suis forgé au fil des
+                        langage. Allant du simple site internet au framework maison, je me suis forgé au fil des
                         années une véritable base de connaissances.</p>
                 </div>
             </div>
@@ -126,9 +126,9 @@
                 <div class="desc">
                     <h3>Java</h3>
                     <p>Au début un peu réticent, j’ai pu acquérir un bon niveau en Java grâce à mon serveur Minecraft
-                        (qui l’eu cru :D). Jeu développé en Java oblige, il a fallu que je m’y mettre pour développer
+                        (qui l’eu cru :D). Jeu développé en Java oblige, il a fallu que je m’y mette pour développer
                         mon serveur.
-                        <br>Par la suite, j’ai pu en apprendre d’avantage à l’université au travers des projets Android
+                        <br>Par la suite, j’ai pu en apprendre davantage à l’université au travers des projets Android
                         Studio.</p>
                     <p class="fw-normal">Je sais même créer des applis pour Nokia 6230 avec J2ME ! :D</p>
                 </div>
@@ -140,9 +140,9 @@
                 </div>
                 <div class="desc">
                     <h3>Unity & C#</h3>
-                    <p>Étant un grand fan de jeux vidéos, j’ai toujours rêvé de réaliser le miens. Ainsi, c’est au
+                    <p>Étant un grand fan de jeux vidéo, j’ai toujours rêvé de réaliser le mien. Ainsi, c’est au
                         travers de mes très nombreuses tentatives et prototypes que j’ai pu gagner en expérience en C#,
-                        mais aussi dans la création de jeux vidéos.
+                        mais aussi dans la création de jeux vidéo.
                         <br>Il peut aussi m’arriver de développer des petites applications en C# sur mon temps libre.
                     </p>
                 </div>
@@ -173,7 +173,7 @@
                 <div class="desc">
                     <h3>Source engine (Hammer)</h3>
                     <p>Ayant fait du map making sur Garry’s Mod entre 2016 et 2020, j’ai acquis de bonnes connaissances
-                        en ce qui concerne la création de maps. J’ai des connaissance poussées en optimisation, chose
+                        en ce qui concerne la création de maps. J’ai des connaissances poussées en optimisation, chose
                         très importante sur ce moteur assez capricieux.</p>
                 </div>
             </div>
@@ -228,7 +228,7 @@
                         <li>Modernisation et migration d'anciennes interfaces, réalisées avec un framework maison, vers
                             Laravel.
                         </li>
-                        <li>Création de composants graphiques facilitant la création de nouvelles interfaces.</li>
+                        <li>Création de composants graphique facilitant la création de nouvelles interfaces.</li>
                         <li>Implémentation de nouvelles fonctionnalités, sur demande, via le tableau sprint.</li>
                         <li>Maintenance des différents projets internes.</li>
                     </ul>
@@ -238,7 +238,7 @@
                         <li>Découverte du framework Laravel (ainsi que de son homologue Lumen).</li>
                         <li>Création et usage des tests unitaires avec PHPUnit.</li>
                         <li>Amélioration de mes connaissances en matière de gestion de projet.</li>
-                        <li>Bonnes pratiques et conventions à respecter pour développer proprement.</li>
+                        <li>Apprentissage des bonnes pratiques et conventions à respecter pour développer proprement.</li>
                     </ul>
                 </div>
             </div>
