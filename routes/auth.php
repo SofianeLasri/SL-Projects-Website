@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RobotsTxtController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
@@ -197,5 +198,6 @@ Route::domain(config('app.domain.auth'))->group(function () {
             die("att");
         });
     });
+    Route::get('/robots.txt',  [RobotsTxtController::class, 'index']);
 });
 
