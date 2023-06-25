@@ -17,5 +17,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::domain(config('app.domain.sofianelasri'))->group(function () {
     Route::get('/', [IndexController::class, 'index'])->name('sofianelasri.home');
-    Route::get('/robots.txt',  [RobotsTxtController::class, 'index']);
+    Route::get('/robots.txt', [RobotsTxtController::class, 'index']);
 });

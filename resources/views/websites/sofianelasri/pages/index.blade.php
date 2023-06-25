@@ -37,17 +37,38 @@
             <p class="mt-3">Salut, moi c’est Sofiane !
                 <br>Professionnellement parlant, je suis développeur web Full-Stack.
                 <br>Mais je sais aussi faire un tas d’autres choses. :D</p>
+
+            <div class="links mt-3 d-flex gap-2 flex-wrap">
+                <a href="https://1drv.ms/b/s!Atk178NpnuLmg8UgVBq-olbfisT0KQ?e=wiqcM0"
+                   class="btn btn-primary rounded-pill"
+                   target="_blank"><i class="fa-solid fa-file-pdf"></i> Télécharger mon CV</a>
+                <a href="https://github.com/SofianeLasri/"
+                   class="btn btn-outline-primary rounded-pill"
+                   target="_blank">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                <a href="https://gitlab.sl-projects.com/SofianeLasri/"
+                   class="btn btn-outline-primary rounded-pill"
+                   target="_blank">
+                    <i class="fa-brands fa-gitlab"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/sofiane-lasri-trienpont/"
+                   class="btn btn-outline-primary rounded-pill"
+                   target="_blank">
+                    <i class="fa-brands fa-linkedin"></i>
+                </a>
+            </div>
         </div>
         <div class="bigHead"
              style="background-image: url('{{ Vite::asset('resources/images/sofianelasri/Studio Couleur 1000px.jpg') }}');">
         </div>
     </div>
 
-    <div class="container">
-        <h2 class="m-0">Mes compétances</h2>
-        <div class="sub-title">En programmation</div>
+    <section class="container mb-4">
+        <h2>Mes compétances</h2>
+        <h4 class="sub-title mb-4">En programmation</h4>
 
-        <div class="skills mt-4">
+        <div class="skills">
             <div class="skill">
                 <div class="icon">
                     <i class="fa-brands fa-laravel"></i>
@@ -127,10 +148,10 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="container mt-4">
-        <div class="sub-title">Annexes</div>
+    <section class="container mb-5">
+        <h4 class="sub-title">Annexes</h4>
 
         <div class="skills mt-4">
             <div class="skill">
@@ -182,5 +203,45 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <section class="container">
+        <h2 class="mb-4">Mon expérience profesionnelle</h2>
+
+        <div class="skills">
+            <div class="skill">
+                <div class="icon">
+                    <img src="{{ Vite::asset('resources/images/sofianelasri/kang_fr_dark.png') }}"
+                         alt="Logo Kang.fr"/>
+                </div>
+                <div class="desc">
+                    <h3 class="m-0">Développeur web Full-Stack</h3>
+                    <div class="sub-title mb-2">
+                        <a href="https://www.kang.fr/" target="_blank">Kang.fr</a> | Avril 2022 - Septembre 2025
+                    </div>
+                    <p>D'abord embauché en tant que stagiaire pour valider mes deux années de DUT, j'y suis désormais
+                        alternant. J'occupe le poste de développeur web Full-Stack, un rôle qui me correspond
+                        parfaitement.</p>
+
+                    <h5>Ma mission au sein de Kang :</h5>
+                    <ul>
+                        <li>Modernisation et migration d'anciennes interfaces, réalisées avec un framework maison, vers
+                            Laravel.
+                        </li>
+                        <li>Création de composants graphiques facilitant la création de nouvelles interfaces.</li>
+                        <li>Implémentation de nouvelles fonctionnalités, sur demande, via le tableau sprint.</li>
+                        <li>Maintenance des différents projets internes.</li>
+                    </ul>
+
+                    <h5>Compétances acquises :</h5>
+                    <ul>
+                        <li>Découverte du framework Laravel (ainsi que de son homologue Lumen).</li>
+                        <li>Création et usage des tests unitaires avec PHPUnit.</li>
+                        <li>Amélioration de mes connaissances en matière de gestion de projet.</li>
+                        <li>Bonnes pratiques et conventions à respecter pour développer proprement.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 @endsection

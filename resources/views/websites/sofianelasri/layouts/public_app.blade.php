@@ -16,12 +16,16 @@
         <meta name="description" content="@yield('pageDesc')">
         <meta property="og:description" content="@yield('pageDesc')"/>
     @else
-        <meta name="description" content="CV en ligne de Sofiane Lasri, développeur web Full-Stack.">
-        <meta property="og:description" content="CV en ligne de Sofiane Lasri, développeur web Full-Stack."/>
+        <meta name="description" content="Développeur web Full-Stack la semaine, programmeur tout langage le week-end.">
+        <meta property="og:description"
+              content="Développeur web Full-Stack la semaine, programmeur tout langage le week-end."/>
     @endif
 
     <meta property="og:locale" content="fr_FR"/>
-    <meta property="og:locale:alternate" content="en_US"/>
+
+    <meta property="og:image" content="{{ Vite::asset('resources/images/sofianelasri/sofianelasri.png') }}"/>
+    <link rel="icon" type="image/png" href="{{ Vite::asset('resources/images/sofianelasri/sofianelasri.png') }}">
+    <meta name="theme-color" content="#f78e57"/>
 
     @yield('head')
 
