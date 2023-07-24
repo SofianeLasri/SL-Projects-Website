@@ -78,3 +78,4 @@ com_crashlytics_export_strings.xml
 
 # ====== VAGRANT ========================================
 .vagrant/
+/.phpunit.cache/
