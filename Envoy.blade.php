@@ -31,6 +31,7 @@
 
 @task('run_npm')
     echo "Running npm install"
+    cd {{ $new_release_dir }}
     npm install
     echo "Building Vite"
     npm run build
