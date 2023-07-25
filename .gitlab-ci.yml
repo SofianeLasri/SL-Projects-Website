@@ -1,10 +1,10 @@
 variables:
-  MARIADB_DATABASE: sl-projects_main
-  MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: yes
-  MAIN_DB_HOST: mariadb
-  MAIN_DB_USERNAME: root
-  SC_DB_HOST: mariadb
-  SC_DB_USERNAME: root
+  MARIADB_DATABASE: "sl-projects_main"
+  MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
+  MAIN_DB_HOST: "mariadb"
+  MAIN_DB_USERNAME: "root"
+  SC_DB_HOST: "mariadb"
+  SC_DB_USERNAME: "root"
 
 default:
   image: registry.gitlab.sl-projects.com/sofianelasri/sl-projects-website:latest
