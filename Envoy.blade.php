@@ -11,6 +11,7 @@
 @story('deploy')
     clone_repository
     run_composer
+    run_npm
     update_symlinks
 @endstory
 
@@ -26,6 +27,13 @@
     echo "Starting deployment ({{ $release }})"
     cd {{ $new_release_dir }}
     composer install --prefer-dist --no-scripts -q -o
+@endtask
+
+@task('run_npm')
+    echo "Running npm install"
+    npm install
+    echo "Building Vite"
+    npm run build
 @endtask
 
 @task('update_symlinks')
