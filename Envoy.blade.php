@@ -47,7 +47,4 @@
 
     echo 'Linking current release'
     ln -nfs {{ $new_release_dir }} {{ $app_dir }}/current
-
-    echo "Setting folder permissions"
-    chown -R www-data:www-data {{ $new_release_dir }}
 @endtask
