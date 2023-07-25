@@ -18,6 +18,8 @@ stages:
 
 setup_mariadb:
   stage: setup
+  services:
+    - mariadb:11
   script:
     - echo "CREATE DATABASE IF NOT EXISTS sl-projects_showcase;" | mariadb -u root -h "${MAIN_DB_HOST}"
 
