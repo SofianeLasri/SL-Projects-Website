@@ -19,7 +19,7 @@ stages:
 setup_mariadb:
   stage: setup
   script:
-    - echo "CREATE DATABASE IF NOT EXISTS sl-projects_showcase;" | mysql -u root -h "${MAIN_DB_HOST}"
+    - echo "CREATE DATABASE IF NOT EXISTS sl-projects_showcase;" | mariadb -u root -h "${MAIN_DB_HOST}"
 
 unit_test:
   stage: test
