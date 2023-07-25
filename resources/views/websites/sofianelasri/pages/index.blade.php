@@ -34,27 +34,31 @@
         <div class="meta">
             <h1>Sofiane Lasri</h1>
             <div class="sub-title">Développeur web Full-Stack</div>
-            <p class="mt-3">Salut, moi c’est Sofiane !
-                <br>Professionnellement parlant, je suis développeur web Full-Stack.
-                <br>Mais je sais aussi faire un tas d’autres choses. :D</p>
+            <p class="desc">Salut, moi c’est Sofiane !
+                <br>Je suis développeur web Full-Stack chez
+                <a href="https://www.kang.fr" target="_blank" title="Visiter le site de mon employeur">Kang.fr</a> la
+                semaine, et programmeur tous langages le
+                week-end. :D</p>
+            <p>Je m'intéresse beaucoup à la création de jeux vidéos.</p>
 
             <div class="links mt-3 d-flex gap-2 flex-wrap">
                 <a href="https://1drv.ms/b/s!Atk178NpnuLmg8UgVBq-olbfisT0KQ?e=wiqcM0"
                    class="btn btn-primary rounded-pill"
-                   target="_blank"><i class="fa-solid fa-file-pdf"></i> Télécharger mon CV</a>
+                   target="_blank"
+                   title="Télécharger mon CV"><i class="fa-solid fa-file-pdf"></i> Télécharger mon CV</a>
                 <a href="https://github.com/SofianeLasri/"
                    class="btn btn-outline-primary rounded-pill"
-                   target="_blank">
+                   target="_blank" title="Visiter mon profil GitHub">
                     <i class="fa-brands fa-github"></i>
                 </a>
                 <a href="https://gitlab.sl-projects.com/SofianeLasri/"
                    class="btn btn-outline-primary rounded-pill"
-                   target="_blank">
+                   target="_blank" title="Visiter mon GitLab personnel">
                     <i class="fa-brands fa-gitlab"></i>
                 </a>
                 <a href="https://www.linkedin.com/in/sofiane-lasri-trienpont/"
                    class="btn btn-outline-primary rounded-pill"
-                   target="_blank">
+                   target="_blank" title="Visiter mon profil LinkedIn">
                     <i class="fa-brands fa-linkedin"></i>
                 </a>
             </div>
@@ -217,7 +221,8 @@
                 <div class="desc">
                     <h3 class="m-0">Développeur web Full-Stack</h3>
                     <div class="sub-title mb-2">
-                        <a href="https://www.kang.fr/" target="_blank">Kang.fr</a> | Avril 2022 - Septembre 2025
+                        <a href="https://www.kang.fr/" target="_blank"
+                           title="Visiter le site de mon employeur">Kang.fr</a> | Avril 2022 - Septembre 2025
                     </div>
                     <p>D'abord embauché en tant que stagiaire pour valider mes deux années de DUT, j'y suis désormais
                         alternant. J'occupe le poste de développeur web Full-Stack, un rôle qui me correspond
@@ -238,7 +243,8 @@
                         <li>Découverte du framework Laravel (ainsi que de son homologue Lumen).</li>
                         <li>Création et usage des tests unitaires avec PHPUnit.</li>
                         <li>Amélioration de mes connaissances en matière de gestion de projet.</li>
-                        <li>Apprentissage des bonnes pratiques et conventions à respecter pour développer proprement.</li>
+                        <li>Apprentissage des bonnes pratiques et conventions à respecter pour développer proprement.
+                        </li>
                     </ul>
                 </div>
             </div>

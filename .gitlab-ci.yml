@@ -16,7 +16,7 @@ default:
 stages:
   - test
   - deploy
-    
+
 unit_test:
   stage: test
   before_script:
@@ -41,6 +41,6 @@ deploy_production:
   environment:
     name: production
     url: https://sofianelasri.fr
-  when: manual
+  when: on_success
   rules:
     - if: $CI_COMMIT_BRANCH == "main"

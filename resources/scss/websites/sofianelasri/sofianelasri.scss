@@ -80,6 +80,14 @@ nav {
             font-size: 1.5rem;
         }
 
+        .desc {
+            margin-top: map.get($spacers, 3);
+
+            @include media-breakpoint-up(lg){
+                max-width: 30rem;
+            }
+        }
+
         .links {
             margin-top: map.get($spacers, 3);
             display: flex;
