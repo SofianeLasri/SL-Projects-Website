@@ -9,7 +9,7 @@ variables:
 default:
   image: registry.gitlab.sl-projects.com/sofianelasri/sl-projects-website:latest
   services:
-    - mariadb:11
+    - mariadb:10.11
 
 stages:
   - test
@@ -19,7 +19,7 @@ unit_test:
   stage: test
   before_script:
     - apt-get update -q && apt-get install -qqy --no-install-recommends mariadb-client
-    - echo "CREATE DATABASE IF NOT EXISTS sl-projects_showcase;" | mariadb -u root -h "${MAIN_DB_HOST}"
+    - echo "CREATE DATABASE IF NOT EXISTS sl-projects_showcase;" | mariadb -u root -h mariadb
   script:
     - cp .env.example .env
     - composer install
