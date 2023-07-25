@@ -13,6 +13,7 @@
     run_composer
     run_npm
     update_symlinks
+    migration
 @endstory
 
 @task('clone_repository')
@@ -51,4 +52,11 @@
 
     echo 'Linking current release'
     ln -nfs {{ $new_release_dir }} {{ $app_dir }}/current
+@endtask
+
+@task('migration')
+    echo "Migrating the database"
+    php artisan migrate --force
+    echo "Clearing cache"
+    php artisan optimize:clear
 @endtask
