@@ -18,6 +18,7 @@ stages:
 unit_test:
   stage: test
   before_script:
+    - apt-get update -q && apt-get install -qqy --no-install-recommends mariadb-client
     - echo "CREATE DATABASE IF NOT EXISTS sl-projects_showcase;" | mariadb -u root -h "${MAIN_DB_HOST}"
   script:
     - cp .env.example .env
