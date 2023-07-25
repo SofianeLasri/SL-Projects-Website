@@ -9,7 +9,7 @@ variables:
 default:
   image: registry.gitlab.sl-projects.com/sofianelasri/sl-projects-website:latest
   services:
-    - mariadb:lastest
+    - mariadb:11
 
 stages:
   - setup
