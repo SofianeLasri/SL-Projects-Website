@@ -1,30 +1,27 @@
 variables:
-  MARIADB_DATABASE: "sl-projects_main"
+  MARIADB_DATABASE: "sl_projects_main"
   MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
   MAIN_DB_HOST: "mariadb"
   MAIN_DB_USERNAME: "root"
   SC_DB_HOST: "mariadb"
   SC_DB_USERNAME: "root"
+  MAIN_DB_DATABASE: sl_projects_main
+  SC_DB_DATABASE: sl_projects_showcase
 
 default:
   image: registry.gitlab.sl-projects.com/sofianelasri/sl-projects-website:latest
   services:
-    - mariadb:11
+    - mariadb:10.11
 
 stages:
-  - setup
   - test
   - deploy
-
-setup_mariadb:
-  stage: setup
-  services:
-    - mariadb:11
-  script:
-    - echo "CREATE DATABASE IF NOT EXISTS sl-projects_showcase;" | mariadb -u root -h "${MAIN_DB_HOST}"
-
+    
 unit_test:
   stage: test
+  before_script:
+    - apt-get update -q && apt-get install -qqy --no-install-recommends mariadb-client
+    - echo "CREATE DATABASE IF NOT EXISTS sl_projects_showcase;" | mariadb -u root -h mariadb
   script:
     - cp .env.example .env
     - composer install
