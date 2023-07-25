@@ -55,6 +55,7 @@
 @endtask
 
 @task('migration')
+    cd {{ $new_release_dir }}
     echo "Migrating the database"
     php artisan migrate --force
     echo "Clearing cache"
