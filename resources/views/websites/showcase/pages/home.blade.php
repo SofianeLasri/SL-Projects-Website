@@ -19,12 +19,12 @@
             <div class="desktop-controls">
                 <div class="left">
                     <button onclick="previousPresentation()" class="control-button" type="button"
-                            title="{{ __('noun.previous') }}"><i
+                            title="{{ __('general/noun.previous') }}"><i
                             class="fa-solid fa-chevron-left"></i></button>
                 </div>
                 <div class="right">
                     <button onclick="nextPresentation()" class="control-button" type="button"
-                            title="{{ __('noun.next') }}"><i
+                            title="{{ __('general/noun.next') }}"><i
                             class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>

@@ -37,9 +37,9 @@
             </div>
         </div>
         <div class="controls">
-            <button class="fullscreen" title="{{ __('verb.fullscreen') }}"><i class="fa-solid fa-expand"></i></button>
-            <button class="previous" title="{{ __('verb.previous') }}"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="next" title="{{ __('verb.next') }}"><i class="fa-solid fa-chevron-right"></i></button>
+            <button class="fullscreen" title="{{ __('general/verb.fullscreen') }}"><i class="fa-solid fa-expand"></i></button>
+            <button class="previous" title="{{ __('general/verb.previous') }}"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="next" title="{{ __('general/verb.next') }}"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
     </div>
 
