@@ -222,7 +222,7 @@
                     <h3 class="m-0">Développeur web Full-Stack</h3>
                     <div class="sub-title mb-2">
                         <a href="https://www.kang.fr/" target="_blank"
-                           title="Visiter le site de mon employeur">Kang.fr</a> | Avril 2022 - Septembre 2025
+                           title="Visiter le site de mon employeur">Kang.fr</a> | Avril 2022 - Aujourd'hui
                     </div>
                     <p>D'abord embauché en tant que stagiaire pour valider mes deux années de DUT, j'y suis désormais
                         alternant. J'occupe le poste de développeur web Full-Stack, un rôle qui me correspond
