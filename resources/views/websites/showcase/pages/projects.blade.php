@@ -7,7 +7,7 @@
     <meta property="article:author" content="SofianeLasri">
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="{{ getWebsiteUrl("showcase") }}"/>
-    <meta property="og:image" content="{{ getWebsiteUrl("showcase").config('app.img.og.large') }}"/>
+    <meta property="og:image" content="{{ Vite::asset("resources/images/logos/og-logo-orange.jpg") }}"/>
     <meta property="og:image:width" content="512"/>
     <meta property="og:image:height" content="512"/>
 @endsection

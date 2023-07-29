@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     @hasSection('pageName')
-        <title>@yield('pageName') - {{ config('app.name') }}</title>
-        <meta property="og:title" content="@yield('pageName') - {{ config('app.name') }}"/>
+        <title>@yield('pageName') | {{ __('dashboard/message.meta.name') }}</title>
+        <meta property="og:title" content="@yield('pageName') - {{ __('dashboard/message.meta.name') }}"/>
     @else
         <title>{{ config('app.name') }}</title>
         <meta property="og:title" content="{{ config('app.name') }}"/>
@@ -16,12 +16,19 @@
         <meta name="description" content="@yield('pageDesc')">
         <meta property="og:description" content="@yield('pageDesc')"/>
     @else
-        <meta name="description" content="{{ __('generic.global_website_description') }}">
-        <meta property="og:description" content="{{ __('generic.global_website_description') }}"/>
+        <meta name="description" content="{{ __('dashboard/message.meta.desc') }}">
+        <meta property="og:description" content="{{ __('dashboard/message.meta.desc') }}"/>
     @endif
 
-    <meta property="og:locale" content="fr_FR"/>
+    <link rel="icon" type="image/png" href="{{ Vite::asset("resources/images/logos/orange-favicon.png") }}" />
+
+    <meta property="og:locale" content="{{ str_replace('-', '_', app()->getLocale()) }}"/>
     <meta property="og:locale:alternate" content="en_US"/>
+
+    <meta property="og:url" content="{{ getWebsiteUrl("showcase") }}"/>
+    <meta property="og:image" content="{{ Vite::asset("resources/images/logos/og-logo-orange.jpg") }}"/>
+    <meta property="og:image:width" content="512"/>
+    <meta property="og:image:height" content="512"/>
 
     @yield('head')
 
@@ -29,8 +36,6 @@
 </head>
 <body>
 @yield('body')
-
-{{--<x-footer/>--}}
 
 @vite(['resources/js/app.js'])
 @stack('scripts')

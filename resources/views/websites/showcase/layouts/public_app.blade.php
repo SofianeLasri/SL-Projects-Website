@@ -16,11 +16,11 @@
         <meta name="description" content="@yield('pageDesc')">
         <meta property="og:description" content="@yield('pageDesc')"/>
     @else
-        <meta name="description" content="{{ __('generic.global_website_description') }}">
-        <meta property="og:description" content="{{ __('generic.global_website_description') }}"/>
+        <meta name="description" content="{{ __('showcase/message.meta') }}">
+        <meta property="og:description" content="{{ __('showcase/message.meta') }}"/>
     @endif
 
-    <meta property="og:locale" content="fr_FR"/>
+    <meta property="og:locale" content="{{ str_replace('-', '_', app()->getLocale()) }}"/>
     <meta property="og:locale:alternate" content="en_US"/>
 
     @yield('head')

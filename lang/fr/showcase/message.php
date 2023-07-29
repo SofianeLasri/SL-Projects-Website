@@ -1,5 +1,8 @@
 <?php
 
 return [
-    'meta' => 'La maison de tous les projets de Sofiane Lasri.'
+    'meta' => [
+        'desc' => 'La maison de tous les projets de Sofiane Lasri.',
+        'name' => "SL-Projects"
+    ]
 ];

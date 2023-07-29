@@ -1,5 +1,8 @@
 <?php
 
 return [
-    'meta' => "The home of all Sofiane's project."
+    'meta' => [
+        'desc' => 'The home of all Sofiane\'s project.',
+        'name' => "SL-Projects"
+    ]
 ];

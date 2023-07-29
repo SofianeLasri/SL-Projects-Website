@@ -1,5 +1,8 @@
 <?php
 
 return [
-    'meta' => 'Administration de SL-Projects.'
+    'meta' => [
+        'desc' => 'Administration de SL-Projects.',
+        'name' => "Administration"
+    ]
 ];

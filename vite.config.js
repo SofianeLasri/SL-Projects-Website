@@ -22,4 +22,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        assetsInlineLimit: "1024", // 1kb, normalement = 4kb
+    },
 });

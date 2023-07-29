@@ -61,13 +61,17 @@ class CustomAuth
         return redirect($newRedirectUrl);
     }
 
+    /**
+     * Vérifie que le domaine de redirection est bien dans la liste des domaines du site.
+     * Pas de OAuth2 pour l'instant.
+     * @param string $redirectUrl Url à vérifier
+     * @return bool
+     */
     public static function isTrustedUrl(string $redirectUrl): bool
     {
         $parsedUrl = Url::fromString($redirectUrl);
         $urlHost = $parsedUrl->getHost();
 
-        // On vérifie que le domaine de redirection est bien dans la liste des domaines du site
-        // Pas de OAuth2 pour l'instant
         if (in_array($urlHost, config("app.domain"))) {
             return true;
         } else {
