@@ -2,8 +2,8 @@
 
 @section('pageName', 'Accueil')
 
-@section('body')
-    <h3>Eh salut ! :D</h3>
+@section('pageContent')
+    <h3>Il n'y a rien à voir ici</h3>
 @endsection
 
 @push('scripts')

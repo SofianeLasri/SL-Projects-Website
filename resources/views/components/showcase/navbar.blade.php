@@ -23,7 +23,7 @@
         </div>
         <div class="right-part">
             <form class="search" type="get">
-                <button class="transparent-button" type="submit" title="{{ __('general/verb.to_search') }}"><i class="fa-solid fa-magnifying-glass"></i>
+                <button class="text-btn" type="submit" title="{{ __('general/verb.to_search') }}"><i class="fa-solid fa-magnifying-glass"></i>
                 </button>
                 <input type="text" name="search" placeholder="{{ __('general/verb.to_search') }}" required>
             </form>
@@ -33,13 +33,13 @@
     {{--Navbar mobile--}}
     <div class="mobile">
         <div class="top-bar container">
-            <button class="transparent-button" id="openMobileMenu" type="button" title="{{ __('general/verbal.open-menu') }}"><i
+            <button class="text-btn" id="openMobileMenu" type="button" title="{{ __('general/verbal.open-menu') }}"><i
                     class="fa-solid fa-bars"></i>
             </button>
             <a href="{{ route('showcase.home') }}">
                 <img src="{{ Vite::asset('resources/images/logos/white-short.svg') }}" alt="Logo">
             </a>
-            <button class="transparent-button" id="focusMobileSearchBar" type="button" title="{{ __('general/verb.to_search') }}"><i
+            <button class="text-btn" id="focusMobileSearchBar" type="button" title="{{ __('general/verb.to_search') }}"><i
                     class="fa-solid fa-magnifying-glass"></i></button>
         </div>
         {{--Masqué par défaut--}}
@@ -63,7 +63,7 @@
                 <form class="search" type="get">
                     <input id="mobileSearchBar" type="text" name="search" placeholder="{{ __('general/verb.to_search') }}"
                            required>
-                    <button class="transparent-button" type="submit" title="{{ __('general/verb.to_search') }}"><i
+                    <button class="text-btn" type="submit" title="{{ __('general/verb.to_search') }}"><i
                             class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </form>

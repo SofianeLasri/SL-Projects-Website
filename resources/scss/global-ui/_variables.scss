@@ -23,7 +23,7 @@ $gray-600: hsl($primary-color-hue, 7%, 46%);
 $gray-700: hsl($primary-color-hue, 9%, 31%);
 $gray-800: hsl($primary-color-hue, 10%, 23%);
 $gray-900: hsl($primary-color-hue, 11%, 15%);
-$black: #000 !default;
+$black: #000;
 // scss-docs-end gray-color-variables
 
 // scss-docs-start theme-color-variables
@@ -31,6 +31,7 @@ $success: $green;
 $warning: $yellow;
 $danger: $red;
 $dark: $gray-900;
+$dark-alt: $gray-800;
 $light: $gray-100;
 // scss-docs-end theme-color-variables
 
@@ -42,7 +43,8 @@ $theme-colors: (
     "danger": $danger,
     "light": $light,
     "white": $white,
-    "dark": $dark
+    "dark": $dark,
+    "dark-alt": $dark-alt
 );
 
 $colors-contrast: (
@@ -54,17 +56,109 @@ $colors-contrast: (
     "warning": $white,
     "danger": $white,
     "dark": $white,
+    "dark-alt": $white,
     "light": $black,
     "white": $primary,
     "black": $white
 );
 // scss-docs-end theme-colors-map
 
+// fusv-disable
+$red-100: tint-color($red, 80%);
+$red-200: tint-color($red, 60%);
+$red-300: tint-color($red, 40%);
+$red-400: tint-color($red, 20%);
+$red-500: $red;
+$red-600: shade-color($red, 20%);
+$red-700: shade-color($red, 40%);
+$red-800: shade-color($red, 60%);
+$red-900: shade-color($red, 80%);
+
+$orange-100: tint-color($orange, 80%);
+$orange-200: tint-color($orange, 60%);
+$orange-300: tint-color($orange, 40%);
+$orange-400: tint-color($orange, 20%);
+$orange-500: $orange;
+$orange-600: shade-color($orange, 20%);
+$orange-700: shade-color($orange, 40%);
+$orange-800: shade-color($orange, 60%);
+$orange-900: shade-color($orange, 80%);
+
+$yellow-100: tint-color($yellow, 80%);
+$yellow-200: tint-color($yellow, 60%);
+$yellow-300: tint-color($yellow, 40%);
+$yellow-400: tint-color($yellow, 20%);
+$yellow-500: $yellow;
+$yellow-600: shade-color($yellow, 20%);
+$yellow-700: shade-color($yellow, 40%);
+$yellow-800: shade-color($yellow, 60%);
+$yellow-900: shade-color($yellow, 80%);
+
+$green-100: tint-color($green, 80%);
+$green-200: tint-color($green, 60%);
+$green-300: tint-color($green, 40%);
+$green-400: tint-color($green, 20%);
+$green-500: $green;
+$green-600: shade-color($green, 20%);
+$green-700: shade-color($green, 40%);
+$green-800: shade-color($green, 60%);
+$green-900: shade-color($green, 80%);
+
+$reds: (
+    "red-100": $red-100,
+    "red-200": $red-200,
+    "red-300": $red-300,
+    "red-400": $red-400,
+    "red-500": $red-500,
+    "red-600": $red-600,
+    "red-700": $red-700,
+    "red-800": $red-800,
+    "red-900": $red-900
+);
+
+$oranges: (
+    "orange-100": $orange-100,
+    "orange-200": $orange-200,
+    "orange-300": $orange-300,
+    "orange-400": $orange-400,
+    "orange-500": $orange-500,
+    "orange-600": $orange-600,
+    "orange-700": $orange-700,
+    "orange-800": $orange-800,
+    "orange-900": $orange-900
+);
+
+$yellows: (
+    "yellow-100": $yellow-100,
+    "yellow-200": $yellow-200,
+    "yellow-300": $yellow-300,
+    "yellow-400": $yellow-400,
+    "yellow-500": $yellow-500,
+    "yellow-600": $yellow-600,
+    "yellow-700": $yellow-700,
+    "yellow-800": $yellow-800,
+    "yellow-900": $yellow-900
+);
+
+$greens: (
+    "green-100": $green-100,
+    "green-200": $green-200,
+    "green-300": $green-300,
+    "green-400": $green-400,
+    "green-500": $green-500,
+    "green-600": $green-600,
+    "green-700": $green-700,
+    "green-800": $green-800,
+    "green-900": $green-900
+);
+// fusv-enable
+
 // Couleurs hover
-$primary-hovered: darken(desaturate($primary, 15), 12.55);
+$primary-hovered: $orange-400;
 $warning-hovered: darken($warning, 12.55);
 $danger-hovered: darken($danger, 12.55);
-$dark-hovered: lighten(desaturate(adjust-hue($dark, -60), 1.41), 42.94);
+$dark-hovered: $gray-800;
+$dark-alt-hovered: $primary;
 $light-hovered: darken($light, 10%);
 
 $colors-hovered: (
@@ -75,6 +169,7 @@ $colors-hovered: (
     "warning": $warning-hovered,
     "danger": $danger-hovered,
     "dark": $dark-hovered,
+    "dark-alt": $dark-alt-hovered,
     "light": $light-hovered,
     "white": $light,
     "black": $black
@@ -130,7 +225,7 @@ $grid-breakpoints: (
     xl: 1280px,
     xxl: 1440px,
     xxxl: 1600px
-) !default;
+);
 // scss-docs-end grid-breakpoints
 
 @include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
@@ -149,7 +244,7 @@ $container-max-widths: (
     xl: map-get($grid-breakpoints, xl) - map-get($grid-breakpoints, xl) * .05,
     xxl: map-get($grid-breakpoints, xxl) - map-get($grid-breakpoints, xxl) * .05,
     xxxl: map-get($grid-breakpoints, xxxl) - map-get($grid-breakpoints, xxxl) * .05
-) !default;
+);
 // scss-docs-end container-max-widths
 
 $blur-radius: 8px;

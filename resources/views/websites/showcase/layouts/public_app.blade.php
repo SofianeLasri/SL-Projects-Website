@@ -16,8 +16,8 @@
         <meta name="description" content="@yield('pageDesc')">
         <meta property="og:description" content="@yield('pageDesc')"/>
     @else
-        <meta name="description" content="{{ __('showcase/message.meta') }}">
-        <meta property="og:description" content="{{ __('showcase/message.meta') }}"/>
+        <meta name="description" content="{{ __('showcase/message.meta.desc') }}">
+        <meta property="og:description" content="{{ __('showcase/message.meta.desc') }}"/>
     @endif
 
     <meta property="og:locale" content="{{ str_replace('-', '_', app()->getLocale()) }}"/>

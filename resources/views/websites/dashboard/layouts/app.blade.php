@@ -20,7 +20,7 @@
         <meta property="og:description" content="{{ __('dashboard/message.meta.desc') }}"/>
     @endif
 
-    <link rel="icon" type="image/png" href="{{ Vite::asset("resources/images/logos/orange-favicon.png") }}" />
+    <link rel="icon" type="image/png" href="{{ Vite::asset("resources/images/logos/orange-favicon.png") }}"/>
 
     <meta property="og:locale" content="{{ str_replace('-', '_', app()->getLocale()) }}"/>
     <meta property="og:locale:alternate" content="en_US"/>
@@ -35,7 +35,12 @@
     @vite(['resources/scss/websites/dashboard/dashboard.scss'])
 </head>
 <body>
-@yield('body')
+<div id="app">
+    <x-dashboard.sidebar/>
+    <div id="pageContent">
+        @yield('pageContent')
+    </div>
+</div>
 
 @vite(['resources/js/app.js'])
 @stack('scripts')
