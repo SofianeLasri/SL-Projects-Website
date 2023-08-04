@@ -7,7 +7,8 @@ use Illuminate\View\Component;
 
 class PhotoViewer extends Component
 {
-    public string $title = "Visionneuse de photos";
+    public string $title = 'Visionneuse de photos';
+
     public array $photos;
 
     public function __construct(string $title = null, array $photos = [])
@@ -17,6 +18,7 @@ class PhotoViewer extends Component
         }
         $this->photos = $photos;
     }
+
     public function render(): View
     {
         return view('components.showcase.photo-viewer');

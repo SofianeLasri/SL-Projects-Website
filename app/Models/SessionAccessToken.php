@@ -18,6 +18,19 @@ class SessionAccessToken extends Model
         'expires_at' => 'datetime',
     ];
 
+    /**
+     * Annule tous les tokens actifs pour un utilisateur donné.
+     */
+    public static function cancelAllActiveTokensForUser(User $user): void
+    {
+        $user->sessions->each(function (Session $session) {
+            $session->sessionAccessTokens->each(function (SessionAccessToken $sessionAccessToken) {
+                $sessionAccessToken->expires_at = now();
+                $sessionAccessToken->save();
+            });
+        });
+    }
+
     public function session()
     {
         return $this->belongsTo(Session::class);
@@ -25,7 +38,6 @@ class SessionAccessToken extends Model
 
     /**
      * Génère un token aléatoire et unique.
-     * @return void
      */
     public function generateToken(): void
     {
@@ -41,20 +53,5 @@ class SessionAccessToken extends Model
         } else {
             $this->token = $token;
         }
-    }
-
-    /**
-     * Annule tous les tokens actifs pour un utilisateur donné.
-     * @param User $user
-     * @return void
-     */
-    public static function cancelAllActiveTokensForUser(User $user): void
-    {
-        $user->sessions->each(function (Session $session) {
-            $session->sessionAccessTokens->each(function (SessionAccessToken $sessionAccessToken) {
-                $sessionAccessToken->expires_at = now();
-                $sessionAccessToken->save();
-            });
-        });
     }
 }

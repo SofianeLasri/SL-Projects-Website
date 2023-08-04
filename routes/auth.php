@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\RobotsTxtController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -11,7 +12,6 @@ use Laravel\Fortify\Http\Controllers\EmailVerificationNotificationController;
 use Laravel\Fortify\Http\Controllers\EmailVerificationPromptController;
 use Laravel\Fortify\Http\Controllers\NewPasswordController;
 use Laravel\Fortify\Http\Controllers\PasswordController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\ProfileInformationController;
 use Laravel\Fortify\Http\Controllers\RecoveryCodeController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
@@ -30,7 +30,6 @@ use Laravel\Fortify\RoutePath;
 | Ici sont répertoriées les routes utilisées par Fortify pour l'authentification.
 |
 */
-
 
 Route::domain(config('app.domain.auth'))->group(function () {
     Route::group(['middleware' => config('fortify.middleware', ['web'])], function () {
@@ -195,9 +194,8 @@ Route::domain(config('app.domain.auth'))->group(function () {
             // TODO: Finir ça. :)
             //return redirect(route('showcase.home'));
             echo print_r(session()->all(), true);
-            die("att");
+            exit('att');
         });
     });
-    Route::get('/robots.txt',  [RobotsTxtController::class, 'index']);
+    Route::get('/robots.txt', [RobotsTxtController::class, 'index']);
 });
-

@@ -11,146 +11,146 @@ class ProjectsController extends Controller
         $firstFilter = [
             [
                 'name' => 'source-engine',
-                'label' => 'Source Engine'
+                'label' => 'Source Engine',
             ],
             [
                 'name' => 'developpement-web',
-                'label' => 'Développement Web'
+                'label' => 'Développement Web',
             ],
             [
                 'name' => 'developpement-mobile',
-                'label' => 'Développement Mobile'
+                'label' => 'Développement Mobile',
             ],
             [
                 'name' => 'unity',
-                'label' => 'Unity'
+                'label' => 'Unity',
             ],
             [
                 'name' => 'unreal-engine',
-                'label' => 'Unreal Engine'
+                'label' => 'Unreal Engine',
             ],
             [
                 'name' => 'game-design',
-                'label' => 'Game Design'
+                'label' => 'Game Design',
             ],
             [
                 'name' => 'gameplay-programming',
-                'label' => 'Gameplay Programming'
+                'label' => 'Gameplay Programming',
             ],
             [
                 'name' => 'gameplay-design',
-                'label' => 'Gameplay Design'
+                'label' => 'Gameplay Design',
             ],
             [
                 'name' => 'gameplay-art',
-                'label' => 'Gameplay Art'
+                'label' => 'Gameplay Art',
             ],
             [
                 'name' => 'gameplay-sound',
-                'label' => 'Gameplay Sound'
+                'label' => 'Gameplay Sound',
             ],
             [
                 'name' => 'gameplay-animation',
-                'label' => 'Gameplay Animation'
+                'label' => 'Gameplay Animation',
             ],
             [
                 'name' => 'gameplay-level-design',
-                'label' => 'Gameplay Level Design'
+                'label' => 'Gameplay Level Design',
             ],
             [
                 'name' => 'gameplay-ui-design',
-                'label' => 'Gameplay UI Design'
+                'label' => 'Gameplay UI Design',
             ],
             [
                 'name' => 'gameplay-character-design',
-                'label' => 'Gameplay Character Design'
+                'label' => 'Gameplay Character Design',
             ],
             [
                 'name' => 'gameplay-vfx',
-                'label' => 'Gameplay VFX'
+                'label' => 'Gameplay VFX',
             ],
             [
                 'name' => 'gameplay-ux',
-                'label' => 'Gameplay UX'
+                'label' => 'Gameplay UX',
             ],
             [
                 'name' => 'gameplay-ai',
-                'label' => 'Gameplay AI'
+                'label' => 'Gameplay AI',
             ],
             [
                 'name' => 'gameplay-network',
-                'label' => 'Gameplay Network'
+                'label' => 'Gameplay Network',
             ],
             [
                 'name' => 'gameplay-multiplayer',
-                'label' => 'Gameplay Multiplayer'
+                'label' => 'Gameplay Multiplayer',
             ],
             [
                 'name' => 'gameplay-physics',
-                'label' => 'Gameplay Physics'
+                'label' => 'Gameplay Physics',
             ],
             [
                 'name' => 'gameplay-scripting',
-                'label' => 'Gameplay Scripting'
+                'label' => 'Gameplay Scripting',
             ],
             [
                 'name' => 'gameplay-3d',
-                'label' => 'Gameplay 3D'
+                'label' => 'Gameplay 3D',
             ],
             [
                 'name' => 'gameplay-2d',
-                'label' => 'Gameplay 2D'
+                'label' => 'Gameplay 2D',
             ],
             [
                 'name' => 'gameplay-3d-animation',
-                'label' => 'Gameplay 3D Animation'
-            ]
+                'label' => 'Gameplay 3D Animation',
+            ],
         ];
 
         $secondFilter = [
             [
                 'name' => '2023',
-                'label' => '2023'
+                'label' => '2023',
             ],
             [
                 'name' => '2022',
-                'label' => '2022'
+                'label' => '2022',
             ],
             [
                 'name' => '2021',
-                'label' => '2021'
+                'label' => '2021',
             ],
             [
                 'name' => '2020',
-                'label' => '2020'
+                'label' => '2020',
             ],
             [
                 'name' => '2019',
-                'label' => '2019'
+                'label' => '2019',
             ],
             [
                 'name' => '2018',
-                'label' => '2018'
+                'label' => '2018',
             ],
             [
                 'name' => '2017',
-                'label' => '2017'
+                'label' => '2017',
             ],
             [
                 'name' => '2016',
-                'label' => '2016'
-            ]
+                'label' => '2016',
+            ],
         ];
 
         $filters = [
             [
                 'title' => 'Catégories',
-                'filter' => $firstFilter
+                'filter' => $firstFilter,
             ],
             [
                 'title' => 'Années',
-                'filter' => $secondFilter
-            ]
+                'filter' => $secondFilter,
+            ],
         ];
 
         $fakeProjects = [
@@ -225,7 +225,7 @@ class ProjectsController extends Controller
                 'slug' => 'placeholder',
                 'project_start_date' => new Carbon('2021-01-01'),
                 'project_end_date' => new Carbon('2022-09-01'),
-            ]
+            ],
         ];
 
         $yearGroupedProjects = [];
@@ -233,7 +233,8 @@ class ProjectsController extends Controller
             $yearGroupedProjects[$project['project_start_date']->year][] = $project;
         }
         krsort($yearGroupedProjects);
-        return view("websites.showcase.pages.projects", [
+
+        return view('websites.showcase.pages.projects', [
             'filters' => $filters,
             'yearGroupedProjects' => $yearGroupedProjects,
         ]);

@@ -10,6 +10,7 @@ use Illuminate\View\Component;
 class UserProfilePicture extends Component
 {
     private User $user;
+
     private string $userProfilPic;
 
     public function __construct(User $user = null)
@@ -19,7 +20,7 @@ class UserProfilePicture extends Component
         } else {
             $this->user = $user;
         }
-        $this->userProfilPic = "";
+        $this->userProfilPic = '';
         // TODO : Terminer ce composant lorsque nous aurons terminé la gestion des images.
     }
 

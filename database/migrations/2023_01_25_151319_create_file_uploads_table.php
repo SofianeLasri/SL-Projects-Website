@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-
+return new class extends Migration
+{
     protected $connection = 'main';
 
     public function up()
     {
         Schema::create('file_uploads', function (Blueprint $table) {
-            $table->integer("id", true, true);
+            $table->integer('id', true, true);
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->string('filename')->unique();

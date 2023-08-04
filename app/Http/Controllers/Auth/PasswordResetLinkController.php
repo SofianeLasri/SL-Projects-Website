@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use Laravel\Fortify\Contracts\FailedPasswordResetLinkRequestResponse;
 use Laravel\Fortify\Contracts\SuccessfulPasswordResetLinkRequestResponse;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController as FortifyPasswordResetLinkController;
@@ -14,9 +13,6 @@ class PasswordResetLinkController extends FortifyPasswordResetLinkController
 {
     /**
      * Send a reset link to the given user.
-     *
-     * @param Request $request
-     * @return Responsable
      */
     public function store(Request $request): Responsable
     {

@@ -6,6 +6,6 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        return view("websites.showcase.pages.project");
+        return view('websites.showcase.pages.project');
     }
 }

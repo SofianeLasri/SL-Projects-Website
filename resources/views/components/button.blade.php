@@ -49,35 +49,35 @@
 <{{ $tagName }}
     class="btn {{ $class }}"
 
-    @if(!empty($id))
-       id="{{ $id }}"
-    @endif
-    @if(!empty($title))
-       title="{{ $title }}"
-    @endif
+@if(!empty($id))
+    id="{{ $id }}"
+@endif
+@if(!empty($title))
+    title="{{ $title }}"
+@endif
 
-    @if($tagName === "a")
-        @if(!empty($href))
-            href="{{ $href }}"
-        @endif
-        @if(!empty($target))
-            target="{{ $target }}"
-        @endif
-    @else
-        type="{{ $type }}"
+@if($tagName === "a")
+    @if(!empty($href))
+        href="{{ $href }}"
     @endif
+    @if(!empty($target))
+        target="{{ $target }}"
+    @endif
+@else
+    type="{{ $type }}"
+@endif
 
-    @if(!empty($badgeText))
-        data-has-badge="yes" style="overflow: visible;"
-    @endif
-    {{ $attributes }}
+@if(!empty($badgeText))
+    data-has-badge="yes" style="overflow: visible;"
+@endif
+{{ $attributes }}
 >
-    @if(!empty($badgeText))
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-{{ $badgeColor }}">
+@if(!empty($badgeText))
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-{{ $badgeColor }}">
             {{ $badgeText }}
         </span>
-    @endif
-    {{ $slot }}
+@endif
+{{ $slot }}
 </{{ $tagName }}>
 
 @pushonce('scripts')

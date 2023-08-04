@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class IpAdress extends Model
 {
     protected $connection = 'main';
+
     protected $fillable = [
         'ip',
     ];

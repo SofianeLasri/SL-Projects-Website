@@ -9,13 +9,15 @@
 @section("form")
     <div class="d-flex flex-column">
         <label for="username" class="form-label">{{ __('general/compound.username') }}</label>
-        <input type="text" name="username" id="username" placeholder="{{ __('general/verbal.authentication.enter_your_username') }}"
+        <input type="text" name="username" id="username"
+               placeholder="{{ __('general/verbal.authentication.enter_your_username') }}"
                data-form-type="username" value="{{ old('username') }}"
                class="form-control" required>
     </div>
     <div class="d-flex flex-column">
         <label for="password" class="form-label">{{ __('general/compound.password') }}</label>
-        <input type="text" name="password" id="password" placeholder="{{ __('general/verbal.authentication.enter_your_password') }}"
+        <input type="password" name="password" id="password"
+               placeholder="{{ __('general/verbal.authentication.enter_your_password') }}"
                data-form-type="password"
                class="form-control" required>
     </div>

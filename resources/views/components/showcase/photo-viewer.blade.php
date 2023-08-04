@@ -19,7 +19,8 @@
         <div id="photoPreviewList" class="photos">
             @for($i = 0; $i < 24; $i++)
                 <div class="preview-container">
-                    <img src="{{ Vite::asset('resources/images/dev/starisland-motel.jpg') }}" alt="Photo super passionnante">
+                    <img src="{{ Vite::asset('resources/images/dev/starisland-motel.jpg') }}"
+                         alt="Photo super passionnante">
                 </div>
             @endfor
         </div>
@@ -31,15 +32,19 @@
             <div id="caroussel" class="carousel-items">
                 @for($i = 0; $i < 24; $i++)
                     <div class="photo-container">
-                        <img src="{{ Vite::asset('resources/images/dev/starisland-motel.jpg') }}" alt="Photo super passionnante">
+                        <img src="{{ Vite::asset('resources/images/dev/starisland-motel.jpg') }}"
+                             alt="Photo super passionnante">
                     </div>
                 @endfor
             </div>
         </div>
         <div class="controls">
-            <button class="fullscreen" title="{{ __('general/verb.fullscreen') }}"><i class="fa-solid fa-expand"></i></button>
-            <button class="previous" title="{{ __('general/verb.previous') }}"><i class="fa-solid fa-chevron-left"></i></button>
-            <button class="next" title="{{ __('general/verb.next') }}"><i class="fa-solid fa-chevron-right"></i></button>
+            <button class="fullscreen" title="{{ __('general/verb.fullscreen') }}"><i class="fa-solid fa-expand"></i>
+            </button>
+            <button class="previous" title="{{ __('general/verb.previous') }}"><i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="next" title="{{ __('general/verb.next') }}"><i class="fa-solid fa-chevron-right"></i>
+            </button>
         </div>
     </div>
 

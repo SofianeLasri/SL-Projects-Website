@@ -8,7 +8,8 @@
             <x-showcase.nav-link href="{{ route('showcase.home') }}" :active="request()->routeIs('showcase.home')">
                 {{ __('general/noun.home') }}
             </x-showcase.nav-link>
-            <x-showcase.nav-link href="{{ route('showcase.projects') }}" :active="request()->routeIs('showcase.projects')">
+            <x-showcase.nav-link href="{{ route('showcase.projects') }}"
+                                 :active="request()->routeIs('showcase.projects')">
                 {{ __('general/noun.projects') }}
             </x-showcase.nav-link>
             <x-showcase.nav-link href="#">
@@ -23,7 +24,8 @@
         </div>
         <div class="right-part">
             <form class="search" type="get">
-                <button class="text-btn" type="submit" title="{{ __('general/verb.to_search') }}"><i class="fa-solid fa-magnifying-glass"></i>
+                <button class="text-btn" type="submit" title="{{ __('general/verb.to_search') }}"><i
+                        class="fa-solid fa-magnifying-glass"></i>
                 </button>
                 <input type="text" name="search" placeholder="{{ __('general/verb.to_search') }}" required>
             </form>
@@ -39,7 +41,8 @@
             <a href="{{ route('showcase.home') }}">
                 <img src="{{ Vite::asset('resources/images/logos/white-short.svg') }}" alt="Logo">
             </a>
-            <button class="text-btn" id="focusMobileSearchBar" type="button" title="{{ __('general/verb.to_search') }}"><i
+            <button class="text-btn" id="focusMobileSearchBar" type="button" title="{{ __('general/verb.to_search') }}">
+                <i
                     class="fa-solid fa-magnifying-glass"></i></button>
         </div>
         {{--Masqué par défaut--}}
@@ -61,7 +64,8 @@
                     {{ __('general/non-verbal.about-me') }}
                 </x-showcase.nav-link>
                 <form class="search" type="get">
-                    <input id="mobileSearchBar" type="text" name="search" placeholder="{{ __('general/verb.to_search') }}"
+                    <input id="mobileSearchBar" type="text" name="search"
+                           placeholder="{{ __('general/verb.to_search') }}"
                            required>
                     <button class="text-btn" type="submit" title="{{ __('general/verb.to_search') }}"><i
                             class="fa-solid fa-magnifying-glass"></i>

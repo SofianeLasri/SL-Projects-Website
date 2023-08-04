@@ -10,7 +10,7 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </x-square-icon>
         </x-button>
-        <x-button type="button" id="closeSidebar" class="btn-primary btn-sm btn-square rounded"
+        <x-button type="button" id="closeSidebar" class="btn-dark btn-sm btn-square rounded"
                   title="Fermer la barre de navigation">
             <x-square-icon>
                 <i class="fa-solid fa-bars"></i>
