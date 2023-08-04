@@ -7,29 +7,33 @@ use Tests\TestCase;
 
 class DashboardNavigationLinksConfigStructuralTest extends TestCase
 {
-    public function testBasic()
+    /** @test */
+    public function checkNavigationConfigStructure(): void
     {
         $navigation = config('dashboard.navigation');
-        $this->checkNodeStructure($navigation);
-    }
+        $ids = [];
 
-    private function checkNodeStructure(array $node): void
-    {
-        foreach ($node as $index => $item) {
-            // Vérifie les attributs obligatoires
+        foreach ($navigation as $item) {
+            // Check required fields
+            $this->assertNotEmpty($item['id']);
+            $this->assertIsString($item['id']);
+            $this->assertNotEmpty($item['title']);
             $this->assertIsString($item['title']);
+            $this->assertNotEmpty($item['description']);
             $this->assertIsString($item['description']);
-            $this->assertNotNull($item['title']);
-            $this->assertNotNull($item['description']);
 
-            // Vérifie la route si elle est présente
+            // Check unique ID
+            $this->assertNotContains($item['id'], $ids);
+            $ids[] = $item['id'];
+
+            // Check if route exists
             if (isset($item['route'])) {
-                $this->assertTrue(Route::has($item['route']), "Route {$item['route']} does not exist.");
+                $this->assertTrue(Route::has($item['route']));
             }
 
-            // Vérifie les enfants si présents
-            if (isset($item['children'])) {
-                $this->checkNodeStructure($item['children']);
+            // Check if parent exists
+            if (isset($item['parent'])) {
+                $this->assertContains($item['parent'], $ids);
             }
         }
     }
