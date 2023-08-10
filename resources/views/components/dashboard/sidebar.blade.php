@@ -50,45 +50,11 @@
         </div>
     </div>
 
-    <div class="d-flex flex-column gap-3">
-        <div class="d-flex flex-column">
-            <div class="fw-bold text-primary lh-1">Administration</div>
-            <div class="small text-white-50">Pages relative à la gestion interne</div>
-        </div>
-
-        <div class="d-flex flex-column gap-1">
-            <x-button type="link" href="#" class="btn-primary rounded d-flex align-items-center gap-2">
-                <x-square-icon size="1.5rem">
-                    <i class="fa-solid fa-house"></i>
-                </x-square-icon>
-                <div class="flex-grow-1 lh-1">Accueil</div>
-            </x-button>
-
-            <x-button type="link" href="#" class="btn-dark rounded d-flex align-items-center gap-2">
-                <x-square-icon size="1.5rem">
-                    <i class="fa-solid fa-cog"></i>
-                </x-square-icon>
-                <div class="flex-grow-1 lh-1">Paramètres</div>
-                <x-square-icon size="1.5rem">
-                    <i class="fa-solid fa-angle-right"></i>
-                </x-square-icon>
-            </x-button>
-
-            <x-button type="link" href="#" class="btn-dark rounded d-flex align-items-center gap-2">
-                <x-square-icon size="1.5rem">
-                    <i class="fa-solid fa-users"></i>
-                </x-square-icon>
-                <div class="flex-grow-1 lh-1">Utilisateurs</div>
-                <x-square-icon size="1.5rem">
-                    <i class="fa-solid fa-angle-right"></i>
-                </x-square-icon>
-            </x-button>
-        </div>
-    </div>
+    <x-dashboard.navigation />
 </div>
 
 @push('scripts')
     <script type="text/javascript">
-
+        // Code à écrire
     </script>
 @endpush

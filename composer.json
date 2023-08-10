@@ -6,13 +6,14 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ext-pdo": "*",
         "guzzlehttp/guzzle": "^7.5",
         "laravel/fortify": "^1.17",
         "laravel/framework": "^v10.0.3",
         "laravel/sanctum": "^v3.2.1",
         "laravel/tinker": "^2.7",
-        "spatie/url": "^2.2",
-      "ext-pdo": "*"
+        "livewire/livewire": "v3.0.0-beta.7",
+        "spatie/url": "^2.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

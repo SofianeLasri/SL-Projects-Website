@@ -10,30 +10,22 @@ class DashboardNavigationLinksConfigStructuralTest extends TestCase
     /** @test */
     public function checkNavigationConfigStructure(): void
     {
-        $navigation = config('dashboard.navigation');
-        $ids = [];
+        $navigationConfig = config('dashboard.navigation');
+        foreach ($navigationConfig as $category) {
+            $this->assertArrayHasKey('title', $category, 'Catégorie sans titre');
+            $this->assertArrayHasKey('description', $category, 'Catégorie sans description');
 
-        foreach ($navigation as $item) {
-            // Check required fields
-            $this->assertNotEmpty($item['id']);
-            $this->assertIsString($item['id']);
-            $this->assertNotEmpty($item['title']);
-            $this->assertIsString($item['title']);
-            $this->assertNotEmpty($item['description']);
-            $this->assertIsString($item['description']);
+            $this->assertArrayHasKey('children', $category, 'Catégorie sans enfants');
+            foreach ($category['children'] as $child) {
+                $this->assertArrayHasKey('title', $child, 'Enfant sans titre');
 
-            // Check unique ID
-            $this->assertNotContains($item['id'], $ids);
-            $ids[] = $item['id'];
-
-            // Check if route exists
-            if (isset($item['route'])) {
-                $this->assertTrue(Route::has($item['route']));
-            }
-
-            // Check if parent exists
-            if (isset($item['parent'])) {
-                $this->assertContains($item['parent'], $ids);
+                // Si le groupe de liens existe
+                if (array_key_exists('links', $child)) {
+                    $this->assertNotEmpty($child['links'], 'Groupe de liens sans enfants');
+                    foreach ($child['links'] as $link) {
+                        $this->assertArrayHasKey('title', $link, 'Lien sans titre');
+                    }
+                }
             }
         }
     }
