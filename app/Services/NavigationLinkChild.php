@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 class NavigationLinkChild
 {
+    public string $id;
     public string $title;
     public string $url;
     public array $links;
@@ -14,6 +15,7 @@ class NavigationLinkChild
 
     public function __construct($child)
     {
+        $this->id = "nav-link-" . uniqid();
         $this->title = $child['title'];
         $this->url = !empty($child['url']) ? $child['url'] : '#';
         $this->icon = $child['icon'] ?? '';

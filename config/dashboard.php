@@ -23,7 +23,7 @@ return [
                     'title' => 'Utilisateurs',
                     'icon' => 'fa-solid fa-users',
                     'links' => [
-                        ['title' => 'Lien 1', 'url' => 'url1', 'icon' => 'icon1'],
+                        ['title' => 'Lien 1', 'url' => 'dashboard.home', 'icon' => 'icon1'],
                         ['title' => 'Lien 2', 'url' => 'url2', 'icon' => 'icon2'],
                     ]
                 ],

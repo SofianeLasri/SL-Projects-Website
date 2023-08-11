@@ -40,7 +40,7 @@
                 </x-square-icon>
             </x-button>
             <x-button type="link" href="{{ route('logout') }}"
-                      class="btn-danger btn-sm btn-square rounded d-flex align-items-center gap-1"
+                      class="btn-danger btn-sm rounded d-flex align-items-center gap-1"
                       title="Rejoindre la page des paramètres">
                 <x-square-icon>
                     <i class="fa-solid fa-right-from-bracket"></i>
@@ -50,11 +50,18 @@
         </div>
     </div>
 
-    <x-dashboard.navigation />
+    <x-dashboard.navigation/>
 </div>
 
-@push('scripts')
+@pushonce('scripts')
     <script type="text/javascript">
-        // Code à écrire
+        const sidebar = document.getElementById('sidebar');
+        const hasVerticalScrollbar = sidebar.scrollHeight > sidebar.clientHeight;
+
+        if (hasVerticalScrollbar) {
+            const scrollbarWidth = sidebar.offsetWidth - sidebar.clientWidth;
+            console.log("Scrollbar width: " + scrollbarWidth);
+            sidebar.style.width = `${sidebar.offsetWidth + scrollbarWidth}px`;
+        }
     </script>
-@endpush
+@endpushonce

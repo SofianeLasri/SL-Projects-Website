@@ -4,6 +4,7 @@
     display: none;
     flex-direction: column;
     overflow-y: auto;
+    scrollbar-width: thin;
 
     @include media-breakpoint-up(lg) {
         display: flex;
