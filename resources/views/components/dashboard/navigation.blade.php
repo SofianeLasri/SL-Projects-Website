@@ -58,7 +58,7 @@
         const groupDropdownIconOpenHTML = '<i class="fa-solid fa-angle-right"></i>';
 
         // Fonction pour basculer l'état d'un élément de groupe
-        const toggleGroup = (groupElement) => {
+        const toggleNavLinkGroup = (groupElement) => {
             // Récupération de l'ID de l'élément cliqué
             const parentId = groupElement.id;
 
@@ -89,7 +89,7 @@
 
         navLinksGroupElements.forEach(groupElement => {
             // Ajout d'un événement au clic de la souris
-            groupElement.addEventListener('click', () => toggleGroup(groupElement));
+            groupElement.addEventListener('click', () => toggleNavLinkGroup(groupElement));
         });
 
         // Recherche de divs à afficher ou masquer avec un lien ou un bouton ayant la classe "btn-primary"
@@ -97,7 +97,7 @@
             if (childElement.querySelector('.btn-primary')) {
                 const parentId = childElement.dataset.parentNavLink;
                 const parentGroupElement = document.getElementById(parentId);
-                if (parentGroupElement) toggleGroup(parentGroupElement);
+                if (parentGroupElement) toggleNavLinkGroup(parentGroupElement);
             }
         });
     </script>
