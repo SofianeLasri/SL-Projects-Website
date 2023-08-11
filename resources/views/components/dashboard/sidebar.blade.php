@@ -60,7 +60,6 @@
 
         if (hasVerticalScrollbar) {
             const scrollbarWidth = sidebar.offsetWidth - sidebar.clientWidth;
-            console.log("Scrollbar width: " + scrollbarWidth);
             sidebar.style.width = `${sidebar.offsetWidth + scrollbarWidth}px`;
         }
     </script>

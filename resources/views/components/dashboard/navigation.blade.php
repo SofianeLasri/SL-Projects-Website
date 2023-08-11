@@ -54,51 +54,51 @@
 
 @pushonce('scripts')
     <script type="text/javascript">
-        // Sélection de tous les éléments avec le dataset data-nav-link-type="group"
-        const navLinksGroupElements = document.querySelectorAll('[data-nav-link-type="group"]');
-
-        // Définition des icônes à utiliser
         const groupDropdownIconCloseHTML = '<i class="fa-solid fa-angle-down"></i>';
         const groupDropdownIconOpenHTML = '<i class="fa-solid fa-angle-right"></i>';
 
+        // Fonction pour basculer l'état d'un élément de groupe
+        const toggleGroup = (groupElement) => {
+            // Récupération de l'ID de l'élément cliqué
+            const parentId = groupElement.id;
+
+            // Sélection de tous les éléments dont le dataset data-parent-nav-link est égal à l'ID de l'élément cliqué
+            const childElements = document.querySelectorAll(`[data-parent-nav-link="${parentId}"]`);
+
+            childElements.forEach(childElement => {
+                // Vérification de l'état actuel de l'élément
+                const status = childElement.dataset.status;
+
+                // Trouver la div enfante avec le dataset "data-nav-icon-type"
+                const squareIconDiv = groupElement.querySelector('[data-nav-icon-type="group-dropdown"]');
+
+                if (status === 'closed') {
+                    childElement.classList.replace('d-none', 'd-flex');
+                    childElement.dataset.status = 'opened';
+                    if (squareIconDiv) squareIconDiv.innerHTML = groupDropdownIconCloseHTML;
+                } else {
+                    childElement.classList.replace('d-flex', 'd-none');
+                    childElement.dataset.status = 'closed';
+                    if (squareIconDiv) squareIconDiv.innerHTML = groupDropdownIconOpenHTML;
+                }
+            });
+        };
+
+        // Sélection de tous les éléments avec le dataset data-nav-link-type="group"
+        const navLinksGroupElements = document.querySelectorAll('[data-nav-link-type="group"]');
+
         navLinksGroupElements.forEach(groupElement => {
             // Ajout d'un événement au clic de la souris
-            groupElement.addEventListener('click', () => {
-                // Récupération de l'ID de l'élément cliqué
-                const parentId = groupElement.id;
-
-                // Sélection de tous les éléments dont le dataset data-parent-nav-link est égal à l'ID de l'élément cliqué
-                const childElements = document.querySelectorAll(`[data-parent-nav-link="${parentId}"]`);
-
-                childElements.forEach(childElement => {
-                    // Vérification de l'état actuel de l'élément
-                    const status = childElement.dataset.status;
-
-                    // Trouver la div enfante avec le dataset "data-nav-icon-type"
-                    const squareIconDiv = groupElement.querySelector('[data-nav-icon-type="group-dropdown"]');
-
-                    if (status === 'closed') {
-                        // Si l'état est "closed", afficher l'élément en remplaçant 'd-none' par 'd-flex'
-                        childElement.classList.replace('d-none', 'd-flex');
-                        childElement.dataset.status = 'opened';
-
-                        // Mise à jour de la div avec le dataset "data-nav-icon-type"
-                        if (squareIconDiv) {
-                            squareIconDiv.innerHTML = groupDropdownIconCloseHTML;
-                        }
-                    } else {
-                        // Si l'état est "opened", masquer l'élément en remplaçant 'd-flex' par 'd-none'
-                        childElement.classList.replace('d-flex', 'd-none');
-                        childElement.dataset.status = 'closed';
-
-                        // Mise à jour de la div avec le dataset "data-nav-icon-type"
-                        if (squareIconDiv) {
-                            squareIconDiv.innerHTML = groupDropdownIconOpenHTML;
-                        }
-                    }
-                });
-            });
+            groupElement.addEventListener('click', () => toggleGroup(groupElement));
         });
 
+        // Recherche de divs à afficher ou masquer avec un lien ou un bouton ayant la classe "btn-primary"
+        document.querySelectorAll('[data-status]').forEach(childElement => {
+            if (childElement.querySelector('.btn-primary')) {
+                const parentId = childElement.dataset.parentNavLink;
+                const parentGroupElement = document.getElementById(parentId);
+                if (parentGroupElement) toggleGroup(parentGroupElement);
+            }
+        });
     </script>
 @endpushonce
