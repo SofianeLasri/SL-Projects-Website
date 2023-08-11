@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Session extends Model
 {
-    protected $connection = 'main';
     public $timestamps = false;
+
     public $incrementing = false;
+
+    protected $connection = 'main';
+
     protected $keyType = 'string';
 
     protected $fillable = [

@@ -5,7 +5,7 @@
     {{--<meta property="article:author" content="SofianeLasri">--}}
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="{{ getWebsiteUrl("showcase") }}"/>
-    <meta property="og:image" content="{{ getWebsiteUrl("showcase").config('app.img.og.large') }}"/>
+    <meta property="og:image" content="{{ Vite::asset("resources/images/logos/og-logo-orange.jpg") }}"/>
     <meta property="og:image:width" content="512"/>
     <meta property="og:image:height" content="512"/>
 @endsection
@@ -19,12 +19,12 @@
             <div class="desktop-controls">
                 <div class="left">
                     <button onclick="previousPresentation()" class="control-button" type="button"
-                            title="{{ __('noun.previous') }}"><i
+                            title="{{ __('general/noun.previous') }}"><i
                             class="fa-solid fa-chevron-left"></i></button>
                 </div>
                 <div class="right">
                     <button onclick="nextPresentation()" class="control-button" type="button"
-                            title="{{ __('noun.next') }}"><i
+                            title="{{ __('general/noun.next') }}"><i
                             class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     protected $connection = 'showcase';
+
     protected $fillable = [
         'name',
         'slug',

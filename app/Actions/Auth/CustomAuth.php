@@ -18,13 +18,10 @@ class CustomAuth
     /**
      * Permet la création d'un token de session à usage unique pour la connexion à un site interne.
      * Redirige vers l'url donnée avec le token en paramètre.
-     * @param Request $request
-     * @param string $redirectUrl
-     * @return FoundationApplication|Redirector|RedirectResponse|ContractsFoundationApplication
      */
     public static function authenticateOnRedirectedUrl(Request $request, string $redirectUrl): FoundationApplication|Redirector|RedirectResponse|ContractsFoundationApplication
     {
-        if (!self::isTrustedUrl($redirectUrl)) {
+        if (! self::isTrustedUrl($redirectUrl)) {
             Auth::logout();
 
             $request->session()->flash(
@@ -33,11 +30,12 @@ class CustomAuth
                     'redirect' => trans(
                         'validation.allowed_redirect_url',
                         [
-                            'redirect' => $request->input('redirect')
+                            'redirect' => $request->input('redirect'),
                         ]
-                    )
+                    ),
                 ])
             );
+
             return redirect()->route('login');
         }
 
@@ -58,17 +56,22 @@ class CustomAuth
         $sessionAccessToken->save();
 
         $newRedirectUrl = Url::fromString($redirectUrl)->withQueryParameter('session_access_token', $sessionAccessToken->token);
+
         return redirect($newRedirectUrl);
     }
 
+    /**
+     * Vérifie que le domaine de redirection est bien dans la liste des domaines du site.
+     * Pas de OAuth2 pour l'instant.
+     *
+     * @param  string  $redirectUrl Url à vérifier
+     */
     public static function isTrustedUrl(string $redirectUrl): bool
     {
         $parsedUrl = Url::fromString($redirectUrl);
         $urlHost = $parsedUrl->getHost();
 
-        // On vérifie que le domaine de redirection est bien dans la liste des domaines du site
-        // Pas de OAuth2 pour l'instant
-        if (in_array($urlHost, config("app.domain"))) {
+        if (in_array($urlHost, config('app.domain'))) {
             return true;
         } else {
             return false;

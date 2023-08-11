@@ -2,7 +2,7 @@
 
 @section("body")
     <div
-            class="authentication-container">
+        class="authentication-container">
         <div class="logo">
             <x-logo-short/>
         </div>

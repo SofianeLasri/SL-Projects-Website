@@ -49,8 +49,8 @@ class Kernel extends HttpKernel
 
         'secure' => [
             'web',
-            AuthenticateThroughtSessionAccessTokenMiddleware::class
-        ]
+            AuthenticateThroughtSessionAccessTokenMiddleware::class,
+        ],
     ];
 
     /**

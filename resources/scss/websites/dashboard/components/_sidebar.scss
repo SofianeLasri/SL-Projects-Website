@@ -1,0 +1,28 @@
+@use "sass:map";
+
+#sidebar {
+    display: none;
+    flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: thin;
+
+    &.opened {
+        display: flex;
+
+        @include media-breakpoint-up(lg) {
+            width: 16rem;
+        }
+        @include media-breakpoint-down(lg) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1000;
+        }
+    }
+
+    > * {
+        padding: map.get($spacers, 2) map.get($spacers, 3);
+    }
+}

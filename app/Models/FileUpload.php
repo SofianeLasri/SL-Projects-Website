@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class FileUpload extends Model
 {
     protected $connection = 'main';
+
     protected $fillable = [
         'name',
         'filename',
@@ -48,6 +49,6 @@ class FileUpload extends Model
 
     public function getFileUrl()
     {
-        return Storage::url($this->path . '/' . $this->filename);
+        return Storage::url($this->path.'/'.$this->filename);
     }
 }

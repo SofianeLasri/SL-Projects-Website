@@ -9,17 +9,14 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\MessageBag;
 
 class RedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param Closure(Request): (Response|RedirectResponse) $next
-     * @param string|null ...$guards
-     * @return Response|RedirectResponse
+     * @param  Closure(Request): (Response|RedirectResponse)  $next
+     * @param  string|null  ...$guards
      */
     public function handle(Request $request, Closure $next, ...$guards): Response|RedirectResponse
     {
@@ -30,6 +27,7 @@ class RedirectIfAuthenticated
                 if (empty($request->input('redirect'))) {
                     return redirect(RouteServiceProvider::HOME);
                 }
+
                 return CustomAuth::authenticateOnRedirectedUrl($request, $request->input('redirect'));
             }
         }

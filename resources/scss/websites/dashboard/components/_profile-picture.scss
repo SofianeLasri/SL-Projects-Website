@@ -1,0 +1,27 @@
+@use "sass:map";
+
+.profile-pic {
+    position: relative;
+    width: 4.5rem;
+    aspect-ratio: 1/1;
+
+    .picture {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-image: url("/resources/images/dev/placeholder.jpg");
+        background-position: center;
+        background-size: cover;
+    }
+
+    .status {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        height: 1rem + (.25rem * 2);
+        aspect-ratio: 1/1;
+        border: .25rem solid $dark;
+        border-radius: 50%;
+        background-color: $green;
+    }
+}

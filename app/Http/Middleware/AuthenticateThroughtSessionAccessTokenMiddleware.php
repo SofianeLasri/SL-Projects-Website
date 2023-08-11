@@ -34,14 +34,16 @@ class AuthenticateThroughtSessionAccessTokenMiddleware
                     // We remove the session_access_token from the url
                     $url = $request->fullUrl();
                     $url = Url::fromString($url)->withoutQueryParameter('session_access_token');
+
                     return redirect($url);
                 }
             }
         }
 
-        if (!$request->user()) {
+        if (! $request->user()) {
             return redirect(route('login', ['redirect' => $request->fullUrl()]));
         }
+
         return $next($request);
     }
 }
