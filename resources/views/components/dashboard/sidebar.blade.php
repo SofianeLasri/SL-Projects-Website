@@ -1,4 +1,4 @@
-<div id="sidebar" class="bg-dark">
+<div id="sidebar" class="bg-dark {{ $sidebarOpened ? 'opened' : '' }}">
     <div class="d-flex align-items-center gap-2">
         <div class="flex-grow-1">
             <x-logo-short height="1.5rem"/>
@@ -57,10 +57,22 @@
     <script type="text/javascript">
         const sidebar = document.getElementById('sidebar');
         const hasVerticalScrollbar = sidebar.scrollHeight > sidebar.clientHeight;
+        const closeSidebarButton = document.getElementById('closeSidebar');
 
         if (hasVerticalScrollbar) {
             const scrollbarWidth = sidebar.offsetWidth - sidebar.clientWidth;
             sidebar.style.width = `${sidebar.offsetWidth + scrollbarWidth}px`;
         }
+
+        closeSidebarButton.addEventListener('click', () => {
+            if (sidebar.classList.contains('opened')) {
+                sidebar.classList.remove('opened');
+
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', '{{ route('ajax.set-sidebar-state', ['opened' => 'false']) }}');
+                xhr.send();
+            }
+            document.getElementById('openSidebar').classList.remove('d-none');
+        });
     </script>
 @endpushonce

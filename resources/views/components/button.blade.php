@@ -101,6 +101,10 @@
             }
 
             button.appendChild(circle);
+
+            setTimeout(() => {
+                circle.remove();
+            }, 600);
         }
 
         const buttons = document.querySelectorAll('.btn:not([data-has-badge="yes"])');
