@@ -5,7 +5,7 @@
 @section('pageContent')
     <div class="px-3 py-2">
         <h3>Il n'y a rien à voir ici</h3>
-        {{ request()->cookie('desktopOpenedSidebar') }}
+        {{ request()->cookie('isDashboardSidebarOpened') }}
     </div>
 @endsection
 

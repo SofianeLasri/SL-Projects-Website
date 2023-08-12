@@ -8,7 +8,7 @@ Route::domain(config('app.domain.dashboard'))->group(function () {
 
         Route::group(['prefix' => 'ajax'], function () {
             Route::get('/set-sidebar-state', function () {
-                cookie()->queue('desktopOpenedSidebar', request()->input('opened') === 'true' ? 'true' : 'false', 60 * 24 * 30); // 30 jours
+                cookie()->queue('isDashboardSidebarOpened', request()->input('opened') === 'true' ? 'true' : 'false', 60 * 24 * 30); // 30 jours
             })->name('ajax.set-sidebar-state');
         });
     });

@@ -9,7 +9,7 @@ return [
                 [
                     'title' => 'Accueil',
                     'url' => 'dashboard.home',
-                    'icon' => 'fa-solid fa-house'
+                    'icon' => 'fa-solid fa-house',
                 ],
                 [
                     'title' => 'Paramètres',
@@ -17,7 +17,7 @@ return [
                     'links' => [
                         ['title' => 'Paramètre 1', 'url' => 'url1', 'icon' => 'icon1'],
                         ['title' => 'Paramètre 2', 'url' => 'url2', 'icon' => 'icon2'],
-                    ]
+                    ],
                 ],
                 [
                     'title' => 'Utilisateurs',
@@ -25,9 +25,9 @@ return [
                     'links' => [
                         ['title' => 'Lien 1', 'url' => 'url1', 'icon' => 'icon1'],
                         ['title' => 'Lien 2', 'url' => 'url2', 'icon' => 'icon2'],
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ],
         [
             'title' => 'Sites',
@@ -39,7 +39,7 @@ return [
                     'links' => [
                         ['title' => 'Lien 1', 'url' => 'url1', 'icon' => 'icon1'],
                         ['title' => 'Lien 2', 'url' => 'url2', 'icon' => 'icon2'],
-                    ]
+                    ],
                 ],
                 [
                     'title' => 'Blog',
@@ -47,9 +47,9 @@ return [
                     'links' => [
                         ['title' => 'Lien 1', 'url' => 'url1', 'icon' => 'icon1'],
                         ['title' => 'Lien 2', 'url' => 'url2', 'icon' => 'icon2'],
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ],
     ],
 ];

@@ -2,9 +2,9 @@
 
 namespace App\View\Components\Dashboard;
 
+use App\Services\NavigationLinkCategory;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Services\NavigationLinkCategory;
 
 class Navigation extends Component
 {

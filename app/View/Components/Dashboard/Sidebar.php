@@ -8,12 +8,16 @@ use Illuminate\View\Component;
 class Sidebar extends Component
 {
     private bool $sidebarOpened;
+
     public function __construct()
     {
-        $this->sidebarOpened = request()->cookie('desktopOpenedSidebar') === 'true';
+        $sidebarOpenedCookieValue = request()->cookie('isDashboardSidebarOpened');
 
-        if (! $this->sidebarOpened) {
-            cookie()->queue('desktopOpenedSidebar', 'true', 60 * 24 * 30); // 30 jours
+        if ($sidebarOpenedCookieValue === null) {
+            cookie()->queue('isDashboardSidebarOpened', 'true', 60 * 24 * 30); // 30 jours
+            $this->sidebarOpened = true;
+        } else {
+            $this->sidebarOpened = $sidebarOpenedCookieValue === 'true';
         }
     }
 

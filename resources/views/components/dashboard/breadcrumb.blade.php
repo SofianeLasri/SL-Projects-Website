@@ -1,5 +1,6 @@
 <div class="breadcrumb">
-    <x-button type="button" id="openSidebar" class="btn-dark btn-sm btn-square rounded {{ $sidebarOpened ? 'd-none' : '' }}"
+    <x-button type="button" id="openSidebar"
+              class="btn-dark btn-sm btn-square rounded {{ $sidebarOpened ? 'd-none' : '' }}"
               title="Ouvrir la barre de navigation">
         <x-square-icon>
             <i class="fa-solid fa-bars"></i>
@@ -28,6 +29,7 @@
         const openSidebarButton = document.getElementById('openSidebar');
 
         openSidebarButton.addEventListener('click', () => {
+            let sidebar = document.getElementById('sidebar');
             if (!sidebar.classList.contains('opened')) {
                 sidebar.classList.add('opened');
 

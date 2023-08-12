@@ -55,24 +55,28 @@
 
 @pushonce('scripts')
     <script type="text/javascript">
-        const sidebar = document.getElementById('sidebar');
-        const hasVerticalScrollbar = sidebar.scrollHeight > sidebar.clientHeight;
         const closeSidebarButton = document.getElementById('closeSidebar');
 
-        if (hasVerticalScrollbar) {
-            const scrollbarWidth = sidebar.offsetWidth - sidebar.clientWidth;
-            sidebar.style.width = `${sidebar.offsetWidth + scrollbarWidth}px`;
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            let sidebar = document.getElementById('sidebar');
+            let hasVerticalScrollbar = sidebar.scrollHeight > sidebar.clientHeight;
 
-        closeSidebarButton.addEventListener('click', () => {
-            if (sidebar.classList.contains('opened')) {
-                sidebar.classList.remove('opened');
 
-                let xhr = new XMLHttpRequest();
-                xhr.open('GET', '{{ route('ajax.set-sidebar-state', ['opened' => 'false']) }}');
-                xhr.send();
+            if (hasVerticalScrollbar) {
+                const scrollbarWidth = sidebar.offsetWidth - sidebar.clientWidth;
+                sidebar.style.width = `${sidebar.offsetWidth + scrollbarWidth}px`;
             }
-            document.getElementById('openSidebar').classList.remove('d-none');
+
+            closeSidebarButton.addEventListener('click', () => {
+                if (sidebar.classList.contains('opened')) {
+                    sidebar.classList.remove('opened');
+
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('GET', '{{ route('ajax.set-sidebar-state', ['opened' => 'false']) }}');
+                    xhr.send();
+                }
+                document.getElementById('openSidebar').classList.remove('d-none');
+            });
         });
     </script>
 @endpushonce

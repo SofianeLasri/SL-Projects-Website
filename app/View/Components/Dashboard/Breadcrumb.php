@@ -16,14 +16,6 @@ class Breadcrumb extends Component
         $this->breadcrumbs = $this->buildBreadcrumbs();
     }
 
-    public function render(): View
-    {
-        return view('components.dashboard.breadcrumb', [
-            'breadcrumbs' => $this->breadcrumbs,
-            'sidebarOpened' => request()->cookie('desktopOpenedSidebar') === 'true',
-        ]);
-    }
-
     private function buildBreadcrumbs()
     {
         $currentUrl = url()->current();
@@ -54,6 +46,11 @@ class Breadcrumb extends Component
         return $breadcrumbs;
     }
 
+    private function isMatchingUrl($currentUrl, $url)
+    {
+        return $currentUrl == $this->resolveUrl($url);
+    }
+
     private function resolveUrl($url)
     {
         if (Route::has($url)) {
@@ -63,8 +60,18 @@ class Breadcrumb extends Component
         }
     }
 
-    private function isMatchingUrl($currentUrl, $url)
+    public function render(): View
     {
-        return $currentUrl == $this->resolveUrl($url);
+        $sidebarOpenedCookieValue = request()->cookie('isDashboardSidebarOpened');
+        if ($sidebarOpenedCookieValue === null) {
+            $sidebarOpened = true;
+        } else {
+            $sidebarOpened = $sidebarOpenedCookieValue === 'true';
+        }
+
+        return view('components.dashboard.breadcrumb', [
+            'breadcrumbs' => $this->breadcrumbs,
+            'sidebarOpened' => $sidebarOpened,
+        ]);
     }
 }
