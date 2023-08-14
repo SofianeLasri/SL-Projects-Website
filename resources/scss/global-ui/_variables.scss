@@ -1,4 +1,6 @@
 @use "sass:color";
+$enable-negative-margins: true;
+
 // Color system
 
 // NOTE: Les déclarations des couleurs sont dans le désordre car on base les calculs sur la couleur primaire

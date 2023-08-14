@@ -27,6 +27,11 @@ return [
                         ['title' => 'Lien 2', 'url' => 'url2', 'icon' => 'icon2'],
                     ],
                 ],
+                [
+                    'title' => 'Espace de stockage',
+                    'url' => 'dashboard.filemanager',
+                    'icon' => 'fa-solid fa-folder',
+                ],
             ],
         ],
         [
