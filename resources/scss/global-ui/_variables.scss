@@ -183,7 +183,7 @@ $colors-hovered: (
 // Define common padding and border radius sizes and more.
 
 // scss-docs-start border-variables
-$border-width: .1rem;
+$border-width: .05rem;
 $border-widths: (
     1: $border-width,
     2: $border-width * 2.5,
@@ -192,7 +192,7 @@ $border-widths: (
     5: $border-width * 5
 );
 
-$border-color: $light;
+$border-color: $gray-300;
 // scss-docs-end border-variables
 
 // scss-docs-start border-radius-variables

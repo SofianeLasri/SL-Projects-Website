@@ -4,6 +4,7 @@
     padding: map.get($spacers, 3);
     background-color: $light;
     color: $black;
+    border-radius: $border-radius;
 
     * {
         &::selection {

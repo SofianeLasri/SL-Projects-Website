@@ -10,6 +10,7 @@
     font-size: 1rem;
     font-weight: 400;
     cursor: pointer;
+    border-radius: $border-radius;
 
     &:hover {
         background-color: $light-hovered;

@@ -7,24 +7,15 @@
 @section('route', route('login'))
 
 @section("form")
-    <div class="d-flex flex-column">
-        <label for="username" class="form-label">{{ __('general/compound.username') }}</label>
-        <input type="text" name="username" id="username"
-               placeholder="{{ __('general/verbal.authentication.enter_your_username') }}"
-               data-form-type="username" value="{{ old('username') }}"
-               class="form-control" required>
-    </div>
-    <div class="d-flex flex-column">
-        <label for="password" class="form-label">{{ __('general/compound.password') }}</label>
-        <input type="password" name="password" id="password"
-               placeholder="{{ __('general/verbal.authentication.enter_your_password') }}"
-               data-form-type="password"
-               class="form-control" required>
-    </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="remember" id="remember">
-        <label class="form-check-label" for="remember">{{ __('general/verbal.authentication.remember_me') }}</label>
-    </div>
+    <x-input name="username" type="text" data-form-type="username"
+             label="{{ __('general/compound.username') }}"
+             value="{{ old('username') }}" required/>
+
+    <x-input name="password" type="password" data-form-type="password"
+             label="{{ __('general/compound.password') }}"
+             value="{{ old('password') }}" required/>
+
+    <x-checkbox name="remember" id="remember" label="{{ __('general/verbal.authentication.remember_me') }}"/>
 
     <button type="submit"
             class="btn btn-primary p-2 mt-3">{{ __('general/verb.to_log_in') }}</button>

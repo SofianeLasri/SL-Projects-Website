@@ -4,13 +4,13 @@
             <x-logo-short height="1.5rem"/>
         </div>
 
-        <x-button type="button" id="searchButton" class="btn-dark btn-sm btn-square rounded"
+        <x-button type="button" id="searchButton" class="btn-dark btn-sm btn-square"
                   title="Faire une recherche">
             <x-square-icon>
                 <i class="fa-solid fa-magnifying-glass"></i>
             </x-square-icon>
         </x-button>
-        <x-button type="button" id="closeSidebar" class="btn-dark btn-sm btn-square rounded"
+        <x-button type="button" id="closeSidebar" class="btn-dark btn-sm btn-square"
                   title="Fermer la barre de navigation">
             <x-square-icon>
                 <i class="fa-solid fa-bars"></i>
@@ -27,20 +27,20 @@
             </div>
         </div>
         <div class="d-flex justify-content-between">
-            <x-button type="button" id="openNotificationModal" class="btn-dark-alt btn-sm btn-square rounded"
+            <x-button type="button" id="openNotificationModal" class="btn-dark-alt btn-sm btn-square"
                       title="Voir les notifications" badge-text="9">
                 <x-square-icon>
                     <i class="fa-solid fa-bell"></i>
                 </x-square-icon>
             </x-button>
-            <x-button type="link" href="#" class="btn-dark-alt btn-sm btn-square rounded"
+            <x-button type="link" href="#" class="btn-dark-alt btn-sm btn-square"
                       title="Rejoindre la page des paramètres">
                 <x-square-icon>
                     <i class="fa-solid fa-cog"></i>
                 </x-square-icon>
             </x-button>
             <x-button type="link" href="{{ route('logout') }}"
-                      class="btn-danger btn-sm rounded d-flex align-items-center gap-1"
+                      class="btn-danger btn-sm d-flex align-items-center gap-1"
                       title="Rejoindre la page des paramètres">
                 <x-square-icon>
                     <i class="fa-solid fa-right-from-bracket"></i>

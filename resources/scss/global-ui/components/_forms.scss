@@ -1,7 +1,82 @@
 @use "sass:map";
 @use "sass:math";
 
-$forms-border-width: math.div(map.get($border-widths, 2), 2);
+.input-fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+
+    $input-height: 3rem;
+    $muted-color: $gray-600;
+    $main-color: $dark;
+    $password-reveal-width: 2rem;
+
+    .input-span {
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
+        width: 100%;
+
+        .input-field {
+            position: relative;
+            width: 100%;
+            padding: 0 map.get($spacers, 2);
+            height: $input-height;
+            background-color: $white;
+            border: $border-width solid $border-color;
+            border-radius: $border-radius;
+            color: $muted-color;
+            outline: none;
+
+            &::placeholder {
+                color: $muted-color;
+            }
+
+            &:focus {
+                border: $border-width solid $primary;
+            }
+        }
+
+        .input-label {
+            position: absolute;
+            color: $main-color;
+            pointer-events: none;
+            left: map.get($spacers, 2);
+            width: 100%;
+            line-height: $input-height;
+            transition: .2s ease all;
+        }
+
+        &.has-value {
+            .input-field {
+                padding-top: .75rem;
+            }
+
+            .input-label {
+                line-height: 1.5rem;
+                font-size: .75rem;
+                color: $muted-color;
+            }
+        }
+
+        &.is-password {
+            .input-field {
+                padding-right: $password-reveal-width + map.get($spacers, 2);
+            }
+        }
+    }
+
+    .password-reveal {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: map.get($spacers, 2);
+        background: transparent;
+        color: $muted-color;
+        border: none;
+        width: $password-reveal-width;
+    }
+}
 
 .form-label {
     font-weight: $font-weight-bold;
@@ -11,15 +86,17 @@ $forms-border-width: math.div(map.get($border-widths, 2), 2);
     position: relative;
     padding: map.get($spacers, 2);
     margin-top: map.get($spacers, 1);
-    background-color: $light;
-    border: none;
+    background-color: $white;
+    border: $border-width solid $border-color;
+    border-radius: $border-radius;
+    outline: none;
 
     &::placeholder {
         color: $dark;
     }
 
     &:focus {
-        outline: $forms-border-width solid $primary;
+        border: $border-width solid $primary;
     }
 }
 
@@ -41,7 +118,9 @@ $forms-border-width: math.div(map.get($border-widths, 2), 2);
             top: 0;
             width: 1.25rem;
             height: 1.25rem;
-            background-color: $light;
+            background-color: $white;
+            border: $border-width solid $border-color;
+            border-radius: $border-radius;
         }
 
         &:hover {
@@ -54,9 +133,10 @@ $forms-border-width: math.div(map.get($border-widths, 2), 2);
         position: absolute;
         width: 1.25rem;
         height: 1.25rem;
+        outline: none;
 
         &:focus + label::before {
-            outline: $forms-border-width solid $primary;
+            border: $border-width solid $primary;
         }
 
         &:checked + label::after {
