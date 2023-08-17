@@ -38,7 +38,9 @@
 <div id="app">
     <x-dashboard.sidebar/>
     <div id="pageContent">
-        <x-dashboard.breadcrumb/>
+        <x-dashboard.breadcrumb>
+            @yield('breadcrumbHeaderContent')
+        </x-dashboard.breadcrumb>
         @yield('pageContent')
     </div>
 </div>

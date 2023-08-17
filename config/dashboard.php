@@ -28,9 +28,9 @@ return [
                     ],
                 ],
                 [
-                    'title' => 'Espace de stockage',
-                    'url' => 'dashboard.filemanager',
-                    'icon' => 'fa-solid fa-folder',
+                    'title' => 'Médias',
+                    'url' => 'dashboard.media-library',
+                    'icon' => 'fa-solid fa-photo-film',
                 ],
             ],
         ],
@@ -42,7 +42,12 @@ return [
                     'title' => 'Vitrine',
                     'icon' => 'fa-solid fa-gem',
                     'links' => [
-                        ['title' => 'Lien 1', 'url' => 'url1', 'icon' => 'icon1'],
+                        [
+                            'title' => 'Ajouter un projet',
+                            'description' => 'Ajouter un projet à la vitrine',
+                            'url' => 'dashboard.projects.add',
+                            'icon' => 'fa-solid fa-circle-plus',
+                        ],
                         ['title' => 'Lien 2', 'url' => 'url2', 'icon' => 'icon2'],
                     ],
                 ],

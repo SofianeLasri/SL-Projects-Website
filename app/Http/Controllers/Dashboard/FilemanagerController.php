@@ -8,6 +8,6 @@ class FilemanagerController extends Controller
 {
     public function index()
     {
-        return view('websites.dashboard.filemanager');
+        return view('websites.dashboard.media-library');
     }
 }

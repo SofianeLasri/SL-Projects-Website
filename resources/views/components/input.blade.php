@@ -7,7 +7,8 @@
     'label' => '',
     'value' => '',
     'required' => false,
-    'apparence' => 'combined'
+    'apparence' => 'combined',
+    'class' => '',
 ])
 
 @php
@@ -28,6 +29,8 @@
                 ]
             );
         }
+    } else {
+        $dataFormType = '';
     }
 
     if(!in_array($apparence, ['combined', 'separated'])) {
@@ -45,13 +48,13 @@
 @endphp
 
 @if($apparence === "combined")
-    <fieldset class="input-fieldset">
+    <fieldset class="input-fieldset {{ $class }}">
         @if($type === "password")
             <span class="input-span is-password">
             <span class="input-span">
                 <input type="{{ $type }}" name="{{ $name }}" id="{{ $id }}"
                        data-form-type="{{ $dataFormType }}" value="{{ $value }}"
-                       class="input-field" {{ $required }}>
+                       class="input-field" {{ $required }} placeholder="{{ html_entity_decode($placeholder) }}">
                 <label class="input-label" for="{{ $id }}">
                     <span>{{ html_entity_decode($label) }}</span>
                 </label>
@@ -64,7 +67,7 @@
             <span class="input-span">
             <input type="{{ $type }}" name="{{ $name }}" id="{{ $id }}"
                    data-form-type="{{ $dataFormType }}" value="{{ $value }}"
-                   class="input-field" {{ $required }}>
+                   class="input-field" {{ $required }} placeholder="{{ html_entity_decode($placeholder) }}">
             <label class="input-label" for="{{ $id }}">
                 <span>{{ html_entity_decode($label) }}</span>
             </label>
@@ -80,8 +83,11 @@
                 const input = fieldset.querySelector('.input-field');
                 const passwordReveal = fieldset.querySelector('.password-reveal');
 
-                // On ajoute un écouteur d'événement sur l'input
-                input.addEventListener('input', event => {
+                input.addEventListener('focus', event => {
+                    input.parentNode.classList.add('has-value');
+                });
+
+                input.addEventListener('blur', event => {
                     // On vérifie si l'input a une valeur
                     if (event.target.value) {
                         // On ajoute la classe "has-value" au parent du parent de l'input
@@ -117,7 +123,7 @@
         </script>
     @endpushonce
 @else
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column {{ $class }}">
         <label for="{{ $id }}" class="form-label">{{ html_entity_decode($label) }}</label>
         <input type="{{ $type }}" name="{{ $name }}" id="{{ $id }}"
                placeholder="{{ $placeholder }}"

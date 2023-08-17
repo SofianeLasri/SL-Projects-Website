@@ -1,10 +1,11 @@
 @props([
     'size' => "1.5rem",
     'fontSize' => null,
+    'class' => null,
 ])
 
-<div class="square-icon"
-     style="width: {{ $size }}; height: {{ $size }}; {{ !empty($fontSize) ? "font-size: $fontSize;" : "" }}"
+<div class="square-icon {{ $class }}"
+     style="width: {{ $size }}; height: {{ $size }};{{ !empty($fontSize) ? "font-size: $fontSize;" : "" }}{{ !empty($fontSize) ? "line-height: $fontSize;" : "" }}"
     {{ $attributes }}>
     {{ $slot }}
 </div>

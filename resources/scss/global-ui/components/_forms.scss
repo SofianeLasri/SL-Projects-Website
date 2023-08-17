@@ -29,11 +29,16 @@
             outline: none;
 
             &::placeholder {
-                color: $muted-color;
+                color: $white;
+                transition: .2s ease color;
             }
 
             &:focus {
                 border: $border-width solid $primary;
+
+                &::placeholder {
+                    color: $muted-color;
+                }
             }
         }
 

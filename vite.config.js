@@ -7,6 +7,7 @@ export default defineConfig({
     resolve: {
         alias: {
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+            '~bootstrap-icons': path.resolve(__dirname, 'node_modules/bootstrap-icons'),
         }
     },
     plugins: [
@@ -17,7 +18,7 @@ export default defineConfig({
                 'resources/scss/websites/auth/auth.scss',
                 'resources/scss/websites/dashboard/dashboard.scss',
                 'resources/scss/websites/sofianelasri/sofianelasri.scss',
-                'resources/js/app.js'
+                'resources/js/app.js',
             ],
             refresh: true,
         }),
