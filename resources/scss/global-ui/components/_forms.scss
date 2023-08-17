@@ -83,6 +83,67 @@
     }
 }
 
+.textarea-fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+
+    $line-height: 3rem;
+    $muted-color: $gray-600;
+    $main-color: $dark;
+
+    .textarea-span {
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
+        width: 100%;
+
+        .textarea-field {
+            position: relative;
+            width: 100%;
+            min-height: 3rem;
+            padding: 1.1rem map.get($spacers, 2) 0;
+            background-color: $white;
+            border: $border-width solid $border-color;
+            border-radius: $border-radius;
+            color: $muted-color;
+            outline: none;
+
+            &::placeholder {
+                color: $white;
+                transition: .2s ease color;
+            }
+
+            &:focus {
+                border: $border-width solid $primary;
+
+                &::placeholder {
+                    color: $muted-color;
+                }
+            }
+        }
+
+        .textarea-label {
+            position: absolute;
+            color: $main-color;
+            pointer-events: none;
+            left: map.get($spacers, 2);
+            width: 100%;
+            line-height: $line-height;
+            transition: .2s ease all;
+        }
+
+        &.has-value {
+            .textarea-label {
+                line-height: 1.5rem;
+                font-size: .75rem;
+                color: $muted-color;
+            }
+        }
+    }
+}
+
+
 .form-label {
     font-weight: $font-weight-bold;
 }

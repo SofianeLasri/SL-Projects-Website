@@ -77,48 +77,50 @@
 
     @pushonce('scripts')
         <script type="text/javascript">
-            const fieldsets = document.querySelectorAll('.input-fieldset');
+            document.addEventListener("DOMContentLoaded", (event) => {
+                const fieldsets = document.querySelectorAll('.input-fieldset');
 
-            fieldsets.forEach(fieldset => {
-                const input = fieldset.querySelector('.input-field');
-                const passwordReveal = fieldset.querySelector('.password-reveal');
+                fieldsets.forEach(fieldset => {
+                    const input = fieldset.querySelector('.input-field');
+                    const passwordReveal = fieldset.querySelector('.password-reveal');
 
-                input.addEventListener('focus', event => {
-                    input.parentNode.classList.add('has-value');
-                });
+                    input.addEventListener('focus', event => {
+                        input.parentNode.classList.add('has-value');
+                    });
 
-                input.addEventListener('blur', event => {
-                    // On vérifie si l'input a une valeur
-                    if (event.target.value) {
-                        // On ajoute la classe "has-value" au parent du parent de l'input
-                        event.target.parentNode.classList.add('has-value');
-                    } else {
-                        // On retire la classe "has-value" au parent du parent de l'input
-                        event.target.parentNode.classList.remove('has-value');
-                    }
-                });
-
-                if (input.value) {
-                    input.parentNode.classList.add('has-value');
-                }
-
-                if (passwordReveal) {
-                    passwordReveal.addEventListener('click', event => {
-                        const input = event.currentTarget.dataset.target;
-                        const inputElement = document.querySelector(input);
-                        const icon = event.currentTarget.firstElementChild;
-
-                        if (inputElement.type === 'password') {
-                            inputElement.type = 'text';
-                            icon.classList.remove('fa-eye');
-                            icon.classList.add('fa-eye-slash');
+                    input.addEventListener('blur', event => {
+                        // On vérifie si l'input a une valeur
+                        if (event.target.value) {
+                            // On ajoute la classe "has-value" au parent du parent de l'input
+                            event.target.parentNode.classList.add('has-value');
                         } else {
-                            inputElement.type = 'password';
-                            icon.classList.remove('fa-eye-slash');
-                            icon.classList.add('fa-eye');
+                            // On retire la classe "has-value" au parent du parent de l'input
+                            event.target.parentNode.classList.remove('has-value');
                         }
                     });
-                }
+
+                    if (input.value) {
+                        input.parentNode.classList.add('has-value');
+                    }
+
+                    if (passwordReveal) {
+                        passwordReveal.addEventListener('click', event => {
+                            const input = event.currentTarget.dataset.target;
+                            const inputElement = document.querySelector(input);
+                            const icon = event.currentTarget.firstElementChild;
+
+                            if (inputElement.type === 'password') {
+                                inputElement.type = 'text';
+                                icon.classList.remove('fa-eye');
+                                icon.classList.add('fa-eye-slash');
+                            } else {
+                                inputElement.type = 'password';
+                                icon.classList.remove('fa-eye-slash');
+                                icon.classList.add('fa-eye');
+                            }
+                        });
+                    }
+                });
             });
         </script>
     @endpushonce
