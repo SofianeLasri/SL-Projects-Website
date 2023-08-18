@@ -34,22 +34,28 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
+    <script type="module">
         const websiteUrl = '{{ getWebsiteUrl('showcase') }}';
+
+        const projectCreationFieldsName = ['name'];
+        const formValidator = new FormValidator(projectCreationFieldsName);
+
         const projectNameInput = document.getElementById('projectNameInput');
         const projectNameInputInstance = new Input(projectNameInput);
         const projectSlugShowUp = document.getElementById('projectSlugShowUp');
 
-        projectNameInput.addEventListener('keyup', event => {
+        projectNameInput.addEventListener('change', event => {
             generateSlugAndVerifySlugAndProjectName();
         });
 
         function generateSlugAndVerifySlugAndProjectName() {
             if (projectNameInput.value !== '') {
+                // Affichage du permalien
                 if (projectSlugShowUp.classList.contains('d-none')) {
                     projectSlugShowUp.classList.remove('d-none');
                 }
 
+                // Génération du slug
                 let slug = slugify(projectNameInput.value, {
                     lower: true, // Convertir en minuscules
                     strict: true // Remplacer les caractères spéciaux par des tirets
@@ -64,7 +70,7 @@
                 data.append('slug', slug);
 
                 let xhr = new XMLHttpRequest();
-                xhr.open('POST', checkUrl + '?slug=' + slug, true);
+                xhr.open('POST', checkUrl, true);
                 xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
 
                 xhr.onreadystatechange = function () {
@@ -72,10 +78,10 @@
                         let response = JSON.parse(xhr.responseText);
                         if (response.slugAlreadyUsed) {
                             projectNameInputInstance.invalidate('Ce permalien est déjà utilisé.');
-                            document.getElementById('publishBtn').disabled = true;
+                            formValidator.changeField('name', false);
                         } else {
                             projectNameInputInstance.removeValidation();
-                            document.getElementById('publishBtn').disabled = false;
+                            formValidator.changeField('name', true);
                         }
                     }
                 }
@@ -85,8 +91,17 @@
                 if (!projectSlugShowUp.classList.contains('d-none')) {
                     projectSlugShowUp.classList.add('d-none');
                 }
+                formValidator.changeField('name', false);
             }
         }
+
+        formValidator.onValidated(() => {
+            document.getElementById('publishBtn').disabled = false;
+        });
+
+        formValidator.onInvalidated(() => {
+            document.getElementById('publishBtn').disabled = true;
+        });
 
         document.addEventListener("DOMContentLoaded", (event) => {
             generateSlugAndVerifySlugAndProjectName();
