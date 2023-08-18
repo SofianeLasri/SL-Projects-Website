@@ -117,7 +117,7 @@
 
                 init() {
                     // On intialise l'input
-                    this.input.addEventListener('focus', event => {
+                    this.input.addEventListener('focus', () => {
                         this.input.parentNode.classList.add('has-value');
                     });
 
@@ -194,11 +194,10 @@
                 }
             }
 
-            document.addEventListener("DOMContentLoaded", (event) => {
-                const fieldsets = document.querySelectorAll('.input-fieldset');
-
-                fieldsets.forEach(fieldset => {
-                    new Input(fieldset);
+            document.addEventListener("DOMContentLoaded", () => {
+                const inputs = document.querySelectorAll('.input-field');
+                inputs.forEach(input => {
+                    new Input(input);
                 });
             });
         </script>
