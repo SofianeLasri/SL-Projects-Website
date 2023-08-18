@@ -19,6 +19,7 @@ class CreateProjectDraftsTable extends Migration
             $table->date('project_start_date');
             $table->date('project_end_date')->nullable();
             $table->enum('status', ['finished', 'abandoned', 'paused']);
+            $table->enum('is_auto_save', ['yes', 'no'])->default('no');
             $table->integer('logo_file_upload_id')->unsigned()->nullable();
             $table->integer('cover_file_upload_id')->unsigned()->nullable();
 

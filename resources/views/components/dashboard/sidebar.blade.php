@@ -72,7 +72,7 @@
                     sidebar.classList.remove('opened');
 
                     let xhr = new XMLHttpRequest();
-                    xhr.open('GET', '{{ route('ajax.set-sidebar-state', ['opened' => 'false']) }}');
+                    xhr.open('GET', '{{ route('dashboard.ajax.set-sidebar-state', ['opened' => 'false']) }}');
                     xhr.send();
                 }
                 document.getElementById('openSidebar').classList.remove('d-none');

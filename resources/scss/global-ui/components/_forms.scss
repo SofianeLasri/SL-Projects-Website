@@ -81,6 +81,48 @@
         border: none;
         width: $password-reveal-width;
     }
+
+    .feedback {
+        display: block;
+        font-size: .75rem;
+        margin-top: .25rem;
+    }
+
+    &.is-invalid {
+        .input-field {
+            border: $border-width solid $danger;
+
+            &:focus {
+                border: $border-width solid $danger;
+            }
+        }
+
+        .input-label {
+            color: $danger !important;
+        }
+
+        .feedback {
+            color: $danger;
+        }
+    }
+
+    &.is-valid {
+        .input-field {
+            border: $border-width solid $success;
+
+            &:focus {
+                border: $border-width solid $success;
+            }
+        }
+
+        .input-label {
+            color: $success !important;
+        }
+
+        .feedback {
+            color: $success;
+        }
+    }
 }
 
 .textarea-fieldset {
@@ -140,6 +182,23 @@
                 color: $muted-color;
             }
         }
+    }
+
+    &.is-invalid {
+        .textarea-field {
+            border: $border-width solid $danger;
+
+            &:focus {
+                border: $border-width solid $danger;
+            }
+        }
+    }
+
+    .invalid-feedback {
+        display: block;
+        color: $danger;
+        font-size: .75rem;
+        margin-top: .25rem;
     }
 }
 

@@ -32,7 +32,7 @@
 
     @yield('head')
 
-    @vite(['resources/scss/websites/dashboard/dashboard.scss'])
+    @vite(['resources/scss/websites/dashboard/dashboard.scss', 'resources/js/app.js'])
 </head>
 <body>
 <div id="app">
@@ -45,7 +45,6 @@
     </div>
 </div>
 
-@vite(['resources/js/app.js'])
 @stack('scripts')
 </body>
 </html>

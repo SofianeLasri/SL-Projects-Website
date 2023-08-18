@@ -9,10 +9,17 @@ Route::domain(config('app.domain.dashboard'))->group(function () {
         Route::view('/', 'websites.dashboard.home')->name('dashboard.home');
         Route::get('/media-library', [FilemanagerController::class, 'index'])->name('dashboard.media-library');
 
+        // Requêtes AJAX
         Route::group(['prefix' => 'ajax'], function () {
             Route::get('/set-sidebar-state', function () {
                 cookie()->queue('isDashboardSidebarOpened', request()->input('opened') === 'true' ? 'true' : 'false', 60 * 24 * 30); // 30 jours
-            })->name('ajax.set-sidebar-state');
+            })->name('dashboard.ajax.set-sidebar-state');
+
+            // Propres à la création de projets
+            Route::group(['prefix' => 'projects'], function () {
+                Route::post('/check-slug', [AddProjectController::class, 'checkSlug'])->name('dashboard.ajax.projects.check-slug');
+                Route::post('/check-name', [AddProjectController::class, 'checkName'])->name('dashboard.ajax.projects.check-name');
+            });
         });
 
         Route::group(['prefix' => 'projects'], function () {

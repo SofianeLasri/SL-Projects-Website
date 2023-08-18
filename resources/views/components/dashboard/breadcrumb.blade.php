@@ -56,7 +56,7 @@
                 sidebar.classList.add('opened');
 
                 let xhr = new XMLHttpRequest();
-                xhr.open('GET', '{{ route('ajax.set-sidebar-state', ['opened' => 'true']) }}');
+                xhr.open('GET', '{{ route('dashboard.ajax.set-sidebar-state', ['opened' => 'true']) }}');
                 xhr.send();
             }
             openSidebarButton.classList.add('d-none');
