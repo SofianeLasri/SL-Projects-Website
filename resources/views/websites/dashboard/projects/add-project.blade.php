@@ -16,7 +16,7 @@
 
 @section('pageContent')
     <form class="p-3" method="post" id="addProjectForm">
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-lg-6">
                 <h5>Informations générales</h5>
                 <p class="d-none" id="projectSlugShowUp">Permalien : {{ getWebsiteUrl('showcase') }}</p>
@@ -30,6 +30,9 @@
                 <h5>Illustrations du projet</h5>
             </div>
         </div>
+
+        <h5>Contenu</h5>
+        <x-dashboard.tinymce name="content"/>
     </form>
 @endsection
 
@@ -37,7 +40,7 @@
     <script type="module">
         const websiteUrl = '{{ getWebsiteUrl('showcase') }}';
 
-        const projectCreationFieldsName = ['name'];
+        const projectCreationFieldsName = ['name', 'description', 'categories'];
         const formValidator = new FormValidator(projectCreationFieldsName);
 
         const projectNameInput = document.getElementById('projectNameInput');

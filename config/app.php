@@ -244,4 +244,6 @@ return [
     'steam_profile_id64' => env('STEAM_PROFILE_ID64', '76561198148455403'),
     'steam_profile_avatar_hash' => env('STEAM_PROFILE_AVATAR_HASH', 'ee6f9c9ffd6bb2fd2114a378f3f03d997f79e4b9'),
 
+    'tinymce_api_key' => env('TIMYMCE_API_KEY')
+
 ];

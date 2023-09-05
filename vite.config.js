@@ -9,6 +9,7 @@ export default defineConfig({
             '@': path.resolve(__dirname, 'resources/js'),
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
             '~bootstrap-icons': path.resolve(__dirname, 'node_modules/bootstrap-icons'),
+            '~quill': path.resolve(__dirname, 'node_modules/quill'),
         }
     },
     plugins: [
