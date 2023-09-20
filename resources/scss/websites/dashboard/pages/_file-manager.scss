@@ -1,2 +1,27 @@
 @use "sass:map";
 
+.media-library {
+    display: flex;
+    flex-direction: column;
+    gap: map.get($spacers, 4);
+
+    .filters {
+        .content {
+            display: flex;
+            gap: map.get($spacers, 2);
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        flex-direction: row;
+
+        .filters {
+            width: 16rem;
+
+            .content {
+                flex-direction: column;
+                gap: map.get($spacers, 4);
+            }
+        }
+    }
+}

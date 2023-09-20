@@ -29,6 +29,7 @@ return [
                 ],
                 [
                     'title' => 'Médias',
+                    'description' => 'Bibliothèque de médias',
                     'url' => 'dashboard.media-library',
                     'icon' => 'fa-solid fa-photo-film',
                 ],
