@@ -1,4 +1,5 @@
 import './bootstrap';
+import Alert from 'bootstrap'
 import slugify from "slugify";
 import FormValidator from "@/library/form-validator";
 import.meta.glob([

@@ -2,12 +2,18 @@
 
 @section('pageName', 'Gestionnaire de fichiers')
 
+@section('breadcrumbHeaderContent')
+    <x-button id="uploadMedia" type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#mediaUploadModal">
+        Envoyer un média
+    </x-button>
+@endsection
+
 @section('pageContent')
     <div class="px-3 py-2 media-library">
-        <div class="filters">
+        <div class="filters d-flex flex-column gap-4">
             <h4>Filtres</h4>
             <div class="content">
-                <div class="d-flex flex-column gap-2">
+                <div class="d-flex flex-column flex-shrink-0 gap-2">
                     <div class="fw-bold">Types</div>
                     <x-button type="button"
                               class="text-start btn-primary"
@@ -31,7 +37,7 @@
                               data-filter="files"
                     >Fichiers</x-button>
                 </div>
-                <div class="d-flex flex-column gap-2">
+                <div class="d-flex flex-column flex-shrink-0 gap-2">
                     <div class="fw-bold">Affichage</div>
                     <x-button type="button"
                               class="text-start btn-white"
@@ -45,7 +51,7 @@
                               aria-selected="true"
                     >Grille</x-button>
                 </div>
-                <div class="d-flex flex-column gap-2">
+                <div class="d-flex flex-column flex-shrink-0 gap-2">
                     <div class="fw-bold">Regrouper</div>
                     <x-button type="button"
                               class="text-start btn-white"
@@ -76,6 +82,27 @@
 
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="mediaUploadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <x-button type="button" class="text-btn text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="fa fa-times"></i>
+                    </x-button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <x-button type="button" class="btn-secondary" data-bs-dismiss="modal">Close</x-button>
+                    <x-button type="button" class="btn-primary">Save changes</x-button>
                 </div>
             </div>
         </div>
