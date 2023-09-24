@@ -88,21 +88,17 @@
     </div>
 
 
-    <div class="modal fade" id="mediaUploadModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal modal-lg fade" id="mediaUploadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Envoyer un média</h1>
                     <x-button type="button" class="text-btn text-dark" data-bs-dismiss="modal" aria-label="Close">
                         <i class="fa fa-times"></i>
                     </x-button>
                 </div>
                 <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <x-button type="button" class="btn-secondary" data-bs-dismiss="modal">Close</x-button>
-                    <x-button type="button" class="btn-primary">Save changes</x-button>
+                    <x-dashboard.media-upload-zone />
                 </div>
             </div>
         </div>
