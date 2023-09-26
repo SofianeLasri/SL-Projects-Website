@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="right-part">
-            <button id="closeButton"><i class="fa-solid fa-times"></i></button>
+            <button id="closeButton"><i class="fa-solid fa-xmark"></i></button>
         </div>
     </div>
     <div class="photos-list">

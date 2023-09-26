@@ -46,6 +46,20 @@
         opacity: .5;
         cursor: not-allowed;
     }
+
+    &.btn-link {
+        background-color: transparent;
+        color: $primary;
+        padding: 0;
+        font-size: inherit;
+        font-weight: inherit;
+        border-radius: 0;
+
+        &:hover {
+            background-color: transparent;
+            color: $primary-hovered;
+        }
+    }
 }
 
 @keyframes ripple {
@@ -77,12 +91,3 @@
     }
 }
 
-.text-btn {
-    background: transparent;
-    color: $white;
-    border: none;
-
-    &:hover {
-        color: $primary;
-    }
-}

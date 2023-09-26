@@ -5,7 +5,7 @@
 ])
 
 <div class="square-icon {{ $class }}"
-     style="width: {{ $size }}; height: {{ $size }};{{ !empty($fontSize) ? "font-size: $fontSize;" : "" }}{{ !empty($fontSize) ? "line-height: $fontSize;" : "" }}"
+     style="width: {{ $size }}; {{ !empty($fontSize) ? "font-size: $fontSize;" : "" }}{{ !empty($fontSize) ? "line-height: $fontSize;" : "" }}"
     {{ $attributes }}>
     {{ $slot }}
 </div>
