@@ -25,15 +25,16 @@
         border: .25rem dashed $primary;
     }
 
-    .files-uploaded {
-        display: flex;
+    .file-upload-list {
+        display: none;
         flex-direction: column;
-        gap: map.get($spacers, 2);
+        gap: map.get($spacers, 3);
+        overflow-y: auto;
 
         .file {
             display: flex;
             align-items: center;
-            gap: map.get($spacers, 2);
+            gap: map.get($spacers, 3);
 
             .icon {
                 font-size: 2rem;

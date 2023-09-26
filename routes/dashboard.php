@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\FilemanagerController;
 use App\Http\Controllers\Dashboard\Projects\AddProjectController;
 use App\Http\Controllers\RobotsTxtController;
+use App\View\Components\Dashboard\MediaUploadZoneFile;
 
 Route::domain(config('app.domain.dashboard'))->group(function () {
     Route::group(['middleware' => ['secure']], function () {
@@ -19,6 +20,15 @@ Route::domain(config('app.domain.dashboard'))->group(function () {
             Route::group(['prefix' => 'projects'], function () {
                 Route::post('/check-slug', [AddProjectController::class, 'checkSlug'])->name('dashboard.ajax.projects.check-slug');
                 Route::post('/check-name', [AddProjectController::class, 'checkName'])->name('dashboard.ajax.projects.check-name');
+            });
+
+            // Composants
+            Route::group(['prefix' => 'components'], function () {
+                Route::group(['prefix' => 'media-upload-zone'], function () {
+                    Route::get('/get-rendered-file-list-component', function () {
+                        return (new MediaUploadZoneFile())->render();
+                    })->name('dashboard.ajax.components.media-upload-zone.get-rendered-file-list-component');
+                });
             });
         });
 

@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -64,6 +64,7 @@ return [
         'sofianelasri' => env('SOFIANELASRI_DOMAIN', 'sofianelasri.fr'),
     ],
 
+    'url' => env('APP_URL', 'https://sl-projects.com'), // Only used by Ziggy to force it to use https
     'asset_url' => env('ASSET_URL'),
 
     /*

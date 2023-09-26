@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard\Projects;
 
 use App\Http\Controllers\Controller;
 use App\Models\Showcase\Project;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AddProjectController extends Controller
@@ -13,7 +14,7 @@ class AddProjectController extends Controller
         return view('websites.dashboard.projects.add-project');
     }
 
-    public function checkSlug(Request $request)
+    public function checkSlug(Request $request): JsonResponse
     {
         $request->validate([
             'slug' => 'required|string|max:255',
@@ -27,7 +28,7 @@ class AddProjectController extends Controller
         ]);
     }
 
-    public function checkName(Request $request)
+    public function checkName(Request $request): JsonResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',

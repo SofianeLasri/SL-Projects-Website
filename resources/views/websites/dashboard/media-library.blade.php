@@ -108,7 +108,7 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
+    <script type="module">
         const mediaUploadZone = new MediaUploadZone();
     </script>
 @endpush
