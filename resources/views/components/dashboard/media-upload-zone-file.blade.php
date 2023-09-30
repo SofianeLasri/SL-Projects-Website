@@ -1,14 +1,14 @@
-<div class="file">
+<div id="{{ $id }}" class="file">
     <x-square-icon size="3.15rem" font-size="1.25rem" class="icon">
-        <i class="fa-solid fa-file"></i>
+        <i class="{{ $icon }}"></i>
     </x-square-icon>
     <div class="infos">
         <div class="meta">
-            <div class="name">image.jpg</div>
-            <div class="size">1.5 Mo</div>
+            <div class="name">{{ $name }}</div>
+            <div class="size">{{ $formattedSize }}</div>
         </div>
         <div class="progress-bar">
-            <div class="progress" style="width: 50%"></div>
+            <div class="progress" style="width: 0"></div>
         </div>
     </div>
     <div class="actions">

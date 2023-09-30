@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\Dashboard\Components\MediaUploadZoneController;
 use App\Http\Controllers\Dashboard\FilemanagerController;
 use App\Http\Controllers\Dashboard\Projects\AddProjectController;
 use App\Http\Controllers\RobotsTxtController;
-use App\View\Components\Dashboard\MediaUploadZoneFile;
 
 Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(function () {
     Route::group(['middleware' => ['secure']], function () {
@@ -25,9 +25,7 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
             // Composants
             Route::name('components.')->prefix('components')->group(function () {
                 Route::name('media-upload-zone.')->prefix('media-upload-zone')->group(function () {
-                    Route::get('/get-rendered-file-list-component', function () {
-                        return (new MediaUploadZoneFile())->render();
-                    })->name('get-rendered-file-list-component');
+                    Route::post('/get-rendered-file-list-component', [MediaUploadZoneController::class, 'renderComponent'])->name('get-rendered-file-list-component');
                 });
             });
         });
