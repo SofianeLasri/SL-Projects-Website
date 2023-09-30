@@ -36,13 +36,13 @@ return [
             'throw' => false,
         ],
 
-        'public' => [
+        /*'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
             'url' => getWebsiteUrl('api').'/storage',
             'visibility' => 'public',
             'throw' => false,
-        ],
+        ],*/
 
         's3' => [
             'driver' => 's3',
@@ -63,11 +63,15 @@ return [
             'password' => env('FTP_PASSWORD'),
 
             // Optional FTP Settings...
-            // 'port' => env('FTP_PORT', 21),
-            // 'root' => env('FTP_ROOT'),
-            // 'passive' => true,
-            // 'ssl' => true,
-            // 'timeout' => 30,
+            'port' => env('FTP_PORT', 21),
+            'root' => env('FTP_ROOT', '/upload/'),
+            'passive' => true,
+            'transferMode' => FTP_BINARY,
+            'ssl' => true,
+            'timeout' => 30,
+            'throw' => false,
+            'url' => getWebsiteUrl('showcase').'/storage',
+            'visibility' => 'public',
         ],
 
     ],
@@ -84,7 +88,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        // public_path('storage') => storage_path('upload'),
     ],
 
 ];

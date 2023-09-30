@@ -1,5 +1,6 @@
 import route from 'ziggy';
 import {Ziggy} from '@/ziggy';
+import md5 from "blueimp-md5";
 
 class MediaUploadZone {
     parentElement;
@@ -33,6 +34,44 @@ class MediaUploadZone {
     onChoosenFile(file) {
         const event = new CustomEvent("OnChoosenFile", {detail: file});
         this.parentElement.dispatchEvent(event);
+
+        console.log("checkpoint");
+        let fileElemName = "muzf-" + md5(file.name + file.size + file.type);
+
+        console.log("checkpoint 2");
+        let fileElem = document.getElementById(fileElemName);
+        let fileUploadProgressElem = fileElem.getElementsByClassName("progress")[0];
+
+        let data = new FormData();
+        data.append("file", file);
+
+        console.log("Uploading file " + file.name + " to " + route("dashboard.ajax.components.media-upload-zone.upload-file", undefined, undefined, Ziggy));
+        let xhr = new XMLHttpRequest();
+
+        // Événement pour surveiller l'avancement de l'envoi
+        xhr.upload.addEventListener("progress", function (event) {
+            if (event.lengthComputable) {
+                const percentComplete = (event.loaded / event.total) * 100;
+                fileUploadProgressElem.style.width = percentComplete + "%";
+            }
+        });
+
+        xhr.open("POST", route("dashboard.ajax.components.media-upload-zone.upload-file", undefined, undefined, Ziggy));
+        xhr.setRequestHeader('X-CSRF-TOKEN', this.csrfToken);
+
+        xhr.onload = () => {
+            console.log(xhr.responseText);
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                // Traiter la réponse ici, si nécessaire
+
+            } else {
+                this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
+                console.error(`HTTP error! Status: ${xhr.status}`);
+            }
+        };
+
+        xhr.send(data);
     }
 
     onFileUploaded(file) {
@@ -80,13 +119,11 @@ class MediaUploadZone {
                         return;
                     }
                 }
-
-                this.onChoosenFile(file);
                 this.uploadingFiles.push(file);
 
-                // On va récupérer le template HTML pour chaque fichier
+                // On va récupérer la template HTML pour chaque fichier
                 let fileType = file.type;
-                if(file.type === "") {
+                if (file.type === "") {
                     fileType = file.name.split(".").pop();
                 }
 
@@ -111,6 +148,7 @@ class MediaUploadZone {
                     })
                     .then(fileDomElem => {
                         this.fileListElem.innerHTML += fileDomElem;
+                        this.onChoosenFile(file);
                     })
                     .catch(error => {
                         console.error('There was a problem with the fetch operation:', error);
