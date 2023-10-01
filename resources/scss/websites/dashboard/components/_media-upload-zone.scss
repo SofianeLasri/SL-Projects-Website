@@ -37,6 +37,7 @@
             gap: map.get($spacers, 3);
 
             .icon {
+                flex-shrink: 0;
                 font-size: 2rem;
                 color: $gray-600;
                 background-color: $gray-100;
@@ -73,6 +74,7 @@
                 }
 
                 .actions {
+                    flex-shrink: 0;
                     display: flex;
                     gap: map.get($spacers, 1);
                 }

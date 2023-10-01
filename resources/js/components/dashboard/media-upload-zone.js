@@ -31,47 +31,79 @@ class MediaUploadZone {
     }
 
     // Événements enregistrables
-    onChoosenFile(file) {
-        const event = new CustomEvent("OnChoosenFile", {detail: file});
+    async onChoosenFile(file) {
+        const event = new CustomEvent("OnChoosenFile", { detail: file });
         this.parentElement.dispatchEvent(event);
 
-        console.log("checkpoint");
-        let fileElemName = "muzf-" + md5(file.name + file.size + file.type);
-
-        console.log("checkpoint 2");
+        let fileHash = md5(file.name + file.size + file.type);
+        let fileElemName = "muzf-" + fileHash;
         let fileElem = document.getElementById(fileElemName);
         let fileUploadProgressElem = fileElem.getElementsByClassName("progress")[0];
+        let fileElemCloseBtn = fileElem.getElementsByClassName("file-close-btn")[0];
+
+        let cancelUpload = false;
+
+        // Gestionnaire pour le bouton "close" qui annule l'envoi du fichier
+        fileElemCloseBtn.addEventListener("click", () => {
+            fileElem.remove();
+            this.uploadingFiles = this.uploadingFiles.filter(item => item !== fileHash);
+            cancelUpload = true; // Marquer l'envoi comme annulé
+        });
 
         let data = new FormData();
         data.append("file", file);
 
-        console.log("Uploading file " + file.name + " to " + route("dashboard.ajax.components.media-upload-zone.upload-file", undefined, undefined, Ziggy));
-        let xhr = new XMLHttpRequest();
+        // Utiliser une promesse pour gérer l'envoi du fichier
+        const uploadPromise = new Promise(async (resolve, reject) => {
+            const xhr = new XMLHttpRequest();
 
-        // Événement pour surveiller l'avancement de l'envoi
-        xhr.upload.addEventListener("progress", function (event) {
-            if (event.lengthComputable) {
-                const percentComplete = (event.loaded / event.total) * 100;
-                fileUploadProgressElem.style.width = percentComplete + "%";
-            }
+            // Événement pour surveiller l'avancement de l'envoi
+            xhr.upload.addEventListener("progress", function (event) {
+                if (event.lengthComputable) {
+                    const percentComplete = (event.loaded / event.total) * 100;
+                    fileUploadProgressElem.style.width = percentComplete + "%";
+
+                    if (cancelUpload) {
+                        xhr.abort(); // Annuler la requête si l'envoi est annulé
+                    }
+                }
+            });
+
+            xhr.open("POST", route("dashboard.ajax.components.media-upload-zone.upload-file", undefined, undefined, Ziggy));
+            xhr.setRequestHeader('X-CSRF-TOKEN', this.csrfToken);
+
+            xhr.onload = () => {
+                if (cancelUpload) {
+                    reject(new Error("L'envoi a été annulé"));
+                } else if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    // Traiter la réponse ici, si nécessaire
+                    resolve(response); // La requête est terminée avec succès
+                } else {
+                    this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
+                    console.error(`HTTP error! Status: ${xhr.status}`);
+                    reject(new Error(`HTTP error! Status: ${xhr.status}`)); // La requête a échoué
+                }
+            };
+
+            xhr.send(data);
         });
 
-        xhr.open("POST", route("dashboard.ajax.components.media-upload-zone.upload-file", undefined, undefined, Ziggy));
-        xhr.setRequestHeader('X-CSRF-TOKEN', this.csrfToken);
-
-        xhr.onload = () => {
-            console.log(xhr.responseText);
-            if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                // Traiter la réponse ici, si nécessaire
-
-            } else {
-                this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
-                console.error(`HTTP error! Status: ${xhr.status}`);
-            }
-        };
-
-        xhr.send(data);
+        try {
+            await uploadPromise;
+            fileUploadProgressElem.classList.add("bg-success");
+            fileUploadProgressElem.style.width = "100%";
+            fileElemCloseBtn.style.display = "none";
+            this.onFileUploaded(file);
+        } catch (error) {
+            // Gérer les erreurs ici (envoi annulé ou autre erreur)
+            console.error(error.message);
+        } finally {
+            // Attendre 1 seconde avant de supprimer le fichier de la liste
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            fileElem.remove();
+            this.uploadingFiles = this.uploadingFiles.filter(item => item !== fileHash);
+        }
     }
 
     onFileUploaded(file) {
@@ -103,57 +135,70 @@ class MediaUploadZone {
         this.processFiles(e.dataTransfer.files);
     }
 
-    processFiles(files) {
-        if (files.length > 0) {
-            if (!this.hasAlreadyUploadedFiles) {
-                this.hasAlreadyUploadedFiles = true;
-                this.parentElement.getElementsByClassName("no-file-uploaded-yet")[0].style.display = "none";
-                this.fileListElem.style.display = "flex";
+    async processFiles(files) {
+        if (files.length === 0) return;
+
+        if (!this.hasAlreadyUploadedFiles) {
+            this.hasAlreadyUploadedFiles = true;
+            this.parentElement.getElementsByClassName("no-file-uploaded-yet")[0].style.display = "none";
+            this.fileListElem.style.display = "flex";
+        }
+
+        const successfullyFetchedFiles = [];
+        const uploadPromises = [];
+
+        for (const file of Array.from(files)) {
+            const fileHash = md5(file.name + file.size + file.type);
+
+            if (this.acceptFileTypes.length > 0 && !this.acceptFileTypes.includes(file.type)) {
+                this.showError("Le type de fichier " + file.type + " n'est pas accepté !");
+                continue;
             }
 
-            Array.from(files).forEach(file => {
-                console.log(file);
-                if (this.acceptFileTypes.length > 0) {
-                    if (!this.acceptFileTypes.includes(file.type)) {
-                        this.showError("Le type de fichier " + file.type + " n'est pas accepté !");
-                        return;
+            if (this.uploadingFiles.includes(fileHash)) {
+                this.showError("Le fichier " + file.name + " est déjà envoyé ou en cours d'envoi !");
+                continue;
+            }
+
+            this.uploadingFiles.push(fileHash);
+
+            const fileType = file.type === "" ? file.name.split(".").pop() : file.type;
+            const data = new FormData();
+            data.append("name", file.name);
+            data.append("size", file.size);
+            data.append("type", fileType);
+
+            const fetchPromise = fetch(route("dashboard.ajax.components.media-upload-zone.get-rendered-file-list-component", undefined, undefined, Ziggy), {
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': this.csrfToken,
+                },
+                body: data,
+            })
+                .then(async response => {
+                    if (!response.ok) {
+                        this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
+                        throw new Error(`HTTP error! Status: ${response.status}`);
                     }
-                }
-                this.uploadingFiles.push(file);
-
-                // On va récupérer la template HTML pour chaque fichier
-                let fileType = file.type;
-                if (file.type === "") {
-                    fileType = file.name.split(".").pop();
-                }
-
-                const data = new FormData();
-                data.append("name", file.name);
-                data.append("size", file.size);
-                data.append("type", fileType);
-
-                fetch(route("dashboard.ajax.components.media-upload-zone.get-rendered-file-list-component", undefined, undefined, Ziggy), {
-                    method: "POST",
-                    headers: {
-                        'X-CSRF-TOKEN': this.csrfToken,
-                    },
-                    body: data,
+                    return response.text();
                 })
-                    .then(response => {
-                        if (!response.ok) {
-                            this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
-                            throw new Error(`HTTP error! Status: ${response.status}`);
-                        }
-                        return response.text();
-                    })
-                    .then(fileDomElem => {
-                        this.fileListElem.innerHTML += fileDomElem;
-                        this.onChoosenFile(file);
-                    })
-                    .catch(error => {
-                        console.error('There was a problem with the fetch operation:', error);
-                    });
-            });
+                .then(async fileDomElem => {
+                    this.fileListElem.innerHTML += fileDomElem;
+                    successfullyFetchedFiles.push(file);
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+
+            uploadPromises.push(fetchPromise);
+        }
+
+        // Attendre que toutes les requêtes de téléchargement soient terminées
+        await Promise.all(uploadPromises);
+
+        // Ensuite, envoyer les fichiers téléchargés
+        for (const file of successfullyFetchedFiles) {
+            await this.onChoosenFile(file);
         }
     }
 
@@ -178,6 +223,11 @@ class MediaUploadZone {
         newFileErrorModel.style.display = "";
         newFileErrorModel.id = "";
         newFileErrorModel.getElementsByClassName("file-error-message")[0].innerText = errorMessage;
+
+        let fileElemCloseBtn = newFileErrorModel.getElementsByClassName("file-close-btn")[0];
+        fileElemCloseBtn.addEventListener("click", () => {
+            newFileErrorModel.remove();
+        });
         this.fileListElem.append(newFileErrorModel);
     }
 }

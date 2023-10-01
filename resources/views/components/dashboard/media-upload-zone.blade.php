@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="actions">
-                <x-button type="button" class="btn-link text-dark">
+                <x-button type="button" class="btn-link text-dark file-close-btn">
                     <x-square-icon size="1rem">
                         <i class="fa-solid fa-xmark"></i>
                     </x-square-icon>
