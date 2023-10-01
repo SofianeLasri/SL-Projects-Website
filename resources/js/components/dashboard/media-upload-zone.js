@@ -103,6 +103,10 @@ class MediaUploadZone {
             await new Promise(resolve => setTimeout(resolve, 1000));
             fileElem.remove();
             this.uploadingFiles = this.uploadingFiles.filter(item => item !== fileHash);
+
+            if (this.uploadingFiles.length === 0) {
+                this.onAllFileUploaded();
+            }
         }
     }
 
@@ -114,6 +118,12 @@ class MediaUploadZone {
     onAllFileUploaded() {
         const event = new CustomEvent("OnAllFileUploaded");
         this.parentElement.dispatchEvent(event);
+
+        if (this.uploadingFiles.length === 0) {
+            this.hasAlreadyUploadedFiles = false;
+            this.parentElement.getElementsByClassName("no-file-uploaded-yet")[0].style.display = "";
+            this.fileListElem.style.display = "none";
+        }
     }
 
     // Méthodes internes
@@ -131,6 +141,13 @@ class MediaUploadZone {
 
     drop(e) {
         e.preventDefault();
+
+        if (this.uploadingFiles.length > 0) {
+            // Afficher un message d'erreur si des fichiers sont déjà en cours d'envoi
+            this.showError("Des fichiers sont déjà en cours d'envoi. Attendez qu'ils soient terminés.");
+            return;
+        }
+
         this.parentElement.classList.remove("drag-over");
         this.processFiles(e.dataTransfer.files);
     }
