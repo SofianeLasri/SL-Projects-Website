@@ -32,10 +32,12 @@ class MediaUploadZone {
 
     // Événements enregistrables
     async onChoosenFile(file) {
-        const event = new CustomEvent("OnChoosenFile", { detail: file });
+        const event = new CustomEvent("OnChoosenFile", {detail: file});
         this.parentElement.dispatchEvent(event);
 
-        let fileHash = md5(file.name + file.size + file.type);
+        const fileType = file.type === "" ? file.name.split(".").pop() : file.type;
+
+        let fileHash = md5(file.name + file.size + fileType);
         let fileElemName = "muzf-" + fileHash;
         let fileElem = document.getElementById(fileElemName);
         let fileUploadProgressElem = fileElem.getElementsByClassName("progress")[0];
@@ -48,6 +50,8 @@ class MediaUploadZone {
             fileElem.remove();
             this.uploadingFiles = this.uploadingFiles.filter(item => item !== fileHash);
             cancelUpload = true; // Marquer l'envoi comme annulé
+
+            this.showHomeIfNoFile();
         });
 
         let data = new FormData();
@@ -76,12 +80,20 @@ class MediaUploadZone {
                 if (cancelUpload) {
                     reject(new Error("L'envoi a été annulé"));
                 } else if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    // Traiter la réponse ici, si nécessaire
-                    resolve(response); // La requête est terminée avec succès
+                    // Check if anwer is json
+                    let response = xhr.responseText;
+                    try {
+                        response = JSON.parse(response);
+                        console.log(response);
+                        resolve(response);
+                    } catch (e) {
+                        console.error("Response is not json!");
+                        console.error(response);
+                    }
                 } else {
                     this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
                     console.error(`HTTP error! Status: ${xhr.status}`);
+                    console.error(xhr.responseText);
                     reject(new Error(`HTTP error! Status: ${xhr.status}`)); // La requête a échoué
                 }
             };
@@ -93,15 +105,12 @@ class MediaUploadZone {
             await uploadPromise;
             fileUploadProgressElem.classList.add("bg-success");
             fileUploadProgressElem.style.width = "100%";
-            fileElemCloseBtn.style.display = "none";
+            // fileElemCloseBtn.style.display = "none";
             this.onFileUploaded(file);
         } catch (error) {
             // Gérer les erreurs ici (envoi annulé ou autre erreur)
             console.error(error.message);
         } finally {
-            // Attendre 1 seconde avant de supprimer le fichier de la liste
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            fileElem.remove();
             this.uploadingFiles = this.uploadingFiles.filter(item => item !== fileHash);
 
             if (this.uploadingFiles.length === 0) {
@@ -119,11 +128,7 @@ class MediaUploadZone {
         const event = new CustomEvent("OnAllFileUploaded");
         this.parentElement.dispatchEvent(event);
 
-        if (this.uploadingFiles.length === 0) {
-            this.hasAlreadyUploadedFiles = false;
-            this.parentElement.getElementsByClassName("no-file-uploaded-yet")[0].style.display = "";
-            this.fileListElem.style.display = "none";
-        }
+        this.showHomeIfNoFile();
     }
 
     // Méthodes internes
@@ -165,10 +170,11 @@ class MediaUploadZone {
         const uploadPromises = [];
 
         for (const file of Array.from(files)) {
-            const fileHash = md5(file.name + file.size + file.type);
+            const fileType = file.type === "" ? file.name.split(".").pop() : file.type;
+            const fileHash = md5(file.name + file.size + fileType);
 
-            if (this.acceptFileTypes.length > 0 && !this.acceptFileTypes.includes(file.type)) {
-                this.showError("Le type de fichier " + file.type + " n'est pas accepté !");
+            if (this.acceptFileTypes.length > 0 && !this.acceptFileTypes.includes(fileType)) {
+                this.showError("Le type de fichier " + fileType + " n'est pas accepté !");
                 continue;
             }
 
@@ -179,7 +185,6 @@ class MediaUploadZone {
 
             this.uploadingFiles.push(fileHash);
 
-            const fileType = file.type === "" ? file.name.split(".").pop() : file.type;
             const data = new FormData();
             data.append("name", file.name);
             data.append("size", file.size);
@@ -244,8 +249,17 @@ class MediaUploadZone {
         let fileElemCloseBtn = newFileErrorModel.getElementsByClassName("file-close-btn")[0];
         fileElemCloseBtn.addEventListener("click", () => {
             newFileErrorModel.remove();
+            this.showHomeIfNoFile();
         });
         this.fileListElem.append(newFileErrorModel);
+    }
+
+    showHomeIfNoFile() {
+        if (this.fileListElem.children.length === 0) {
+            this.hasAlreadyUploadedFiles = false;
+            this.parentElement.getElementsByClassName("no-file-uploaded-yet")[0].style.display = "";
+            this.fileListElem.style.display = "none";
+        }
     }
 }
 

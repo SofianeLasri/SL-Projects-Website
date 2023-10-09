@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('filename')->unique();
             $table->string('path');
-            $table->enum('type', ['image', 'video', 'audio', 'document', 'other']);
+            $table->string('type');
             $table->bigInteger('size');
 
             $table->timestamps();

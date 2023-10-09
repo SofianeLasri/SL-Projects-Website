@@ -204,6 +204,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
+        \Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -218,7 +219,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Image' => \Intervention\Image\Facades\Image::class,
     ])->toArray(),
 
     /*
@@ -245,6 +246,50 @@ return [
     'steam_profile_id64' => env('STEAM_PROFILE_ID64', '76561198148455403'),
     'steam_profile_avatar_hash' => env('STEAM_PROFILE_AVATAR_HASH', 'ee6f9c9ffd6bb2fd2114a378f3f03d997f79e4b9'),
 
-    'tinymce_api_key' => env('TIMYMCE_API_KEY')
+    'tinymce_api_key' => env('TIMYMCE_API_KEY'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | FileUpload Images
+    |--------------------------------------------------------------------------
+    |
+    | Définition des différentes tailles d'images.
+    |
+    */
+
+    'fileupload' => [
+        'images' => [
+            'thumbnail' => [
+                'width' => 150,
+                'height' => 150,
+                'quality' => 75,
+                'format' => 'webp',
+            ],
+            'small' => [
+                'width' => 300,
+                'height' => 300,
+                'quality' => 80,
+                'format' => 'webp',
+            ],
+            'medium' => [
+                'width' => 600,
+                'height' => 600,
+                'quality' => 80,
+                'format' => 'webp',
+            ],
+            'large' => [
+                'width' => 1200,
+                'height' => 1200,
+                'quality' => 90,
+                'format' => 'webp',
+            ],
+            'original' => [
+                'width' => null,
+                'height' => null,
+                'quality' => 95,
+                'format' => 'webp',
+            ],
+        ]
+    ],
 
 ];

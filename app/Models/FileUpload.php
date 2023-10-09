@@ -19,7 +19,7 @@ class FileUpload extends Model
 
     public function getVariantsIfPicture()
     {
-        return $this->hasMany(PictureType::class);
+        return $this->hasMany(PictureType::class, 'original_file_upload_id');
     }
 
     public function getThumbnailVariant()
