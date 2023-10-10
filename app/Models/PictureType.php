@@ -11,6 +11,7 @@ class PictureType extends Model
 
     protected $fillable = [
         'file_upload_id',
+        'original_file_upload_id',
         'type',
     ];
 

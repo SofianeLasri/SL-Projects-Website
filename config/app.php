@@ -260,33 +260,33 @@ return [
     'fileupload' => [
         'images' => [
             'thumbnail' => [
-                'width' => 150,
-                'height' => 150,
+                'width' => 256,
+                'height' => 256,
                 'quality' => 75,
                 'format' => 'webp',
             ],
             'small' => [
-                'width' => 300,
-                'height' => 300,
+                'width' => 512,
+                'height' => 512,
                 'quality' => 80,
                 'format' => 'webp',
             ],
             'medium' => [
-                'width' => 600,
-                'height' => 600,
+                'width' => 1024,
+                'height' => 1024,
                 'quality' => 80,
                 'format' => 'webp',
             ],
             'large' => [
-                'width' => 1200,
-                'height' => 1200,
+                'width' => 1920,
+                'height' => 1920,
                 'quality' => 90,
                 'format' => 'webp',
             ],
             'original' => [
                 'width' => null,
                 'height' => null,
-                'quality' => 95,
+                'quality' => 99,
                 'format' => 'webp',
             ],
         ]

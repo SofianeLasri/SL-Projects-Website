@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Image;
@@ -43,10 +44,17 @@ class MediaUploadZoneController extends Controller
         $uploadFolder = '/'.Carbon::now()->format('Y/m/d').'/';
         $filename = $this->checkFileName($uploadFolder, $file->getClientOriginalName());
 
+        Storage::disk('ftp')->putFileAs($uploadFolder, $file, $filename);
         $fileType = $file->getMimeType();
+        $originalFileUpload = $this->saveFileUpload($file, $uploadFolder, $filename, $fileType);
 
         if (Str::before($fileType, '/') === 'image') {
-            $originalFileUpload = $this->processImage($file, $uploadFolder, $filename, 'original');
+            // We will create PictureType instance for original file
+            $originalPictureType = new PictureType([
+                'file_upload_id' => $originalFileUpload->id,
+                'type' => 'original',
+            ]);
+            $originalPictureType->save();
 
             foreach (config('app.fileupload.images') as $typeName => $value) {
                 if ($typeName === 'original') {
@@ -54,22 +62,7 @@ class MediaUploadZoneController extends Controller
                 }
                 $this->processImage($file, $uploadFolder, $filename, $typeName, $value['width'], $value['height'], $value['format'], $value['quality'], $originalFileUpload);
             }
-
-            $pictureVariants = $originalFileUpload->getVariantsIfPicture()->get();
-
-            $urls = [];
-            $urls['original'] = Storage::disk('ftp')->url($originalFileUpload->path);
-            foreach ($pictureVariants as $pictureVariant) {
-                $urls[$pictureVariant->type] = Storage::disk('ftp')->url($pictureVariant->associatedFile->path);
-            }
-
-            return response()->json([
-                'success' => true,
-                'urls' => $urls,
-            ]);
         }
-
-        $this->processNonImageFile($file, $uploadFolder, $filename, $fileType);
 
         return response()->json([
             'success' => true,
@@ -84,20 +77,18 @@ class MediaUploadZoneController extends Controller
      * @param  string  $uploadFolder The folder to upload the file to.
      * @param  string  $filename The name of the file.
      * @param  string  $typeName The type of the file (thumbnail, small, medium, large, original).
-     * @param  int|null  $width The width (in px) of the image.
-     * @param  int|null  $height The height (in px) of the image.
-     * @param  string|null  $format The format of the image (jpg, png, webp).
-     * @param  int|null  $quality The quality of the image (0-100).
-     * @param  FileUpload|null  $originalFileUpload The original file FileUpload model instance.
-     * @return FileUpload The processed file FileUpload model instance.
+     * @param  int  $width The width (in px) of the image.
+     * @param  int  $height The height (in px) of the image.
+     * @param  string  $format The format of the image (jpg, png, webp).
+     * @param  int  $quality The quality of the image (0-100).
+     * @param  FileUpload  $originalFileUpload The original file FileUpload model instance.
+     * @return void The processed file FileUpload model instance.
      *
      * @throws \Exception If the file cannot be stored.
      */
-    private function processImage(UploadedFile $file, string $uploadFolder, string $filename, string $typeName, int $width = null, int $height = null, string $format = null, int $quality = null, FileUpload $originalFileUpload = null): FileUpload
+    private function processImage(UploadedFile $file, string $uploadFolder, string $filename, string $typeName, int $width, int $height, string $format, int $quality, FileUpload $originalFileUpload): void
     {
-        // Instance de intervention/image
         $image = Image::make($file->getRealPath());
-        if(is_null($format)) $format = config('app.fileupload.images.original.format');
 
         if ($width && $height) {
             $image->resize($width, $height, function ($constraint) {
@@ -117,31 +108,25 @@ class MediaUploadZoneController extends Controller
             throw new \Exception('Error while storing image');
         }
 
-        $fileUpload = new FileUpload();
-        $fileUpload->name = $newFilename;
-        $fileUpload->filename = $newFilename;
-        $fileUpload->size = $image->filesize();
-        $fileUpload->type = $file->getMimeType();
-        $fileUpload->path = $uploadFolder.$newFilename;
-        $fileUpload->save();
+        $fileUpload = $this->saveFileUpload($file, $uploadFolder, $newFilename, $file->getMimeType());
 
-        if ($originalFileUpload) {
-            $pictureType = new PictureType();
-            $pictureType->file_upload_id = $fileUpload->id;
-            $pictureType->original_file_upload_id = $originalFileUpload->id;
-            $pictureType->type = $typeName;
-            $pictureType->save();
-        } else {
-            $pictureType = new PictureType();
-            $pictureType->file_upload_id = $fileUpload->id;
-            $pictureType->type = $typeName;
-            $pictureType->save();
-        }
-
-        return $fileUpload;
+        $pictureType = new PictureType();
+        $pictureType->file_upload_id = $fileUpload->id;
+        $pictureType->original_file_upload_id = $originalFileUpload->id;
+        $pictureType->type = $typeName;
+        $pictureType->save();
     }
 
-    private function processNonImageFile($file, $uploadFolder, $filename, $fileType)
+    /**
+     * Save a file upload and return the model instance.
+     *
+     * @param  UploadedFile  $file The file to save.
+     * @param  string  $uploadFolder The folder to upload the file to.
+     * @param  string  $filename The name of the file.
+     * @param  string  $fileType The type of the file.
+     * @return FileUpload The saved file FileUpload model instance.
+     */
+    private function saveFileUpload(UploadedFile $file, string $uploadFolder, string $filename, string $fileType): FileUpload
     {
         $fileUpload = new FileUpload();
         $fileUpload->name = $filename;
@@ -150,6 +135,28 @@ class MediaUploadZoneController extends Controller
         $fileUpload->type = $fileType;
         $fileUpload->path = $uploadFolder.$filename;
         $fileUpload->save();
+
+        $this->refreshCache($uploadFolder);
+
+        return $fileUpload;
+    }
+
+    /**
+     * Refresh the cache for the specified folder.
+     *
+     * @param  string  $folder The folder for which to refresh the cache.
+     */
+    private function refreshCache(string $folder): array
+    {
+        $cacheKey = 'media-upload-zone.'.md5($folder);
+
+        Cache::forget($cacheKey);
+
+        return Cache::remember($cacheKey, 120, function () use ($folder) {
+            return collect(Storage::disk('ftp')->files($folder))->map(function ($path) {
+                return pathinfo($path, PATHINFO_FILENAME);
+            })->toArray();
+        });
     }
 
     /**
@@ -162,9 +169,13 @@ class MediaUploadZoneController extends Controller
      */
     private function checkFileName(string $folder, string $filename, int $iteration = 0): string
     {
+        $cacheKey = 'media-upload-zone.'.md5($folder);
+
+        $existingFiles = Cache::has($cacheKey) ? Cache::get($cacheKey) : $this->refreshCache($folder);
+
         $newFilename = $iteration === 0 ? $filename : Str::beforeLast($filename, '.').'-'.$iteration.'.'.Str::afterLast($filename, '.');
 
-        if (Storage::disk('ftp')->exists($folder.'/'.$newFilename)) {
+        if (in_array(pathinfo($newFilename, PATHINFO_FILENAME), $existingFiles)) {
             return $this->checkFileName($folder, $filename, $iteration + 1);
         }
 
