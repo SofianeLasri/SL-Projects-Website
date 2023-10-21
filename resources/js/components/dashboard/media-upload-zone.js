@@ -11,6 +11,7 @@ class MediaUploadZone {
     fileErrorModel;
     sendFileBtn;
     acceptFileTypes = [];
+    fileRowModel;
 
     constructor(id = "mediaUploadZone") {
         this.parentElement = document.getElementById(id);
@@ -28,9 +29,15 @@ class MediaUploadZone {
         this.fileErrorModel = document.getElementById("fileErrorModel");
         this.sendFileBtn = document.getElementById("mediaUploadZoneSendFileBtn");
         this.sendFileBtn.addEventListener("click", this.sendFileBtnFunc.bind(this));
+        this.fileRowModel = document.getElementById("fileModel");
     }
 
     // Événements enregistrables
+    /**
+     * Lorqu'un fichier est choisi, cette méthode est appelée
+     * @param file Le fichier choisi
+     * @returns {Promise<void>}
+     */
     async onChoosenFile(file) {
         const event = new CustomEvent("OnChoosenFile", {detail: file});
         this.parentElement.dispatchEvent(event);
@@ -119,11 +126,18 @@ class MediaUploadZone {
         }
     }
 
+    /**
+     * Lorsqu'un fichier est envoyé, cette méthode est appelée
+     * @param file Le fichier envoyé
+     */
     onFileUploaded(file) {
         const event = new CustomEvent("OnFileUploaded", {detail: file});
         this.parentElement.dispatchEvent(event);
     }
 
+    /**
+     * Lorsque tous les fichiers sont envoyés, cette méthode est appelée
+     */
     onAllFileUploaded() {
         const event = new CustomEvent("OnAllFileUploaded");
         this.parentElement.dispatchEvent(event);
@@ -131,19 +145,31 @@ class MediaUploadZone {
         this.showHomeIfNoFile();
     }
 
-    // Méthodes internes
+    // Méthodes
+    /**
+     * Méthode appelée lorsque la zone d'envoi est survolé avec un fichier
+     * @param e
+     */
     dragOver(e) {
         e.preventDefault();
         // Ajoute une classe CSS pour indiquer que l'élément est survolé
         this.parentElement.classList.add("drag-over");
     }
 
+    /**
+     * Méthode appelée lorsque la zone d'envoi n'est plus survolé avec un fichier
+     * @param e
+     */
     dragLeave(e) {
         e.preventDefault();
         // Supprime la classe CSS lorsque l'élément n'est plus survolé
         this.parentElement.classList.remove("drag-over");
     }
 
+    /**
+     * Méthode appelée lorsque des fichiers sont déposés dans la zone d'envoi
+     * @param e
+     */
     drop(e) {
         e.preventDefault();
 
@@ -157,6 +183,11 @@ class MediaUploadZone {
         this.processFiles(e.dataTransfer.files);
     }
 
+    /**
+     * Méthode appelée pour traiter les fichiers déposés ou choisis
+     * @param files
+     * @returns {Promise<void>}
+     */
     async processFiles(files) {
         if (files.length === 0) return;
 
@@ -165,9 +196,6 @@ class MediaUploadZone {
             this.parentElement.getElementsByClassName("no-file-uploaded-yet")[0].style.display = "none";
             this.fileListElem.style.display = "flex";
         }
-
-        const successfullyFetchedFiles = [];
-        const uploadPromises = [];
 
         for (const file of Array.from(files)) {
             const fileType = file.type === "" ? file.name.split(".").pop() : file.type;
@@ -185,45 +213,18 @@ class MediaUploadZone {
 
             this.uploadingFiles.push(fileHash);
 
-            const data = new FormData();
-            data.append("name", file.name);
-            data.append("size", file.size);
-            data.append("type", fileType);
-
-            const fetchPromise = fetch(route("dashboard.ajax.components.media-upload-zone.get-rendered-file-list-component", undefined, undefined, Ziggy), {
-                method: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': this.csrfToken,
-                },
-                body: data,
-            })
-                .then(async response => {
-                    if (!response.ok) {
-                        this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    return response.text();
-                })
-                .then(async fileDomElem => {
-                    this.fileListElem.innerHTML += fileDomElem;
-                    successfullyFetchedFiles.push(file);
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                });
-
-            uploadPromises.push(fetchPromise);
+            await this.showFileRow(file.name, file.size, fileType, fileHash);
         }
 
-        // Attendre que toutes les requêtes de téléchargement soient terminées
-        await Promise.all(uploadPromises);
-
         // Ensuite, envoyer les fichiers téléchargés
-        for (const file of successfullyFetchedFiles) {
+        for (const file of files) {
             await this.onChoosenFile(file);
         }
     }
 
+    /**
+     * Méthode appelée lorsque le bouton d'envoi de fichier est cliqué
+     */
     sendFileBtnFunc() {
         // On créé un input file pour envoyer les fichiers
         const fileInput = document.createElement("input");
@@ -240,6 +241,10 @@ class MediaUploadZone {
         fileInput.click();
     }
 
+    /**
+     * Méthode appelée pour afficher une erreur
+     * @param errorMessage
+     */
     showError(errorMessage) {
         let newFileErrorModel = this.fileErrorModel.cloneNode(true);
         newFileErrorModel.style.display = "";
@@ -254,12 +259,82 @@ class MediaUploadZone {
         this.fileListElem.append(newFileErrorModel);
     }
 
+    /**
+     * Méthode appelée pour afficher une ligne de fichier dans la liste
+     * @param name Le nom du fichier
+     * @param size La taille du fichier
+     * @param type Le type du fichier
+     * @param hash Le hash du fichier
+     */
+    async showFileRow(name, size, type, hash) {
+        let newFileRowModel = this.fileRowModel.cloneNode(true);
+        newFileRowModel.style.display = "";
+        newFileRowModel.id = "muzf-" + hash;
+
+        let iconElem = newFileRowModel.getElementsByClassName("file-icon")[0];
+        const data = new FormData();
+        data.append("type", type);
+        const fetchPromise = fetch(route("dashboard.ajax.components.media-upload-zone.find-icon", undefined, undefined, Ziggy), {
+            method: "POST",
+            headers: {
+                'X-CSRF-TOKEN': this.csrfToken,
+            },
+            body: data,
+        })
+            .then(async response => {
+                if (!response.ok) {
+                    this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(async icon => {
+                let classes = icon.split(" ");
+                for (const classElem of classes) {
+                    iconElem.classList.add(classElem);
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+
+        let fileElemName = newFileRowModel.getElementsByClassName("name")[0];
+        fileElemName.innerText = name;
+
+        let fileElemSize = newFileRowModel.getElementsByClassName("size")[0];
+        fileElemSize.innerText = this.formatBytes(size);
+
+        await fetchPromise;
+
+        this.fileListElem.append(newFileRowModel);
+    }
+
+    /**
+     * Méthode appelée pour afficher la page d'accueil si aucun fichier n'est présent
+     */
     showHomeIfNoFile() {
         if (this.fileListElem.children.length === 0) {
             this.hasAlreadyUploadedFiles = false;
             this.parentElement.getElementsByClassName("no-file-uploaded-yet")[0].style.display = "";
             this.fileListElem.style.display = "none";
         }
+    }
+
+    /**
+     * Méthode appelée pour formater la taille d'un fichier
+     * @param size La taille du fichier en octets
+     * @returns {string} La taille formatée
+     */
+    formatBytes(size) {
+        const units = ['o', 'Ko', 'Mo', 'Go', 'To'];
+        let unitIndex = 0;
+
+        while (size > 1024) {
+            size /= 1024;
+            unitIndex++;
+        }
+
+        return size.toFixed(2) + ' ' + units[unitIndex];
     }
 }
 

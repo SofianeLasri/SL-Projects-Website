@@ -28,5 +28,26 @@
                 </x-button>
             </div>
         </div>
+        <div id="fileModel" class="file" style="display: none;">
+            <x-square-icon size="3.15rem" font-size="1.25rem" class="icon">
+                <i class="file-icon"></i>
+            </x-square-icon>
+            <div class="infos">
+                <div class="meta">
+                    <div class="name"></div>
+                    <div class="size"></div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress" style="width: 0"></div>
+                </div>
+            </div>
+            <div class="actions">
+                <x-button type="button" class="btn-link text-dark file-close-btn">
+                    <x-square-icon size="1rem">
+                        <i class="fa-solid fa-xmark"></i>
+                    </x-square-icon>
+                </x-button>
+            </div>
+        </div>
     </div>
 </div>

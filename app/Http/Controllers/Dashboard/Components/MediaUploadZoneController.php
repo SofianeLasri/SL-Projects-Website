@@ -18,19 +18,24 @@ use Image;
 
 class MediaUploadZoneController extends Controller
 {
-    public function renderComponent(Request $request): View
+    public function findIcon(Request $request): string
     {
         $request->validate([
-            'name' => 'required|string',
-            'size' => 'required|integer',
             'type' => 'required|string',
         ]);
 
-        return (new MediaUploadZoneFile(
-            $request->input('name'),
-            $request->input('size'),
-            $request->input('type')
-        ))->render();
+        $type = $request->input('type');
+
+        if (array_key_exists($type, config('global-ui.fa-file-types-icons'))) {
+            return config('global-ui.fa-file-types-icons')[$type];
+        }
+
+        $shortMimeType = Str::before($type, '/');
+        if (array_key_exists($shortMimeType, config('global-ui.fa-file-types-icons'))) {
+            return config('global-ui.fa-file-types-icons')[$shortMimeType];
+        }
+
+        return config('global-ui.fa-file-types-icons.default');
     }
 
     public function uploadFile(Request $request): JsonResponse

@@ -25,7 +25,7 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
             // Composants
             Route::name('components.')->prefix('components')->group(function () {
                 Route::name('media-upload-zone.')->prefix('media-upload-zone')->group(function () {
-                    Route::post('/get-rendered-file-list-component', [MediaUploadZoneController::class, 'renderComponent'])->name('get-rendered-file-list-component');
+                    Route::post('/find-icon', [MediaUploadZoneController::class, 'findIcon'])->name('find-icon');
                     Route::post('/upload-file', [MediaUploadZoneController::class, 'uploadFile'])->name('upload-file');
                 });
             });
