@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -64,6 +64,7 @@ return [
         'sofianelasri' => env('SOFIANELASRI_DOMAIN', 'sofianelasri.fr'),
     ],
 
+    'url' => env('APP_URL', 'https://sl-projects.com'), // Only used by Ziggy to force it to use https
     'asset_url' => env('ASSET_URL'),
 
     /*
@@ -203,6 +204,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
+        \Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -217,7 +219,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Image' => \Intervention\Image\Facades\Image::class,
     ])->toArray(),
 
     /*
@@ -243,5 +245,51 @@ return [
 
     'steam_profile_id64' => env('STEAM_PROFILE_ID64', '76561198148455403'),
     'steam_profile_avatar_hash' => env('STEAM_PROFILE_AVATAR_HASH', 'ee6f9c9ffd6bb2fd2114a378f3f03d997f79e4b9'),
+
+    'tinymce_api_key' => env('TIMYMCE_API_KEY'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | FileUpload Images
+    |--------------------------------------------------------------------------
+    |
+    | Définition des différentes tailles d'images.
+    |
+    */
+
+    'fileupload' => [
+        'images' => [
+            'thumbnail' => [
+                'width' => 256,
+                'height' => 256,
+                'quality' => 75,
+                'format' => 'webp',
+            ],
+            'small' => [
+                'width' => 512,
+                'height' => 512,
+                'quality' => 80,
+                'format' => 'webp',
+            ],
+            'medium' => [
+                'width' => 1024,
+                'height' => 1024,
+                'quality' => 80,
+                'format' => 'webp',
+            ],
+            'large' => [
+                'width' => 1920,
+                'height' => 1920,
+                'quality' => 90,
+                'format' => 'webp',
+            ],
+            'original' => [
+                'width' => null,
+                'height' => null,
+                'quality' => 99,
+                'format' => 'webp',
+            ],
+        ]
+    ],
 
 ];

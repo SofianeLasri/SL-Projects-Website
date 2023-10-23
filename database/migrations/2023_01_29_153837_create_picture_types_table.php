@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('picture_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(FileUpload::class);
+            $table->foreignIdFor(FileUpload::class, 'file_upload_id');
+            $table->foreignIdFor(FileUpload::class, 'original_file_upload_id')->nullable();
             $table->enum('type', ['thumbnail', 'small', 'medium', 'large', 'original']);
 
             $table->timestamps();

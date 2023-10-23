@@ -22,6 +22,7 @@ class NavigationLinkChild
         $this->title = $child['title'];
         $this->url = $child['url'] ?? '#'; // Utilisation de l'opérateur de coalescence null
         $this->icon = $child['icon'] ?? '';
+        $this->description = $child['description'] ?? '';
         $this->links = array_map(fn ($link) => new self($link), $child['links'] ?? []);
         $this->isGroup = ! empty($this->links);
     }

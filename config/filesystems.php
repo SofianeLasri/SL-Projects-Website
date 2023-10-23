@@ -36,13 +36,13 @@ return [
             'throw' => false,
         ],
 
-        'public' => [
+        /*'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => getWebsiteUrl('api').'/storage',
             'visibility' => 'public',
             'throw' => false,
-        ],
+        ],*/
 
         's3' => [
             'driver' => 's3',
@@ -54,6 +54,24 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
+        ],
+
+        'ftp' => [
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST'),
+            'username' => env('FTP_USERNAME'),
+            'password' => env('FTP_PASSWORD'),
+
+            // Optional FTP Settings...
+            'port' => env('FTP_PORT', 21),
+            'root' => env('FTP_ROOT', '/upload/'),
+            'passive' => true,
+            'transferMode' => FTP_BINARY,
+            'ssl' => true,
+            'timeout' => 30,
+            'throw' => false,
+            'url' => getWebsiteUrl('showcase').'/storage',
+            'visibility' => 'public',
         ],
 
     ],
@@ -70,7 +88,7 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        // public_path('storage') => storage_path('upload'),
     ],
 
 ];

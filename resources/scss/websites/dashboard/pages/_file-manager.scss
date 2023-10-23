@@ -1,0 +1,38 @@
+@use "sass:map";
+
+.media-library {
+    display: flex;
+    flex-direction: column;
+    gap: map.get($spacers, 4);
+    $filter-width: 16rem;
+
+    .filters {
+        .content {
+            display: flex;
+            gap: map.get($spacers, 2);
+        }
+    }
+
+    @include media-breakpoint-down(lg) {
+        .filters .content {
+            overflow-x: auto;
+
+            & > * {
+                width: $filter-width;
+            }
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        flex-direction: row;
+
+        .filters {
+            width: $filter-width;
+
+            .content {
+                flex-direction: column;
+                gap: map.get($spacers, 4);
+            }
+        }
+    }
+}

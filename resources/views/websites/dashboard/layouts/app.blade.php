@@ -29,21 +29,23 @@
     <meta property="og:image" content="{{ Vite::asset("resources/images/logos/og-logo-orange.jpg") }}"/>
     <meta property="og:image:width" content="512"/>
     <meta property="og:image:height" content="512"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}" http-equiv="Content-Security-Policy"/>
 
     @yield('head')
 
-    @vite(['resources/scss/websites/dashboard/dashboard.scss'])
+    @vite(['resources/scss/websites/dashboard/dashboard.scss', 'resources/js/app.js'])
 </head>
 <body>
 <div id="app">
     <x-dashboard.sidebar/>
     <div id="pageContent">
-        <x-dashboard.breadcrumb/>
+        <x-dashboard.breadcrumb>
+            @yield('breadcrumbHeaderContent')
+        </x-dashboard.breadcrumb>
         @yield('pageContent')
     </div>
 </div>
 
-@vite(['resources/js/app.js'])
 @stack('scripts')
 </body>
 </html>

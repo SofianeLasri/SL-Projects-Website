@@ -10,6 +10,7 @@
     font-size: 1rem;
     font-weight: 400;
     cursor: pointer;
+    border-radius: $border-radius;
 
     &:hover {
         background-color: $light-hovered;
@@ -39,6 +40,25 @@
         transform: scale(0);
         animation: ripple 600ms linear;
         background-color: rgba(255, 255, 255, 0.7);
+    }
+
+    &:disabled {
+        opacity: .5;
+        cursor: not-allowed;
+    }
+
+    &.btn-link {
+        background-color: transparent;
+        color: $primary;
+        padding: 0;
+        font-size: inherit;
+        font-weight: inherit;
+        border-radius: 0;
+
+        &:hover {
+            background-color: transparent;
+            color: $primary-hovered;
+        }
     }
 }
 
@@ -71,12 +91,3 @@
     }
 }
 
-.text-btn {
-    background: transparent;
-    color: $white;
-    border: none;
-
-    &:hover {
-        color: $primary;
-    }
-}

@@ -6,7 +6,11 @@ const path = require('path')
 export default defineConfig({
     resolve: {
         alias: {
+            '@': path.resolve(__dirname, 'resources/js'),
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+            '~bootstrap-icons': path.resolve(__dirname, 'node_modules/bootstrap-icons'),
+            '~quill': path.resolve(__dirname, 'node_modules/quill'),
+            'ziggy': path.resolve(__dirname, 'vendor/tightenco/ziggy/src/js'),
         }
     },
     plugins: [
@@ -17,7 +21,7 @@ export default defineConfig({
                 'resources/scss/websites/auth/auth.scss',
                 'resources/scss/websites/dashboard/dashboard.scss',
                 'resources/scss/websites/sofianelasri/sofianelasri.scss',
-                'resources/js/app.js'
+                'resources/js/app.js',
             ],
             refresh: true,
         }),

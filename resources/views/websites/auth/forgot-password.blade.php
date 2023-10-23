@@ -8,13 +8,10 @@
 
 @section("form")
     <p class="">{{ __('general/verbal.authentication.forgotten_password_page_explaination') }}</p>
-    <div class="d-flex flex-column">
-        <label for="email" class="form-label">{{ __('general/compound.email_adress') }}</label>
-        <input type="email" name="email" id="email"
-               placeholder="{{ __('general/verbal.authentication.enter_your_email_adress') }}"
-               data-form-type="email" value="{{ old('email') }}"
-               class="form-control" required>
-    </div>
+
+    <x-input name="email" type="text" data-form-type="email"
+             label="{{ __('general/compound.email_adress') }}"
+             value="{{ old('email') }}" required/>
 
     <button type="submit"
             class="btn btn-primary p-2 mt-3">{{ __('general/verbal.authentication.reset_password') }}

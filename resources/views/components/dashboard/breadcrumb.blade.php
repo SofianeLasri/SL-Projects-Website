@@ -24,6 +24,28 @@
     </div>
 </div>
 
+@if(!$disableHeader)
+    <div class="content-after-breadcrumb p-3 d-flex gap-3 flex-wrap">
+        <div class="d-flex gap-3 flex-grow-1">
+            @if(!empty($pageIcon))
+                <x-square-icon size="4rem" font-size="2rem"
+                               class="border border-primary rounded-3 bg-primary-subtle text-primary">
+                    <i class="{{ $pageIcon }}"></i>
+                </x-square-icon>
+            @endif
+            <div class="flex-grow-1">
+                <h4 class="mt-2 mb-1">{{ $pageTitle }}</h4>
+                @if(!empty($pageDescription))
+                    <p class="text-muted m-0">{{ $pageDescription }}</p>
+                @endif
+            </div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap align-items-center">
+            {{ $slot }}
+        </div>
+    </div>
+@endif
+
 @pushonce('scripts')
     <script type="text/javascript">
         const openSidebarButton = document.getElementById('openSidebar');
@@ -34,7 +56,7 @@
                 sidebar.classList.add('opened');
 
                 let xhr = new XMLHttpRequest();
-                xhr.open('GET', '{{ route('ajax.set-sidebar-state', ['opened' => 'true']) }}');
+                xhr.open('GET', '{{ route('dashboard.ajax.set-sidebar-state', ['opened' => 'true']) }}');
                 xhr.send();
             }
             openSidebarButton.classList.add('d-none');

@@ -1,3 +1,4 @@
+@use "sass:map";
 @import "../../app.scss";
 
 body {
@@ -13,7 +14,7 @@ body {
     margin-right: auto;
     width: 100%;
     min-height: 100vh;
-    gap: 1rem;
+    gap: map.get($spacers, 5);
 
     &::selection {
         background-color: $primary;

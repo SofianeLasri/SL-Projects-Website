@@ -1,0 +1,84 @@
+@use "sass:map";
+
+.media-upload-zone {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 25rem;
+
+
+    .no-file-uploaded-yet {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: map.get($spacers, 3);
+
+        i {
+            font-size: 4rem;
+            color: $gray-600;
+        }
+    }
+
+    &.drag-over {
+        border: .25rem dashed $primary;
+    }
+
+    .file-upload-list {
+        display: none;
+        flex-direction: column;
+        gap: map.get($spacers, 3);
+        overflow-y: auto;
+
+        .file {
+            display: flex;
+            align-items: center;
+            gap: map.get($spacers, 3);
+
+            .icon {
+                flex-shrink: 0;
+                font-size: 2rem;
+                color: $gray-600;
+                background-color: $gray-100;
+                border: $border-width solid $border-color;
+                border-radius: $border-radius;
+            }
+
+            .infos {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                gap: map.get($spacers, 1);
+
+                .meta {
+                    display: flex;
+                    gap: map.get($spacers, 1);
+
+                    .size {
+                        color: $gray-600;
+                    }
+                }
+
+                .progress-bar {
+                    height: .25rem;
+                    background-color: $border-color;
+                    border-radius: $border-radius;
+                    overflow: hidden;
+
+                    .progress {
+                        height: 100%;
+                        background-color: $primary;
+                        border-radius: $border-radius;
+                    }
+                }
+
+                .actions {
+                    flex-shrink: 0;
+                    display: flex;
+                    gap: map.get($spacers, 1);
+                }
+            }
+        }
+    }
+}

@@ -9,11 +9,23 @@ use Illuminate\View\Component;
 
 class Breadcrumb extends Component
 {
-    public $breadcrumbs;
+    public array $breadcrumbs;
 
-    public function __construct()
+    private string $pageTitle;
+
+    private string $pageDescription;
+
+    private string $pageIcon;
+
+    public bool $disableHeader = false;
+
+    public function __construct(bool $disableHeader = false)
     {
+        $this->disableHeader = $disableHeader;
         $this->breadcrumbs = $this->buildBreadcrumbs();
+        $this->pageTitle = $this->breadcrumbs[count($this->breadcrumbs) - 1]['name'];
+        $this->pageDescription = $this->breadcrumbs[count($this->breadcrumbs) - 1]['description'] ?? '';
+        $this->pageIcon = $this->breadcrumbs[count($this->breadcrumbs) - 1]['icon'] ?? '';
     }
 
     private function buildBreadcrumbs()
@@ -29,14 +41,24 @@ class Breadcrumb extends Component
                         if ($this->isMatchingUrl($currentUrl, $link->url)) {
                             $breadcrumbs[] = ['name' => $category->title, 'url' => '#'];
                             $breadcrumbs[] = ['name' => $child->title, 'url' => '#'];
-                            $breadcrumbs[] = ['name' => $link->title, 'url' => $this->resolveUrl($link->url)];
+                            $breadcrumbs[] = [
+                                'name' => $link->title,
+                                'url' => $this->resolveUrl($link->url),
+                                'icon' => $link->icon,
+                                'description' => $link->description ?? '',
+                            ];
                             break 3; // Sortez des boucles si vous avez trouvé le lien
                         }
                     }
                 } else {
                     if ($this->isMatchingUrl($currentUrl, $child->url)) {
                         $breadcrumbs[] = ['name' => $category->title, 'url' => '#'];
-                        $breadcrumbs[] = ['name' => $child->title, 'url' => $this->resolveUrl($child->url)];
+                        $breadcrumbs[] = [
+                            'name' => $child->title,
+                            'url' => $this->resolveUrl($child->url),
+                            'icon' => $child->icon,
+                            'description' => $child->description ?? '',
+                        ];
                         break 2; // Sortez des boucles si vous avez trouvé le lien
                     }
                 }
@@ -72,6 +94,9 @@ class Breadcrumb extends Component
         return view('components.dashboard.breadcrumb', [
             'breadcrumbs' => $this->breadcrumbs,
             'sidebarOpened' => $sidebarOpened,
+            'pageTitle' => $this->pageTitle,
+            'pageIcon' => $this->pageIcon,
+            'pageDescription' => $this->pageDescription,
         ]);
     }
 }

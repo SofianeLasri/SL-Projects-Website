@@ -1,7 +1,10 @@
 @use "sass:map";
 
+$breadcrumb-height: 3rem;
 .breadcrumb {
-    height: 3rem;
+    position: absolute;
+    width: 100%;
+    height: $breadcrumb-height;
     display: flex;
     align-items: center;
     gap: map.get($spacers, 3);
@@ -10,6 +13,7 @@
     background-color: $dark;
     padding: map.get($spacers, 2) map.get($spacers, 3);
     border-bottom: .125rem solid $primary;
+    z-index: 500;
 
     a {
         color: $gray-500;
@@ -25,4 +29,8 @@
         align-items: center;
         gap: map.get($spacers, 2);
     }
+}
+
+.content-after-breadcrumb {
+    margin-top: $breadcrumb-height;
 }
