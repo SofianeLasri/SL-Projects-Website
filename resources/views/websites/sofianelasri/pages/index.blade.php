@@ -238,7 +238,7 @@
                         <li>Maintenance des différents projets internes.</li>
                     </ul>
 
-                    <h5>Compétances acquises :</h5>
+                    <h5>Compétences acquises :</h5>
                     <ul>
                         <li>Découverte du framework Laravel (ainsi que de son homologue Lumen).</li>
                         <li>Création et usage des tests unitaires avec PHPUnit.</li>
