@@ -1,64 +1,35 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+<p align="center"><a href="https://sl-projects.com" target="_blank"><img src="resources/images/logos/orange-short.png" width="100"></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<a href="https://gitlab.sl-projects.com/sl-projects/sl-projects-website/-/pipelines"><img src="https://gitlab.sl-projects.com/sl-projects/sl-projects-website/badges/main/pipeline.svg" alt="Pipeline"></a>
+<a href="https://discord.gg/9PYvGFDmDt"><img src="https://img.shields.io/badge/Join_our_Discord-7289DA?logo=discord&logoColor=white" alt="Discord"></a>
+<a href="https://gitlab.sl-projects.com/sl-projects/sl-projects-website"><img src="https://img.shields.io/badge/Visit_our_GitLab-FC6D26?logo=gitlab&logoColor=white" alt="GitLab"></a>
+<a href="https://laravel.com"><img src="https://img.shields.io/badge/Based_on_Laravel-FF2D20?logo=laravel&logoColor=white" alt="Laravel"></a>
 </p>
 
-## About Laravel
+## À propos du projet
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Ce projet est la plateforme web de SL-Projects. Il concentre les sous projets suivants :
+- Site internet vitrine (https://sl-projects.com)
+- Panneau d'administration des projets annexes (https://dashboard.sl-projects.com)
+- API (https://api.sl-projects.com)
+- Authentification centralisée (https://auth.sl-projects.com)
+- Blog (prochainement) (https://blog.sl-projects.com)
+- Portfolio personnel (sera dissocié à terme) (https://sofianelasri.fr)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Prérequis
 
-## Learning Laravel
+- PHP 8.1 ou supérieur
+- Extension PHP (Il peut en manquer) : PDO, JSON, CURL, INTL, GD, Fileinfo, OpenSSL, Mbstring, BCMath, Tokenizer, XML, Ctype, Zip, FTP
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Procédure
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. Cloner le projet
+2. Installer les dépendances : `composer install`, `npm install`
+3. Migrer la base de données : `php artisan migrate`
+3. Copier le fichier `.env.example` en `.env` et le modifier en fonction de votre environnement (en local uniquement, si sur dev srv copier l'env de quelqu'un d'autre)
+4. Générer une clé d'application (en local uniquement) : `php artisan key:generate`
+5. Copier les routes avec Ziggy : `php artisan ziggy:generate`
+6. Compiler les assets : `npm run build`

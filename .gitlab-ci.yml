@@ -9,7 +9,7 @@ variables:
   SC_DB_DATABASE: sl_projects_showcase
 
 default:
-  image: registry.gitlab.sl-projects.com/sofianelasri/sl-projects-website:latest
+  image: registry.gitlab.sl-projects.com/sl-projects/sl-projects-website:latest
   services:
     - mariadb:10.11
 

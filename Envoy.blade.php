@@ -1,7 +1,7 @@
 @servers(['vps1' => 'gitlab-deployer@vps1.sl-projects.com'])
 
 @setup
-$repository = 'https://gitlab.sl-projects.com/SofianeLasri/sl-projects-website.git';
+$repository = 'https://gitlab.sl-projects.com/sl-projects/sl-projects-website.git';
 $releases_dir = '/home/serveur-web/sl-projects.com/prod/releases';
 $app_dir = '/home/serveur-web/sl-projects.com/prod';
 $release = date('YmdHis');
