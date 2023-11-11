@@ -7,6 +7,11 @@
     $filter-width: 16rem;
 
     .filters {
+        display: flex;
+        flex-direction: column;
+        gap: map.get($spacers, 4);
+        flex-shrink: 0;
+
         .content {
             display: flex;
             gap: map.get($spacers, 2);
@@ -32,6 +37,62 @@
             .content {
                 flex-direction: column;
                 gap: map.get($spacers, 4);
+            }
+        }
+    }
+
+    .medias {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        gap: map.get($spacers, 3);
+
+        .list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: map.get($spacers, 3);
+
+            > * {
+                $width: 8rem;
+                border: $border-width solid $border-color;
+                border-radius: $border-radius;
+                width: $width;
+                aspect-ratio: 1 / 1;
+                cursor: pointer;
+                &:hover {
+                    border-color: $primary;
+                }
+            }
+
+            .media {
+                background-image: url('/resources/images/logos/og-logo-orange.jpg');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+            }
+
+            .file {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background-color: $light;
+
+                > * {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .icon {
+                    flex-grow: 1;
+                    font-size: 3rem;
+                    color: $gray-600;
+                }
+                .name {
+                    height: 1.75rem;
+                    flex-shrink: 0;
+                    font-size: $small-font-size;
+                    color: $dark;
+                }
             }
         }
     }

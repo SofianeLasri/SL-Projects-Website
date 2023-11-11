@@ -10,7 +10,7 @@
 
 @section('pageContent')
     <div class="px-3 py-2 media-library">
-        <div class="filters d-flex flex-column gap-4">
+        <div class="filters">
             <h4>Filtres</h4>
             <div class="content">
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
@@ -72,18 +72,27 @@
                 </div>
             </div>
         </div>
-        <div class="medias d-flex flex-column flex-grow-1">
-            <div class="d-flex flex-column gap-4">
-                <h4>Septembre</h4>
-                <div class="d-flex flex-column gap-3">
-                    <div class="d-flex flex-column gap-2">
-                        <div class="fw-bold">mardi 19 septembre</div>
-                        <div class="d-flex flex-wrap gap-3">
-
-                        </div>
+        <div class="medias">
+            @for($i = 0; $i < rand(1, 4); $i++)
+                <div class="d-flex flex-column gap-4">
+                    <h4>Septembre</h4>
+                    <div class="d-flex flex-column gap-3">
+                        @for($j = 0; $j < rand(1, 5); $j++)
+                            <div class="d-flex flex-column gap-2">
+                                <div class="fw-bold">mardi 19 septembre</div>
+                                <div class="list">
+                                    @for($j = 0; $j < rand(1, 24); $j++)
+                                        <div class="file">
+                                            <div class="icon"><i class="fa-solid fa-file-pdf"></i></div>
+                                            <div class="name">RandomFile.pdf</div>
+                                        </div>
+                                    @endfor
+                                </div>
+                            </div>
+                        @endfor
                     </div>
                 </div>
-            </div>
+            @endfor
         </div>
     </div>
 
