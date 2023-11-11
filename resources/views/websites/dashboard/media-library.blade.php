@@ -14,7 +14,7 @@
             <h4>Filtres</h4>
             <div class="content">
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
-                    <div class="fw-bold">Types</div>
+                    <h6>Types</h6>
                     <x-button type="button"
                               class="text-start btn-primary"
                               role="filter"
@@ -38,7 +38,7 @@
                     >Fichiers</x-button>
                 </div>
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
-                    <div class="fw-bold">Affichage</div>
+                    <h6>Affichage</h6>
                     <x-button type="button"
                               class="text-start btn-white"
                               role="view"
@@ -52,7 +52,7 @@
                     >Grille</x-button>
                 </div>
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
-                    <div class="fw-bold">Regrouper</div>
+                    <h6>Regrouper</h6>
                     <x-button type="button"
                               class="text-start btn-white"
                               role="group"
@@ -72,15 +72,15 @@
                 </div>
             </div>
         </div>
-        <div class="medias">
+        <div class="medias grid" id="mediaLibraryMedias">
             @for($i = 0; $i < rand(1, 4); $i++)
-                <div class="d-flex flex-column gap-4">
+                <div class="month">
                     <h4>Septembre</h4>
-                    <div class="d-flex flex-column gap-3">
+                    <div class="month-container">
                         @for($j = 0; $j < rand(1, 5); $j++)
-                            <div class="d-flex flex-column gap-2">
-                                <div class="fw-bold">mardi 19 septembre</div>
-                                <div class="list">
+                            <div class="day">
+                                <h6>mardi 19 septembre</h6>
+                                <div class="day-container">
                                     @for($j = 0; $j < rand(1, 24); $j++)
                                         <div class="file">
                                             <div class="icon"><i class="fa-solid fa-file-pdf"></i></div>
