@@ -2,7 +2,7 @@
 
 namespace App\View\Components\Dashboard;
 
-use App\Services\NavigationLinkCategory;
+use App\Services\Dashboard\NavigationLinkCategory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\Component;
