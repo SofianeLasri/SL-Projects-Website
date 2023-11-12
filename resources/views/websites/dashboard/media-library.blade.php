@@ -9,7 +9,7 @@
 @endsection
 
 @section('pageContent')
-    <div class="px-3 py-2 media-library">
+    <div class="px-3 py-2 media-library" id="mediaLibrary">
         <div class="filters">
             <h4>Filtres</h4>
             <div class="content">

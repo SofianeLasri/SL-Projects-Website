@@ -1,14 +1,18 @@
 <?php
 
 use App\Http\Controllers\Dashboard\Components\MediaUploadZoneController;
-use App\Http\Controllers\Dashboard\FilemanagerController;
+use App\Http\Controllers\Dashboard\MediaLibraryController;
 use App\Http\Controllers\Dashboard\Projects\AddProjectController;
 use App\Http\Controllers\RobotsTxtController;
 
 Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(function () {
     Route::group(['middleware' => ['secure']], function () {
         Route::view('/', 'websites.dashboard.home')->name('home');
-        Route::get('/media-library', [FilemanagerController::class, 'index'])->name('media-library');
+
+        Route::name('media-library.')->prefix('ajax')->group(function () {
+            Route::get('/', [MediaLibraryController::class, 'page'])->name('page');
+            Route::get('/get-uploaded-files', [MediaLibraryController::class, 'getUploadedFiles'])->name('get-uploaded-files');
+        });
 
         // Requêtes AJAX
         Route::name('ajax.')->prefix('ajax')->group(function () {

@@ -15,6 +15,12 @@ class PictureType extends Model
         'type',
     ];
 
+    public const TYPE_THUMBNAIL = 'thumbnail';
+    public const TYPE_SMALL = 'small';
+    public const TYPE_MEDIUM = 'medium';
+    public const TYPE_LARGE = 'large';
+    public const TYPE_ORIGINAL = 'original';
+
     public function associatedFile(): BelongsTo
     {
         return $this->belongsTo(FileUpload::class, 'file_upload_id');

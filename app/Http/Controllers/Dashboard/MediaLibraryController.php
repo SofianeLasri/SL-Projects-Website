@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Controllers\Dashboard;
+
+use App\Http\Controllers\Controller;
+use App\Models\FileUpload;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class MediaLibraryController extends Controller
+{
+    public function page()
+    {
+        return view('websites.dashboard.media-library');
+    }
+
+    public function getUploadedFiles(Request $request): JsonResponse
+    {
+        $request->validate([
+            'offset' => 'sometimes|integer',
+            'type' => 'sometimes|string',
+            'order' => 'sometimes|string|in:asc,desc',
+        ]);
+
+        $offset = $request->input('offset', 0);
+        $type = $request->input('type', null);
+        $order = $request->input('order', 'asc');
+
+        $fileUploads = FileUpload::getFiles('/', $type, true, $offset, 20, $order);
+
+        return response()->json([
+            'files' => $fileUploads,
+            'total' => FileUpload::getFilesCount('/', $type, true),
+        ]);
+    }
+}

@@ -23,6 +23,11 @@ class FileUpload extends Model
         'size',
     ];
 
+    public function pictureType(): HasOne
+    {
+        return $this->hasOne(PictureType::class);
+    }
+
     public function getVariantsIfPicture(): HasMany
     {
         return $this->hasMany(PictureType::class, 'original_file_upload_id');
@@ -63,6 +68,24 @@ class FileUpload extends Model
         return $this->hasMany(PendingImageConversion::class);
     }
 
+    public function isImage(): bool
+    {
+        return Str::before($this->type, '/') === 'image';
+    }
+
+    public function isOriginalImage(): bool
+    {
+        if (! $this->isImage()) {
+            return false;
+        }
+
+        if ($this->pictureType()->exists()) {
+            return $this->pictureType->type === 'original';
+        }
+
+        return false;
+    }
+
     public function addToConversionQueue(string $conversionType): void
     {
         if (Str::before($this->type, '/') !== 'image') {
@@ -74,6 +97,7 @@ class FileUpload extends Model
             'file_upload_id' => $this->id,
             'type' => $conversionType,
         ]);
+        // ConvertImageJob::dispatch($this, $conversionType);
     }
 
     public function convertImage(string $conversionType)
@@ -163,5 +187,69 @@ class FileUpload extends Model
                 return pathinfo($path, PATHINFO_FILENAME);
             })->toArray();
         });
+    }
+
+    /**
+     * Get the files in the given folder, based on database records.
+     *
+     * @param  string  $path The path to get the files from.
+     * @param  string|null  $type The type of the files to get.
+     * @param  bool  $originalFilesOnly Whether to get only original files or all files.
+     * @param  int  $offset The offset of the files to get.
+     * @param  int  $limit The limit of the files to get.
+     * @param  string  $order The order of the files to get.
+     * @return array The files.
+     */
+    public static function getFiles(string $path = '/', string $type = null, bool $originalFilesOnly = true, int $offset = 0, int $limit = 20, string $order = 'desc'): array
+    {
+        $query = self::query();
+
+        if ($type) {
+            $query->where('type', 'like', $type.'/%');
+        }
+
+        if ((is_null($type) || $type === 'image') && $originalFilesOnly) {
+            $query->where(function ($query) {
+                $query->whereHas('pictureType', function ($query) {
+                    $query->where('type', PictureType::TYPE_ORIGINAL);
+                })->orWhereDoesntHave('pictureType');
+            });
+        }
+
+        $query->where('path', 'like', $path.'%');
+        $query->orderBy('created_at', $order);
+        $query->offset($offset);
+        $query->limit($limit);
+
+        return $query->get()->toArray();
+    }
+
+    /**
+     * Get the picture type associated with the file upload.
+     *
+     * @param  string  $path The path to get the files from.
+     * @param  string|null  $type The type of the files to get.
+     * @param  bool  $originalFilesOnly Whether to get only original files or all files.
+     * @return int The number of files.
+     */
+    public static function getFilesCount(string $path = '/', string $type = null, bool $originalFilesOnly = false): int
+    {
+        $query = self::query();
+
+        if ($type) {
+            $query->where('type', 'like', $type.'/%');
+        }
+
+        if ((is_null($type) || $type === 'image') && $originalFilesOnly) {
+            $query->where(function ($query) {
+                $query->whereHas('pictureType', function ($query) {
+                    $query->where('type', PictureType::TYPE_ORIGINAL);
+                })->orWhereDoesntHave('pictureType');
+            });
+        }
+
+        $query->where('path', 'like', $path.'%');
+
+        return $query->count();
     }
 }

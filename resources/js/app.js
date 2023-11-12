@@ -1,8 +1,10 @@
 import './bootstrap';
 import { Modal } from 'bootstrap'
 import slugify from "slugify";
-import FormValidator from "@/library/form-validator";
-import MediaUploadZone from "@/components/dashboard/media-upload-zone";
+import FormValidator from "@/utils/form-validator";
+import MediaUploadZone from "@/components/dashboard/MediaUploadZone";
+import MediaLibrary from "@/pages/dashboard/MediaLibrary";
+import Notification from "@/components/Notification";
 
 import.meta.glob([
     '../images/**',
@@ -12,3 +14,5 @@ import.meta.glob([
 window.slugify = slugify;
 window.FormValidator = FormValidator;
 window.MediaUploadZone = MediaUploadZone;
+window.MediaLibrary = MediaLibrary;
+window.Notification = Notification;
