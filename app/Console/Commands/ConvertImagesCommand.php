@@ -16,6 +16,7 @@ class ConvertImagesCommand extends Command
     {
         $imagesToConvert = PendingImageConversion::get();
 
+        $this->info("Starting to convert {$imagesToConvert->count()} images");
         foreach ($imagesToConvert as $image) {
             ConvertImageJob::dispatch($image->fileUpload, $image->type);
         }
