@@ -1,5 +1,5 @@
 class MediaLibrary {
-    parentElement;
+    parentElement: HTMLElement | null;
 
     constructor(id = 'mediaLibrary') {
         this.parentElement = document.getElementById(id);
@@ -7,6 +7,7 @@ class MediaLibrary {
             console.error("MediaLibrary: Parent element not found");
             return;
         }
+        console.log("MediaLibrary: Parent element found");
     }
 }
 

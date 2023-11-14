@@ -119,5 +119,6 @@
 @push('scripts')
     <script type="module">
         const mediaUploadZone = new MediaUploadZone();
+        const mediaLibrary = new MediaLibrary();
     </script>
 @endpush
