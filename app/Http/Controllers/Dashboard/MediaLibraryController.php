@@ -24,7 +24,10 @@ class MediaLibraryController extends Controller
 
         $offset = $request->input('offset', 0);
         $type = $request->input('type', null);
-        $order = $request->input('order', 'asc');
+        if ($type === 'all') {
+            $type = null;
+        }
+        $order = $request->input('order', 'desc');
 
         $fileUploads = FileUpload::getFiles('/', $type, true, $offset, 20, $order);
 

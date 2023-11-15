@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -22,6 +23,33 @@ class FileUpload extends Model
         'type',
         'size',
     ];
+
+    /**
+     * Get the query builder for the files in the given folder.
+     * @param string|null $type The type of the files to get.
+     * @param bool $originalFilesOnly Whether to get only original files or all files.
+     * @param string $path The path to get the files from.
+     * @return Builder The query builder.
+     */
+    public static function getUpload_QB(?string $type, bool $originalFilesOnly, string $path): \Illuminate\Database\Eloquent\Builder
+    {
+        $query = self::query();
+
+        if ($type) {
+            $query->where('type', 'like', $type . '/%');
+        }
+
+        if ((is_null($type) || $type === 'image') && $originalFilesOnly) {
+            $query->where(function ($query) {
+                $query->whereHas('pictureType', function ($query) {
+                    $query->where('type', PictureType::TYPE_ORIGINAL);
+                })->orWhereDoesntHave('pictureType');
+            });
+        }
+
+        $query->where('path', 'like', $path . '%');
+        return $query;
+    }
 
     public function pictureType(): HasOne
     {
@@ -75,7 +103,7 @@ class FileUpload extends Model
 
     public function isOriginalImage(): bool
     {
-        if (! $this->isImage()) {
+        if (!$this->isImage()) {
             return false;
         }
 
@@ -92,7 +120,7 @@ class FileUpload extends Model
             return;
         }
 
-        Log::info('Adding '.$this->filename.' to conversion queue: '.$conversionType);
+        Log::info('Adding ' . $this->filename . ' to conversion queue: ' . $conversionType);
         PendingImageConversion::create([
             'file_upload_id' => $this->id,
             'type' => $conversionType,
@@ -103,12 +131,12 @@ class FileUpload extends Model
     public function convertImage(string $conversionType)
     {
         $image = Image::make($this->getFileUrl());
-        $config = config('app.fileupload.images.'.$conversionType);
+        $config = config('app.fileupload.images.' . $conversionType);
         $width = $config['width'];
         $height = $config['height'];
         $format = $config['format'];
         $quality = $config['quality'];
-        $uploadFolder = Str::beforeLast($this->path, '/').'/';
+        $uploadFolder = Str::beforeLast($this->path, '/') . '/';
         $filename = $this->filename;
 
         if ($width && $height) {
@@ -122,10 +150,10 @@ class FileUpload extends Model
             $image->encode($format, $quality);
         }
 
-        $newFilename = $this->checkFileName($uploadFolder, Str::beforeLast($filename, '.').'_'.$conversionType.'.'.$format);
-        $store = Storage::disk('ftp')->put($uploadFolder.$newFilename, $image->__toString());
+        $newFilename = $this->checkFileName($uploadFolder, Str::beforeLast($filename, '.') . '_' . $conversionType . '.' . $format);
+        $store = Storage::disk('ftp')->put($uploadFolder . $newFilename, $image->__toString());
 
-        if (! $store) {
+        if (!$store) {
             throw new \Exception('Error while storing image');
         }
 
@@ -134,7 +162,7 @@ class FileUpload extends Model
         $fileUpload->filename = $newFilename;
         $fileUpload->size = $image->filesize();
         $fileUpload->type = $image->mime();
-        $fileUpload->path = $uploadFolder.$newFilename;
+        $fileUpload->path = $uploadFolder . $newFilename;
         $fileUpload->save();
 
         FileUpload::refreshCache($uploadFolder);
@@ -151,18 +179,18 @@ class FileUpload extends Model
     /**
      * Check if a file already exists in the given folder.
      *
-     * @param  string  $folder The folder to check in.
-     * @param  string  $filename The filename to check.
-     * @param  int  $iteration The iteration of the filename.
+     * @param string $folder The folder to check in.
+     * @param string $filename The filename to check.
+     * @param int $iteration The iteration of the filename.
      * @return string The new filename.
      */
     public static function checkFileName(string $folder, string $filename, int $iteration = 0): string
     {
-        $cacheKey = 'folder-content.'.md5($folder);
+        $cacheKey = 'folder-content.' . md5($folder);
 
         $existingFiles = Cache::has($cacheKey) ? Cache::get($cacheKey) : self::refreshCache($folder);
 
-        $newFilename = $iteration === 0 ? $filename : Str::beforeLast($filename, '.').'-'.$iteration.'.'.Str::afterLast($filename, '.');
+        $newFilename = $iteration === 0 ? $filename : Str::beforeLast($filename, '.') . '-' . $iteration . '.' . Str::afterLast($filename, '.');
 
         if (in_array(pathinfo($newFilename, PATHINFO_FILENAME), $existingFiles)) {
             return self::checkFileName($folder, $filename, $iteration + 1);
@@ -174,11 +202,11 @@ class FileUpload extends Model
     /**
      * Refresh the cache for the specified folder.
      *
-     * @param  string  $folder The folder for which to refresh the cache.
+     * @param string $folder The folder for which to refresh the cache.
      */
     public static function refreshCache(string $folder): array
     {
-        $cacheKey = 'folder-content.'.md5($folder);
+        $cacheKey = 'folder-content.' . md5($folder);
 
         Cache::forget($cacheKey);
 
@@ -192,31 +220,17 @@ class FileUpload extends Model
     /**
      * Get the files in the given folder, based on database records.
      *
-     * @param  string  $path The path to get the files from.
-     * @param  string|null  $type The type of the files to get.
-     * @param  bool  $originalFilesOnly Whether to get only original files or all files.
-     * @param  int  $offset The offset of the files to get.
-     * @param  int  $limit The limit of the files to get.
-     * @param  string  $order The order of the files to get.
+     * @param string $path The path to get the files from.
+     * @param string|null $type The type of the files to get.
+     * @param bool $originalFilesOnly Whether to get only original files or all files.
+     * @param int $offset The offset of the files to get.
+     * @param int $limit The limit of the files to get.
+     * @param string $order The order of the files to get.
      * @return array The files.
      */
     public static function getFiles(string $path = '/', string $type = null, bool $originalFilesOnly = true, int $offset = 0, int $limit = 20, string $order = 'desc'): array
     {
-        $query = self::query();
-
-        if ($type) {
-            $query->where('type', 'like', $type.'/%');
-        }
-
-        if ((is_null($type) || $type === 'image') && $originalFilesOnly) {
-            $query->where(function ($query) {
-                $query->whereHas('pictureType', function ($query) {
-                    $query->where('type', PictureType::TYPE_ORIGINAL);
-                })->orWhereDoesntHave('pictureType');
-            });
-        }
-
-        $query->where('path', 'like', $path.'%');
+        $query = self::getUpload_QB($type, $originalFilesOnly, $path);
         $query->orderBy('created_at', $order);
         $query->offset($offset);
         $query->limit($limit);
@@ -227,28 +241,14 @@ class FileUpload extends Model
     /**
      * Get the picture type associated with the file upload.
      *
-     * @param  string  $path The path to get the files from.
-     * @param  string|null  $type The type of the files to get.
-     * @param  bool  $originalFilesOnly Whether to get only original files or all files.
+     * @param string $path The path to get the files from.
+     * @param string|null $type The type of the files to get.
+     * @param bool $originalFilesOnly Whether to get only original files or all files.
      * @return int The number of files.
      */
     public static function getFilesCount(string $path = '/', string $type = null, bool $originalFilesOnly = false): int
     {
-        $query = self::query();
-
-        if ($type) {
-            $query->where('type', 'like', $type.'/%');
-        }
-
-        if ((is_null($type) || $type === 'image') && $originalFilesOnly) {
-            $query->where(function ($query) {
-                $query->whereHas('pictureType', function ($query) {
-                    $query->where('type', PictureType::TYPE_ORIGINAL);
-                })->orWhereDoesntHave('pictureType');
-            });
-        }
-
-        $query->where('path', 'like', $path.'%');
+        $query = self::getUpload_QB($type, $originalFilesOnly, $path);
 
         return $query->count();
     }

@@ -1,3 +1,4 @@
+import route from 'ziggy-js';
 import md5 from "blueimp-md5";
 
 class MediaUploadZone {

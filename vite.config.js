@@ -10,7 +10,7 @@ export default defineConfig({
             '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
             '~bootstrap-icons': path.resolve(__dirname, 'node_modules/bootstrap-icons'),
             '~quill': path.resolve(__dirname, 'node_modules/quill'),
-            'ziggy-js': path.resolve(__dirname, 'vendor/tightenco/ziggy/src/js'),
+            'ziggy-js': path.resolve(__dirname, 'vendor/tightenco/ziggy'),
         }
     },
     plugins: [

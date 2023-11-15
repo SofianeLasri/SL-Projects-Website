@@ -47,5 +47,6 @@
 </div>
 
 @stack('scripts')
+@routes
 </body>
 </html>
