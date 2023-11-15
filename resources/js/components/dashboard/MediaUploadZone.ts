@@ -1,35 +1,69 @@
-import route from 'ziggy';
-import {Ziggy} from '@/ziggy';
 import md5 from "blueimp-md5";
 
 class MediaUploadZone {
-    parentElement;
-    hasAlreadyUploadedFiles = false;
-    uploadingFiles = [];
-    csrfToken;
-    fileListElem;
-    fileErrorModel;
-    sendFileBtn;
-    acceptFileTypes = [];
-    fileRowModel;
+    parentElement: HTMLElement;
+    hasAlreadyUploadedFiles: boolean = false;
+    uploadingFiles: string[] = [];
+    csrfToken: string;
+    fileListElem: HTMLElement;
+    fileErrorModel: HTMLElement;
+    sendFileBtn: HTMLElement;
+    acceptFileTypes: string[] = [];
+    fileRowModel: HTMLElement;
+    homeScreenElem: HTMLElement;
 
     constructor(id = "mediaUploadZone") {
-        this.parentElement = document.getElementById(id);
-        if (this.parentElement === null) {
-            console.error("MediaUploadZone: Parent element not found");
-            return;
+        this.csrfToken = this.getCSRFToken();
+
+        let foundParentElement: HTMLElement | null = document.getElementById(id);
+        if (foundParentElement === null) {
+            throw new Error("MediaUploadZone: Parent element not found");
         }
+        this.parentElement = foundParentElement;
 
         this.parentElement.addEventListener("dragover", this.dragOver.bind(this));
         this.parentElement.addEventListener("dragleave", this.dragLeave.bind(this));
         this.parentElement.addEventListener("drop", this.drop.bind(this));
 
-        this.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        this.fileListElem = this.parentElement.getElementsByClassName("file-upload-list")[0];
-        this.fileErrorModel = document.getElementById("fileErrorModel");
-        this.sendFileBtn = document.getElementById("mediaUploadZoneSendFileBtn");
+        let fileListElem: Element | null = this.parentElement.getElementsByClassName("file-upload-list").item(0);
+        if (fileListElem === null) {
+            throw new Error("MediaUploadZone: File list element not found");
+        }
+        this.fileListElem = fileListElem as HTMLElement;
+
+        let fileErrorModel: HTMLElement | null = document.getElementById("fileErrorModel");
+        if (fileErrorModel === null) {
+            throw new Error("MediaUploadZone: File error model element not found");
+        }
+        this.fileErrorModel = fileErrorModel;
+
+        let sendFileBtn: HTMLElement | null = document.getElementById("mediaUploadZoneSendFileBtn");
+        if (sendFileBtn === null) {
+            throw new Error("MediaUploadZone: Send file button not found");
+        }
+        this.sendFileBtn = sendFileBtn;
         this.sendFileBtn.addEventListener("click", this.sendFileBtnFunc.bind(this));
-        this.fileRowModel = document.getElementById("fileModel");
+
+        let fileRowModel: HTMLElement | null = document.getElementById("fileModel");
+        if (fileRowModel === null) {
+            throw new Error("MediaUploadZone: File row model not found");
+        }
+        this.fileRowModel = fileRowModel;
+
+        let homeScreenElem: HTMLElement | null = this.parentElement.getElementsByClassName("no-file-uploaded-yet").item(0) as HTMLElement | null;
+        if (homeScreenElem === null) {
+            throw new Error("MediaUploadZone: Home screen element not found (.no-file-uploaded-yet)");
+        }
+        this.homeScreenElem = homeScreenElem;
+    }
+
+    private getCSRFToken(): string {
+        const csrfTokenElem = document.querySelector('meta[name="csrf-token"]');
+        const csrfToken = csrfTokenElem?.getAttribute('content') || '';
+        if (!csrfToken) {
+            console.error("MediaUploadZone: CSRF token not found");
+        }
+        return csrfToken;
     }
 
     // Événements enregistrables
@@ -38,7 +72,7 @@ class MediaUploadZone {
      * @param file Le fichier choisi
      * @returns {Promise<void>}
      */
-    async onChoosenFile(file) {
+    async onChoosenFile(file: File): Promise<void> {
         const event = new CustomEvent("OnChoosenFile", {detail: file});
         this.parentElement.dispatchEvent(event);
 
@@ -46,15 +80,22 @@ class MediaUploadZone {
 
         let fileHash = md5(file.name + file.size + fileType);
         let fileElemName = "muzf-" + fileHash;
-        let fileElem = document.getElementById(fileElemName);
-        let fileUploadProgressElem = fileElem.getElementsByClassName("progress")[0];
-        let fileElemCloseBtn = fileElem.getElementsByClassName("file-close-btn")[0];
+        let fileElem: HTMLElement | null = document.getElementById(fileElemName);
+        if (fileElem === null) {
+            console.error("MediaUploadZone: File element not found");
+            this.showError("Le fichier " + file.name + " n'a pas été trouvé dans la liste des fichiers en cours d'envoi.");
+            return;
+        }
+        let fileUploadProgressElem: HTMLElement = fileElem.getElementsByClassName("progress").item(0) as HTMLElement;
+        let fileElemCloseBtn: HTMLElement = fileElem.getElementsByClassName("file-close-btn").item(0) as HTMLElement;
 
         let cancelUpload = false;
 
         // Gestionnaire pour le bouton "close" qui annule l'envoi du fichier
         fileElemCloseBtn.addEventListener("click", () => {
-            fileElem.remove();
+            if (fileElem) {
+                fileElem.remove();
+            }
             this.uploadingFiles = this.uploadingFiles.filter(item => item !== fileHash);
             cancelUpload = true; // Marquer l'envoi comme annulé
 
@@ -80,7 +121,7 @@ class MediaUploadZone {
                 }
             });
 
-            xhr.open("POST", route("dashboard.ajax.components.media-upload-zone.upload-file", undefined, undefined, Ziggy));
+            xhr.open("POST", route("dashboard.ajax.components.media-upload-zone.upload-file"));
             xhr.setRequestHeader('X-CSRF-TOKEN', this.csrfToken);
 
             xhr.onload = () => {
@@ -114,7 +155,7 @@ class MediaUploadZone {
             fileUploadProgressElem.style.width = "100%";
             // fileElemCloseBtn.style.display = "none";
             this.onFileUploaded(file);
-        } catch (error) {
+        } catch (error: any) {
             // Gérer les erreurs ici (envoi annulé ou autre erreur)
             console.error(error.message);
         } finally {
@@ -130,7 +171,7 @@ class MediaUploadZone {
      * Lorsqu'un fichier est envoyé, cette méthode est appelée
      * @param file Le fichier envoyé
      */
-    onFileUploaded(file) {
+    onFileUploaded(file: File) {
         const event = new CustomEvent("OnFileUploaded", {detail: file});
         this.parentElement.dispatchEvent(event);
     }
@@ -150,7 +191,7 @@ class MediaUploadZone {
      * Méthode appelée lorsque la zone d'envoi est survolé avec un fichier
      * @param e
      */
-    dragOver(e) {
+    dragOver(e: DragEvent) {
         e.preventDefault();
         // Ajoute une classe CSS pour indiquer que l'élément est survolé
         this.parentElement.classList.add("drag-over");
@@ -160,7 +201,7 @@ class MediaUploadZone {
      * Méthode appelée lorsque la zone d'envoi n'est plus survolé avec un fichier
      * @param e
      */
-    dragLeave(e) {
+    dragLeave(e: DragEvent) {
         e.preventDefault();
         // Supprime la classe CSS lorsque l'élément n'est plus survolé
         this.parentElement.classList.remove("drag-over");
@@ -170,7 +211,7 @@ class MediaUploadZone {
      * Méthode appelée lorsque des fichiers sont déposés dans la zone d'envoi
      * @param e
      */
-    drop(e) {
+    drop(e: DragEvent) {
         e.preventDefault();
 
         if (this.uploadingFiles.length > 0) {
@@ -180,6 +221,7 @@ class MediaUploadZone {
         }
 
         this.parentElement.classList.remove("drag-over");
+        if(e.dataTransfer === null) return;
         this.processFiles(e.dataTransfer.files);
     }
 
@@ -188,18 +230,24 @@ class MediaUploadZone {
      * @param files
      * @returns {Promise<void>}
      */
-    async processFiles(files) {
+    async processFiles(files: FileList): Promise<void> {
         if (files.length === 0) return;
 
         if (!this.hasAlreadyUploadedFiles) {
             this.hasAlreadyUploadedFiles = true;
-            this.parentElement.getElementsByClassName("no-file-uploaded-yet")[0].style.display = "none";
+            this.homeScreenElem.style.display = "none";
             this.fileListElem.style.display = "flex";
         }
 
         for (const file of Array.from(files)) {
-            const fileType = file.type === "" ? file.name.split(".").pop() : file.type;
-            const fileHash = md5(file.name + file.size + fileType);
+            let fileType: string;
+            if (file.type === "") {
+                let fileNameParts = file.name.split(".");
+                fileType = fileNameParts[fileNameParts.length - 1];
+            } else {
+                fileType = file.type;
+            }
+            const fileHash: string = md5(file.name + file.size + fileType);
 
             if (this.acceptFileTypes.length > 0 && !this.acceptFileTypes.includes(fileType)) {
                 this.showError("Le type de fichier " + fileType + " n'est pas accepté !");
@@ -235,8 +283,12 @@ class MediaUploadZone {
             fileInput.accept = this.acceptFileTypes.join(",");
         }
 
-        fileInput.addEventListener("change", (e) => {
-            this.processFiles(e.target.files);
+        fileInput.addEventListener("change", (e: Event) => {
+            if (e.target === null) return;
+            let fileInput = e.target as HTMLInputElement;
+            if (fileInput.files === null) return;
+
+            this.processFiles(fileInput.files);
         });
         fileInput.click();
     }
@@ -245,19 +297,27 @@ class MediaUploadZone {
      * Méthode appelée pour afficher une erreur
      * @param errorMessage
      */
-    showError(errorMessage) {
-        let newFileErrorModel = this.fileErrorModel.cloneNode(true);
+    showError(errorMessage: string): void {
+        let newFileErrorModel: HTMLElement = this.fileErrorModel.cloneNode(true) as HTMLElement;
         newFileErrorModel.style.display = "";
         newFileErrorModel.id = "";
-        newFileErrorModel.getElementsByClassName("file-error-message")[0].innerText = errorMessage;
 
-        let fileElemCloseBtn = newFileErrorModel.getElementsByClassName("file-close-btn")[0];
-        fileElemCloseBtn.addEventListener("click", () => {
-            newFileErrorModel.remove();
-            this.showHomeIfNoFile();
-        });
+        let fileErrorMessage: HTMLElement | null = newFileErrorModel.querySelector(".file-error-message") as HTMLElement | null;
+        if (fileErrorMessage) {
+            fileErrorMessage.innerText = errorMessage;
+        }
+
+        let fileElemCloseBtn: HTMLElement | null = newFileErrorModel.querySelector(".file-close-btn") as HTMLElement | null;
+        if (fileElemCloseBtn) {
+            fileElemCloseBtn.addEventListener("click", () => {
+                newFileErrorModel.remove();
+                this.showHomeIfNoFile();
+            });
+        }
+
         this.fileListElem.append(newFileErrorModel);
     }
+
 
     /**
      * Méthode appelée pour afficher une ligne de fichier dans la liste
@@ -266,15 +326,15 @@ class MediaUploadZone {
      * @param type Le type du fichier
      * @param hash Le hash du fichier
      */
-    async showFileRow(name, size, type, hash) {
-        let newFileRowModel = this.fileRowModel.cloneNode(true);
+    async showFileRow(name: string, size: number, type: string, hash: string) {
+        let newFileRowModel: HTMLElement = this.fileRowModel.cloneNode(true) as HTMLElement
         newFileRowModel.style.display = "";
         newFileRowModel.id = "muzf-" + hash;
 
         let iconElem = newFileRowModel.getElementsByClassName("file-icon")[0];
         const data = new FormData();
         data.append("type", type);
-        const fetchPromise = fetch(route("dashboard.ajax.components.media-upload-zone.find-icon", undefined, undefined, Ziggy), {
+        const fetchPromise = fetch(route("dashboard.ajax.components.media-upload-zone.find-icon"), {
             method: "POST",
             headers: {
                 'X-CSRF-TOKEN': this.csrfToken,
@@ -298,10 +358,16 @@ class MediaUploadZone {
                 console.error('There was a problem with the fetch operation:', error);
             });
 
-        let fileElemName = newFileRowModel.getElementsByClassName("name")[0];
+        let fileElemName: HTMLElement | null = newFileRowModel.getElementsByClassName("name").item(0) as HTMLElement | null;
+        if (fileElemName === null) {
+            throw new Error("MediaUploadZone: File name element not found");
+        }
         fileElemName.innerText = name;
 
-        let fileElemSize = newFileRowModel.getElementsByClassName("size")[0];
+        let fileElemSize: HTMLElement | null = newFileRowModel.getElementsByClassName("size").item(0) as HTMLElement | null;
+        if (fileElemSize === null) {
+            throw new Error("MediaUploadZone: File size element not found");
+        }
         fileElemSize.innerText = this.formatBytes(size);
 
         await fetchPromise;
@@ -315,7 +381,7 @@ class MediaUploadZone {
     showHomeIfNoFile() {
         if (this.fileListElem.children.length === 0) {
             this.hasAlreadyUploadedFiles = false;
-            this.parentElement.getElementsByClassName("no-file-uploaded-yet")[0].style.display = "";
+            this.homeScreenElem.style.display = "";
             this.fileListElem.style.display = "none";
         }
     }
@@ -325,7 +391,7 @@ class MediaUploadZone {
      * @param size La taille du fichier en octets
      * @returns {string} La taille formatée
      */
-    formatBytes(size) {
+    formatBytes(size: number): string {
         const units = ['o', 'Ko', 'Mo', 'Go', 'To'];
         let unitIndex = 0;
 
