@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\ConvertImageJob;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -125,10 +126,16 @@ class FileUpload extends Model
             'file_upload_id' => $this->id,
             'type' => $conversionType,
         ]);
-        // ConvertImageJob::dispatch($this, $conversionType);
+        ConvertImageJob::dispatch($this, $conversionType);
     }
 
-    public function convertImage(string $conversionType)
+    /**
+     * Convert the image to the given conversion type.
+     * @param string $conversionType The conversion type to convert the image to.
+     * @return void
+     * @throws \Exception
+     */
+    public function convertImage(string $conversionType): void
     {
         $image = Image::make($this->getFileUrl());
         $config = config('app.fileupload.images.' . $conversionType);

@@ -15,6 +15,14 @@
         .content {
             display: flex;
             gap: map.get($spacers, 2);
+
+            button {
+                @extend .btn-white;
+
+                &.active {
+                    @extend .btn-primary;
+                }
+            }
         }
     }
 

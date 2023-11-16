@@ -298,7 +298,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Définition des différentes versions de navigateurs supportées.
-    | Modern est basé sur le support de la propriété CSS 'aspect-ratio'.
+    | Modern est basé sur le support de la propriété CSS 'aspect-ratio' et des images avif.
     | Legacy est basé sur le support officiel de la propriété CSS 'flex'.
     | 'others' est au format 'dd/mm/yyyy' et représente une date safe pour le support
     |
@@ -317,10 +317,10 @@ return [
         'modern' => [
             'chrome' => 88,
             'edge' => 88,
-            'firefox' => 89,
+            'firefox' => 93,
             'ie' => null,
             'opera' => 74,
-            'safari' => 15,
+            'safari' => 17,
             'others' => '01/10/2021',
         ],
     ]

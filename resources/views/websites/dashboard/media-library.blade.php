@@ -16,31 +16,31 @@
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
                     <h6>Types</h6>
                     <x-button type="button"
-                              class="text-start btn-primary"
-                              role="filter"
-                              data-filter="all"
+                              class="text-start active"
+                              role="filter-by-type"
+                              data-filter-by-type="all"
                               aria-selected="true"
                     >Tous les médias</x-button>
                     <x-button type="button"
-                              class="text-start btn-white"
-                              role="filter"
-                              data-filter="images"
+                              class="text-start"
+                              role="filter-by-type"
+                              data-filter-by-type="images"
                     >Images</x-button>
                     <x-button type="button"
-                              class="text-start btn-white"
-                              role="filter"
-                              data-filter="videos"
+                              class="text-start"
+                              role="filter-by-type"
+                              data-filter-by-type="videos"
                     >Vidéos</x-button>
                     <x-button type="button"
-                              class="text-start btn-white"
-                              role="filter"
-                              data-filter="files"
+                              class="text-start"
+                              role="filter-by-type"
+                              data-filter-by-type="files"
                     >Fichiers</x-button>
                 </div>
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
                     <h6>Affichage</h6>
                     <x-button type="button"
-                              class="text-start btn-white"
+                              class="text-start"
                               role="view"
                               data-view="list"
                     >Liste</x-button>
@@ -54,7 +54,7 @@
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
                     <h6>Regrouper</h6>
                     <x-button type="button"
-                              class="text-start btn-white"
+                              class="text-start"
                               role="group"
                               data-group="none"
                     >Ne pas regrouper</x-button>
@@ -65,7 +65,7 @@
                               aria-selected="true"
                     >Par date</x-button>
                     <x-button type="button"
-                              class="text-start btn-white"
+                              class="text-start"
                               role="group"
                               data-group="type"
                     >Par type</x-button>

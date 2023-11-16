@@ -9,7 +9,7 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
     Route::group(['middleware' => ['secure']], function () {
         Route::view('/', 'websites.dashboard.home')->name('home');
 
-        Route::name('media-library.')->prefix('ajax')->group(function () {
+        Route::name('media-library.')->prefix('media-library')->group(function () {
             Route::get('/', [MediaLibraryController::class, 'page'])->name('page');
             Route::get('/get-uploaded-files', [MediaLibraryController::class, 'getUploadedFiles'])->name('get-uploaded-files');
         });
