@@ -47,7 +47,7 @@ class MediaUploadZoneController extends Controller
         $file = $request->file('file');
 
         $uploadFolder = '/'.Carbon::now()->format('Y/m/d').'/';
-        $filename = FileUpload::checkFileName($uploadFolder, $file->getClientOriginalName());
+        $filename = FileUpload::checkFileName($uploadFolder, Str::slug($file->getClientOriginalName()));
 
         Storage::disk('ftp')->putFileAs($uploadFolder, $file, $filename);
         $fileType = $file->getMimeType();
