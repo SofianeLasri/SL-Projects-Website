@@ -72,7 +72,7 @@
                 </div>
             </div>
         </div>
-        <div class="medias grid" id="mediaLibraryMedias">
+        <div class="medias" id="mediaLibraryMedias">
             @for($i = 0; $i < rand(1, 4); $i++)
                 <div class="month">
                     <h4>Septembre</h4>
