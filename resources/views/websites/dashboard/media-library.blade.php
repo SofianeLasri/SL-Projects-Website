@@ -19,7 +19,6 @@
                               class="text-start"
                               role="filter-by-type"
                               data-filter-by-type="all"
-                              aria-selected="false"
                     >Tous les médias</x-button>
                     <x-button type="button"
                               class="text-start"
@@ -74,13 +73,13 @@
         </div>
         <div class="medias" id="mediaLibraryMedias">
             @for($i = 0; $i < rand(1, 4); $i++)
-                <div class="month">
+                <div class="parent-section">
                     <h4>Septembre</h4>
-                    <div class="month-container">
+                    <div class="parent-section-container">
                         @for($j = 0; $j < rand(1, 5); $j++)
-                            <div class="day">
+                            <div class="section">
                                 <h6>mardi 19 septembre</h6>
-                                <div class="day-container">
+                                <div class="section-container">
                                     @for($j = 0; $j < rand(1, 24); $j++)
                                         <div class="file">
                                             <div class="icon"><i class="fa-solid fa-file-pdf"></i></div>

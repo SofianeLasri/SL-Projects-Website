@@ -10,9 +10,12 @@ class MediaLibrary {
     private totalFiles: number = 0;
 
     private filterButtons: NodeListOf<Element>;
-    private viewButtons: NodeListOf<Element>;
-    private view: string = 'grid';
-    private possibleViewLayouts: Array<string> = ['grid', 'list'];
+    private viewLayoutButtons: NodeListOf<Element>;
+    private viewLayout: string = 'grid';
+    private readonly possibleViewLayouts: Array<string> = ['grid', 'list'];
+    private groupBy: string = 'date';
+    private groupByButtons: NodeListOf<Element>;
+    private readonly possibleGroupBy: Array<string> = ['none', 'date', 'type'];
 
     constructor(id: string = 'mediaLibrary') {
         let parentElement: HTMLElement | null = document.getElementById(id);
@@ -41,16 +44,30 @@ class MediaLibrary {
             });
         });
 
-        this.viewButtons = this.parentElement.querySelectorAll('button[role="view"]');
+        this.viewLayoutButtons = this.parentElement.querySelectorAll('button[role="view"]');
 
-        this.viewButtons.forEach((button: Element): void => {
+        this.viewLayoutButtons.forEach((button: Element): void => {
             button.addEventListener('click', (event: Event): void => {
                 event.preventDefault();
                 let view: string = button.getAttribute('data-view') ?? 'grid';
 
-                if (this.view !== view) {
+                if (this.viewLayout !== view) {
                     this.setParameter('view', view);
                     this.setToolBoxButtonActive(button, "view");
+                }
+            });
+        });
+
+        this.groupByButtons = this.parentElement.querySelectorAll('button[role="group"]');
+
+        this.groupByButtons.forEach((button: Element): void => {
+            button.addEventListener('click', (event: Event): void => {
+                event.preventDefault();
+                let groupBy: string = button.getAttribute('data-group') ?? 'date';
+
+                if (this.groupBy !== groupBy) {
+                    this.setParameter('group', groupBy);
+                    this.setToolBoxButtonActive(button, "group");
                 }
             });
         });
@@ -89,8 +106,12 @@ class MediaLibrary {
                 this.getFiles();
                 break;
             case 'view':
-                this.view = value;
+                this.viewLayout = value;
                 this.changeViewLayout();
+                break;
+            case 'group':
+                this.groupBy = value;
+                this.changeGroupBy();
                 break;
         }
 
@@ -119,37 +140,54 @@ class MediaLibrary {
 
         if (searchParams.has('view')) {
             let view: string = searchParams.get('view') ?? 'grid';
-            this.view = 'grid';
+            this.viewLayout = 'grid';
             if (this.possibleViewLayouts.includes(view)) {
-                this.view = view;
+                this.viewLayout = view;
             }
         }
 
-        let correspondingFilterByTypeButton = this.parentElement.querySelector(`button[role="filter-by-type"][data-filter-by-type="${this.filterByType}"]`);
+        if (searchParams.has('group')) {
+            let group: string = searchParams.get('group') ?? 'date';
+            this.groupBy = 'date';
+            if (this.possibleGroupBy.includes(group)) {
+                this.groupBy = group;
+            }
+        }
+
+        let correspondingFilterByTypeButton: Element | null = this.parentElement.querySelector(`button[role="filter-by-type"][data-filter-by-type="${this.filterByType}"]`);
         if (correspondingFilterByTypeButton !== null) {
             this.setToolBoxButtonActive(correspondingFilterByTypeButton, "filter-by-type");
         }
 
-        let correspondingOrderByButton = this.parentElement.querySelector(`button[role="order"][data-order="${this.order}"]`);
+        let correspondingOrderByButton: Element | null = this.parentElement.querySelector(`button[role="order"][data-order="${this.order}"]`);
         if (correspondingOrderByButton !== null) {
             this.setToolBoxButtonActive(correspondingOrderByButton, "order");
         }
 
-        let correspondingViewButton = this.parentElement.querySelector(`button[role="view"][data-view="${this.view}"]`);
+        let correspondingViewButton: Element | null = this.parentElement.querySelector(`button[role="view"][data-view="${this.viewLayout}"]`);
         if (correspondingViewButton !== null) {
             this.setToolBoxButtonActive(correspondingViewButton, "view");
+        }
+
+        let correspondingGroupByButton: Element | null = this.parentElement.querySelector(`button[role="group"][data-group="${this.groupBy}"]`);
+        if (correspondingGroupByButton !== null) {
+            this.setToolBoxButtonActive(correspondingGroupByButton, "group");
         }
     }
 
     private getFiles(): void {
-        let url = route('dashboard.media-library.get-uploaded-files', {order: this.order, offset: this.offset, type: this.filterByType});
+        let url: string = route('dashboard.media-library.get-uploaded-files', {
+            order: this.order,
+            offset: this.offset,
+            type: this.filterByType
+        });
         fetch(url, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
             },
         })
-            .then(async (response) => {
+            .then(async (response: Response): Promise<void> => {
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
@@ -162,7 +200,7 @@ class MediaLibrary {
                     // TODO: Faire la suite quoi (afficher les fichiers)
                 }
             })
-            .catch((error) => {
+            .catch((error): void => {
                 console.error(error);
             });
     }
@@ -186,12 +224,16 @@ class MediaLibrary {
 
     }
 
-    private changeViewLayout() {
+    private changeViewLayout(): void {
         this.mediaLibraryElement.classList.remove('grid', 'list');
-        this.mediaLibraryElement.classList.add(this.view);
+        this.mediaLibraryElement.classList.add(this.viewLayout);
     }
 
-    private initialize() {
+    private changeGroupBy(): void {
+
+    }
+
+    private initialize(): void {
         this.changeViewLayout();
         this.resetFiles();
         this.getFiles();
