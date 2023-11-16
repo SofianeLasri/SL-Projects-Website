@@ -1,5 +1,4 @@
 import route from 'ziggy-js';
-import {Obj} from "@popperjs/core";
 
 class MediaLibrary {
     protected parentElement: HTMLElement;
@@ -10,6 +9,9 @@ class MediaLibrary {
     private totalFiles: number = 0;
 
     private filterButtons: NodeListOf<Element>;
+    private viewButtons: NodeListOf<Element>;
+    private view: string = 'grid';
+    private possibleViewLayouts: Array<string> = ['grid', 'list'];
 
     constructor(id = 'mediaLibrary') {
         let parentElement = document.getElementById(id);
@@ -31,6 +33,21 @@ class MediaLibrary {
                     this.setToolBoxButtonActive(button, "filter-by-type");
                     this.resetFiles();
                     this.getFiles();
+                }
+            });
+        });
+
+        this.viewButtons = this.parentElement.querySelectorAll('button[role="view"]');
+
+        this.viewButtons.forEach((button) => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                let view = button.getAttribute('data-view') ?? 'grid';
+
+                if (this.view !== view) {
+                    this.setParameter('view', view);
+                    this.setToolBoxButtonActive(button, "view");
+                    this.view = view;
                 }
             });
         });
@@ -57,6 +74,9 @@ class MediaLibrary {
             case 'filter-by-type':
                 this.filterByType = value;
                 break;
+            case 'view':
+                this.view = value;
+                break;
         }
 
         let url: URL = new URL(window.location.href);
@@ -82,6 +102,13 @@ class MediaLibrary {
             this.filterByType = searchParams.get('filter-by-type') ?? 'all';
         }
 
+        if (searchParams.has('view')) {
+            let view: string = searchParams.get('view') ?? 'grid';
+            if (this.possibleViewLayouts.includes(view)) {
+                this.view = view;
+            }
+        }
+
         let correspondingFilterByTypeButton = this.parentElement.querySelector(`button[role="filter-by-type"][data-filter-by-type="${this.filterByType}"]`);
         if (correspondingFilterByTypeButton !== null) {
             this.setToolBoxButtonActive(correspondingFilterByTypeButton, "filter-by-type");
@@ -91,11 +118,16 @@ class MediaLibrary {
         if (correspondingOrderByButton !== null) {
             this.setToolBoxButtonActive(correspondingOrderByButton, "order");
         }
+
+        let correspondingViewButton = this.parentElement.querySelector(`button[role="view"][data-view="${this.view}"]`);
+        if (correspondingViewButton !== null) {
+            this.setToolBoxButtonActive(correspondingViewButton, "view");
+        }
     }
 
     private getFiles(): void {
         let url = route('dashboard.media-library.get-uploaded-files', {order: this.order, offset: this.offset, type: this.filterByType});
-        const fetchPromise = fetch(url, {
+        fetch(url, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -113,6 +145,9 @@ class MediaLibrary {
                     console.log(file);
                     // TODO: Faire la suite quoi (afficher les fichiers)
                 }
+            })
+            .catch((error) => {
+                console.error(error);
             });
     }
 

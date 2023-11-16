@@ -16,10 +16,10 @@
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
                     <h6>Types</h6>
                     <x-button type="button"
-                              class="text-start active"
+                              class="text-start"
                               role="filter-by-type"
                               data-filter-by-type="all"
-                              aria-selected="true"
+                              aria-selected="false"
                     >Tous les médias</x-button>
                     <x-button type="button"
                               class="text-start"
