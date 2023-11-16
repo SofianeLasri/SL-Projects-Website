@@ -1,5 +1,7 @@
 import route from 'ziggy-js';
 
+type ToolBoxButtonType = "filter-by-type" | "order" | "view" | "group";
+
 class MediaLibrary {
     private parentElement: HTMLElement;
     private mediaLibraryElement: HTMLElement;
@@ -154,24 +156,23 @@ class MediaLibrary {
             }
         }
 
-        let correspondingFilterByTypeButton: Element | null = this.parentElement.querySelector(`button[role="filter-by-type"][data-filter-by-type="${this.filterByType}"]`);
-        if (correspondingFilterByTypeButton !== null) {
-            this.setToolBoxButtonActive(correspondingFilterByTypeButton, "filter-by-type");
-        }
+        this.findAndActivateButton("filter-by-type", this.filterByType);
+        this.findAndActivateButton("order", this.order);
+        this.findAndActivateButton("view", this.viewLayout);
+        this.findAndActivateButton("group", this.groupBy);
+    }
 
-        let correspondingOrderByButton: Element | null = this.parentElement.querySelector(`button[role="order"][data-order="${this.order}"]`);
-        if (correspondingOrderByButton !== null) {
-            this.setToolBoxButtonActive(correspondingOrderByButton, "order");
-        }
+    /**
+     * Find and activate a button based on its role and its data value.
+     * @param type The role of the button.
+     * @param dataValue The data value of the button.
+     * @private
+     */
+    private findAndActivateButton(type: ToolBoxButtonType, dataValue: string): void {
+        const correspondingButton: Element | null = this.parentElement.querySelector(`button[role="${type}"][data-${type}="${dataValue}"]`);
 
-        let correspondingViewButton: Element | null = this.parentElement.querySelector(`button[role="view"][data-view="${this.viewLayout}"]`);
-        if (correspondingViewButton !== null) {
-            this.setToolBoxButtonActive(correspondingViewButton, "view");
-        }
-
-        let correspondingGroupByButton: Element | null = this.parentElement.querySelector(`button[role="group"][data-group="${this.groupBy}"]`);
-        if (correspondingGroupByButton !== null) {
-            this.setToolBoxButtonActive(correspondingGroupByButton, "group");
+        if (correspondingButton !== null) {
+            this.setToolBoxButtonActive(correspondingButton, type);
         }
     }
 
