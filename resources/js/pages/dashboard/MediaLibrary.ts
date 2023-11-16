@@ -19,6 +19,8 @@ class MediaLibrary {
     private groupByButtons: NodeListOf<Element>;
     private readonly possibleGroupBy: Array<string> = ['none', 'date', 'type'];
 
+    private parentContainers: ParentContainer[] = [];
+
     constructor(id: string = 'mediaLibrary') {
         let parentElement: HTMLElement | null = document.getElementById(id);
         if (parentElement === null) {
@@ -196,10 +198,7 @@ class MediaLibrary {
                 this.files.push(...responseJson.files);
                 this.totalFiles = responseJson.total;
 
-                for (let file of this.files) {
-                    console.log(file);
-                    // TODO: Faire la suite quoi (afficher les fichiers)
-                }
+                this.renderFiles(responseJson.files);
             })
             .catch((error): void => {
                 console.error(error);
@@ -238,6 +237,87 @@ class MediaLibrary {
         this.changeViewLayout();
         this.resetFiles();
         this.getFiles();
+    }
+
+    /**
+     * Render the files in the media library.
+     * @param files The files to render.
+     * @private
+     */
+    private renderFiles(files: Object = this.files) {
+        if(this.groupBy === 'none') {
+            this.renderFilesWithoutGroup(files);
+        }
+    }
+
+    private renderFilesWithoutGroup(files: Object) {
+
+    }
+}
+
+class ParentContainer {
+    private children: ChildContainer[] = [];
+    private readonly containerTitle: string;
+
+    constructor(title: string) {
+        this.containerTitle = title;
+    }
+
+    addChild(child: ChildContainer): void {
+        this.children.push(child);
+    }
+
+    render(): HTMLElement {
+        const container = document.createElement('div');
+        container.className = 'parent-section';
+
+        const titleElement = document.createElement('h4');
+        titleElement.textContent = this.containerTitle;
+        container.appendChild(titleElement);
+
+        const containerDiv = document.createElement('div');
+        containerDiv.className = 'parent-section-container';
+        container.appendChild(containerDiv);
+
+        for (const child of this.children) {
+            containerDiv.appendChild(child.render());
+        }
+
+        return container;
+    }
+}
+
+class ChildContainer {
+    private elements: HTMLElement[] = [];
+    private readonly containerTitle: string | null;
+
+    constructor(title: string | null = null) {
+        this.containerTitle = title;
+    }
+
+    addElement(element: HTMLElement): void {
+        this.elements.push(element);
+    }
+
+    render(): HTMLElement {
+        const container = document.createElement('div');
+        container.className = 'section';
+
+        if (this.containerTitle !== null) {
+            const titleElement = document.createElement('h6');
+            titleElement.textContent = this.containerTitle;
+            container.appendChild(titleElement);
+        }
+
+        const containerDiv = document.createElement('div');
+        containerDiv.className = 'section-container';
+        container.appendChild(containerDiv);
+
+        for (const element of this.elements) {
+            containerDiv.appendChild(element);
+        }
+
+        return container;
     }
 }
 
