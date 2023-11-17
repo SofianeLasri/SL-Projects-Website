@@ -43,7 +43,8 @@ declare module 'ziggy-js' {
             "name": "project"
         }
     ],
-    "showcase.": [
+    "showcase.": [],
+    "showcase.storage": [
         {
             "name": "path"
         }

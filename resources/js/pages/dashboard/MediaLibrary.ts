@@ -224,6 +224,30 @@ class MediaLibrary {
     }
 
     private renderFile(file: any): HTMLElement {
+        let fileType: string = file.type.split('/')[0];
+
+        if(fileType === 'image') {
+            return this.renderImageDomElement(file);
+        }
+        return this.renderFileDomElement(file);
+    }
+
+    private renderImageDomElement(file: any): HTMLElement {
+        let filePath = file.path;
+        if(file.thumbnail_variant_url) {
+            filePath = file.thumbnail_variant_url;
+        }
+
+        let fileUrl: string = route('showcase.storage', {path: filePath})
+        let fileElement: HTMLElement = document.createElement('div');
+        fileElement.className = 'media';
+        fileElement.setAttribute('data-file-id', file.id);
+        fileElement.style.backgroundImage = `url(${fileUrl})`;
+
+        return fileElement;
+    }
+
+    private renderFileDomElement(file: any): HTMLElement {
         let fileElement: HTMLElement = document.createElement('div');
         fileElement.className = 'file';
         fileElement.setAttribute('data-file-id', file.id);
@@ -384,7 +408,7 @@ class ChildContainer {
 class FileTypeIcon {
     public readonly type: string;
     private iconClassName: string | null = null;
-    private promise: Promise<void> | null = null;
+    private readonly promise: Promise<void> | null = null;
 
     constructor(type: string) {
         this.type = type;

@@ -48,7 +48,7 @@ class FileUpload extends Model
             });
         }
 
-        $query->where('path', 'like', $path . '%');
+        $query->where('file_uploads.path', 'like', $path . '%');
         return $query;
     }
 
@@ -62,19 +62,19 @@ class FileUpload extends Model
         return $this->hasMany(PictureType::class, 'original_file_upload_id');
     }
 
-    public function getThumbnailVariant(): HasOne
+    public function getThumbnailVariants(): HasMany
     {
-        return $this->hasOne(PictureType::class)->where('type', 'thumbnail');
+        return $this->hasMany(PictureType::class)->where('type', PictureType::TYPE_THUMBNAIL);
     }
 
-    public function getSmallVariant(): HasOne
+    public function getSmallVariants(): HasMany
     {
-        return $this->hasOne(PictureType::class)->where('type', 'small');
+        return $this->hasMany(PictureType::class)->where('type', PictureType::TYPE_SMALL);
     }
 
-    public function getMediumVariant(): HasOne
+    public function getMediumVariants(): HasMany
     {
-        return $this->hasOne(PictureType::class)->where('type', 'medium');
+        return $this->hasMany(PictureType::class)->where('type', PictureType::TYPE_MEDIUM);
     }
 
     public function getLargeVariant(): HasOne
@@ -238,11 +238,13 @@ class FileUpload extends Model
     public static function getFiles(string $path = '/', string $type = null, bool $originalFilesOnly = true, int $offset = 0, int $limit = 20, string $order = 'desc'): array
     {
         $query = self::getUpload_QB($type, $originalFilesOnly, $path);
-        $query->orderBy('created_at', $order);
+        $query->orderBy('file_uploads.created_at', $order);
         $query->offset($offset);
         $query->limit($limit);
 
-        return $query->get()->toArray();
+        $files = $query->get();
+
+        return $files->toArray();
     }
 
     /**
