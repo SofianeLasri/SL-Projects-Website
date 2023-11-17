@@ -29,7 +29,7 @@ class MediaLibraryController extends Controller
         }
         $order = $request->input('order', 'desc');
 
-        $fileUploads = FileUpload::getFiles('/', $type, true, $offset, 20, $order);
+        $fileUploads = FileUpload::getFiles('/', $type, true, $offset, 50, $order);
 
         return response()->json([
             'files' => $fileUploads,

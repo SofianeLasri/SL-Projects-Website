@@ -20,8 +20,11 @@ class MediaLibrary {
     private readonly possibleGroupBy: Array<string> = ['none', 'date', 'type'];
 
     private parentContainers: ParentContainer[] = [];
+    private csrfToken: string;
+    private fileTypeIcons: FileTypeIcon[] = [];
 
     constructor(id: string = 'mediaLibrary') {
+        this.csrfToken = this.getCSRFToken();
         let parentElement: HTMLElement | null = document.getElementById(id);
         if (parentElement === null) {
             throw new Error("MediaLibrary: Parent element not found");
@@ -78,7 +81,6 @@ class MediaLibrary {
 
         this.getParameters();
         this.initialize();
-        this.getFiles();
     }
 
     /**
@@ -198,6 +200,7 @@ class MediaLibrary {
                 this.files.push(...responseJson.files);
                 this.totalFiles = responseJson.total;
 
+                console.log(responseJson.files);
                 this.renderFiles(responseJson.files);
             })
             .catch((error): void => {
@@ -220,8 +223,31 @@ class MediaLibrary {
         button.setAttribute('aria-selected', 'true');
     }
 
-    private createFileObject(file: Object): void {
+    private renderFile(file: any): HTMLElement {
+        let fileElement: HTMLElement = document.createElement('div');
+        fileElement.className = 'file';
+        fileElement.setAttribute('data-file-id', file.id);
 
+        let iconElement: HTMLElement = document.createElement('div');
+        iconElement.className = 'icon';
+
+        let icon: HTMLElement = document.createElement('i');
+        icon.className = 'fa-solid fa-file';
+
+        this.getFileTypeIcon(file.type).then((iconClassName: string) => {
+            icon.className = iconClassName;
+        });
+
+        iconElement.appendChild(icon);
+        fileElement.appendChild(iconElement);
+
+        let nameElement: HTMLElement = document.createElement('div');
+        nameElement.className = 'name';
+        nameElement.textContent = file.name;
+
+        fileElement.appendChild(nameElement);
+
+        return fileElement;
     }
 
     private changeViewLayout(): void {
@@ -245,13 +271,47 @@ class MediaLibrary {
      * @private
      */
     private renderFiles(files: Object = this.files) {
-        if(this.groupBy === 'none') {
+        if (this.groupBy === 'none') {
             this.renderFilesWithoutGroup(files);
         }
     }
 
-    private renderFilesWithoutGroup(files: Object) {
+    private renderFilesWithoutGroup(files: any) {
+        let parentContainer: ParentContainer = new ParentContainer('All files');
+        let childContainer: ChildContainer = new ChildContainer();
+        for (let file of files) {
+            childContainer.addElement(this.renderFile(file));
+        }
+        parentContainer.addChild(childContainer);
+        this.parentContainers.push(parentContainer);
 
+        this.mediaLibraryElement.appendChild(parentContainer.render());
+    }
+
+    private getCSRFToken(): string {
+        const csrfTokenElem = document.querySelector('meta[name="csrf-token"]');
+        const csrfToken = csrfTokenElem?.getAttribute('content') || '';
+        if (!csrfToken) {
+            console.error("MediaUploadZone: CSRF token not found");
+        }
+        return csrfToken;
+    }
+
+    private async getFileTypeIcon(type: string): Promise<string> {
+        let icon = "";
+        for (const fileTypeIcon of this.fileTypeIcons) {
+            if (fileTypeIcon.type === type) {
+                icon = await fileTypeIcon.getIcon();
+            }
+        }
+
+        if (icon === "") {
+            const fileTypeIcon = new FileTypeIcon(type);
+            this.fileTypeIcons.push(fileTypeIcon);
+            icon = await fileTypeIcon.getIcon();
+        }
+
+        return icon;
     }
 }
 
@@ -318,6 +378,40 @@ class ChildContainer {
         }
 
         return container;
+    }
+}
+
+class FileTypeIcon {
+    public readonly type: string;
+    private iconClassName: string | null = null;
+    private promise: Promise<void> | null = null;
+
+    constructor(type: string) {
+        this.type = type;
+        this.promise = fetch(route("dashboard.ajax.components.media-upload-zone.find-icon", {type: encodeURI(this.type)}), {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+            },
+        })
+            .then(async (response: Response): Promise<void> => {
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+
+                const responseJson = await response.json();
+                this.iconClassName = responseJson.icon;
+            })
+            .catch((error): void => {
+                console.error(error);
+            });
+    }
+
+    async getIcon(): Promise<string> {
+        if (this.iconClassName === null) {
+            await this.promise;
+        }
+        return this.iconClassName ?? 'fa-solid fa-file';
     }
 }
 

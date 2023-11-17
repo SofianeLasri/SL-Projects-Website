@@ -339,6 +339,7 @@ class MediaUploadZone {
             method: "POST",
             headers: {
                 'X-CSRF-TOKEN': this.csrfToken,
+                'Accept': 'application/json',
             },
             body: data,
         })
@@ -347,7 +348,8 @@ class MediaUploadZone {
                     this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                return response.text();
+                let responseJson = await response.json();
+                return responseJson.icon;
             })
             .then(async icon => {
                 let classes = icon.split(" ");

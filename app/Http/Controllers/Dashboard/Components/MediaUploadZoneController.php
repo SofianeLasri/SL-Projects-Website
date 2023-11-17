@@ -18,7 +18,7 @@ use Image;
 
 class MediaUploadZoneController extends Controller
 {
-    public function findIcon(Request $request): string
+    public function findIcon(Request $request): JsonResponse
     {
         $request->validate([
             'type' => 'required|string',
@@ -27,15 +27,21 @@ class MediaUploadZoneController extends Controller
         $type = $request->input('type');
 
         if (array_key_exists($type, config('global-ui.fa-file-types-icons'))) {
-            return config('global-ui.fa-file-types-icons')[$type];
+            return response()->json([
+                'icon' => config('global-ui.fa-file-types-icons')[$type],
+            ]);
         }
 
         $shortMimeType = Str::before($type, '/');
         if (array_key_exists($shortMimeType, config('global-ui.fa-file-types-icons'))) {
-            return config('global-ui.fa-file-types-icons')[$shortMimeType];
+            return response()->json([
+                'icon' => config('global-ui.fa-file-types-icons')[$shortMimeType],
+            ]);
         }
 
-        return config('global-ui.fa-file-types-icons.default');
+        return response()->json([
+            'icon' => config('global-ui.fa-file-types-icons.default'),
+        ]);
     }
 
     public function uploadFile(Request $request): JsonResponse

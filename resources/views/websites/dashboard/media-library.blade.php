@@ -72,7 +72,7 @@
             </div>
         </div>
         <div class="medias" id="mediaLibraryMedias">
-            @for($i = 0; $i < rand(1, 4); $i++)
+            {{--@for($i = 0; $i < rand(1, 4); $i++)
                 <div class="parent-section">
                     <h4>Septembre</h4>
                     <div class="parent-section-container">
@@ -91,7 +91,7 @@
                         @endfor
                     </div>
                 </div>
-            @endfor
+            @endfor--}}
         </div>
     </div>
 

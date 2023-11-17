@@ -114,10 +114,18 @@
                             }
 
                             .name {
+                                display: inline-block;
                                 height: 1.75rem;
                                 flex-shrink: 0;
                                 font-size: $small-font-size;
                                 color: $dark;
+                                word-wrap: anywhere;
+                                text-align: center;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                width: 100%;
+                                padding: 0 map.get($spacers, 1);
                             }
                         }
                     }
