@@ -35,6 +35,7 @@ class FileUpload extends Model
     public static function getUpload_QB(?string $type, bool $originalFilesOnly, string $path): \Illuminate\Database\Eloquent\Builder
     {
         $query = self::query();
+        $query->select('file_uploads.*');
 
         if ($type) {
             $query->where('type', 'like', $type . '/%');
@@ -46,6 +47,15 @@ class FileUpload extends Model
                     $query->where('type', PictureType::TYPE_ORIGINAL);
                 })->orWhereDoesntHave('pictureType');
             });
+
+            // Jointure avec la table picture_types pour récupérer le chemin du fichier de prévisualisation
+            $query->leftJoin('picture_types as thumbnail_variant', function ($join) {
+                $join->on('file_uploads.id', '=', 'thumbnail_variant.original_file_upload_id')
+                    ->where('thumbnail_variant.type', '=', PictureType::TYPE_THUMBNAIL);
+            });
+            $query->leftJoin('file_uploads as thumbnail_variant_file_upload', 'thumbnail_variant_file_upload.id', '=', 'thumbnail_variant.file_upload_id');
+
+            $query->addSelect('thumbnail_variant_file_upload.path as thumbnail_path');
         }
 
         $query->where('file_uploads.path', 'like', $path . '%');

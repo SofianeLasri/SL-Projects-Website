@@ -234,8 +234,8 @@ class MediaLibrary {
 
     private renderImageDomElement(file: any): HTMLElement {
         let filePath = file.path;
-        if(file.thumbnail_variant_url) {
-            filePath = file.thumbnail_variant_url;
+        if(file.thumbnail_path !== null) {
+            filePath = file.thumbnail_path;
         }
 
         let fileUrl: string = route('showcase.storage', {path: filePath})
