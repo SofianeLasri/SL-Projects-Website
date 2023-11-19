@@ -138,7 +138,7 @@ class MediaLibrary {
                 break;
             case 'group':
                 this.groupBy = value;
-                this.changeGroupBy();
+                this.changeGroupDisplay();
                 break;
         }
 
@@ -201,6 +201,10 @@ class MediaLibrary {
         }
     }
 
+    /**
+     * Get the uploaded files from the server.
+     * @private
+     */
     private getFiles(): void {
         let url: string = route('dashboard.media-library.get-uploaded-files', {
             order: this.order,
@@ -244,7 +248,13 @@ class MediaLibrary {
         button.setAttribute('aria-selected', 'true');
     }
 
-    private renderFile(file: any): HTMLElement {
+    /**
+     * Handles rendering of file objects.
+     *
+     * @param {any} file - The file object to be rendered.
+     * @returns {HTMLElement} - The DOM element representing the file object.
+     */
+    private fileObjectRenderingHandler(file: any): HTMLElement {
         let fileType: string = file.type.split('/')[0];
 
         if(fileType === 'image') {
@@ -253,6 +263,11 @@ class MediaLibrary {
         return this.renderFileDomElement(file);
     }
 
+    /**
+     * Render an image in the media library.
+     * @param file The image to render.
+     * @private
+     */
     private renderImageDomElement(file: any): HTMLElement {
         let filePath = file.path;
         if(file.thumbnail_path !== null) {
@@ -268,6 +283,11 @@ class MediaLibrary {
         return fileElement;
     }
 
+    /**
+     * Render a file in the media library.
+     * @param file The file to render.
+     * @private
+     */
     private renderFileDomElement(file: any): HTMLElement {
         let fileElement: HTMLElement = document.createElement('div');
         fileElement.className = 'file';
@@ -295,17 +315,28 @@ class MediaLibrary {
         return fileElement;
     }
 
+    /**
+     * Change the view layout of the media library.
+     * @private
+     */
     private changeViewLayout(): void {
         this.mediaLibraryElement.classList.remove('grid', 'list');
         this.mediaLibraryElement.classList.add(this.viewLayout);
     }
 
-    private changeGroupBy(): void {
+    /**
+     * Change the group display of the media library.
+     * @private
+     */
+    private changeGroupDisplay(): void {
         this.mediaLibraryElement.innerHTML = '';
         this.parentContainers = [];
         this.renderFiles(this.files);
     }
 
+    /**
+     * Initialize the media library.
+     */
     public initialize(): void {
         this.changeViewLayout();
         this.resetFiles();
@@ -327,7 +358,7 @@ class MediaLibrary {
         let parentContainer: ParentContainer = new ParentContainer('all', this.translation['all-files']);
         let childContainer: ChildContainer = new ChildContainer();
         for (let file of files) {
-            childContainer.addElement(this.renderFile(file));
+            childContainer.addElement(this.fileObjectRenderingHandler(file));
         }
         parentContainer.addChild(childContainer);
         this.parentContainers.push(parentContainer);
