@@ -119,5 +119,7 @@
     <script type="module">
         const mediaUploadZone = new MediaUploadZone();
         const mediaLibrary = new MediaLibrary();
+        mediaLibrary.setTranslation('all-files', 'Tous les médias');
+        mediaLibrary.initialize();
     </script>
 @endpush

@@ -23,6 +23,28 @@ class MediaLibrary {
     private csrfToken: string;
     private fileTypeIcons: FileTypeIcon[] = [];
 
+    private translation: Object = {
+        'all-files': 'All files',
+        'images': 'Images',
+        'videos': 'Videos',
+        'audios': 'Audios',
+        'documents': 'Documents',
+        'archives': 'Archives',
+        'order': {
+            'asc': 'Ascending',
+            'desc': 'Descending'
+        },
+        'view': {
+            'grid': 'Grid',
+            'list': 'List'
+        },
+        'group': {
+            'none': 'None',
+            'date': 'Date',
+            'type': 'Type'
+        }
+    };
+
     constructor(id: string = 'mediaLibrary') {
         this.csrfToken = this.getCSRFToken();
         let parentElement: HTMLElement | null = document.getElementById(id);
@@ -80,7 +102,6 @@ class MediaLibrary {
         });
 
         this.getParameters();
-        this.initialize();
     }
 
     /**
@@ -280,10 +301,12 @@ class MediaLibrary {
     }
 
     private changeGroupBy(): void {
-
+        this.mediaLibraryElement.innerHTML = '';
+        this.parentContainers = [];
+        this.renderFiles(this.files);
     }
 
-    private initialize(): void {
+    public initialize(): void {
         this.changeViewLayout();
         this.resetFiles();
         this.getFiles();
@@ -301,7 +324,7 @@ class MediaLibrary {
     }
 
     private renderFilesWithoutGroup(files: any) {
-        let parentContainer: ParentContainer = new ParentContainer('All files');
+        let parentContainer: ParentContainer = new ParentContainer('all', this.translation['all-files']);
         let childContainer: ChildContainer = new ChildContainer();
         for (let file of files) {
             childContainer.addElement(this.renderFile(file));
@@ -337,13 +360,32 @@ class MediaLibrary {
 
         return icon;
     }
+
+    /**
+     * Set a translation. Index are separated by a dot.
+     * @param index
+     * @param value
+     */
+    public setTranslation(index: string, value: string): void {
+        let translationIndex: string[] = index.split('.');
+        let translation: Object = this.translation;
+        for (let i = 0; i < translationIndex.length - 1; i++) {
+            if (translation[translationIndex[i]] === undefined) {
+                translation[translationIndex[i]] = {};
+            }
+            translation = translation[translationIndex[i]];
+        }
+        translation[translationIndex[translationIndex.length - 1]] = value;
+    }
 }
 
 class ParentContainer {
     private children: ChildContainer[] = [];
+    public readonly identifier: string;
     private readonly containerTitle: string;
 
-    constructor(title: string) {
+    constructor(identifier: string, title: string) {
+        this.identifier = identifier;
         this.containerTitle = title;
     }
 
