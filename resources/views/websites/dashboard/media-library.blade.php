@@ -23,17 +23,17 @@
                     <x-button type="button"
                               class="text-start"
                               role="filter-by-type"
-                              data-filter-by-type="images"
+                              data-filter-by-type="image"
                     >Images</x-button>
                     <x-button type="button"
                               class="text-start"
                               role="filter-by-type"
-                              data-filter-by-type="videos"
+                              data-filter-by-type="video"
                     >Vidéos</x-button>
                     <x-button type="button"
                               class="text-start"
                               role="filter-by-type"
-                              data-filter-by-type="files"
+                              data-filter-by-type="file"
                     >Fichiers</x-button>
                 </div>
                 <div class="d-flex flex-column flex-shrink-0 gap-2">

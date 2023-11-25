@@ -138,7 +138,7 @@ class MediaLibrary {
                 break;
             case 'group':
                 this.groupBy = value;
-                this.changeGroupDisplay();
+                this.reRenderFiles();
                 break;
         }
 
@@ -226,7 +226,7 @@ class MediaLibrary {
                 this.totalFiles = responseJson.total;
 
                 console.log(responseJson.files);
-                this.renderFiles(responseJson.files);
+                this.reRenderFiles();
             })
             .catch((error): void => {
                 console.error(error);
@@ -325,10 +325,10 @@ class MediaLibrary {
     }
 
     /**
-     * Change the group display of the media library.
+     * Re-render cached files, it doesn't fetch the GetFiles API.
      * @private
      */
-    private changeGroupDisplay(): void {
+    private reRenderFiles(): void {
         this.mediaLibraryElement.innerHTML = '';
         this.parentContainers = [];
         this.renderFiles(this.files);
