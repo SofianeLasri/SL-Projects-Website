@@ -39,7 +39,7 @@ class FileUpload extends Model
         $query->select('file_uploads.*');
 
         if ($type) {
-            if($type === 'other') {
+            if ($type === 'other') {
                 $query->where('file_uploads.type', 'not like', 'image/%');
                 $query->where('file_uploads.type', 'not like', 'video/%');
                 $query->where('file_uploads.type', 'not like', 'audio/%');
