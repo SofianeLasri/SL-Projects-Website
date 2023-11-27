@@ -1,11 +1,27 @@
 import route from 'ziggy-js';
 
 type ToolBoxButtonType = "filter-by-type" | "order" | "view" | "group";
+type FileObjectJson = {
+    id: number,
+    name: string,
+    description: string | null,
+    filename: string,
+    type: string,
+    path: string,
+    thumbnail_path: string | null,
+    size: number,
+    created_at: string,
+    updated_at: string,
+};
+type FileObjectsListJson = {
+    files: Array<FileObjectJson>,
+    total: number,
+};
 
 class MediaLibrary {
     private parentElement: HTMLElement;
     private mediaLibraryElement: HTMLElement;
-    private files: Array<Object> = [];
+    private files: Array<FileObjectJson> = [];
     private order: string = 'desc';
     private offset: number = 0;
     private filterByType: string = 'all';
@@ -221,7 +237,7 @@ class MediaLibrary {
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
-                let responseJson = await response.json();
+                let responseJson: FileObjectsListJson = await response.json() as FileObjectsListJson;
                 this.files.push(...responseJson.files);
                 this.totalFiles = responseJson.total;
 
@@ -251,13 +267,13 @@ class MediaLibrary {
     /**
      * Handles rendering of file objects.
      *
-     * @param {any} file - The file object to be rendered.
-     * @returns {HTMLElement} - The DOM element representing the file object.
+     * @param file The file object to be rendered.
+     * @returns The DOM element representing the file object.
      */
-    private fileObjectRenderingHandler(file: any): HTMLElement {
+    private fileObjectRenderingHandler(file: FileObjectJson): HTMLElement {
         let fileType: string = file.type.split('/')[0];
 
-        if(fileType === 'image') {
+        if (fileType === 'image') {
             return this.renderImageDomElement(file);
         }
         return this.renderFileDomElement(file);
@@ -268,16 +284,16 @@ class MediaLibrary {
      * @param file The image to render.
      * @private
      */
-    private renderImageDomElement(file: any): HTMLElement {
-        let filePath = file.path;
-        if(file.thumbnail_path !== null) {
+    private renderImageDomElement(file: FileObjectJson): HTMLElement {
+        let filePath: string = file.path;
+        if (file.thumbnail_path !== null) {
             filePath = file.thumbnail_path;
         }
 
         let fileUrl: string = route('showcase.storage', {path: filePath})
         let fileElement: HTMLElement = document.createElement('div');
         fileElement.className = 'media';
-        fileElement.setAttribute('data-file-id', file.id);
+        fileElement.setAttribute('data-file-id', String(file.id));
         fileElement.style.backgroundImage = `url(${fileUrl})`;
 
         return fileElement;
@@ -288,10 +304,10 @@ class MediaLibrary {
      * @param file The file to render.
      * @private
      */
-    private renderFileDomElement(file: any): HTMLElement {
+    private renderFileDomElement(file: FileObjectJson): HTMLElement {
         let fileElement: HTMLElement = document.createElement('div');
         fileElement.className = 'file';
-        fileElement.setAttribute('data-file-id', file.id);
+        fileElement.setAttribute('data-file-id', String(file.id));
 
         let iconElement: HTMLElement = document.createElement('div');
         iconElement.className = 'icon';
@@ -331,7 +347,7 @@ class MediaLibrary {
     private reRenderFiles(): void {
         this.mediaLibraryElement.innerHTML = '';
         this.parentContainers = [];
-        this.renderFiles(this.files);
+        this.renderFiles();
     }
 
     /**
@@ -348,18 +364,20 @@ class MediaLibrary {
      * @param files The files to render.
      * @private
      */
-    private renderFiles(files: Object = this.files) {
+    private renderFiles(files: Array<FileObjectJson> = this.files) {
         if (this.groupBy === 'none') {
             this.renderFilesWithoutGroup(files);
         }
     }
 
-    private renderFilesWithoutGroup(files: any) {
+    private renderFilesWithoutGroup(files: Array<FileObjectJson>) {
         let parentContainer: ParentContainer = new ParentContainer('all', this.translation['all-files']);
         let childContainer: ChildContainer = new ChildContainer();
-        for (let file of files) {
+
+        for (const file of files) {
             childContainer.addElement(this.fileObjectRenderingHandler(file));
         }
+
         parentContainer.addChild(childContainer);
         this.parentContainers.push(parentContainer);
 
@@ -384,7 +402,7 @@ class MediaLibrary {
         }
 
         if (icon === "") {
-            const fileTypeIcon = new FileTypeIcon(type);
+            const fileTypeIcon: FileTypeIcon = new FileTypeIcon(type);
             this.fileTypeIcons.push(fileTypeIcon);
             icon = await fileTypeIcon.getIcon();
         }
