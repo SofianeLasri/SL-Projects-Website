@@ -27,12 +27,9 @@ class MediaLibrary {
     private filterByType: string = 'all';
     private totalFiles: number = 0;
 
-    private filterButtons: NodeListOf<Element>;
-    private viewLayoutButtons: NodeListOf<Element>;
     private viewLayout: string = 'grid';
     private readonly possibleViewLayouts: Array<string> = ['grid', 'list'];
     private groupBy: string = 'date';
-    private groupByButtons: NodeListOf<Element>;
     private readonly possibleGroupBy: Array<string> = ['none', 'date', 'type'];
 
     private parentContainers: ParentContainer[] = [];
@@ -60,6 +57,7 @@ class MediaLibrary {
             'type': 'Type'
         }
     };
+    private debug: boolean = false;
 
     constructor(id: string = 'mediaLibrary') {
         this.csrfToken = this.getCSRFToken();
@@ -75,49 +73,43 @@ class MediaLibrary {
         }
         this.mediaLibraryElement = mediaLibraryElement;
 
-        this.filterButtons = this.parentElement.querySelectorAll('button[role="filter-by-type"]');
-
-        this.filterButtons.forEach((button: Element): void => {
-            button.addEventListener('click', (event: Event): void => {
-                event.preventDefault();
-                let filterByType: string = button.getAttribute('data-filter-by-type') ?? 'all';
-
-                if (this.filterByType !== filterByType) {
-                    this.setParameter('filter-by-type', filterByType);
-                    this.setToolBoxButtonActive(button, "filter-by-type");
-                }
-            });
-        });
-
-        this.viewLayoutButtons = this.parentElement.querySelectorAll('button[role="view"]');
-
-        this.viewLayoutButtons.forEach((button: Element): void => {
-            button.addEventListener('click', (event: Event): void => {
-                event.preventDefault();
-                let view: string = button.getAttribute('data-view') ?? 'grid';
-
-                if (this.viewLayout !== view) {
-                    this.setParameter('view', view);
-                    this.setToolBoxButtonActive(button, "view");
-                }
-            });
-        });
-
-        this.groupByButtons = this.parentElement.querySelectorAll('button[role="group"]');
-
-        this.groupByButtons.forEach((button: Element): void => {
-            button.addEventListener('click', (event: Event): void => {
-                event.preventDefault();
-                let groupBy: string = button.getAttribute('data-group') ?? 'date';
-
-                if (this.groupBy !== groupBy) {
-                    this.setParameter('group', groupBy);
-                    this.setToolBoxButtonActive(button, "group");
-                }
-            });
-        });
+        this.addButtonEventListeners("filter-by-type", 'all');
+        this.addButtonEventListeners("view", 'grid');
+        this.addButtonEventListeners("group", 'date');
 
         this.getParameters();
+    }
+
+    /**
+     * Create a button click listener.
+     * @param parameterName The name of the parameter to set.
+     * @param defaultValue The default value of the parameter.
+     * @private
+     */
+    private createButtonClickListener(parameterName: ToolBoxButtonType, defaultValue: string): (event: Event) => void {
+        return (event: Event): void => {
+            event.preventDefault();
+            const button = event.target as Element;
+            const value = button.getAttribute(`data-${parameterName}`) ?? defaultValue;
+
+            if (this[parameterName] !== value) {
+                this.setParameter(parameterName, value);
+                this.setToolBoxButtonActive(button, parameterName);
+            }
+        };
+    }
+
+    /**
+     * Add event listeners to buttons.
+     * @param buttonRole The role of the button.
+     * @param defaultValue The default value of the parameter.
+     * @private
+     */
+    private addButtonEventListeners(buttonRole: ToolBoxButtonType, defaultValue: string): void {
+        const buttons = this.parentElement.querySelectorAll(`button[role="${buttonRole}"]`);
+        buttons.forEach((button: Element): void => {
+            button.addEventListener('click', this.createButtonClickListener(buttonRole, defaultValue));
+        });
     }
 
     /**
@@ -241,7 +233,7 @@ class MediaLibrary {
                 this.files.push(...responseJson.files);
                 this.totalFiles = responseJson.total;
 
-                console.log(responseJson.files);
+                if (this.debug) console.log(responseJson.files);
                 this.reRenderFiles();
             })
             .catch((error): void => {
@@ -425,6 +417,10 @@ class MediaLibrary {
             translation = translation[translationIndex[i]];
         }
         translation[translationIndex[translationIndex.length - 1]] = value;
+    }
+
+    public setDebug(debug: boolean): void {
+        this.debug = debug;
     }
 }
 

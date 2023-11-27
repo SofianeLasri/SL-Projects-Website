@@ -18,7 +18,7 @@ class MediaLibraryController extends Controller
     {
         $request->validate([
             'offset' => 'sometimes|integer',
-            'type' => 'sometimes|string',
+            'type' => 'sometimes|string|in:all,image,video,audio,other',
             'order' => 'sometimes|string|in:asc,desc',
         ]);
 

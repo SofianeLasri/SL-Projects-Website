@@ -3,7 +3,8 @@
 @section('pageName', 'Gestionnaire de fichiers')
 
 @section('breadcrumbHeaderContent')
-    <x-button id="uploadMedia" type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#mediaUploadModal">
+    <x-button id="uploadMedia" type="button" class="btn-primary" data-bs-toggle="modal"
+              data-bs-target="#mediaUploadModal">
         Envoyer un média
     </x-button>
 @endsection
@@ -19,22 +20,26 @@
                               class="text-start"
                               role="filter-by-type"
                               data-filter-by-type="all"
-                    >Tous les médias</x-button>
+                    >Tous les médias
+                    </x-button>
                     <x-button type="button"
                               class="text-start"
                               role="filter-by-type"
                               data-filter-by-type="image"
-                    >Images</x-button>
+                    >Images
+                    </x-button>
                     <x-button type="button"
                               class="text-start"
                               role="filter-by-type"
                               data-filter-by-type="video"
-                    >Vidéos</x-button>
+                    >Vidéos
+                    </x-button>
                     <x-button type="button"
                               class="text-start"
                               role="filter-by-type"
-                              data-filter-by-type="file"
-                    >Fichiers</x-button>
+                              data-filter-by-type="other"
+                    >Autres
+                    </x-button>
                 </div>
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
                     <h6>Affichage</h6>
@@ -42,13 +47,15 @@
                               class="text-start"
                               role="view"
                               data-view="list"
-                    >Liste</x-button>
+                    >Liste
+                    </x-button>
                     <x-button type="button"
                               class="text-start btn-primary"
                               role="view"
                               data-view="grid"
                               aria-selected="true"
-                    >Grille</x-button>
+                    >Grille
+                    </x-button>
                 </div>
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
                     <h6>Regrouper</h6>
@@ -56,18 +63,21 @@
                               class="text-start"
                               role="group"
                               data-group="none"
-                    >Ne pas regrouper</x-button>
+                    >Ne pas regrouper
+                    </x-button>
                     <x-button type="button"
                               class="text-start btn-primary"
                               role="group"
                               data-group="date"
                               aria-selected="true"
-                    >Par date</x-button>
+                    >Par date
+                    </x-button>
                     <x-button type="button"
                               class="text-start"
                               role="group"
                               data-group="type"
-                    >Par type</x-button>
+                    >Par type
+                    </x-button>
                 </div>
             </div>
         </div>
@@ -108,7 +118,7 @@
                     </x-button>
                 </div>
                 <div class="modal-body">
-                    <x-dashboard.media-upload-zone />
+                    <x-dashboard.media-upload-zone/>
                 </div>
             </div>
         </div>
@@ -120,6 +130,7 @@
         const mediaUploadZone = new MediaUploadZone();
         const mediaLibrary = new MediaLibrary();
         mediaLibrary.setTranslation('all-files', 'Tous les médias');
+        mediaLibrary.setDebug({{ config('app.debug') ? 'true' : 'false' }});
         mediaLibrary.initialize();
     </script>
 @endpush
