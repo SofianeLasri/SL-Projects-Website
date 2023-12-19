@@ -1,5 +1,6 @@
 import route from 'ziggy-js';
 import md5 from "blueimp-md5";
+import {LaravelValidationError, MUZUploadedFileResponse} from "../../types";
 
 class MediaUploadZone {
     parentElement: HTMLElement;
@@ -108,7 +109,7 @@ class MediaUploadZone {
 
         // Utiliser une promesse pour gérer l'envoi du fichier
         const uploadPromise = new Promise(async (resolve, reject) => {
-            const xhr = new XMLHttpRequest();
+            const xhr: XMLHttpRequest = new XMLHttpRequest();
 
             // Événement pour surveiller l'avancement de l'envoi
             xhr.upload.addEventListener("progress", function (event) {
@@ -124,26 +125,55 @@ class MediaUploadZone {
 
             xhr.open("POST", route("dashboard.ajax.components.media-upload-zone.upload-file"));
             xhr.setRequestHeader('X-CSRF-TOKEN', this.csrfToken);
+            xhr.setRequestHeader('Accept', 'application/json');
 
             xhr.onload = () => {
                 if (cancelUpload) {
                     reject(new Error("L'envoi a été annulé"));
                 } else if (xhr.status === 200) {
-                    // Check if anwer is json
                     let response = xhr.responseText;
                     try {
-                        response = JSON.parse(response);
-                        console.log(response);
-                        resolve(response);
+                        let parsedResponse: MUZUploadedFileResponse = JSON.parse(response);
+                        console.log(parsedResponse); // TODO: Remove debug
+                        resolve(parsedResponse);
                     } catch (e) {
+                        this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
                         console.error("Response is not json!");
                         console.error(response);
+                        reject(new Error("Response is not json!"));
                     }
+                } else if (xhr.status === 422) {
+                    let response = xhr.responseText;
+                    this.showError("Le fichier " + file.name + " n'a pas pu être traité. Veuillez ouvrir la console ou lire les logs pour obtenir plus d'informations.");
+                    console.error(xhr.responseText);
+                    console.error(file);
+                    reject(new Error(`HTTP error! Status: ${xhr.status}`));
+                } else if (xhr.status === 413) {
+                    let response = xhr.responseText;
+                    this.showError("Le fichier " + file.name + " est trop volumineux. Veuillez ouvrir la console ou lire les logs pour obtenir plus d'informations.");
+                    console.error(xhr.responseText);
+                    reject(new Error(`HTTP error! Status: ${xhr.status}`));
                 } else {
+                    // We want to check if the response is application/json
+                    if(xhr.getResponseHeader("Content-Type") === "application/json") {
+                        let response = xhr.responseText;
+                        try {
+                            let errorDetail: LaravelValidationError = JSON.parse(response);
+                            console.error(errorDetail);
+                            this.showError(errorDetail.message);
+                            reject(new Error(errorDetail.message));
+                        } catch (e) {
+                            this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
+                            console.error("Error response is not json but header content type is defined as json.");
+                            console.error(response);
+                            reject(new Error("Error response is not json but header content type is defined as json."));
+                        }
+                    }
+
                     this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
                     console.error(`HTTP error! Status: ${xhr.status}`);
                     console.error(xhr.responseText);
-                    reject(new Error(`HTTP error! Status: ${xhr.status}`)); // La requête a échoué
+                    reject(new Error(`HTTP error! Status: ${xhr.status}`));
                 }
             };
 
@@ -222,7 +252,7 @@ class MediaUploadZone {
         }
 
         this.parentElement.classList.remove("drag-over");
-        if(e.dataTransfer === null) return;
+        if (e.dataTransfer === null) return;
         this.processFiles(e.dataTransfer.files);
     }
 

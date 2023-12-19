@@ -27,7 +27,7 @@ class ConvertImageJob implements ShouldQueue
 
     public function handle(): void
     {
-        Log::info('Converting image '.$this->fileUpload->filename.' to '.$this->conversionType);
+        Log::debug('Converting image '.$this->fileUpload->filename.' to '.$this->conversionType);
         $this->fileUpload->convertImage($this->conversionType);
     }
 }

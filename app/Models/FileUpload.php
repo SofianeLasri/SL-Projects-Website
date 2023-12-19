@@ -33,7 +33,7 @@ class FileUpload extends Model
      * @param  string  $path The path to get the files from.
      * @return Builder The query builder.
      */
-    public static function getUpload_QB(?string $type, bool $originalFilesOnly, string $path): Builder
+    public static function getUploadQB(?string $type, bool $originalFilesOnly, string $path): Builder
     {
         $query = self::query();
         $query->select('file_uploads.*');
@@ -139,7 +139,7 @@ class FileUpload extends Model
             return;
         }
 
-        Log::info('Adding '.$this->filename.' to conversion queue: '.$conversionType);
+        Log::debug('Adding '.$this->filename.' to conversion queue: '.$conversionType);
         PendingImageConversion::create([
             'file_upload_id' => $this->id,
             'type' => $conversionType,
@@ -156,6 +156,7 @@ class FileUpload extends Model
      */
     public function convertImage(string $conversionType): void
     {
+        Log::debug('Converting image '.$this->filename.' to '.$conversionType);
         $image = Image::make($this->getFileUrl());
         $config = config('app.fileupload.images.'.$conversionType);
         $width = $config['width'];
@@ -256,7 +257,7 @@ class FileUpload extends Model
      */
     public static function getFiles(string $path = '/', string $type = null, bool $originalFilesOnly = true, int $offset = 0, int $limit = 20, string $order = 'desc'): array
     {
-        $query = self::getUpload_QB($type, $originalFilesOnly, $path);
+        $query = self::getUploadQB($type, $originalFilesOnly, $path);
         $query->orderBy('file_uploads.created_at', $order);
         $query->offset($offset);
         $query->limit($limit);
@@ -276,7 +277,7 @@ class FileUpload extends Model
      */
     public static function getFilesCount(string $path = '/', string $type = null, bool $originalFilesOnly = false): int
     {
-        $query = self::getUpload_QB($type, $originalFilesOnly, $path);
+        $query = self::getUploadQB($type, $originalFilesOnly, $path);
 
         return $query->count();
     }

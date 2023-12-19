@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Jobs\ConvertImageJob;
 use App\Models\PendingImageConversion;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class ConvertImagesCommand extends Command
 {

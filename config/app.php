@@ -289,7 +289,13 @@ return [
                 'quality' => 99,
                 'format' => 'webp',
             ],
-        ]
+        ],
+        'excluded_image_types' => [
+            'image/gif',
+            'image/svg+xml',
+            'image/vnd.adobe.photoshop'
+        ],
+        'max_size' => 50, // In MB
     ],
 
     /*
