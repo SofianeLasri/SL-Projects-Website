@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Request extends Model
 {
@@ -18,10 +19,11 @@ class Request extends Model
         'origin',
         'content_type',
         'content_length',
+        'status_code',
         'user_id',
     ];
 
-    public function ipAdress()
+    public function ipAdress(): BelongsTo
     {
         return $this->belongsTo(IpAdress::class);
     }
