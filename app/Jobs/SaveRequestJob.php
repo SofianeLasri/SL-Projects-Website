@@ -29,14 +29,14 @@ class SaveRequestJob implements ShouldQueue
     public function handle(): void
     {
         $createdRequestEntry = RequestModel::create([
-            'ip_adress_id' => IpAdress::firstOrCreate(['ip' => $this->request['ip']])->id,
+            'ip_adress_id' => IpAdress::getIdFromCacheOrCreate($this->request['ip']),
             'country_code' => $this->request['country_code'],
             'url_id' => Url::firstOrCreate(['url' => $this->request['url']])->id,
             'method' => $this->request['method'],
-            'user_agent_id' => ! empty($this->request['user_agent']) ? UserAgent::firstOrCreate(['user_agent' => $this->request['user_agent']])->id : null,
-            'referer_url_id' => ! empty($this->request['referer']) ? Url::firstOrCreate(['url' => $this->request['referer']])->id : null,
-            'origin_url_id' => ! empty($this->request['origin']) ? Url::firstOrCreate(['url' => $this->request['origin']])->id : null,
-            'content_type_mime_type_id' => ! empty($this->request['content_type']) ? MimeType::firstOrCreate(['mime_type' => $this->request['content_type']])->id : null,
+            'user_agent_id' => ! empty($this->request['user_agent']) ? UserAgent::getIdFromCacheOrCreate($this->request['user_agent']) : null,
+            'referer_url_id' => ! empty($this->request['referer']) ? Url::getIdFromCacheOrCreate($this->request['referer']) : null,
+            'origin_url_id' => ! empty($this->request['origin']) ? Url::getIdFromCacheOrCreate($this->request['origin']) : null,
+            'content_type_mime_type_id' => ! empty($this->request['content_type']) ? MimeType::getIdFromCacheOrCreate($this->request['content_type']) : null,
             'content_length' => $this->request['content_length'],
             'status_code' => $this->request['status_code'],
             'user_id' => $this->request['user_id'],
