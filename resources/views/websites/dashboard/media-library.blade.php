@@ -72,12 +72,6 @@
                               aria-selected="true"
                     >Par date
                     </x-button>
-                    <x-button type="button"
-                              class="text-start"
-                              role="group"
-                              data-group="type"
-                    >Par type
-                    </x-button>
                 </div>
             </div>
         </div>

@@ -6,11 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    protected $connection = 'main';
+
     public function up(): void
     {
         Schema::create('mime_types', function (Blueprint $table) {
             $table->id();
-            $table->string('value');
+            $table->string('mime_type')->unique();
         });
     }
 

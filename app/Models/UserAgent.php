@@ -9,6 +9,6 @@ class UserAgent extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'value',
+        'user_agent',
     ];
 }

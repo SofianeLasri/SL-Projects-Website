@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MimeType extends Model
+class Url extends Model
 {
     public $timestamps = false;
 
     protected $fillable = [
-        'mime_type',
+        'url',
     ];
 }

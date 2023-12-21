@@ -10,14 +10,14 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('user_agents', function (Blueprint $table) {
+        Schema::create('urls', function (Blueprint $table) {
             $table->id();
-            $table->text('user_agent')->unique();
+            $table->string('url', 2048)->unique();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('user_agents');
+        Schema::dropIfExists('urls');
     }
 };
