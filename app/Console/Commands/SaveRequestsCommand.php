@@ -18,7 +18,6 @@ class SaveRequestsCommand extends Command
         $requestsIndexes = Cache::get('requests', []);
         Cache::forget('requests');
         $this->info('Saving '.count($requestsIndexes).' requests');
-        Log::debug('Saving '.count($requestsIndexes).' requests');
 
         $requests = [];
         foreach ($requestsIndexes as $requestIndex) {
