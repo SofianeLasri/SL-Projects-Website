@@ -122,9 +122,16 @@
 @push('scripts')
     <script type="module">
         const mediaUploadZone = new MediaUploadZone();
+        mediaUploadZone.setDebug({{ config('app.debug') ? 'true' : 'false' }});
+
         const mediaLibrary = new MediaLibrary();
         mediaLibrary.setTranslation('all-files', 'Tous les médias');
         mediaLibrary.setDebug({{ config('app.debug') ? 'true' : 'false' }});
         mediaLibrary.initialize();
+
+        mediaUploadZone.on('onAllFileUploaded', (file) => {
+            console.log('All files uploaded we can refresh the media library');
+            mediaLibrary.refresh();
+        });
     </script>
 @endpush

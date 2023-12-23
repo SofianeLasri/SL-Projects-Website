@@ -339,6 +339,7 @@ class MediaLibrary {
      * @private
      */
     private reRenderFiles(): void {
+        if(this.debug) console.log('MediaLibrary: Re-rendering files');
         this.mediaLibraryElement.innerHTML = '';
         this.parentContainers = [];
         this.renderFiles();
@@ -359,6 +360,7 @@ class MediaLibrary {
      * @private
      */
     private renderFiles(files: Array<FileObjectJson> = this.files) {
+        if(this.debug) console.log('MediaLibrary: Rendering files');
         if (this.groupBy === 'none') {
             this.renderFilesWithoutGroup(files);
         } else if (this.groupBy === 'date') {
@@ -411,7 +413,11 @@ class MediaLibrary {
                 parentContainer.children.push(childContainer);
             }
 
-            childContainer.addElement(this.fileObjectRenderingHandler(file));
+            let fileElement: HTMLElement = this.fileObjectRenderingHandler(file);
+            if(childContainer.hasElement(fileElement)) {
+                console.debug(`MediaLibrary: File ${file.id} is already in the media library`);
+            }
+            childContainer.addElement(fileElement);
         }
 
         this.parentContainers = parentContainers;
@@ -467,6 +473,12 @@ class MediaLibrary {
     public setDebug(debug: boolean): void {
         this.debug = debug;
     }
+
+    public refresh(): void {
+        this.resetFiles();
+        this.getFiles();
+        if(this.debug) console.log('MediaLibrary: Refreshed');
+    }
 }
 
 class ParentContainer {
@@ -517,6 +529,10 @@ class ChildContainer {
 
     addElement(element: HTMLElement): void {
         this.elements.push(element);
+    }
+
+    hasElement(element: HTMLElement): boolean {
+        return this.elements.includes(element);
     }
 
     render(): HTMLElement {

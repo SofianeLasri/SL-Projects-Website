@@ -220,6 +220,7 @@ class FileUpload extends Model
         $newFilename = $iteration === 0 ? $filename : Str::beforeLast($filename, '.').'-'.$iteration.'.'.Str::afterLast($filename, '.');
 
         if (in_array(pathinfo($newFilename, PATHINFO_FILENAME), $existingFiles)) {
+            Log::debug('File '.$newFilename.' already exists in folder '.$folder);
             return self::checkFileName($folder, $filename, $iteration + 1);
         }
 

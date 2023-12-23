@@ -2,6 +2,8 @@ import route from 'ziggy-js';
 import md5 from "blueimp-md5";
 import {LaravelValidationError, MUZUploadedFileResponse} from "../../types";
 
+type MediaUploadZoneEvents = "onChoosenFile" | "onFileUploaded" | "onAllFileUploaded";
+
 class MediaUploadZone {
     parentElement: HTMLElement;
     hasAlreadyUploadedFiles: boolean = false;
@@ -13,6 +15,8 @@ class MediaUploadZone {
     acceptFileTypes: string[] = [];
     fileRowModel: HTMLElement;
     homeScreenElem: HTMLElement;
+    listeners = {};
+    debug: boolean = false;
 
     constructor(id = "mediaUploadZone") {
         this.csrfToken = this.getCSRFToken();
@@ -68,15 +72,47 @@ class MediaUploadZone {
         return csrfToken;
     }
 
+    public setDebug(debug: boolean): void {
+        this.debug = debug;
+    }
+
     // Événements enregistrables
+    /**
+     * Enregistre un événement
+     * @param event L'événement à enregistrer (onChoosenFile, onFileUploaded, onAllFileUploaded)
+     * @param callback Le callback à appeler lorsque l'événement est déclenché
+     */
+    on(event: MediaUploadZoneEvents, callback) {
+        if (!this.listeners[event]) {
+            this.listeners[event] = [];
+        }
+        this.listeners[event].push(callback);
+    }
+
+    /**
+     * Déclenche un événement
+     * @param event L'événement à déclencher (onChoosenFile, onFileUploaded, onAllFileUploaded)
+     * @param data Les données à envoyer aux callbacks
+     */
+    trigger(event: MediaUploadZoneEvents, data) {
+        const eventListeners = this.listeners[event];
+        if (eventListeners) {
+            eventListeners.forEach(callback => {
+                callback(data);
+            });
+        }
+    }
+
     /**
      * Lorqu'un fichier est choisi, cette méthode est appelée
      * @param file Le fichier choisi
      * @returns {Promise<void>}
      */
-    async onChoosenFile(file: File): Promise<void> {
+    private async onChoosenFile(file: File): Promise<void> {
         const event = new CustomEvent("OnChoosenFile", {detail: file});
         this.parentElement.dispatchEvent(event);
+
+        this.trigger("onChoosenFile", file);
 
         const fileType = file.type === "" ? file.name.split(".").pop() : file.type;
 
@@ -134,7 +170,7 @@ class MediaUploadZone {
                     let response = xhr.responseText;
                     try {
                         let parsedResponse: MUZUploadedFileResponse = JSON.parse(response);
-                        console.log(parsedResponse); // TODO: Remove debug
+                        if (this.debug) console.debug(parsedResponse);
                         resolve(parsedResponse);
                     } catch (e) {
                         this.showError("La communication avec le serveur a échoué, veuillez ouvrir la console pour obtenir plus d'informations.");
@@ -192,7 +228,9 @@ class MediaUploadZone {
         } finally {
             this.uploadingFiles = this.uploadingFiles.filter(item => item !== fileHash);
 
-            if (this.uploadingFiles.length === 0) {
+            if (this.debug) console.debug("MUZ:" + this.uploadingFiles.length);
+            if (this.uploadingFiles.length == 0) {
+                if (this.debug) console.debug("MUZ: All files uploaded");
                 this.onAllFileUploaded();
             }
         }
@@ -202,17 +240,22 @@ class MediaUploadZone {
      * Lorsqu'un fichier est envoyé, cette méthode est appelée
      * @param file Le fichier envoyé
      */
-    onFileUploaded(file: File) {
+    private onFileUploaded(file: File) {
         const event = new CustomEvent("OnFileUploaded", {detail: file});
         this.parentElement.dispatchEvent(event);
+        if(this.debug) console.debug("MUZ: File uploaded");
+
+        this.trigger("onFileUploaded", file);
     }
 
     /**
      * Lorsque tous les fichiers sont envoyés, cette méthode est appelée
      */
-    onAllFileUploaded() {
+    private onAllFileUploaded() {
         const event = new CustomEvent("OnAllFileUploaded");
         this.parentElement.dispatchEvent(event);
+
+        this.trigger("onAllFileUploaded", null);
 
         this.showHomeIfNoFile();
     }
