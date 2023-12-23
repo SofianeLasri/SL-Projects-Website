@@ -36,6 +36,7 @@ class MediaLibrary {
     private csrfToken: string;
     private fileTypeIcons: FileTypeIcon[] = [];
 
+    private readonly translationLocale: string = 'en';
     private translation: Object = {
         'all-files': 'All files',
         'images': 'Images',
@@ -61,6 +62,7 @@ class MediaLibrary {
 
     constructor(id: string = 'mediaLibrary') {
         this.csrfToken = this.getCSRFToken();
+        this.translationLocale = document.documentElement.lang;
         let parentElement: HTMLElement | null = document.getElementById(id);
         if (parentElement === null) {
             throw new Error("MediaLibrary: Parent element not found");
@@ -359,6 +361,8 @@ class MediaLibrary {
     private renderFiles(files: Array<FileObjectJson> = this.files) {
         if (this.groupBy === 'none') {
             this.renderFilesWithoutGroup(files);
+        } else if (this.groupBy === 'date') {
+            this.renderFilesGroupedByDate(files);
         }
     }
 
@@ -370,14 +374,55 @@ class MediaLibrary {
             childContainer.addElement(this.fileObjectRenderingHandler(file));
         }
 
-        parentContainer.addChild(childContainer);
+        parentContainer.children.push(childContainer);
         this.parentContainers.push(parentContainer);
 
         this.mediaLibraryElement.appendChild(parentContainer.render());
     }
 
+    private renderFilesGroupedByDate(files: Array<FileObjectJson>) {
+        let parentContainers: ParentContainer[] = [];
+
+        // Here, parent containers represents the months, and child containers represents the days.
+        for (const file of files) {
+            let fileDate: Date = new Date(file.created_at);
+            let month: string = fileDate.toLocaleString(this.translationLocale, {month: 'long'});
+            let year: string = fileDate.getFullYear().toString();
+            let day: string = fileDate.getDate().toString();
+            let dayOfWeek: string = fileDate.toLocaleString(this.translationLocale, {weekday: 'long'});
+
+            let parentContainer: ParentContainer | undefined = parentContainers.find((parentContainer: ParentContainer): boolean => {
+                return parentContainer.identifier === `${month}-${year}`;
+            });
+
+            if (parentContainer === undefined) {
+                let title: string = month.charAt(0).toUpperCase() + month.slice(1) + ' ' + year;
+                parentContainer = new ParentContainer(`${month}-${year}`, title);
+                parentContainers.push(parentContainer);
+            }
+
+            let childContainer: ChildContainer | undefined = parentContainer.children.find((childContainer: ChildContainer): boolean => {
+                return childContainer.identifier === day;
+            });
+
+            if (childContainer === undefined) {
+                let title: string = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1) + ' ' + day;
+                childContainer = new ChildContainer(day, title);
+                parentContainer.children.push(childContainer);
+            }
+
+            childContainer.addElement(this.fileObjectRenderingHandler(file));
+        }
+
+        this.parentContainers = parentContainers;
+        for (const parentContainer of parentContainers) {
+            this.mediaLibraryElement.appendChild(parentContainer.render());
+        }
+    }
+
     private getCSRFToken(): string {
         const csrfTokenElem = document.querySelector('meta[name="csrf-token"]');
+
         const csrfToken = csrfTokenElem?.getAttribute('content') || '';
         if (!csrfToken) {
             console.error("MediaUploadZone: CSRF token not found");
@@ -425,17 +470,16 @@ class MediaLibrary {
 }
 
 class ParentContainer {
-    private children: ChildContainer[] = [];
+    public children: ChildContainer[] = [];
     public readonly identifier: string;
     private readonly containerTitle: string;
 
-    constructor(identifier: string, title: string) {
+    constructor(identifier: string, title: string = '') {
         this.identifier = identifier;
-        this.containerTitle = title;
-    }
-
-    addChild(child: ChildContainer): void {
-        this.children.push(child);
+        this.containerTitle = identifier;
+        if (title !== '') {
+            this.containerTitle = title;
+        }
     }
 
     render(): HTMLElement {
@@ -460,10 +504,15 @@ class ParentContainer {
 
 class ChildContainer {
     private elements: HTMLElement[] = [];
+    public readonly identifier: string | null;
     private readonly containerTitle: string | null;
 
-    constructor(title: string | null = null) {
+    constructor(identifier: string | null = null, title: string | null = null) {
         this.containerTitle = title;
+        this.identifier = title;
+        if (identifier !== null) {
+            this.identifier = identifier;
+        }
     }
 
     addElement(element: HTMLElement): void {
