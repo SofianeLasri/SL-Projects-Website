@@ -4,9 +4,7 @@ namespace App\Http\Controllers\Showcase;
 
 use App\Http\Controllers\Controller;
 use App\Models\FileUpload;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class StorageController extends Controller
@@ -14,7 +12,7 @@ class StorageController extends Controller
     public function index($path)
     {
         $folder = dirname($path);
-        $cacheKey = config('app.fileupload.folder_cache_key').md5($folder);
+        $cacheKey = FileUpload::gerenateFolderCacheKey($folder);
 
         $existingFiles = Cache::has($cacheKey) ? Cache::get($cacheKey) : FileUpload::refreshCache($folder);
 

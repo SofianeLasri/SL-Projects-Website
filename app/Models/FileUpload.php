@@ -213,7 +213,7 @@ class FileUpload extends Model
      */
     public static function checkFileName(string $folder, string $filename, int $iteration = 0): string
     {
-        $cacheKey = config('app.fileupload.folder_cache_key').md5($folder);
+        $cacheKey = self::gerenateFolderCacheKey($folder);
 
         $existingFiles = Cache::has($cacheKey) ? Cache::get($cacheKey) : self::refreshCache($folder);
 
@@ -234,7 +234,8 @@ class FileUpload extends Model
      */
     public static function refreshCache(string $folder): array
     {
-        $cacheKey = config('app.fileupload.folder_cache_key').md5($folder);
+        Log::debug('Refreshing cache for folder: '.$folder);
+        $cacheKey = self::gerenateFolderCacheKey($folder);
 
         Cache::forget($cacheKey);
 
@@ -243,6 +244,20 @@ class FileUpload extends Model
                 return pathinfo($path, PATHINFO_BASENAME);
             })->toArray();
         });
+    }
+
+    /**
+     * Generate the cache key for the specified folder.
+     *
+     * @param  string  $folder The folder for which to generate the cache key.
+     */
+    public static function gerenateFolderCacheKey(string $folder): string
+    {
+        if (Str::endsWith($folder, '/')) {
+            $folder = Str::beforeLast($folder, '/');
+        }
+
+        return config('app.fileupload.folder_cache_key').md5($folder);
     }
 
     /**
@@ -256,7 +271,7 @@ class FileUpload extends Model
      * @param  string  $order The order of the files to get.
      * @return array The files.
      */
-    public static function getFiles(string $path = '/', string $type = null, bool $originalFilesOnly = true, int $offset = 0, int $limit = 20, string $order = 'desc'): array
+    public static function getFiles(string $path = '/', ?string $type = null, bool $originalFilesOnly = true, int $offset = 0, int $limit = 20, string $order = 'desc'): array
     {
         $query = self::getUploadQB($type, $originalFilesOnly, $path);
         $query->orderBy('file_uploads.created_at', $order);
@@ -276,7 +291,7 @@ class FileUpload extends Model
      * @param  bool  $originalFilesOnly Whether to get only original files or all files.
      * @return int The number of files.
      */
-    public static function getFilesCount(string $path = '/', string $type = null, bool $originalFilesOnly = false): int
+    public static function getFilesCount(string $path = '/', ?string $type = null, bool $originalFilesOnly = false): int
     {
         $query = self::getUploadQB($type, $originalFilesOnly, $path);
 

@@ -12,5 +12,8 @@ Route::domain(config('app.domain.showcase'))->name('showcase.')->group(function 
     Route::get('/project/{project}', [ProjectController::class, 'index'])->name('project');
     Route::get('/robots.txt', [RobotsTxtController::class, 'index']);
 
-    Route::get('/storage/{path}', [StorageController::class, 'index'])->where('path', '.*')->name('storage')->withoutMiddleware(['web', 'auth']);
+    Route::get('/storage/{path}', [StorageController::class, 'index'])
+        ->where('path', '.*')
+        ->name('storage')
+        ->middleware('cache.headers:public;max_age='.config('app.fileupload.cache_max_age').';etag');
 });

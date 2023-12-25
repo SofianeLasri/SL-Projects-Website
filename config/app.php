@@ -297,6 +297,7 @@ return [
         ],
         'max_size' => 50, // In MB
         'folder_cache_key' => 'fileupload_folders.',
+        'cache_max_age' => 60 * 60 * 24 * 365, // 1 year
     ],
 
     /*
