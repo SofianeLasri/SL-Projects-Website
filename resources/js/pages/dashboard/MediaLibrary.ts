@@ -1,4 +1,5 @@
 import route from 'ziggy-js';
+import {formatBytes} from "../../utils/helpers";
 
 type ToolBoxButtonType = "filter-by-type" | "order" | "view" | "group";
 type FileObjectJson = {
@@ -34,7 +35,6 @@ class MediaLibrary {
 
     private parentContainers: ParentContainer[] = [];
     private csrfToken: string;
-    private fileTypeIcons: FileTypeIcon[] = [];
 
     private readonly translationLocale: string = 'en';
     private translation: Object = {
@@ -59,6 +59,9 @@ class MediaLibrary {
         }
     };
     private debug: boolean = false;
+    public static readonly excludeImagesMimeTypes: Array<string> = [
+        'image/vnd.adobe.photoshop'
+    ];
 
     constructor(id: string = 'mediaLibrary') {
         this.csrfToken = this.getCSRFToken();
@@ -259,73 +262,6 @@ class MediaLibrary {
     }
 
     /**
-     * Handles rendering of file objects.
-     *
-     * @param file The file object to be rendered.
-     * @returns The DOM element representing the file object.
-     */
-    private fileObjectRenderingHandler(file: FileObjectJson): HTMLElement {
-        let fileType: string = file.type.split('/')[0];
-
-        if (fileType === 'image') {
-            return this.renderImageDomElement(file);
-        }
-        return this.renderFileDomElement(file);
-    }
-
-    /**
-     * Render an image in the media library.
-     * @param file The image to render.
-     * @private
-     */
-    private renderImageDomElement(file: FileObjectJson): HTMLElement {
-        let filePath: string = file.path;
-        if (file.thumbnail_path !== null) {
-            filePath = file.thumbnail_path;
-        }
-
-        let fileUrl: string = route('showcase.storage', {path: filePath})
-        let fileElement: HTMLElement = document.createElement('div');
-        fileElement.className = 'media';
-        fileElement.setAttribute('data-file-id', String(file.id));
-        fileElement.style.backgroundImage = `url(${fileUrl})`;
-
-        return fileElement;
-    }
-
-    /**
-     * Render a file in the media library.
-     * @param file The file to render.
-     * @private
-     */
-    private renderFileDomElement(file: FileObjectJson): HTMLElement {
-        let fileElement: HTMLElement = document.createElement('div');
-        fileElement.className = 'file';
-        fileElement.setAttribute('data-file-id', String(file.id));
-
-        let iconElement: HTMLElement = document.createElement('div');
-        iconElement.className = 'icon';
-
-        let icon: HTMLElement = document.createElement('i');
-        icon.className = 'fa-solid fa-file';
-
-        this.getFileTypeIcon(file.type).then((iconClassName: string) => {
-            icon.className = iconClassName;
-        });
-
-        iconElement.appendChild(icon);
-        fileElement.appendChild(iconElement);
-
-        let nameElement: HTMLElement = document.createElement('div');
-        nameElement.className = 'name';
-        nameElement.textContent = file.name;
-
-        fileElement.appendChild(nameElement);
-
-        return fileElement;
-    }
-
-    /**
      * Change the view layout of the media library.
      * @private
      */
@@ -373,7 +309,7 @@ class MediaLibrary {
         let childContainer: ChildContainer = new ChildContainer();
 
         for (const file of files) {
-            childContainer.addElement(this.fileObjectRenderingHandler(file));
+            childContainer.addElement(new MediaElement(file));
         }
 
         parentContainer.children.push(childContainer);
@@ -413,11 +349,11 @@ class MediaLibrary {
                 parentContainer.children.push(childContainer);
             }
 
-            let fileElement: HTMLElement = this.fileObjectRenderingHandler(file);
-            if(childContainer.hasElement(fileElement)) {
+            let fileMediaElement: MediaElement = new MediaElement(file);
+            if(childContainer.hasElement(fileMediaElement)) {
                 console.debug(`MediaLibrary: File ${file.id} is already in the media library`);
             }
-            childContainer.addElement(fileElement);
+            childContainer.addElement(fileMediaElement);
         }
 
         this.parentContainers = parentContainers;
@@ -434,23 +370,6 @@ class MediaLibrary {
             console.error("MediaUploadZone: CSRF token not found");
         }
         return csrfToken;
-    }
-
-    private async getFileTypeIcon(type: string): Promise<string> {
-        let icon = "";
-        for (const fileTypeIcon of this.fileTypeIcons) {
-            if (fileTypeIcon.type === type) {
-                icon = await fileTypeIcon.getIcon();
-            }
-        }
-
-        if (icon === "") {
-            const fileTypeIcon: FileTypeIcon = new FileTypeIcon(type);
-            this.fileTypeIcons.push(fileTypeIcon);
-            icon = await fileTypeIcon.getIcon();
-        }
-
-        return icon;
     }
 
     /**
@@ -515,7 +434,7 @@ class ParentContainer {
 }
 
 class ChildContainer {
-    private elements: HTMLElement[] = [];
+    private mediaElements: MediaElement[] = [];
     public readonly identifier: string | null;
     private readonly containerTitle: string | null;
 
@@ -527,12 +446,12 @@ class ChildContainer {
         }
     }
 
-    addElement(element: HTMLElement): void {
-        this.elements.push(element);
+    addElement(element: MediaElement): void {
+        this.mediaElements.push(element);
     }
 
-    hasElement(element: HTMLElement): boolean {
-        return this.elements.includes(element);
+    hasElement(element: MediaElement): boolean {
+        return this.mediaElements.includes(element);
     }
 
     render(): HTMLElement {
@@ -549,11 +468,140 @@ class ChildContainer {
         containerDiv.className = 'section-container';
         container.appendChild(containerDiv);
 
-        for (const element of this.elements) {
-            containerDiv.appendChild(element);
+        for (const element of this.mediaElements) {
+            containerDiv.appendChild(element.getElement());
         }
 
         return container;
+    }
+}
+
+class MediaElement {
+    private readonly element: HTMLElement;
+    private readonly fileObject: FileObjectJson;
+    public static fileTypeIcons: FileTypeIcon[] = [];
+
+    constructor(fileObject: FileObjectJson) {
+        this.fileObject = fileObject;
+        this.element = this.render();
+    }
+
+    private render(): HTMLElement {
+        let fileType: string = this.fileObject.type.split('/')[0];
+
+        if (fileType === 'image' && !MediaLibrary.excludeImagesMimeTypes.includes(this.fileObject.type)) {
+            return this.renderImageDomElement();
+        }
+        return this.renderFileDomElement();
+    }
+
+    public getElement(): HTMLElement {
+        return this.element;
+    }
+
+    /**
+     * This method creates the base dom element of a file, whether it's an image or not.
+     * @private
+     */
+    private renderBaseDomElement(): HTMLElement {
+        /* File element model
+        <div class="media-element type-media/type-file">
+            <div class="meta">
+                <div class="icon"><i class="fa-solid fa-file-pdf"></i></div>
+                <div class="name">RandomFile.pdf</div>
+                <div class="size">1.2 MB</div>
+            </div>
+        </div>*/
+
+        let mediaRootElement: HTMLElement = document.createElement('div');
+        mediaRootElement.className = 'media-element';
+        mediaRootElement.setAttribute('data-file-id', String(this.fileObject.id));
+        mediaRootElement.setAttribute('data-file-mime-type', this.fileObject.type);
+
+        let metaElement: HTMLElement = document.createElement('div');
+        metaElement.className = 'meta';
+        mediaRootElement.appendChild(metaElement);
+
+        let iconContainerElement: HTMLElement = document.createElement('div');
+        iconContainerElement.className = 'icon';
+
+        let iconElement: HTMLElement = document.createElement('i');
+        iconElement.className = 'fa-solid fa-file';
+
+        this.getFileTypeIcon(this.fileObject.type).then((iconClassName: string) => {
+            iconElement.className = iconClassName;
+        });
+
+        iconContainerElement.appendChild(iconElement);
+        metaElement.appendChild(iconContainerElement);
+
+        let nameElement: HTMLElement = document.createElement('div');
+        nameElement.className = 'name';
+        nameElement.textContent = this.fileObject.name;
+        nameElement.setAttribute('title', this.fileObject.name);
+        metaElement.appendChild(nameElement);
+
+        let sizeElement: HTMLElement = document.createElement('div');
+        sizeElement.className = 'size';
+        sizeElement.textContent = formatBytes(this.fileObject.size);
+        metaElement.appendChild(sizeElement);
+
+        return mediaRootElement;
+    }
+
+    /**
+     * Render an image media element.
+     * @private
+     */
+    private renderImageDomElement(): HTMLElement {
+        let baseDomElement: HTMLElement = this.renderBaseDomElement();
+
+        let filePath: string = this.fileObject.path;
+        if (this.fileObject.thumbnail_path !== null) {
+            filePath = this.fileObject.thumbnail_path;
+        }
+
+        let fileUrl: string = route('showcase.storage', {path: filePath})
+
+        baseDomElement.classList.add('type-image');
+        let iconElement: HTMLElement = baseDomElement.querySelector('.icon') as HTMLElement;
+        iconElement.innerHTML = '';
+        iconElement.style.backgroundImage = `url(${fileUrl})`;
+
+        return baseDomElement;
+    }
+
+    /**
+     * Render a file media element.
+     * @private
+     */
+    private renderFileDomElement(): HTMLElement {
+        let baseDomElement: HTMLElement = this.renderBaseDomElement();
+        baseDomElement.classList.add('type-file');
+
+        return baseDomElement;
+    }
+
+    /**
+     * Get the icon class name of a file type.
+     * @param type The type of the file.
+     * @private
+     */
+    private async getFileTypeIcon(type: string): Promise<string> {
+        let icon = "";
+        for (const fileTypeIcon of MediaElement.fileTypeIcons) {
+            if (fileTypeIcon.type === type) {
+                icon = await fileTypeIcon.getIcon();
+            }
+        }
+
+        if (icon === "") {
+            const fileTypeIcon: FileTypeIcon = new FileTypeIcon(type);
+            MediaElement.fileTypeIcons.push(fileTypeIcon);
+            icon = await fileTypeIcon.getIcon();
+        }
+
+        return icon;
     }
 }
 

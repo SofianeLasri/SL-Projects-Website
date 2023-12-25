@@ -85,9 +85,11 @@
                                 <h6>mardi 19 septembre</h6>
                                 <div class="section-container">
                                     @for($j = 0; $j < rand(1, 24); $j++)
-                                        <div class="file">
-                                            <div class="icon"><i class="fa-solid fa-file-pdf"></i></div>
-                                            <div class="name">RandomFile.pdf</div>
+                                        <div class="media-element">
+                                            <div class="meta">
+                                                <div class="icon"><i class="fa-solid fa-file-pdf"></i></div>
+                                                <div class="name">RandomFile.pdf</div>
+                                            </div>
                                         </div>
                                     @endfor
                                 </div>

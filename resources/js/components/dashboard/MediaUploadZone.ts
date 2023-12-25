@@ -1,6 +1,7 @@
 import route from 'ziggy-js';
 import md5 from "blueimp-md5";
 import {LaravelValidationError, MUZUploadedFileResponse} from "../../types";
+import {formatBytes} from "../../utils/helpers";
 
 type MediaUploadZoneEvents = "onChoosenFile" | "onFileUploaded" | "onAllFileUploaded";
 
@@ -444,7 +445,7 @@ class MediaUploadZone {
         if (fileElemSize === null) {
             throw new Error("MediaUploadZone: File size element not found");
         }
-        fileElemSize.innerText = this.formatBytes(size);
+        fileElemSize.innerText = formatBytes(size);
 
         await fetchPromise;
 
@@ -460,23 +461,6 @@ class MediaUploadZone {
             this.homeScreenElem.style.display = "";
             this.fileListElem.style.display = "none";
         }
-    }
-
-    /**
-     * Méthode appelée pour formater la taille d'un fichier
-     * @param size La taille du fichier en octets
-     * @returns {string} La taille formatée
-     */
-    formatBytes(size: number): string {
-        const units = ['o', 'Ko', 'Mo', 'Go', 'To'];
-        let unitIndex = 0;
-
-        while (size > 1024) {
-            size /= 1024;
-            unitIndex++;
-        }
-
-        return size.toFixed(2) + ' ' + units[unitIndex];
     }
 }
 

@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "sass:map";
 
 .media-library {
@@ -49,7 +50,7 @@
         }
     }
 
-    .medias.grid {
+    .medias {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
@@ -70,37 +71,113 @@
                     flex-direction: column;
                     gap: map.get($spacers, 2);
 
-                    .section-container {
-                        display: flex;
-                        flex-wrap: wrap;
-                        gap: map.get($spacers, 3);
 
-                        > * {
-                            $width: 8rem;
-                            border: $border-width solid $border-color;
-                            border-radius: $border-radius;
-                            width: $width;
-                            aspect-ratio: 1 / 1;
-                            cursor: pointer;
+                }
+            }
+        }
 
-                            &:hover {
-                                border-color: $primary;
+        .media-element {
+            overflow: hidden;
+            cursor: pointer;
+
+            .meta {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+
+                .icon {
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+            }
+        }
+
+        &.grid {
+            .section-container {
+                display: flex;
+                flex-wrap: wrap;
+                gap: map.get($spacers, 3);
+
+                .media-element {
+                    display: flex;
+
+                    $width: 8rem;
+                    border: $border-width solid $border-color;
+                    border-radius: $border-radius;
+                    width: $width;
+                    aspect-ratio: 1 / 1;
+
+                    &:hover {
+                        border-color: $primary;
+                    }
+
+                    &.type-image {
+                        .meta {
+                            position: relative;
+                            align-items: center;
+                            justify-content: flex-end;
+
+                            > * {
+                                display: none;
+                            }
+
+                            .icon {
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                right: 0;
+                                bottom: 0;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                font-size: 3rem;
+                                color: $gray-600;
+
+                                background-image: url('/resources/images/logos/og-logo-orange.jpg');
                             }
                         }
 
-                        .media {
-                            background-image: url('/resources/images/logos/og-logo-orange.jpg');
-                            background-size: cover;
-                            background-position: center;
-                            background-repeat: no-repeat;
+                        &:hover {
+                            .meta {
+                                .icon:after {
+                                    content: '';
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    right: 0;
+                                    bottom: 0;
+                                    background-color: color.adjust($dark, $alpha: -0.5);
+                                }
+
+                                .name {
+                                    display: inline-block;
+                                    height: 1.75rem;
+                                    flex-shrink: 0;
+                                    font-size: $small-font-size;
+                                    color: $white;
+                                    word-wrap: anywhere;
+                                    text-align: center;
+                                    overflow: hidden;
+                                    text-overflow: ellipsis;
+                                    white-space: nowrap;
+                                    width: 100%;
+                                    padding: 0 map.get($spacers, 1);
+                                    z-index: 10;
+                                }
+                            }
                         }
+                    }
 
-                        .file {
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            background-color: $light;
+                    &.type-file {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        background-color: $light;
 
+                        .meta {
                             > * {
                                 display: flex;
                                 align-items: center;
@@ -127,6 +204,59 @@
                                 width: 100%;
                                 padding: 0 map.get($spacers, 1);
                             }
+
+                            .size{
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &.list {
+            .section-container {
+                display: flex;
+                flex-direction: column;
+
+                .media-element {
+                    display: flex;
+                    align-items: center;
+                    padding: map.get($spacers, 1);
+
+                    &:nth-child(even) {
+                        background-color: $gray-100;
+                    }
+
+                    &:not(:last-child) {
+                        border-bottom: $border-width solid $border-color;
+                    }
+
+                    &:hover {
+                        background-color: $light;
+                    }
+
+                    .meta {
+                        flex-grow: 1;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: map.get($spacers, 1);
+
+                        .icon {
+                            font-size: 1rem;
+                            color: $gray-600;
+                            height: map.get($spacers, 4);
+                            aspect-ratio: 1;
+                            flex-shrink: 0;
+
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+
+                        .name {
+                            flex-grow: 1;
                         }
                     }
                 }
