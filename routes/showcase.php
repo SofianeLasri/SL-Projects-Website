@@ -20,5 +20,5 @@ Route::domain(config('app.domain.showcase'))->name('showcase.')->group(function 
             // Retourne une réponse 404 si le fichier n'existe pas
             abort(404);
         }
-    })->where('path', '.*')->name('storage');
+    })->where('path', '.*')->name('storage')->withoutMiddleware('web');
 });

@@ -70,8 +70,6 @@
                     display: flex;
                     flex-direction: column;
                     gap: map.get($spacers, 2);
-
-
                 }
             }
         }
@@ -101,6 +99,7 @@
                 flex-wrap: wrap;
                 gap: map.get($spacers, 3);
 
+                // In grid mode, media-element are shown in different ways
                 .media-element {
                     display: flex;
 
@@ -112,6 +111,23 @@
 
                     &:hover {
                         border-color: $primary;
+                    }
+
+                    .meta {
+                        .name {
+                            display: inline-block;
+                            height: 1.75rem;
+                            flex-shrink: 0;
+                            font-size: $small-font-size;
+                            color: $white;
+                            word-wrap: anywhere;
+                            text-align: center;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            width: 100%;
+                            padding: 0 map.get($spacers, 1);
+                        }
                     }
 
                     &.type-image {
@@ -138,6 +154,10 @@
 
                                 background-image: url('/resources/images/logos/og-logo-orange.jpg');
                             }
+
+                            .name {
+                                display: none;
+                            }
                         }
 
                         &:hover {
@@ -154,17 +174,6 @@
 
                                 .name {
                                     display: inline-block;
-                                    height: 1.75rem;
-                                    flex-shrink: 0;
-                                    font-size: $small-font-size;
-                                    color: $white;
-                                    word-wrap: anywhere;
-                                    text-align: center;
-                                    overflow: hidden;
-                                    text-overflow: ellipsis;
-                                    white-space: nowrap;
-                                    width: 100%;
-                                    padding: 0 map.get($spacers, 1);
                                     z-index: 10;
                                 }
                             }
@@ -190,22 +199,7 @@
                                 color: $gray-600;
                             }
 
-                            .name {
-                                display: inline-block;
-                                height: 1.75rem;
-                                flex-shrink: 0;
-                                font-size: $small-font-size;
-                                color: $dark;
-                                word-wrap: anywhere;
-                                text-align: center;
-                                overflow: hidden;
-                                text-overflow: ellipsis;
-                                white-space: nowrap;
-                                width: 100%;
-                                padding: 0 map.get($spacers, 1);
-                            }
-
-                            .size{
+                            .size {
                                 display: none;
                             }
                         }
@@ -219,6 +213,7 @@
                 display: flex;
                 flex-direction: column;
 
+                // On list mode, media-element are shown in the same way
                 .media-element {
                     display: flex;
                     align-items: center;
