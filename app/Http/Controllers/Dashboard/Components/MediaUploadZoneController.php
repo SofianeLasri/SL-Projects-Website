@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard\Components;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ConvertImageJob;
 use App\Models\FileUpload;
 use App\Models\PictureType;
 use Illuminate\Http\JsonResponse;
@@ -76,6 +77,7 @@ class MediaUploadZoneController extends Controller
                 }
                 $originalFileUpload->addToConversionQueue($typeName);
             }
+            // ConvertImageJob::dispatch();
         }
 
         return response()->json([

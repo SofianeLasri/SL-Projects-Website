@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Jobs\ConvertImageJob;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -110,6 +109,11 @@ class FileUpload extends Model
         return Storage::url($this->path);
     }
 
+    public function getFile(): string
+    {
+        return Storage::disk('ftp')->get($this->path);
+    }
+
     public function getPendingImageConversions(): HasMany
     {
         return $this->hasMany(PendingImageConversion::class);
@@ -144,7 +148,6 @@ class FileUpload extends Model
             'file_upload_id' => $this->id,
             'type' => $conversionType,
         ]);
-        ConvertImageJob::dispatch($this, $conversionType);
     }
 
     /**
@@ -157,7 +160,18 @@ class FileUpload extends Model
     public function convertImage(string $conversionType): void
     {
         Log::debug('Converting image '.$this->filename.' to '.$conversionType);
-        $image = Image::make($this->getFileUrl());
+        try {
+            $image = Image::make($this->getFile());
+        } catch (\Exception $e) {
+            Log::error('Error while converting image', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
+
         $config = config('app.fileupload.images.'.$conversionType);
         $width = $config['width'];
         $height = $config['height'];
@@ -178,10 +192,17 @@ class FileUpload extends Model
         }
 
         $newFilename = $this->checkFileName($uploadFolder, Str::beforeLast($filename, '.').'_'.$conversionType.'.'.$format);
-        $store = Storage::disk('ftp')->put($uploadFolder.$newFilename, $image->__toString());
 
-        if (! $store) {
-            throw new \Exception('Error while storing image');
+        try {
+            Storage::disk('ftp')->put($uploadFolder.$newFilename, $image->__toString());
+        } catch (\Exception $e) {
+            Log::error('Error while storing image', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
         }
 
         $fileUpload = new FileUpload();
@@ -221,6 +242,7 @@ class FileUpload extends Model
 
         if (in_array(pathinfo($newFilename, PATHINFO_BASENAME), $existingFiles)) {
             Log::debug('File '.$newFilename.' already exists in folder '.$folder);
+
             return self::checkFileName($folder, $filename, $iteration + 1);
         }
 

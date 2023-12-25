@@ -69,7 +69,7 @@ return [
             'transferMode' => FTP_BINARY,
             'ssl' => true,
             'timeout' => 30,
-            'throw' => false,
+            'throw' => true,
             'url' => getWebsiteUrl('showcase').'/storage',
             'visibility' => 'public',
         ],

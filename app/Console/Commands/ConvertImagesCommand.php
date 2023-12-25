@@ -15,11 +15,9 @@ class ConvertImagesCommand extends Command
 
     public function handle(): void
     {
-        $imagesToConvert = PendingImageConversion::get();
+        $imagesToConvert = PendingImageConversion::count();
 
-        $this->info("Starting to convert {$imagesToConvert->count()} images");
-        foreach ($imagesToConvert as $image) {
-            ConvertImageJob::dispatch($image->fileUpload, $image->type);
-        }
+        $this->info("Starting to convert $imagesToConvert images");
+        ConvertImageJob::dispatch();
     }
 }
