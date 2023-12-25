@@ -115,7 +115,7 @@
 
                     .meta {
                         .name {
-                            display: inline-block;
+                            display: inline-block!important;
                             height: 1.75rem;
                             flex-shrink: 0;
                             font-size: $small-font-size;
@@ -191,6 +191,10 @@
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
+                            }
+
+                            .name {
+                                color: $body-color;
                             }
 
                             .icon {

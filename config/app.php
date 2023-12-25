@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'locale' => 'fr-FR',
+    'locale' => 'fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -296,6 +296,7 @@ return [
             'image/vnd.adobe.photoshop'
         ],
         'max_size' => 50, // In MB
+        'folder_cache_key' => 'fileupload_folders.',
     ],
 
     /*

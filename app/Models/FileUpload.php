@@ -213,13 +213,13 @@ class FileUpload extends Model
      */
     public static function checkFileName(string $folder, string $filename, int $iteration = 0): string
     {
-        $cacheKey = 'folder-content.'.md5($folder);
+        $cacheKey = config('app.fileupload.folder_cache_key').md5($folder);
 
         $existingFiles = Cache::has($cacheKey) ? Cache::get($cacheKey) : self::refreshCache($folder);
 
         $newFilename = $iteration === 0 ? $filename : Str::beforeLast($filename, '.').'-'.$iteration.'.'.Str::afterLast($filename, '.');
 
-        if (in_array(pathinfo($newFilename, PATHINFO_FILENAME), $existingFiles)) {
+        if (in_array(pathinfo($newFilename, PATHINFO_BASENAME), $existingFiles)) {
             Log::debug('File '.$newFilename.' already exists in folder '.$folder);
             return self::checkFileName($folder, $filename, $iteration + 1);
         }
@@ -234,13 +234,13 @@ class FileUpload extends Model
      */
     public static function refreshCache(string $folder): array
     {
-        $cacheKey = 'folder-content.'.md5($folder);
+        $cacheKey = config('app.fileupload.folder_cache_key').md5($folder);
 
         Cache::forget($cacheKey);
 
         return Cache::remember($cacheKey, 120, function () use ($folder) {
             return collect(Storage::disk('ftp')->files($folder))->map(function ($path) {
-                return pathinfo($path, PATHINFO_FILENAME);
+                return pathinfo($path, PATHINFO_BASENAME);
             })->toArray();
         });
     }

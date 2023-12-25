@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Showcase;
+
+use App\Http\Controllers\Controller;
 
 class VitrineController extends Controller
 {
