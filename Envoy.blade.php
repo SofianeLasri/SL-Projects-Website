@@ -56,8 +56,10 @@ ln -nfs {{ $new_release_dir }} {{ $app_dir }}/current
 
 @task('migration')
 cd {{ $new_release_dir }}
+php artisan down
 echo "Migrating the database"
 php artisan migrate --force
 echo "Clearing cache"
 php artisan optimize:clear
+php artisan up
 @endtask
