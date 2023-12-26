@@ -42,7 +42,7 @@
             <p>Je m'intéresse beaucoup à la création de jeux vidéos.</p>
 
             <div class="links mt-3 d-flex gap-2 flex-wrap">
-                <a href="https://1drv.ms/b/s!Atk178NpnuLmg8UgVBq-olbfisT0KQ?e=wiqcM0"
+                <a href="https://1drv.ms/b/s!Atk178NpnuLmhJoiwLEN2FRww-mGcA?e=I1kL8w"
                    class="btn btn-primary rounded-pill"
                    target="_blank"
                    title="Télécharger mon CV"><i class="fa-solid fa-file-pdf"></i> Télécharger mon CV</a>
