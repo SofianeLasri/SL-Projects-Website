@@ -3,87 +3,101 @@
 @section('pageName', 'Gestionnaire de fichiers')
 
 @section('breadcrumbHeaderContent')
-    <x-button id="uploadMedia" type="button" class="btn-primary" data-bs-toggle="modal" data-bs-target="#mediaUploadModal">
+    <x-button id="uploadMedia" type="button" class="btn-primary" data-bs-toggle="modal"
+              data-bs-target="#mediaUploadModal">
         Envoyer un média
     </x-button>
 @endsection
 
 @section('pageContent')
-    <div class="px-3 py-2 media-library">
-        <div class="filters d-flex flex-column gap-4">
+    <div class="px-3 py-2 media-library" id="mediaLibrary">
+        <div class="filters">
             <h4>Filtres</h4>
             <div class="content">
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
-                    <div class="fw-bold">Types</div>
+                    <h6>Types</h6>
                     <x-button type="button"
-                              class="text-start btn-primary"
-                              role="filter"
-                              data-filter="all"
-                              aria-selected="true"
-                    >Tous les médias</x-button>
+                              class="text-start"
+                              role="filter-by-type"
+                              data-filter-by-type="all"
+                    >Tous les médias
+                    </x-button>
                     <x-button type="button"
-                              class="text-start btn-white"
-                              role="filter"
-                              data-filter="images"
-                    >Images</x-button>
+                              class="text-start"
+                              role="filter-by-type"
+                              data-filter-by-type="image"
+                    >Images
+                    </x-button>
                     <x-button type="button"
-                              class="text-start btn-white"
-                              role="filter"
-                              data-filter="videos"
-                    >Vidéos</x-button>
+                              class="text-start"
+                              role="filter-by-type"
+                              data-filter-by-type="video"
+                    >Vidéos
+                    </x-button>
                     <x-button type="button"
-                              class="text-start btn-white"
-                              role="filter"
-                              data-filter="files"
-                    >Fichiers</x-button>
+                              class="text-start"
+                              role="filter-by-type"
+                              data-filter-by-type="other"
+                    >Autres
+                    </x-button>
                 </div>
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
-                    <div class="fw-bold">Affichage</div>
+                    <h6>Affichage</h6>
                     <x-button type="button"
-                              class="text-start btn-white"
+                              class="text-start"
                               role="view"
                               data-view="list"
-                    >Liste</x-button>
+                    >Liste
+                    </x-button>
                     <x-button type="button"
                               class="text-start btn-primary"
                               role="view"
                               data-view="grid"
                               aria-selected="true"
-                    >Grille</x-button>
+                    >Grille
+                    </x-button>
                 </div>
                 <div class="d-flex flex-column flex-shrink-0 gap-2">
-                    <div class="fw-bold">Regrouper</div>
+                    <h6>Regrouper</h6>
                     <x-button type="button"
-                              class="text-start btn-white"
+                              class="text-start"
                               role="group"
                               data-group="none"
-                    >Ne pas regrouper</x-button>
+                    >Ne pas regrouper
+                    </x-button>
                     <x-button type="button"
                               class="text-start btn-primary"
                               role="group"
                               data-group="date"
                               aria-selected="true"
-                    >Par date</x-button>
-                    <x-button type="button"
-                              class="text-start btn-white"
-                              role="group"
-                              data-group="type"
-                    >Par type</x-button>
+                    >Par date
+                    </x-button>
                 </div>
             </div>
         </div>
-        <div class="medias d-flex flex-column flex-grow-1">
-            <div class="d-flex flex-column gap-4">
-                <h4>Septembre</h4>
-                <div class="d-flex flex-column gap-3">
-                    <div class="d-flex flex-column gap-2">
-                        <div class="fw-bold">mardi 19 septembre</div>
-                        <div class="d-flex flex-wrap gap-3">
-
-                        </div>
+        <div class="medias" id="mediaLibraryMedias">
+            {{--@for($i = 0; $i < rand(1, 4); $i++)
+                <div class="parent-section">
+                    <h4>Septembre</h4>
+                    <div class="parent-section-container">
+                        @for($j = 0; $j < rand(1, 5); $j++)
+                            <div class="section">
+                                <h6>mardi 19 septembre</h6>
+                                <div class="section-container">
+                                    @for($j = 0; $j < rand(1, 24); $j++)
+                                        <div class="media-element">
+                                            <div class="meta">
+                                                <div class="icon"><i class="fa-solid fa-file-pdf"></i></div>
+                                                <div class="name">RandomFile.pdf</div>
+                                            </div>
+                                        </div>
+                                    @endfor
+                                </div>
+                            </div>
+                        @endfor
                     </div>
                 </div>
-            </div>
+            @endfor--}}
         </div>
     </div>
 
@@ -100,7 +114,7 @@
                     </x-button>
                 </div>
                 <div class="modal-body">
-                    <x-dashboard.media-upload-zone />
+                    <x-dashboard.media-upload-zone/>
                 </div>
             </div>
         </div>
@@ -110,5 +124,16 @@
 @push('scripts')
     <script type="module">
         const mediaUploadZone = new MediaUploadZone();
+        mediaUploadZone.setDebug({{ config('app.debug') ? 'true' : 'false' }});
+
+        const mediaLibrary = new MediaLibrary();
+        mediaLibrary.setTranslation('all-files', 'Tous les médias');
+        mediaLibrary.setDebug({{ config('app.debug') ? 'true' : 'false' }});
+        mediaLibrary.initialize();
+
+        mediaUploadZone.on('onAllFileUploaded', (file) => {
+            console.log('All files uploaded we can refresh the media library');
+            mediaLibrary.refresh();
+        });
     </script>
 @endpush

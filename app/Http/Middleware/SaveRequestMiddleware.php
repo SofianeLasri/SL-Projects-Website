@@ -2,25 +2,26 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\IpAdress;
-use App\Models\Request as RequestModel;
-use App\Models\UserIpAddress;
+use App\Jobs\SaveRequestsJob;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
 class SaveRequestMiddleware
 {
-    private RequestModel $savedRequest;
-
     public function handle(Request $request, Closure $next)
     {
-        $savedIp = IpAdress::firstOrCreate([
-            'ip' => $request->ip(),
-        ]);
+        return $next($request);
+    }
 
-        $this->savedRequest = new RequestModel([
-            'ip_adress_id' => $savedIp->id,
+    public function terminate(Request $request, Response $response): void
+    {
+        $uniqueId = uniqid();
+        $cacheKey = "request_{$uniqueId}";
+
+        $serializedRequest = [
+            'ip' => $request->ip(),
             'country_code' => $request->header('CF-IPCountry'),
             'url' => $request->fullUrl(),
             'method' => $request->method(),
@@ -29,25 +30,16 @@ class SaveRequestMiddleware
             'origin' => $request->header('origin'),
             'content_type' => $request->header('content-type'),
             'content_length' => $request->header('content-length'),
+            'status_code' => $response->getStatusCode(),
             'user_id' => $request->user()?->id,
-        ]);
-        $this->savedRequest->save();
+        ];
 
-        // Si l'utilisateur est connecté
-        if ($request->user()) {
-            $userIdAdress = new UserIpAddress([
-                'user_id' => $request->user()->id,
-                'ip_adress_id' => $savedIp->id,
-            ]);
-            $userIdAdress->save();
-        }
+        Cache::remember($cacheKey, 60 * 24, function () use ($serializedRequest) {
+            return $serializedRequest;
+        });
 
-        return $next($request);
-    }
-
-    public function terminate(Request $request, Response $response): void
-    {
-        $this->savedRequest->status_code = $response->getStatusCode();
-        $this->savedRequest->save();
+        $requests = Cache::get('requests', []);
+        $requests[] = $cacheKey;
+        Cache::put('requests', $requests, 60 * 24);
     }
 }

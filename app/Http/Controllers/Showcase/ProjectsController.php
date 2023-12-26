@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Showcase;
 
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 
 class ProjectsController extends Controller

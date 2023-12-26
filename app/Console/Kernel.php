@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('convert:images')->everyFiveMinutes();
+        $schedule->command('save:requests')->everyMinute();
     }
 
     /**

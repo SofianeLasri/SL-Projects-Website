@@ -1,9 +1,13 @@
 class FormValidator {
+    private fields: Map<any, any>;
+    private validatedCallback: (() => void) | null;
+    private invalidatedCallback: (() => void) | null;
+
     /**
      * Create a new FormValidator instance.
      * @param fieldNames An array of field names to validate.
      */
-    constructor(fieldNames) {
+    constructor(fieldNames: string[]) {
         this.fields = new Map();
         this.validatedCallback = null;
         this.invalidatedCallback = null;
@@ -18,7 +22,7 @@ class FormValidator {
      * @param fieldName
      * @param validate If true, the form will be validated if all fields are valid.
      */
-    changeField(fieldName, validate = false) {
+    changeField(fieldName: string, validate: boolean = false) {
         if (this.fields.has(fieldName)) {
             this.fields.set(fieldName, validate);
             this.checkValidation();
@@ -29,7 +33,7 @@ class FormValidator {
      * Define a callback to be called when the form is validated.
      * @param callback
      */
-    onValidated(callback) {
+    onValidated(callback: () => void): void {
         this.validatedCallback = callback;
     }
 
@@ -37,7 +41,7 @@ class FormValidator {
      * Define a callback to be called when the form is invalidated.
      * @param callback
      */
-    onInvalidated(callback) {
+    onInvalidated(callback: () => void) {
         this.invalidatedCallback = callback;
     }
 

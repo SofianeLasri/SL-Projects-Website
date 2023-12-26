@@ -104,7 +104,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'en-US',
 
     /*
     |--------------------------------------------------------------------------
@@ -289,7 +289,15 @@ return [
                 'quality' => 99,
                 'format' => 'webp',
             ],
-        ]
+        ],
+        'excluded_image_types' => [
+            'image/gif',
+            'image/svg+xml',
+            'image/vnd.adobe.photoshop'
+        ],
+        'max_size' => 50, // In MB
+        'folder_cache_key' => 'fileupload_folders.',
+        'cache_max_age' => 60 * 60 * 24 * 365, // 1 year
     ],
 
     /*
@@ -298,7 +306,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Définition des différentes versions de navigateurs supportées.
-    | Modern est basé sur le support de la propriété CSS 'aspect-ratio'.
+    | Modern est basé sur le support de la propriété CSS 'aspect-ratio' et des images avif.
     | Legacy est basé sur le support officiel de la propriété CSS 'flex'.
     | 'others' est au format 'dd/mm/yyyy' et représente une date safe pour le support
     |
@@ -317,10 +325,10 @@ return [
         'modern' => [
             'chrome' => 88,
             'edge' => 88,
-            'firefox' => 89,
+            'firefox' => 93,
             'ie' => null,
             'opera' => 74,
-            'safari' => 15,
+            'safari' => 17,
             'others' => '01/10/2021',
         ],
     ]

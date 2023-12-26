@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Jobs\ConvertImageJob;
 use App\Models\PendingImageConversion;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class ConvertImagesCommand extends Command
 {
@@ -14,10 +15,9 @@ class ConvertImagesCommand extends Command
 
     public function handle(): void
     {
-        $imagesToConvert = PendingImageConversion::get();
+        $imagesToConvert = PendingImageConversion::count();
 
-        foreach ($imagesToConvert as $image) {
-            ConvertImageJob::dispatch($image->fileUpload, $image->type);
-        }
+        $this->info("Starting to convert $imagesToConvert images");
+        ConvertImageJob::dispatch();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -23,24 +24,74 @@ class FileUpload extends Model
         'size',
     ];
 
+    /**
+     * Get the query builder for the files in the given folder.
+     *
+     * @param  string|null  $type The type of the files to get.
+     * @param  bool  $originalFilesOnly Whether to get only original files or all files.
+     * @param  string  $path The path to get the files from.
+     * @return Builder The query builder.
+     */
+    public static function getUploadQB(?string $type, bool $originalFilesOnly, string $path): Builder
+    {
+        $query = self::query();
+        $query->select('file_uploads.*');
+
+        if ($type) {
+            if ($type === 'other') {
+                $query->where('file_uploads.type', 'not like', 'image/%');
+                $query->where('file_uploads.type', 'not like', 'video/%');
+                $query->where('file_uploads.type', 'not like', 'audio/%');
+            } else {
+                $query->where('file_uploads.type', 'like', $type.'/%');
+            }
+        }
+
+        if ((is_null($type) || $type === 'image') && $originalFilesOnly) {
+            $query->where(function ($query) {
+                $query->whereHas('pictureType', function ($query) {
+                    $query->where('type', PictureType::TYPE_ORIGINAL);
+                })->orWhereDoesntHave('pictureType');
+            });
+
+            // Jointure avec la table picture_types pour récupérer le chemin du fichier de prévisualisation
+            $query->leftJoin('picture_types as thumbnail_variant', function ($join) {
+                $join->on('file_uploads.id', '=', 'thumbnail_variant.original_file_upload_id')
+                    ->where('thumbnail_variant.type', '=', PictureType::TYPE_THUMBNAIL);
+            });
+            $query->leftJoin('file_uploads as thumbnail_variant_file_upload', 'thumbnail_variant_file_upload.id', '=', 'thumbnail_variant.file_upload_id');
+
+            $query->addSelect('thumbnail_variant_file_upload.path as thumbnail_path');
+        }
+
+        $query->where('file_uploads.path', 'like', $path.'%');
+
+        return $query;
+    }
+
+    public function pictureType(): HasOne
+    {
+        return $this->hasOne(PictureType::class);
+    }
+
     public function getVariantsIfPicture(): HasMany
     {
         return $this->hasMany(PictureType::class, 'original_file_upload_id');
     }
 
-    public function getThumbnailVariant(): HasOne
+    public function getThumbnailVariants(): HasMany
     {
-        return $this->hasOne(PictureType::class)->where('type', 'thumbnail');
+        return $this->hasMany(PictureType::class)->where('type', PictureType::TYPE_THUMBNAIL);
     }
 
-    public function getSmallVariant(): HasOne
+    public function getSmallVariants(): HasMany
     {
-        return $this->hasOne(PictureType::class)->where('type', 'small');
+        return $this->hasMany(PictureType::class)->where('type', PictureType::TYPE_SMALL);
     }
 
-    public function getMediumVariant(): HasOne
+    public function getMediumVariants(): HasMany
     {
-        return $this->hasOne(PictureType::class)->where('type', 'medium');
+        return $this->hasMany(PictureType::class)->where('type', PictureType::TYPE_MEDIUM);
     }
 
     public function getLargeVariant(): HasOne
@@ -58,9 +109,32 @@ class FileUpload extends Model
         return Storage::url($this->path);
     }
 
+    public function getFile(): string
+    {
+        return Storage::disk('ftp')->get($this->path);
+    }
+
     public function getPendingImageConversions(): HasMany
     {
         return $this->hasMany(PendingImageConversion::class);
+    }
+
+    public function isImage(): bool
+    {
+        return Str::before($this->type, '/') === 'image';
+    }
+
+    public function isOriginalImage(): bool
+    {
+        if (! $this->isImage()) {
+            return false;
+        }
+
+        if ($this->pictureType()->exists()) {
+            return $this->pictureType->type === 'original';
+        }
+
+        return false;
     }
 
     public function addToConversionQueue(string $conversionType): void
@@ -69,16 +143,35 @@ class FileUpload extends Model
             return;
         }
 
-        Log::info('Adding '.$this->filename.' to conversion queue: '.$conversionType);
+        Log::debug('Adding '.$this->filename.' to conversion queue: '.$conversionType);
         PendingImageConversion::create([
             'file_upload_id' => $this->id,
             'type' => $conversionType,
         ]);
     }
 
-    public function convertImage(string $conversionType)
+    /**
+     * Convert the image to the given conversion type.
+     *
+     * @param  string  $conversionType The conversion type to convert the image to.
+     *
+     * @throws \Exception
+     */
+    public function convertImage(string $conversionType): void
     {
-        $image = Image::make($this->getFileUrl());
+        Log::debug('Converting image '.$this->filename.' to '.$conversionType);
+        try {
+            $image = Image::make($this->getFile());
+        } catch (\Exception $e) {
+            Log::error('Error while converting image', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
+
         $config = config('app.fileupload.images.'.$conversionType);
         $width = $config['width'];
         $height = $config['height'];
@@ -99,10 +192,17 @@ class FileUpload extends Model
         }
 
         $newFilename = $this->checkFileName($uploadFolder, Str::beforeLast($filename, '.').'_'.$conversionType.'.'.$format);
-        $store = Storage::disk('ftp')->put($uploadFolder.$newFilename, $image->__toString());
 
-        if (! $store) {
-            throw new \Exception('Error while storing image');
+        try {
+            Storage::disk('ftp')->put($uploadFolder.$newFilename, $image->__toString());
+        } catch (\Exception $e) {
+            Log::error('Error while storing image', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
         }
 
         $fileUpload = new FileUpload();
@@ -134,13 +234,15 @@ class FileUpload extends Model
      */
     public static function checkFileName(string $folder, string $filename, int $iteration = 0): string
     {
-        $cacheKey = 'folder-content.'.md5($folder);
+        $cacheKey = self::gerenateFolderCacheKey($folder);
 
         $existingFiles = Cache::has($cacheKey) ? Cache::get($cacheKey) : self::refreshCache($folder);
 
         $newFilename = $iteration === 0 ? $filename : Str::beforeLast($filename, '.').'-'.$iteration.'.'.Str::afterLast($filename, '.');
 
-        if (in_array(pathinfo($newFilename, PATHINFO_FILENAME), $existingFiles)) {
+        if (in_array(pathinfo($newFilename, PATHINFO_BASENAME), $existingFiles)) {
+            Log::debug('File '.$newFilename.' already exists in folder '.$folder);
+
             return self::checkFileName($folder, $filename, $iteration + 1);
         }
 
@@ -154,14 +256,67 @@ class FileUpload extends Model
      */
     public static function refreshCache(string $folder): array
     {
-        $cacheKey = 'folder-content.'.md5($folder);
+        Log::debug('Refreshing cache for folder: '.$folder);
+        $cacheKey = self::gerenateFolderCacheKey($folder);
 
         Cache::forget($cacheKey);
 
         return Cache::remember($cacheKey, 120, function () use ($folder) {
             return collect(Storage::disk('ftp')->files($folder))->map(function ($path) {
-                return pathinfo($path, PATHINFO_FILENAME);
+                return pathinfo($path, PATHINFO_BASENAME);
             })->toArray();
         });
+    }
+
+    /**
+     * Generate the cache key for the specified folder.
+     *
+     * @param  string  $folder The folder for which to generate the cache key.
+     */
+    public static function gerenateFolderCacheKey(string $folder): string
+    {
+        if (Str::endsWith($folder, '/')) {
+            $folder = Str::beforeLast($folder, '/');
+        }
+
+        return config('app.fileupload.folder_cache_key').md5($folder);
+    }
+
+    /**
+     * Get the files in the given folder, based on database records.
+     *
+     * @param  string  $path The path to get the files from.
+     * @param  string|null  $type The type of the files to get.
+     * @param  bool  $originalFilesOnly Whether to get only original files or all files.
+     * @param  int  $offset The offset of the files to get.
+     * @param  int  $limit The limit of the files to get.
+     * @param  string  $order The order of the files to get.
+     * @return array The files.
+     */
+    public static function getFiles(string $path = '/', ?string $type = null, bool $originalFilesOnly = true, int $offset = 0, int $limit = 20, string $order = 'desc'): array
+    {
+        $query = self::getUploadQB($type, $originalFilesOnly, $path);
+        $query->orderBy('file_uploads.created_at', $order);
+        $query->offset($offset);
+        $query->limit($limit);
+
+        $files = $query->get();
+
+        return $files->toArray();
+    }
+
+    /**
+     * Get the picture type associated with the file upload.
+     *
+     * @param  string  $path The path to get the files from.
+     * @param  string|null  $type The type of the files to get.
+     * @param  bool  $originalFilesOnly Whether to get only original files or all files.
+     * @return int The number of files.
+     */
+    public static function getFilesCount(string $path = '/', ?string $type = null, bool $originalFilesOnly = false): int
+    {
+        $query = self::getUploadQB($type, $originalFilesOnly, $path);
+
+        return $query->count();
     }
 }

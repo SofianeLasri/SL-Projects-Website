@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "importHelpers": true,
+    "paths": {
+      "ziggy-js": [
+        "./vendor/tightenco/ziggy"
+      ]
+    }
+  },
+  "include": [
+    "resources/**/*.ts",
+    "resources/**/*.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

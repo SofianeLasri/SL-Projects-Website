@@ -2,10 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Models\FileUpload;
+use App\Models\PendingImageConversion;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -15,19 +14,16 @@ class ConvertImageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected BelongsTo|FileUpload $fileUpload;
-
-    protected string $conversionType;
-
-    public function __construct(BelongsTo|FileUpload $fileUpload, $conversionType)
+    public function __construct()
     {
-        $this->fileUpload = $fileUpload;
-        $this->conversionType = $conversionType;
     }
 
     public function handle(): void
     {
-        Log::info('Converting image '.$this->fileUpload->filename.' to '.$this->conversionType);
-        $this->fileUpload->convertImage($this->conversionType);
+        $imagesToConvert = PendingImageConversion::get();
+        foreach ($imagesToConvert as $image) {
+            Log::debug('Converting image '.$image->fileUpload->filename.' to '.$image->type);
+            $image->fileUpload->convertImage($image->type);
+        }
     }
 }

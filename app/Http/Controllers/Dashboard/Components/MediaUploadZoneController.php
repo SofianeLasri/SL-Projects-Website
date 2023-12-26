@@ -3,22 +3,20 @@
 namespace App\Http\Controllers\Dashboard\Components;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ConvertImageJob;
 use App\Models\FileUpload;
 use App\Models\PictureType;
-use App\View\Components\Dashboard\MediaUploadZoneFile;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Image;
 
 class MediaUploadZoneController extends Controller
 {
-    public function findIcon(Request $request): string
+    public function findIcon(Request $request): JsonResponse
     {
         $request->validate([
             'type' => 'required|string',
@@ -27,33 +25,45 @@ class MediaUploadZoneController extends Controller
         $type = $request->input('type');
 
         if (array_key_exists($type, config('global-ui.fa-file-types-icons'))) {
-            return config('global-ui.fa-file-types-icons')[$type];
+            return response()->json([
+                'icon' => config('global-ui.fa-file-types-icons')[$type],
+            ]);
         }
 
         $shortMimeType = Str::before($type, '/');
         if (array_key_exists($shortMimeType, config('global-ui.fa-file-types-icons'))) {
-            return config('global-ui.fa-file-types-icons')[$shortMimeType];
+            return response()->json([
+                'icon' => config('global-ui.fa-file-types-icons')[$shortMimeType],
+            ]);
         }
 
-        return config('global-ui.fa-file-types-icons.default');
+        return response()->json([
+            'icon' => config('global-ui.fa-file-types-icons.default'),
+        ]);
     }
 
     public function uploadFile(Request $request): JsonResponse
     {
         $request->validate([
-            'file' => 'required|file',
+            'file' => 'required|file|max:'.config('app.fileupload.max_size', 10).'000',
         ]);
 
         $file = $request->file('file');
 
         $uploadFolder = '/'.Carbon::now()->format('Y/m/d').'/';
-        $filename = FileUpload::checkFileName($uploadFolder, $file->getClientOriginalName());
+        $slugifiedFilename = Str::slug(Str::beforeLast($file->getClientOriginalName(), '.')).'.'.$file->getClientOriginalExtension();
+        $filename = FileUpload::checkFileName($uploadFolder, $slugifiedFilename);
+
+        Log::debug('Upload file to FTP', [
+            'uploadFolder' => $uploadFolder,
+            'filename' => $filename,
+        ]);
 
         Storage::disk('ftp')->putFileAs($uploadFolder, $file, $filename);
         $fileType = $file->getMimeType();
         $originalFileUpload = $this->saveFileUpload($file, $uploadFolder, $filename, $fileType);
 
-        if (Str::before($fileType, '/') === 'image') {
+        if (Str::before($fileType, '/') === 'image' && ! in_array('image', config('app.fileupload.excluded_image_types', $fileType))) {
             // We will create PictureType instance for original file
             $originalPictureType = new PictureType([
                 'file_upload_id' => $originalFileUpload->id,
@@ -67,6 +77,7 @@ class MediaUploadZoneController extends Controller
                 }
                 $originalFileUpload->addToConversionQueue($typeName);
             }
+            // ConvertImageJob::dispatch();
         }
 
         return response()->json([

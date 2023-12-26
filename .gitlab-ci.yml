@@ -16,6 +16,7 @@ default:
 stages:
   - test
   - deploy
+  - purgecache
 
 unit_test:
   stage: test
@@ -44,3 +45,14 @@ deploy_production:
   when: on_success
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+
+purgecache:
+  image: docker:stable
+  stage: purgecache
+  before_script:
+    - apk add --update curl && rm -rf /var/cache/apk/*
+  script:
+    - |
+      curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+      -H "Authorization: Bearer $CF_API_TOKEN" \
+      -H "Content-Type:application/json"
