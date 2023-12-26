@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: column;
     gap: map.get($spacers, 4);
+    min-height: 0;
     $filter-width: 16rem;
 
     .filters {
@@ -55,6 +56,7 @@
         flex-direction: column;
         flex-grow: 1;
         gap: map.get($spacers, 3);
+        overflow-y: auto;
 
         .parent-section {
             display: flex;
