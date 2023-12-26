@@ -42,7 +42,6 @@ npm run build
 echo "Linking storage directory"
 rm -rf {{ $new_release_dir }}/storage
 ln -nfs {{ $app_dir }}/storage {{ $new_release_dir }}/storage
-chmod -R 775 {{ $app_dir }}/storage
 
 echo "Linking bootstrap/cache directory"
 rm -rf {{ $new_release_dir }}/bootstrap/cache
