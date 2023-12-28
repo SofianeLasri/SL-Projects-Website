@@ -32,7 +32,6 @@
         </div>
 
         <h5>Contenu</h5>
-        <x-dashboard.tinymce name="content"/>
     </form>
 @endsection
 
