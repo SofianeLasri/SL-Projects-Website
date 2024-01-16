@@ -18,10 +18,16 @@ return new class extends Migration
     {
         Schema::create('picture_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(FileUpload::class, 'file_upload_id');
-            $table->foreignIdFor(FileUpload::class, 'original_file_upload_id')->nullable();
+            $table->foreignIdFor(FileUpload::class, 'file_upload_id')
+                ->constrained(table: 'file_uploads')
+                ->cascadeOnDelete();
+            $table->foreignIdFor(FileUpload::class, 'original_file_upload_id')
+                ->nullable()
+                ->constrained(table: 'file_uploads')
+                ->cascadeOnDelete();
             $table->enum('type', ['thumbnail', 'small', 'medium', 'large', 'original']);
             $table->timestamps();
+
         });
     }
 

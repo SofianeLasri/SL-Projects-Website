@@ -16,7 +16,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('file_uploads', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->string('filename')->unique();

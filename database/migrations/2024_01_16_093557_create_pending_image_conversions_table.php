@@ -18,7 +18,9 @@ return new class extends Migration
     {
         Schema::create('pending_image_conversions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(FileUpload::class);
+            $table->foreignIdFor(FileUpload::class)
+                ->constrained(table: 'file_uploads')
+                ->cascadeOnDelete();
             $table->enum('type', ['thumbnail', 'small', 'medium', 'large', 'original']);
             $table->timestamps();
         });
