@@ -8,7 +8,12 @@ return new class extends Migration
 {
     protected $connection = 'main';
 
-    public function up(): void
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
     {
         Schema::create('urls', function (Blueprint $table) {
             $table->id();
@@ -16,7 +21,12 @@ return new class extends Migration
         });
     }
 
-    public function down(): void
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
     {
         Schema::dropIfExists('urls');
     }

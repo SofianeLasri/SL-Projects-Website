@@ -6,23 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up(): void
+    protected $connection = 'main';
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
     {
         Schema::create('session_access_tokens', function (Blueprint $table) {
-            $mainDbName = DB::connection('main')->getDatabaseName();
-
             $table->id();
-            $table->string('session_id');
+            $table->string('session_id')->index('session_access_tokens_session_id_foreign');
             $table->dateTime('expires_at');
             $table->string('token')->unique();
             $table->timestamps();
-
-            $table->foreign('session_id')->references('id')->on("$mainDbName.sessions")
-                ->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
-    public function down(): void
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
     {
         Schema::dropIfExists('session_access_tokens');
     }

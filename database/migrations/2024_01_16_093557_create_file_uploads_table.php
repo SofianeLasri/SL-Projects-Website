@@ -8,21 +8,30 @@ return new class extends Migration
 {
     protected $connection = 'main';
 
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::create('file_uploads', function (Blueprint $table) {
-            $table->integer('id', true, true);
+            $table->increments('id');
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->string('filename')->unique();
             $table->string('path');
             $table->string('type');
             $table->bigInteger('size');
-
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::dropIfExists('file_uploads');

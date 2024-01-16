@@ -5,11 +5,16 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePendingImageConversionsTable extends Migration
+return new class extends Migration
 {
     protected $connection = 'main';
 
-    public function up(): void
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
     {
         Schema::create('pending_image_conversions', function (Blueprint $table) {
             $table->id();
@@ -19,8 +24,13 @@ class CreatePendingImageConversionsTable extends Migration
         });
     }
 
-    public function down(): void
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
     {
         Schema::dropIfExists('pending_image_conversions');
     }
-}
+};
