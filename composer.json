@@ -20,7 +20,8 @@
         "livewire/livewire": "v3.0.0-beta.7",
         "predis/predis": "^2.2",
         "spatie/url": "^2.2",
-        "tightenco/ziggy": "^1.6"
+        "tightenco/ziggy": "^1.6",
+        "ext-ftp": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
