@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\TranslationKey;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('translations', function (Blueprint $table) {
             $table->id();
-            $table->string('index');
+            $table->foreignIdFor(TranslationKey::class)
+                ->constrained(table: 'translations_indices')
+                ->cascadeOnDelete();
             $table->enum('country_code', ['FR', 'EN']);
             $table->text('message');
         });

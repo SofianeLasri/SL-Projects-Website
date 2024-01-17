@@ -12,8 +12,9 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->dateTime('started_at');
             $table->dateTime('ended_at')->nullable();
             $table->timestamps();

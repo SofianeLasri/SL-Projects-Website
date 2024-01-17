@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(FileUpload::class)
                 ->constrained(table: "$mainConnectionDbName.file_uploads")
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
             $table->string('ratio');
         });
     }
