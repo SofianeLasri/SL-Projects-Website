@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreignIdFor(FileUpload::class)
                 ->nullable()
                 ->constrained(table: "$mainConnectionDbName.file_uploads")
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
             $table->string('link')->nullable();
             $table->foreignIdFor(TranslationKey::class, 'name_translation_index')
                 ->constrained(table: "$mainConnectionDbName.translations_indices")

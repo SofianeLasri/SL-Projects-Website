@@ -18,17 +18,17 @@ return new class extends Migration
 
             $table->id();
             $table->foreignIdFor(ProjectBuildingBlocGroup::class, 'group_id')
-                ->constrained()
+                ->constrained(table: 'projects_building_blocs_groups')
                 ->cascadeOnDelete();
             $table->enum('type', ['text', 'fileupload', 'youtube']);
-            $table->string('translation_index')->nullable();
             $table->foreignIdFor(TranslationKey::class, 'translation_index')
+                ->nullable()
                 ->constrained(table: "$mainConnectionDbName.translations_indices")
                 ->restrictOnDelete();
             $table->foreignIdFor(FileUpload::class)
                 ->nullable()
                 ->constrained(table: "$mainConnectionDbName.file_uploads")
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
             $table->string('youtube_url')->nullable();
         });
     }
