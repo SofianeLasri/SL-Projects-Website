@@ -163,13 +163,9 @@ class FileUpload extends Model
         try {
             $image = Image::make($this->getFile());
         } catch (\Exception $e) {
-            Log::error('Error while converting image', [
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-            throw $e;
+            $this->removeFromConversionQueueAndPlaceToUnprocessable($conversionType, 'Error while converting image', $e);
+
+            return;
         }
 
         $config = config('app.fileupload.images.'.$conversionType);
@@ -196,13 +192,9 @@ class FileUpload extends Model
         try {
             Storage::disk('ftp')->put($uploadFolder.$newFilename, $image->__toString());
         } catch (\Exception $e) {
-            Log::error('Error while storing image', [
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-            throw $e;
+            $this->removeFromConversionQueueAndPlaceToUnprocessable($conversionType, 'Error while storing image', $e);
+
+            return;
         }
 
         $fileUpload = new FileUpload();
@@ -220,6 +212,33 @@ class FileUpload extends Model
         $pictureType->original_file_upload_id = $this->id;
         $pictureType->type = $conversionType;
         $pictureType->save();
+
+        $this->getPendingImageConversions()->where('type', $conversionType)->delete();
+    }
+
+    private function removeFromConversionQueueAndPlaceToUnprocessable(string $conversionType, string $logMessage, \Exception $e): void
+    {
+        Log::warning($logMessage, [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'trace' => $e->getTraceAsString(),
+        ]);
+        Log::info('Removing '.$this->filename.' ID '.$this->id.' from conversion queue: '.$conversionType);
+
+        $unprocessableFileUpload = UnprocessableFileUpload::where('file_upload_id', $this->id);
+
+        if (! $unprocessableFileUpload->exists()) {
+            UnprocessableFileUpload::create([
+                'file_upload_id' => $this->id,
+                'reason' => $e->getMessage(),
+                'task' => UnprocessableFileUpload::TASK_CONVERSION,
+            ]);
+        } else {
+            $unprocessableFileUpload = $unprocessableFileUpload->first();
+            $unprocessableFileUpload->reason = $e->getMessage();
+            $unprocessableFileUpload->save();
+        }
 
         $this->getPendingImageConversions()->where('type', $conversionType)->delete();
     }

@@ -16,7 +16,7 @@ class ProjectBuildingBloc extends Model
         'group_id',
         'type',
         'translation_index',
-        'fileupload_id',
+        'file_upload_id',
         'youtube_url',
     ];
 }

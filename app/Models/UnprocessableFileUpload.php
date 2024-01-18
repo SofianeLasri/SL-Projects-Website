@@ -4,15 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TranslationKey extends Model
+class UnprocessableFileUpload extends Model
 {
     protected $connection = 'main';
-
-    public $timestamps = false;
-
-    protected $table = 'translations_indices';
-
+    const TASK_CONVERSION = 'conversion';
     protected $fillable = [
-        'key',
+        'file_upload_id',
+        'reason',
+        'task',
     ];
 }

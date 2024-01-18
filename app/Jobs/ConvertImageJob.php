@@ -22,7 +22,6 @@ class ConvertImageJob implements ShouldQueue
     {
         $imagesToConvert = PendingImageConversion::get();
         foreach ($imagesToConvert as $image) {
-            Log::debug('Converting image '.$image->fileUpload->filename.' to '.$image->type);
             $image->fileUpload->convertImage($image->type);
         }
     }

@@ -13,7 +13,7 @@ class ProjectMedia extends Model
     protected $fillable = [
         'display_order',
         'type',
-        'fileupload_id',
+        'file_upload_id',
         'link',
         'project_id',
     ];

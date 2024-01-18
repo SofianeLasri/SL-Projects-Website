@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Cache;
 
 class UserAgent extends Model
 {
+    protected $connection = 'main';
+
     public $timestamps = false;
 
     protected $fillable = [

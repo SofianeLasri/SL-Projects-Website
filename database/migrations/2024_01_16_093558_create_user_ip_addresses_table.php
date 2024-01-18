@@ -6,8 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     protected $connection = 'main';
 
     /**
@@ -19,8 +18,12 @@ return new class extends Migration
     {
         Schema::create('user_ip_addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
-            $table->foreignIdFor(IpAdress::class);
+            $table->foreignIdFor(User::class)
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->foreignIdFor(IpAdress::class)
+                ->constrained()
+                ->restrictOnDelete();
             $table->timestamps();
         });
     }
