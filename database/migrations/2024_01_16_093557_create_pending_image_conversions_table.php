@@ -22,6 +22,7 @@ return new class extends Migration
                 ->constrained(table: 'file_uploads')
                 ->cascadeOnDelete();
             $table->enum('type', ['thumbnail', 'small', 'medium', 'large', 'original']);
+            $table->enum('status', ['pending', 'processing'])->default('pending');
             $table->timestamps();
         });
     }

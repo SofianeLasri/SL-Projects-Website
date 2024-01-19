@@ -154,8 +154,6 @@ class FileUpload extends Model
      * Convert the image to the given conversion type.
      *
      * @param  string  $conversionType The conversion type to convert the image to.
-     *
-     * @throws \Exception
      */
     public function convertImage(string $conversionType): void
     {
