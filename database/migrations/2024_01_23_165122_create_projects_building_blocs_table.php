@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\FileUpload;
+use App\Models\Showcase\ProjectBuildingBlocFileUploadAssembly;
 use App\Models\Showcase\ProjectBuildingBlocGroup;
 use App\Models\TranslationKey;
 use Illuminate\Database\Migrations\Migration;
@@ -20,14 +20,14 @@ return new class extends Migration
             $table->foreignIdFor(ProjectBuildingBlocGroup::class, 'group_id')
                 ->constrained(table: 'projects_building_blocs_groups')
                 ->cascadeOnDelete();
-            $table->enum('type', ['text', 'fileupload', 'youtube']);
-            $table->foreignIdFor(TranslationKey::class, 'translation_index')
+            $table->enum('type', ['text', 'fileupload_assembly', 'youtube']);
+            $table->foreignIdFor(TranslationKey::class, 'translation_id')
                 ->nullable()
                 ->constrained(table: "$mainConnectionDbName.translations_indices")
                 ->restrictOnDelete();
-            $table->foreignIdFor(FileUpload::class)
+            $table->foreignIdFor(ProjectBuildingBlocFileUploadAssembly::class, 'file_upload_assembly_id')
                 ->nullable()
-                ->constrained(table: "$mainConnectionDbName.file_uploads")
+                ->constrained(table: 'pbb_fu_assemblies')
                 ->restrictOnDelete();
             $table->string('youtube_url')->nullable();
         });

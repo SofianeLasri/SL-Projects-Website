@@ -15,8 +15,8 @@ class ProjectBuildingBloc extends Model
     protected $fillable = [
         'group_id',
         'type',
-        'translation_index',
-        'file_upload_id',
+        'translation_id',
+        'file_upload_assembly_id',
         'youtube_url',
     ];
 }

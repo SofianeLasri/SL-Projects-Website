@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\FileUpload;
-use App\Models\Showcase\Project;
+use App\Models\Showcase\ProjectBuildingBlocFileUploadAssembly;
 use App\Models\TranslationKey;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,29 +13,30 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('project_media', function (Blueprint $table) {
+        Schema::create('pbb_fu_assemblies_ent', function (Blueprint $table) {
             $mainConnectionDbName = config('database.connections.main.database');
 
             $table->id();
-            $table->foreignIdFor(Project::class)
-                ->constrained()
-                ->cascadeOnDelete();
-            $table->integer('display_order');
-            $table->enum('type', ['fileupload', 'link']);
-            $table->foreignIdFor(FileUpload::class)
-                ->nullable()
-                ->constrained(table: "$mainConnectionDbName.file_uploads")
+            $table->foreignIdFor(ProjectBuildingBlocFileUploadAssembly::class, 'file_upload_assembly_id')
+                ->constrained(table: 'pbb_fu_assemblies')
                 ->restrictOnDelete();
-            $table->string('link')->nullable();
+            $table->integer('display_order');
+            $table->foreignIdFor(FileUpload::class)
+                ->constrained(table: "$mainConnectionDbName.file_uploads")
+                ->cascadeOnDelete();
             $table->foreignIdFor(TranslationKey::class, 'name_translation_id')
+                ->nullable()
                 ->constrained(table: "$mainConnectionDbName.translations_indices")
                 ->restrictOnDelete();
-            $table->timestamps();
+            $table->foreignIdFor(TranslationKey::class, 'description_translation_id')
+                ->nullable()
+                ->constrained(table: "$mainConnectionDbName.translations_indices")
+                ->restrictOnDelete();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('project_media');
+        Schema::dropIfExists('project_building_bloc_file_upload_assembly_entities');
     }
 };

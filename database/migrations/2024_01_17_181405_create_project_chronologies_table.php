@@ -11,15 +11,15 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('project_chronologies', function (Blueprint $table) {
+        Schema::create('projects_chronology', function (Blueprint $table) {
             $mainConnectionDbName = config('database.connections.main.database');
 
             $table->id();
             $table->date('date');
-            $table->foreignIdFor(TranslationKey::class, 'name_translation_index')
+            $table->foreignIdFor(TranslationKey::class, 'name_translation_id')
                 ->constrained(table: "$mainConnectionDbName.translations_indices")
                 ->restrictOnDelete();
-            $table->foreignIdFor(TranslationKey::class, 'description_translation_index')
+            $table->foreignIdFor(TranslationKey::class, 'description_translation_id')
                 ->constrained(table: "$mainConnectionDbName.translations_indices")
                 ->restrictOnDelete();
         });
