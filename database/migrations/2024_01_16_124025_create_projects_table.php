@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\TranslationKey;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,12 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('projects', function (Blueprint $table) {
+            $mainConnectionDbName = config('database.connections.main.database');
+
             $table->id();
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
             $table->string('name');
             $table->string('slug')->unique();
-            $table->dateTime('started_at');
-            $table->dateTime('ended_at')->nullable();
+            $table->text('description')->nullable();
+            $table->foreignIdFor(TranslationKey::class, 'content_translation_id')
+                ->constrained(table: "$mainConnectionDbName.translations_indices")
+                ->restrictOnDelete();
+            $table->enum('release_status', ['running', 'finished', 'cancelled'])->default('running');
+            $table->date('started_at');
+            $table->date('ended_at')->nullable();
             $table->timestamps();
         });
     }

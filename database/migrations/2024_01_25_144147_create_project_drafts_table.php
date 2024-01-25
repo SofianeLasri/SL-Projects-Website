@@ -11,17 +11,23 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('projects_building_blocs_groups', function (Blueprint $table) {
+        Schema::create('project_drafts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('order');
             $table->foreignIdFor(Project::class)
                 ->constrained()
                 ->cascadeOnDelete();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->unsignedBigInteger('content_translation_id');
+            $table->string('release_status');
+            $table->date('started_at');
+            $table->date('ended_at')->nullable();
+            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('projects_building_blocs_groups');
+        Schema::dropIfExists('project_drafts');
     }
 };

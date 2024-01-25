@@ -4,13 +4,11 @@ namespace App\Models\Showcase;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class ProjectDraft extends Model
 {
-    protected $connection = 'showcase';
-
     protected $fillable = [
+        'project_id',
         'name',
-        'slug',
         'description',
         'content_translation_id',
         'release_status',
