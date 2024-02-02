@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Project::class)
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->integer('display_order');
+            $table->unsignedInteger('display_order');
             $table->enum('type', ['fileupload', 'link']);
             $table->foreignIdFor(FileUpload::class)
                 ->nullable()

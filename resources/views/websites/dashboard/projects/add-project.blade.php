@@ -15,26 +15,47 @@
 @endsection
 
 @section('pageContent')
-    <form class="p-3" method="post" id="addProjectForm">
-        <div class="row mb-3">
-            <div class="col-lg-6">
-                <h5>Informations générales</h5>
-                <p class="d-none" id="projectSlugShowUp">Permalien : {{ getWebsiteUrl('showcase') }}</p>
-                <x-input id="projectNameInput" name="name" label="Nom du projet" placeholder="Entrez le nom du projet"
-                         class="mb-2"/>
-                <x-textarea name="description" label="Description du projet"
-                            placeholder="Entrez la description du projets" rows="2" validation="valid"
-                            feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
+    <div class="d-flex p-3">
+        <x-dashboard.steps-group-list
+            title="Étapes"
+            :steps="[
+                [
+                    'id' => 'generalInformations',
+                    'title' => 'Informations générales',
+                    'active' => true
+                ],
+                [
+                    'id' => 'content',
+                    'title' => 'Contenu'
+                ],
+                [
+                    'id' => 'chronology',
+                    'title' => 'Chronologie'
+                ]
+            ]"
+            :use-check-icon="true" />
+        <form class="ps-3 flex-grow-1" method="post" id="addProjectForm">
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                    <h5>Informations générales</h5>
+                    <p class="d-none" id="projectSlugShowUp">Permalien : {{ getWebsiteUrl('showcase') }}</p>
+                    <x-input id="projectNameInput" name="name" label="Nom du projet" placeholder="Entrez le nom du projet"
+                             class="mb-2"/>
+                    <x-textarea name="description" label="Description du projet"
+                                placeholder="Entrez la description du projets" rows="2" validation="valid"
+                                feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
+                </div>
+                <div class="col-lg-6">
+                    <h5>Illustrations du projet</h5>
+                </div>
             </div>
-            <div class="col-lg-6">
-                <h5>Illustrations du projet</h5>
-            </div>
-        </div>
 
-        <h5>Contenu</h5>
-    </form>
+            <h5>Contenu</h5>
+        </form>
+    </div>
 @endsection
 
+@vite('resources/js/components/dashboard/Editor.ts')
 @push('scripts')
     <script type="module">
         const websiteUrl = '{{ getWebsiteUrl('showcase') }}';

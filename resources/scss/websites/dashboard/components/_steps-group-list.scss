@@ -1,0 +1,26 @@
+@use "sass:color";
+@use "sass:map";
+
+.steps-group-list {
+    width: 16rem;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+
+    .btn {
+        i {
+            margin-right: map.get($spacers, 1);
+            color: $gray-600;
+        }
+
+        &.active {
+            border: $primary solid $border-width;
+        }
+
+        &.done {
+            i {
+                color: $primary;
+            }
+        }
+    }
+}
