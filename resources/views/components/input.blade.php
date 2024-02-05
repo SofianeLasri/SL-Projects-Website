@@ -106,6 +106,7 @@
                 input;
                 validation;
                 feedbackElement;
+                alwaysHasValuesTypes = ['date'];
 
                 constructor(input) {
                     this.input = input
@@ -117,23 +118,27 @@
 
                 init() {
                     // On intialise l'input
-                    this.input.addEventListener('focus', () => {
+                    if (this.alwaysHasValuesTypes.includes(this.input.type)) {
                         this.input.parentNode.classList.add('has-value');
-                    });
+                    } else {
+                        this.input.addEventListener('focus', () => {
+                            this.input.parentNode.classList.add('has-value');
+                        });
 
-                    this.input.addEventListener('blur', event => {
-                        // On vérifie si l'input a une valeur
-                        if (event.target.value) {
-                            // On ajoute la classe "has-value" au parent du parent de l'input
-                            event.target.parentNode.classList.add('has-value');
-                        } else {
-                            // On retire la classe "has-value" au parent du parent de l'input
-                            event.target.parentNode.classList.remove('has-value');
+                        this.input.addEventListener('blur', event => {
+                            // On vérifie si l'input a une valeur
+                            if (event.target.value) {
+                                // On ajoute la classe "has-value" au parent du parent de l'input
+                                event.target.parentNode.classList.add('has-value');
+                            } else {
+                                // On retire la classe "has-value" au parent du parent de l'input
+                                event.target.parentNode.classList.remove('has-value');
+                            }
+                        });
+
+                        if (this.input.value) {
+                            this.input.parentNode.classList.add('has-value');
                         }
-                    });
-
-                    if (this.input.value) {
-                        this.input.parentNode.classList.add('has-value');
                     }
 
                     // Maintenant on regarde ses particularités
@@ -167,13 +172,13 @@
                     this.validation = validation;
                     this.fieldset.classList.remove('is-valid', 'is-invalid');
 
-                    if(this.validation === 'valid') {
+                    if (this.validation === 'valid') {
                         this.fieldset.classList.add('is-valid');
-                    } else if(this.validation === 'invalid') {
+                    } else if (this.validation === 'invalid') {
                         this.fieldset.classList.add('is-invalid');
                     }
 
-                    if(feedback === '' || feedback === undefined) {
+                    if (feedback === '' || feedback === undefined) {
                         this.feedbackElement.classList.add('d-none');
                     } else {
                         this.feedbackElement.classList.remove('d-none');
