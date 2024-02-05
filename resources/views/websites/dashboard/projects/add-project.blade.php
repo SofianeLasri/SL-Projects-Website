@@ -37,12 +37,12 @@
         <form class="ps-3 flex-grow-1" method="post" id="addProjectForm">
             <div class="row mb-3">
                 <div class="col-lg-6">
-                    <h5>Informations générales</h5>
+                    <h5>Identité</h5>
                     <p class="d-none" id="projectSlugShowUp">Permalien : {{ getWebsiteUrl('showcase') }}</p>
                     <x-input id="projectNameInput" name="name" label="Nom du projet" placeholder="Entrez le nom du projet"
-                             class="mb-2"/>
+                             class="mb-2" required/>
                     <x-textarea name="description" label="Description du projet"
-                                placeholder="Entrez la description du projets" rows="2" validation="valid"
+                                placeholder="Entrez la description du projets" rows="2" validation="valid" required
                                 feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
                 </div>
                 <div class="col-lg-6">
@@ -50,7 +50,23 @@
                 </div>
             </div>
 
-            <h5>Contenu</h5>
+            <h5>Dates clés</h5>
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                    <x-input type="date" name="startDate" label="Date de début" class="mb-2" required/>
+                    <select class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <x-input type="date" name="endDate" label="Date de fin" class="mb-2"/>
+                </div>
+            </div>
+
+            <h5></h5>
         </form>
     </div>
 @endsection

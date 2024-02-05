@@ -80,7 +80,7 @@
                 </button>
             </span>
 
-            <div class="feedback{{ empty($feedback) ? ' d-none' : '' }}">
+            <div class="feedback {{ empty($feedback) ? ' d-none' : '' }}">
                 {{ html_entity_decode($feedback ?? '') }}
             </div>
         @else
