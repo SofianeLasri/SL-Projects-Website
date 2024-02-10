@@ -15,10 +15,9 @@
 @endsection
 
 @section('pageContent')
-    <div class="d-flex p-3">
-        <x-dashboard.steps-group-list
-            title="Étapes"
-            :steps="[
+    <x-dashboard.steps-group-list
+        title="Étapes"
+        :steps="[
                 [
                     'id' => 'generalInformations',
                     'title' => 'Informations générales',
@@ -33,42 +32,53 @@
                     'title' => 'Chronologie'
                 ]
             ]"
-            :use-check-icon="true" />
-        <form class="ps-3 flex-grow-1" method="post" id="addProjectForm">
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    <h5>Identité</h5>
-                    <p class="d-none" id="projectSlugShowUp">Permalien : {{ getWebsiteUrl('showcase') }}</p>
-                    <x-input id="projectNameInput" name="name" label="Nom du projet" placeholder="Entrez le nom du projet"
-                             class="mb-2" required/>
-                    <x-textarea name="description" label="Description du projet"
-                                placeholder="Entrez la description du projets" rows="2" validation="valid" required
-                                feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
+        :use-check-icon="true" >
+        <form method="post" id="addProjectForm">
+            @csrf
+            <div id="generalInformations">
+                <div class="row">
+                    <div class="col-xl-6 mb-3">
+                        <h5>Identité</h5>
+                        <p class="d-none" id="projectSlugShowUp">Permalien : {{ getWebsiteUrl('showcase') }}</p>
+                        <x-input id="projectNameInput" name="name" label="Nom du projet" placeholder="Entrez le nom du projet"
+                                 class="mb-2" required/>
+                        <x-textarea name="description" label="Description du projet"
+                                    placeholder="Entrez la description du projets" rows="2" validation="valid" required
+                                    feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
+                    </div>
+                    <div class="col-xl-6 mb-3">
+                        <h5>Illustrations du projet</h5>
+                        <x-input type="number" name="square-cover" label="ID Fileupload cover carrée" class="mb-2"/>
+                        <x-input type="number" name="dvd-cover" label="ID Fileupload cover dvd" class="mb-2"/>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                    <h5>Illustrations du projet</h5>
-                </div>
-            </div>
 
-            <h5>Dates clés</h5>
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    <x-input type="date" name="startDate" label="Date de début" class="mb-2" required/>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
+                <h5>Dates clés</h5>
+                <div class="row">
+                    <div class="col-xl-6 mb-3">
+                        <x-input type="date" name="startDate" label="Date de début" class="mb-2" required/>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Status du projet</option>
+                            @foreach(\App\Models\Showcase\Project::STATUS_ENUMS as $status)
+                                <option value="{{ $status }}">{{ $status }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-xl-6 mb-3">
+                        <x-input type="date" name="endDate" label="Date de fin" class="mb-2"/>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                    <x-input type="date" name="endDate" label="Date de fin" class="mb-2"/>
-                </div>
-            </div>
 
-            <h5></h5>
+                <h5></h5>
+            </div>
+            <div id="content" class="d-none">
+
+            </div>
+            <div id="chronology" class="d-none">
+
+            </div>
         </form>
-    </div>
+    </x-dashboard.steps-group-list>
 @endsection
 
 @vite('resources/js/components/dashboard/Editor.ts')
@@ -76,7 +86,7 @@
     <script type="module">
         const websiteUrl = '{{ getWebsiteUrl('showcase') }}';
 
-        const projectCreationFieldsName = ['name', 'description', 'categories'];
+        const projectCreationFieldsName = ['name', 'description'];
         const formValidator = new FormValidator(projectCreationFieldsName);
 
         const projectNameInput = document.getElementById('projectNameInput');

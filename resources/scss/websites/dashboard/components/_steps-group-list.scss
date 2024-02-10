@@ -1,26 +1,45 @@
 @use "sass:color";
 @use "sass:map";
 
-.steps-group-list {
-    width: 16rem;
+.step-group-list-container {
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
+    gap: map.get($spacers, 3);
+    padding: map.get($spacers, 3);
 
-    .btn {
-        i {
-            margin-right: map.get($spacers, 1);
-            color: $gray-600;
-        }
+    .steps-group-list {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
 
-        &.active {
-            border: $primary solid $border-width;
-        }
-
-        &.done {
+        .btn {
             i {
-                color: $primary;
+                margin-right: map.get($spacers, 1);
+                color: $gray-600;
+            }
+
+            &.active {
+                border: $primary solid $border-width;
+            }
+
+            &.done {
+                i {
+                    color: $primary;
+                }
             }
         }
     }
+
+    .steps-group-content {
+        flex-grow: 1;
+    }
+
+    @include media-breakpoint-up(lg) {
+        flex-direction: row;
+
+        .steps-group-list {
+            width: 16rem;
+        }
+    }
 }
+
