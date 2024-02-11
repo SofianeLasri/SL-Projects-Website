@@ -11,20 +11,53 @@
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
+        gap: map.get($spacers, 2);
+        background-color: $gray-100;
+        padding: map.get($spacers, 2);
+        border: $border-width solid $border-color;
+        border-radius: $border-radius;
 
-        .btn {
-            i {
-                margin-right: map.get($spacers, 1);
-                color: $gray-600;
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+
+            h5 {
+                margin: 0;
+            }
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: map.get($spacers, 2);
+
+            &.hide {
+                display: none;
             }
 
-            &.active {
-                border: $primary solid $border-width;
-            }
-
-            &.done {
+            .btn {
                 i {
-                    color: $primary;
+                    margin-right: map.get($spacers, 1);
+                    color: $gray-600;
+                }
+
+                &.done {
+                    i {
+                        color: $primary;
+                    }
+                }
+
+                &.active {
+                    background-color: $primary;
+                    color: $white;
+
+                    &.done {
+                        i {
+                            color: $white;
+                        }
+                    }
                 }
             }
         }
@@ -39,6 +72,15 @@
 
         .steps-group-list {
             width: 16rem;
+            height: fit-content;
+
+            .top {
+                cursor: default !important;
+
+                .mobile-dropdown {
+                    display: none;
+                }
+            }
         }
     }
 }
