@@ -8,17 +8,20 @@ use InvalidArgumentException;
 
 class StepsGroupList extends Component
 {
+    public string $id;
+
     public array $steps;
 
     public string $title;
 
     public bool $useCheckIcon;
 
-    public function __construct(array $steps, string $title, bool $useCheckIcon = false)
+    public function __construct(array $steps, string $title, bool $useCheckIcon = false, ?string $id = null)
     {
         $this->steps = $steps;
         $this->title = $title;
         $this->useCheckIcon = $useCheckIcon;
+        $this->id = $id ?? uniqid('stepGroupList_');
 
         $this->validateSteps($steps);
     }

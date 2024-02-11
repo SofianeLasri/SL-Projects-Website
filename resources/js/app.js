@@ -5,6 +5,7 @@ import FormValidator from "@/utils/form-validator";
 import MediaUploadZone from "@/components/dashboard/MediaUploadZone";
 import MediaLibrary from "@/pages/dashboard/MediaLibrary";
 import Notification from "@/components/Notification";
+import StepsGroupsList from "@/components/dashboard/StepsGroupsList";
 
 import.meta.glob([
     '../images/**',
@@ -16,3 +17,4 @@ window.FormValidator = FormValidator;
 window.MediaUploadZone = MediaUploadZone;
 window.MediaLibrary = MediaLibrary;
 window.Notification = Notification;
+window.StepsGroupsList = StepsGroupsList;
