@@ -72,7 +72,8 @@
                 <h5></h5>
             </div>
             <div id="content" class="d-none">
-
+                <h5>Éditeur</h5>
+                <div id="editor"></div>
             </div>
             <div id="chronology" class="d-none">
 
@@ -81,7 +82,6 @@
     </x-dashboard.steps-group-list>
 @endsection
 
-@vite('resources/js/components/dashboard/Editor.ts')
 @push('scripts')
     <script type="module">
         const websiteUrl = '{{ getWebsiteUrl('showcase') }}';
@@ -155,5 +155,14 @@
         document.addEventListener("DOMContentLoaded", (event) => {
             generateSlugAndVerifySlugAndProjectName();
         });
+
+        const editor = new TuiEditor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical'
+        });
+
+        editor.getMarkdown();
     </script>
 @endpush

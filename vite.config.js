@@ -22,7 +22,6 @@ export default defineConfig({
                 'resources/scss/websites/dashboard/dashboard.scss',
                 'resources/scss/websites/sofianelasri/sofianelasri.scss',
                 'resources/js/app.js',
-                'resources/js/components/dashboard/Editor.ts'
             ],
             refresh: true,
         }),
