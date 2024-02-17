@@ -59,7 +59,7 @@
                         <x-input type="date" name="startDate" label="Date de début" class="mb-2" required/>
                         <select class="form-select" aria-label="Default select example">
                             <option selected>Status du projet</option>
-                            @foreach(\App\Models\Showcase\Project::STATUS_ENUMS as $status)
+                            @foreach(\App\Models\Showcase\Project::RELEASE_STATUS_ENUMS  as $status)
                                 <option value="{{ $status }}">{{ $status }}</option>
                             @endforeach
                         </select>
