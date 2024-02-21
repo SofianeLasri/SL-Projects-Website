@@ -32,6 +32,9 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
                     Route::any('/find-icon', [MediaUploadZoneController::class, 'findIcon'])->name('find-icon');
                     Route::post('/upload-file', [MediaUploadZoneController::class, 'uploadFile'])->name('upload-file');
                 });
+                Route::name('media-library.')->prefix('media-library')->group(function () {
+                    Route::get('/media-element-html', [MediaLibraryController::class, 'getMediaElementHtml'])->name('media-element-html');
+                });
             });
         });
 

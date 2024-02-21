@@ -82,6 +82,8 @@ class MediaLibrary {
         this.addButtonEventListeners("view", 'grid');
         this.addButtonEventListeners("group", 'date');
 
+        this.defineKeyboardEventListeners();
+
         this.getParameters();
     }
 
@@ -275,7 +277,7 @@ class MediaLibrary {
      * @private
      */
     private reRenderFiles(): void {
-        if(this.debug) console.log('MediaLibrary: Re-rendering files');
+        if (this.debug) console.log('MediaLibrary: Re-rendering files');
         this.mediaLibraryElement.innerHTML = '';
         this.parentContainers = [];
         this.renderFiles();
@@ -296,7 +298,7 @@ class MediaLibrary {
      * @private
      */
     private renderFiles(files: Array<FileObjectJson> = this.files) {
-        if(this.debug) console.log('MediaLibrary: Rendering files');
+        if (this.debug) console.log('MediaLibrary: Rendering files');
         if (this.groupBy === 'none') {
             this.renderFilesWithoutGroup(files);
         } else if (this.groupBy === 'date') {
@@ -304,7 +306,7 @@ class MediaLibrary {
         }
     }
 
-    private renderFilesWithoutGroup(files: Array<FileObjectJson>) {
+    private async renderFilesWithoutGroup(files: Array<FileObjectJson>): Promise<void> {
         let parentContainer: ParentContainer = new ParentContainer('all', this.translation['all-files']);
         let childContainer: ChildContainer = new ChildContainer();
 
@@ -315,10 +317,10 @@ class MediaLibrary {
         parentContainer.children.push(childContainer);
         this.parentContainers.push(parentContainer);
 
-        this.mediaLibraryElement.appendChild(parentContainer.render());
+        this.mediaLibraryElement.appendChild(await parentContainer.render());
     }
 
-    private renderFilesGroupedByDate(files: Array<FileObjectJson>) {
+    private async renderFilesGroupedByDate(files: Array<FileObjectJson>): Promise<void> {
         let parentContainers: ParentContainer[] = [];
 
         // Here, parent containers represents the months, and child containers represents the days.
@@ -350,7 +352,7 @@ class MediaLibrary {
             }
 
             let fileMediaElement: MediaElement = new MediaElement(file);
-            if(childContainer.hasElement(fileMediaElement)) {
+            if (childContainer.hasElement(fileMediaElement)) {
                 console.debug(`MediaLibrary: File ${file.id} is already in the media library`);
             }
             childContainer.addElement(fileMediaElement);
@@ -358,7 +360,7 @@ class MediaLibrary {
 
         this.parentContainers = parentContainers;
         for (const parentContainer of parentContainers) {
-            this.mediaLibraryElement.appendChild(parentContainer.render());
+            this.mediaLibraryElement.appendChild(await parentContainer.render());
         }
     }
 
@@ -396,7 +398,15 @@ class MediaLibrary {
     public refresh(): void {
         this.resetFiles();
         this.getFiles();
-        if(this.debug) console.log('MediaLibrary: Refreshed');
+        if (this.debug) console.log('MediaLibrary: Refreshed');
+    }
+
+    private defineKeyboardEventListeners(): void {
+        document.addEventListener('keydown', (event: KeyboardEvent): void => {
+            if (event.ctrlKey) {
+                console.log('MediaLibrary: Ctrl key pressed');
+            }
+        });
     }
 }
 
@@ -413,7 +423,7 @@ class ParentContainer {
         }
     }
 
-    render(): HTMLElement {
+    async render(): Promise<HTMLElement> {
         const container = document.createElement('div');
         container.className = 'parent-section';
 
@@ -426,7 +436,7 @@ class ParentContainer {
         container.appendChild(containerDiv);
 
         for (const child of this.children) {
-            containerDiv.appendChild(child.render());
+            containerDiv.appendChild(await child.render());
         }
 
         return container;
@@ -454,7 +464,7 @@ class ChildContainer {
         return this.mediaElements.includes(element);
     }
 
-    render(): HTMLElement {
+    async render(): Promise<HTMLElement> {
         const container = document.createElement('div');
         container.className = 'section';
 
@@ -469,41 +479,69 @@ class ChildContainer {
         container.appendChild(containerDiv);
 
         for (const element of this.mediaElements) {
-            containerDiv.appendChild(element.getElement());
+            containerDiv.appendChild(await element.getElement());
         }
+
+        container.addEventListener('click', (event: Event): void => {
+            console.log('MediaLibrary: Media element clicked');
+        });
 
         return container;
     }
 }
 
 class MediaElement {
-    private readonly element: HTMLElement;
     private readonly fileObject: FileObjectJson;
     public static fileTypeIcons: FileTypeIcon[] = [];
+    public static baseDomElement: HTMLElement;
 
     constructor(fileObject: FileObjectJson) {
         this.fileObject = fileObject;
-        this.element = this.render();
     }
 
-    private render(): HTMLElement {
+    private async render(): Promise<HTMLElement> {
         let fileType: string = this.fileObject.type.split('/')[0];
 
         if (fileType === 'image' && !MediaLibrary.excludeImagesMimeTypes.includes(this.fileObject.type)) {
-            return this.renderImageDomElement();
+            return await this.renderImageDomElement();
         }
-        return this.renderFileDomElement();
+        return await this.renderFileDomElement();
     }
 
-    public getElement(): HTMLElement {
-        return this.element;
+    public async getElement(): Promise<HTMLElement> {
+        return await this.render();
     }
 
     /**
      * This method creates the base dom element of a file, whether it's an image or not.
      * @private
      */
-    private renderBaseDomElement(): HTMLElement {
+    private async renderBaseDomElement(): Promise<HTMLElement> {
+        if(MediaElement.baseDomElement === undefined) {
+            const fetchPromise = fetch(route("dashboard.ajax.components.media-library.media-element-html"), {
+                method: "GET",
+                headers: {
+                    'Accept': 'text/html',
+                },
+            })
+                .then(async response => {
+                    if (!response.ok) {
+                        throw new Error('MediaElement: Failed to fetch the media element html');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    MediaElement.baseDomElement = new DOMParser().parseFromString(html, 'text/html').body.firstChild as HTMLElement;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+            await fetchPromise;
+        }
+
+        let mediaRootElement: HTMLElement = MediaElement.baseDomElement.cloneNode(true) as HTMLElement;
+
         /* File element model
         <div class="media-element type-media/type-file">
             <div class="meta">
@@ -513,38 +551,22 @@ class MediaElement {
             </div>
         </div>*/
 
-        let mediaRootElement: HTMLElement = document.createElement('div');
-        mediaRootElement.className = 'media-element';
         mediaRootElement.setAttribute('data-file-id', String(this.fileObject.id));
         mediaRootElement.setAttribute('data-file-mime-type', this.fileObject.type);
 
-        let metaElement: HTMLElement = document.createElement('div');
-        metaElement.className = 'meta';
-        mediaRootElement.appendChild(metaElement);
-
-        let iconContainerElement: HTMLElement = document.createElement('div');
-        iconContainerElement.className = 'icon';
-
-        let iconElement: HTMLElement = document.createElement('i');
-        iconElement.className = 'fa-solid fa-file';
+        let iconContainerElement: HTMLElement = mediaRootElement.querySelector('.icon') as HTMLElement;
+        let iconElement: HTMLElement = iconContainerElement.querySelector('i') as HTMLElement;
 
         this.getFileTypeIcon(this.fileObject.type).then((iconClassName: string) => {
             iconElement.className = iconClassName;
         });
 
-        iconContainerElement.appendChild(iconElement);
-        metaElement.appendChild(iconContainerElement);
-
-        let nameElement: HTMLElement = document.createElement('div');
-        nameElement.className = 'name';
+        let nameElement: HTMLElement = mediaRootElement.querySelector('.name') as HTMLElement;
         nameElement.textContent = this.fileObject.name;
         nameElement.setAttribute('title', this.fileObject.name);
-        metaElement.appendChild(nameElement);
 
-        let sizeElement: HTMLElement = document.createElement('div');
-        sizeElement.className = 'size';
+        let sizeElement: HTMLElement = mediaRootElement.querySelector('.size') as HTMLElement;
         sizeElement.textContent = formatBytes(this.fileObject.size);
-        metaElement.appendChild(sizeElement);
 
         return mediaRootElement;
     }
@@ -553,8 +575,8 @@ class MediaElement {
      * Render an image media element.
      * @private
      */
-    private renderImageDomElement(): HTMLElement {
-        let baseDomElement: HTMLElement = this.renderBaseDomElement();
+    private async renderImageDomElement(): Promise<HTMLElement> {
+        let baseDomElement: HTMLElement = await this.renderBaseDomElement();
 
         let filePath: string = this.fileObject.path;
         if (this.fileObject.thumbnail_path !== null) {
@@ -575,8 +597,8 @@ class MediaElement {
      * Render a file media element.
      * @private
      */
-    private renderFileDomElement(): HTMLElement {
-        let baseDomElement: HTMLElement = this.renderBaseDomElement();
+    private async renderFileDomElement(): Promise<HTMLElement> {
+        let baseDomElement: HTMLElement = await this.renderBaseDomElement();
         baseDomElement.classList.add('type-file');
 
         return baseDomElement;
