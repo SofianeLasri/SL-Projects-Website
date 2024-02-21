@@ -1,5 +1,6 @@
 import route from 'ziggy-js';
 import {formatBytes} from "../../utils/helpers";
+import {afterWrite} from "@popperjs/core";
 
 type ToolBoxButtonType = "filter-by-type" | "order" | "view" | "group";
 type FileObjectJson = {
@@ -27,6 +28,8 @@ class MediaLibrary {
     private offset: number = 0;
     private filterByType: string = 'all';
     private totalFiles: number = 0;
+    private isCtrlPressed: boolean = false;
+    private selectedFiles: Array<FileObjectJson> = [];
 
     private viewLayout: string = 'grid';
     private readonly possibleViewLayouts: Array<string> = ['grid', 'list'];
@@ -72,7 +75,7 @@ class MediaLibrary {
         }
         this.parentElement = parentElement;
 
-        let mediaLibraryElement: HTMLElement | null = document.getElementById('mediaLibraryMedias');
+        let mediaLibraryElement: HTMLElement | null = parentElement.querySelector('.medias');
         if (mediaLibraryElement === null) {
             throw new Error("MediaLibrary: Media library element not found");
         }
@@ -84,7 +87,7 @@ class MediaLibrary {
 
         this.defineKeyboardEventListeners();
 
-        this.getParameters();
+        this.getFiltersParameters();
     }
 
     /**
@@ -131,7 +134,7 @@ class MediaLibrary {
 
     /**
      * Set a parameter in the url and in the class.
-     * @param role The role of the parameter (based on the button role).
+     * @param role The role of the parameter
      * @param value The value of the parameter.
      * @private
      */
@@ -168,7 +171,7 @@ class MediaLibrary {
      * Get the filters from the url
      * @private
      */
-    private getParameters(): void {
+    private getFiltersParameters(): void {
         let url: URL = new URL(window.location.href);
         let searchParams: URLSearchParams = url.searchParams;
 
@@ -220,13 +223,13 @@ class MediaLibrary {
      * Get the uploaded files from the server.
      * @private
      */
-    private getFiles(): void {
+    private async getFiles(): Promise<void> {
         let url: string = route('dashboard.media-library.get-uploaded-files', {
             order: this.order,
             offset: this.offset,
             type: this.filterByType
         });
-        fetch(url, {
+        const fetchPromise: Promise<void> = fetch(url, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -241,11 +244,14 @@ class MediaLibrary {
                 this.totalFiles = responseJson.total;
 
                 if (this.debug) console.log(responseJson.files);
-                this.reRenderFiles();
+                await this.reRenderFiles();
+                this.postRenderFiles();
             })
             .catch((error): void => {
                 console.error(error);
             });
+
+        await fetchPromise;
     }
 
     /**
@@ -276,20 +282,21 @@ class MediaLibrary {
      * Re-render cached files, it doesn't fetch the GetFiles API.
      * @private
      */
-    private reRenderFiles(): void {
+    private async reRenderFiles(): Promise<void> {
         if (this.debug) console.log('MediaLibrary: Re-rendering files');
         this.mediaLibraryElement.innerHTML = '';
         this.parentContainers = [];
-        this.renderFiles();
+        await this.renderFiles();
     }
 
     /**
      * Initialize the media library.
      */
-    public initialize(): void {
+    public async initialize(): Promise<void> {
         this.changeViewLayout();
         this.resetFiles();
-        this.getFiles();
+        await this.getFiles();
+        this.postInitialize();
     }
 
     /**
@@ -297,12 +304,12 @@ class MediaLibrary {
      * @param files The files to render.
      * @private
      */
-    private renderFiles(files: Array<FileObjectJson> = this.files) {
+    private async renderFiles(files: Array<FileObjectJson> = this.files) {
         if (this.debug) console.log('MediaLibrary: Rendering files');
         if (this.groupBy === 'none') {
-            this.renderFilesWithoutGroup(files);
+            await this.renderFilesWithoutGroup(files);
         } else if (this.groupBy === 'date') {
-            this.renderFilesGroupedByDate(files);
+            await this.renderFilesGroupedByDate(files);
         }
     }
 
@@ -311,7 +318,7 @@ class MediaLibrary {
         let childContainer: ChildContainer = new ChildContainer();
 
         for (const file of files) {
-            childContainer.addElement(new MediaElement(file));
+            childContainer.addElement(new MediaElement(file, this.fileClicked.bind(this, file)));
         }
 
         parentContainer.children.push(childContainer);
@@ -351,7 +358,7 @@ class MediaLibrary {
                 parentContainer.children.push(childContainer);
             }
 
-            let fileMediaElement: MediaElement = new MediaElement(file);
+            let fileMediaElement: MediaElement = new MediaElement(file, this.fileClicked.bind(this, file));
             if (childContainer.hasElement(fileMediaElement)) {
                 console.debug(`MediaLibrary: File ${file.id} is already in the media library`);
             }
@@ -401,12 +408,141 @@ class MediaLibrary {
         if (this.debug) console.log('MediaLibrary: Refreshed');
     }
 
+    /**
+     * Define the keyboard event listeners.
+     * @private
+     */
     private defineKeyboardEventListeners(): void {
         document.addEventListener('keydown', (event: KeyboardEvent): void => {
             if (event.ctrlKey) {
-                console.log('MediaLibrary: Ctrl key pressed');
+                this.isCtrlPressed = true;
+                this.mediaLibraryElement.classList.add('selection-mode');
             }
         });
+
+        document.addEventListener('keyup', (event: KeyboardEvent): void => {
+            if (!event.ctrlKey) {
+                this.isCtrlPressed = false;
+
+                if (this.selectedFiles.length === 0) {
+                    this.mediaLibraryElement.classList.remove('selection-mode');
+                }
+            }
+        });
+    }
+
+    /**
+     * File clicked event.
+     * @param fileObject
+     */
+    public fileClicked(fileObject: FileObjectJson) {
+        console.log('MediaLibrary: File clicked', fileObject);
+        if (this.isCtrlPressed || this.selectedFiles.length > 0) {
+            this.toggleMediaElementSelection(fileObject);
+        }
+    }
+
+    /**
+     * Toggle the selection of a media element.
+     * @param fileObject The file object to toggle the selection.
+     * @param firstPostRenderFiles If it's the first time the files are rendered -> needed to draw selection.
+     * @private
+     */
+    private toggleMediaElementSelection(fileObject: FileObjectJson, firstPostRenderFiles: boolean = false) {
+        const mediaElement: MediaElement | null = this.getMediaElement(fileObject);
+
+        const removeSelectedFile = (): void => {
+            this.selectedFiles = this.selectedFiles.filter(file => file.id !== fileObject.id);
+            this.setSelectedFilesUrlParameter();
+        };
+
+        const handleMediaElement = (isSelected: boolean): void => {
+            if (mediaElement !== null) {
+                mediaElement.setSelected(isSelected);
+            } else {
+                if (this.debug) console.warn('MediaLibrary: Media element not found, probably not rendered yet.');
+            }
+        };
+
+        if (this.selectedFiles.includes(fileObject) && !firstPostRenderFiles) {
+            removeSelectedFile();
+            handleMediaElement(false);
+
+            if (this.selectedFiles.length === 0) {
+                this.mediaLibraryElement.classList.remove('selection-mode');
+            }
+        } else {
+            if (!firstPostRenderFiles) {
+                this.selectedFiles.push(fileObject);
+                this.setSelectedFilesUrlParameter();
+            }
+
+            handleMediaElement(true);
+        }
+    }
+
+    private setSelectedFilesUrlParameter() {
+        this.setParameter('selected-files', this.selectedFiles.map((file: FileObjectJson): string => {
+            return file.id.toString();
+        }).join(','));
+    }
+
+    /**
+     * Get a media element based on its file object.
+     * @param fileObject
+     * @private
+     */
+    private getMediaElement(fileObject: FileObjectJson) {
+        for (const parentContainer of this.parentContainers) {
+            let mediaElement: MediaElement | null = parentContainer.getMediaElement(fileObject);
+            if (mediaElement !== null) {
+                return mediaElement;
+            } else {
+                if (this.debug) console.warn('MediaLibrary: Media element not found, probably not rendered yet.');
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Post initialize method.
+     * @private
+     */
+    private postInitialize(): void {
+
+    }
+
+    /**
+     * Post render files method.
+     * @private
+     */
+    private postRenderFiles() {
+        if (this.debug) console.log('MediaLibrary: Post render files');
+
+        let url: URL = new URL(window.location.href);
+        let searchParams: URLSearchParams = url.searchParams;
+
+        if (this.selectedFiles.length == 0 && searchParams.has('selected-files')) {
+            if (this.debug) console.log('MediaLibrary: Selected files found in the url');
+
+            let selectedFiles: string = searchParams.get('selected-files') ?? '';
+            let selectedFilesArray: Array<string> = selectedFiles.split(',');
+            for (const fileId of selectedFilesArray) {
+                let fileObject: FileObjectJson | undefined = this.files.find((file: FileObjectJson): boolean => {
+                    return file.id.toString() === fileId;
+                });
+                if (fileObject !== undefined) {
+                    this.selectedFiles.push(fileObject);
+                }
+            }
+        }
+
+        if (this.selectedFiles.length > 0) {
+            this.mediaLibraryElement.classList.add('selection-mode');
+            for (const file of this.selectedFiles) {
+                this.toggleMediaElementSelection(file, true);
+            }
+        }
     }
 }
 
@@ -441,6 +577,21 @@ class ParentContainer {
 
         return container;
     }
+
+    /**
+     * Get a media element based on its file object.
+     * @param fileObject
+     */
+    public getMediaElement(fileObject: FileObjectJson): MediaElement | null {
+        for (const child of this.children) {
+            for (const mediaElement of child.getElements()) {
+                if (mediaElement.fileObject.id === fileObject.id) {
+                    return mediaElement;
+                }
+            }
+        }
+        return null;
+    }
 }
 
 class ChildContainer {
@@ -464,6 +615,10 @@ class ChildContainer {
         return this.mediaElements.includes(element);
     }
 
+    getElements(): MediaElement[] {
+        return this.mediaElements;
+    }
+
     async render(): Promise<HTMLElement> {
         const container = document.createElement('div');
         container.className = 'section';
@@ -482,30 +637,31 @@ class ChildContainer {
             containerDiv.appendChild(await element.getElement());
         }
 
-        container.addEventListener('click', (event: Event): void => {
-            console.log('MediaLibrary: Media element clicked');
-        });
-
         return container;
     }
 }
 
 class MediaElement {
-    private readonly fileObject: FileObjectJson;
+    public readonly fileObject: FileObjectJson;
     public static fileTypeIcons: FileTypeIcon[] = [];
     public static baseDomElement: HTMLElement;
+    private readonly callback: (fileObject: FileObjectJson) => void;
+    private renderedElement: HTMLElement | null = null;
 
-    constructor(fileObject: FileObjectJson) {
+    constructor(fileObject: FileObjectJson, callback: (fileObject: FileObjectJson) => void) {
         this.fileObject = fileObject;
+        this.callback = callback;
     }
 
     private async render(): Promise<HTMLElement> {
         let fileType: string = this.fileObject.type.split('/')[0];
 
         if (fileType === 'image' && !MediaLibrary.excludeImagesMimeTypes.includes(this.fileObject.type)) {
-            return await this.renderImageDomElement();
+            this.renderedElement = await this.renderImageDomElement();
+        } else {
+            this.renderedElement = await this.renderFileDomElement();
         }
-        return await this.renderFileDomElement();
+        return this.renderedElement;
     }
 
     public async getElement(): Promise<HTMLElement> {
@@ -517,7 +673,7 @@ class MediaElement {
      * @private
      */
     private async renderBaseDomElement(): Promise<HTMLElement> {
-        if(MediaElement.baseDomElement === undefined) {
+        if (MediaElement.baseDomElement === undefined) {
             const fetchPromise = fetch(route("dashboard.ajax.components.media-library.media-element-html"), {
                 method: "GET",
                 headers: {
@@ -567,6 +723,8 @@ class MediaElement {
 
         let sizeElement: HTMLElement = mediaRootElement.querySelector('.size') as HTMLElement;
         sizeElement.textContent = formatBytes(this.fileObject.size);
+
+        mediaRootElement = await this.addEventListeners(mediaRootElement);
 
         return mediaRootElement;
     }
@@ -624,6 +782,44 @@ class MediaElement {
         }
 
         return icon;
+    }
+
+    /**
+     * Add event listeners to the media element.
+     * @param mediaRootElement
+     * @private
+     */
+    private async addEventListeners(mediaRootElement: HTMLElement): Promise<HTMLElement> {
+        mediaRootElement.addEventListener('click', (event: Event): void => {
+            event.preventDefault();
+            this.callback(this.fileObject);
+        });
+
+        return mediaRootElement;
+    }
+
+    /**
+     * Set the selection of the media element.
+     * @param selected
+     */
+    public setSelected(selected: boolean): void {
+        if (this.renderedElement === null) {
+            console.error('MediaElement: Rendered element not found');
+            return;
+        }
+        let inputElement: HTMLInputElement | undefined = this.renderedElement.getElementsByTagName('input')[0];
+
+        if (inputElement === undefined) {
+            console.error('MediaElement: Input element not found');
+            return;
+        }
+        if (selected) {
+            this.renderedElement?.classList.add('selected');
+            inputElement.checked = true;
+        } else {
+            this.renderedElement?.classList.remove('selected');
+            inputElement.checked = false;
+        }
     }
 }
 

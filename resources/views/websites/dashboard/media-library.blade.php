@@ -75,7 +75,7 @@
                 </div>
             </div>
         </div>
-        <div class="medias" id="mediaLibraryMedias">
+        <div class="medias">
             {{--@for($i = 0; $i < rand(1, 4); $i++)
                 <div class="parent-section">
                     <h4>Septembre</h4>

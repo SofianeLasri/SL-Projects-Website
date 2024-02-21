@@ -104,6 +104,7 @@
                 // In grid mode, media-element are shown in different ways
                 .media-element {
                     display: flex;
+                    position: relative;
 
                     $width: 8rem;
                     border: $border-width solid $border-color;
@@ -111,13 +112,29 @@
                     width: $width;
                     aspect-ratio: 1 / 1;
 
+                    .select-action {
+                        display: none;
+                        position: absolute;
+                        top: map.get($spacers, 1);
+                        left: map.get($spacers, 1);
+                        z-index: 11;
+                    }
+
+                    &.selected {
+                        border-color: $primary;
+
+                        .select-action {
+                            display: flex;
+                        }
+                    }
+
                     &:hover {
                         border-color: $primary;
                     }
 
                     .meta {
                         .name {
-                            display: inline-block!important;
+                            display: inline-block !important;
                             height: 1.75rem;
                             flex-shrink: 0;
                             font-size: $small-font-size;
@@ -225,6 +242,10 @@
                     align-items: center;
                     padding: map.get($spacers, 1);
 
+                    .select-action {
+                        display: none;
+                    }
+
                     &:nth-child(even) {
                         background-color: $gray-100;
                     }
@@ -269,6 +290,12 @@
                         }
                     }
                 }
+            }
+        }
+
+        &.selection-mode {
+            .media-element .select-action {
+                display: flex!important;
             }
         }
     }
