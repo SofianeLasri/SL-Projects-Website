@@ -10,7 +10,7 @@
 @endsection
 
 @section('pageContent')
-    <div class="px-3 py-2 media-library" id="mediaLibrary">
+    <div class="px-3 pt-2 media-library" id="mediaLibrary">
         <div class="filters">
             <h4>Filtres</h4>
             <div class="content">
@@ -75,29 +75,37 @@
                 </div>
             </div>
         </div>
-        <div class="medias">
-            {{--@for($i = 0; $i < rand(1, 4); $i++)
-                <div class="parent-section">
-                    <h4>Septembre</h4>
-                    <div class="parent-section-container">
-                        @for($j = 0; $j < rand(1, 5); $j++)
-                            <div class="section">
-                                <h6>mardi 19 septembre</h6>
-                                <div class="section-container">
-                                    @for($j = 0; $j < rand(1, 24); $j++)
-                                        <div class="media-element">
-                                            <div class="meta">
-                                                <div class="icon"><i class="fa-solid fa-file-pdf"></i></div>
-                                                <div class="name">RandomFile.pdf</div>
+        <div class="content">
+            <div class="medias">
+                {{--@for($i = 0; $i < rand(1, 4); $i++)
+                    <div class="parent-section">
+                        <h4>Septembre</h4>
+                        <div class="parent-section-container">
+                            @for($j = 0; $j < rand(1, 5); $j++)
+                                <div class="section">
+                                    <h6>mardi 19 septembre</h6>
+                                    <div class="section-container">
+                                        @for($j = 0; $j < rand(1, 24); $j++)
+                                            <div class="media-element">
+                                                <div class="meta">
+                                                    <div class="icon"><i class="fa-solid fa-file-pdf"></i></div>
+                                                    <div class="name">RandomFile.pdf</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    @endfor
+                                        @endfor
+                                    </div>
                                 </div>
-                            </div>
-                        @endfor
+                            @endfor
+                        </div>
                     </div>
+                @endfor--}}
+            </div>
+            <div class="actions">
+                <div class="selected-files-label">5 médias sélectionnés</div>
+                <div class="d-flex gap-2">
+                    <x-button type="button" class="btn-danger">Supprimer</x-button>
                 </div>
-            @endfor--}}
+            </div>
         </div>
     </div>
 

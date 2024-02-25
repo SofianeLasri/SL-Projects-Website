@@ -23,6 +23,8 @@ type FileObjectsListJson = {
 class MediaLibrary {
     private parentElement: HTMLElement;
     private mediaLibraryElement: HTMLElement;
+    private actionsElement: HTMLElement;
+    private selectedFilesLabel: HTMLElement;
     private files: Array<FileObjectJson> = [];
     private order: string = 'desc';
     private offset: number = 0;
@@ -41,7 +43,7 @@ class MediaLibrary {
 
     private readonly translationLocale: string = 'en';
     private translation: Object = {
-        'all-files': 'All files',
+        'all-medias': 'All medias',
         'images': 'Images',
         'videos': 'Videos',
         'audios': 'Audios',
@@ -59,6 +61,11 @@ class MediaLibrary {
             'none': 'None',
             'date': 'Date',
             'type': 'Type'
+        },
+        'selection' : {
+            'selected-medias': 'Selected medias',
+            'n-medias-selected': ':count medias selected',
+            'one-media-selected': '1 media selected'
         }
     };
     private debug: boolean = false;
@@ -75,11 +82,15 @@ class MediaLibrary {
         }
         this.parentElement = parentElement;
 
+        // We do a check for the first child element to avoid the error of the parent element not having any child.
         let mediaLibraryElement: HTMLElement | null = parentElement.querySelector('.medias');
         if (mediaLibraryElement === null) {
             throw new Error("MediaLibrary: Media library element not found");
         }
         this.mediaLibraryElement = mediaLibraryElement;
+
+        this.actionsElement = parentElement.querySelector('.actions')!; // No needs to check if it's null.
+        this.selectedFilesLabel = this.actionsElement.querySelector('.selected-files-label')!; // Idem
 
         this.addButtonEventListeners("filter-by-type", 'all');
         this.addButtonEventListeners("view", 'grid');
@@ -451,10 +462,24 @@ class MediaLibrary {
     private toggleMediaElementSelection(fileObject: FileObjectJson, firstPostRenderFiles: boolean = false) {
         const mediaElement: MediaElement | null = this.getMediaElement(fileObject);
 
+        const setSelectedFilesUrlParameter = (): void => {
+            this.setParameter('selected-files', this.selectedFiles.map((file: FileObjectJson): string => {
+                return file.id.toString();
+            }).join(','));
+        };
+
         const removeSelectedFile = (): void => {
             this.selectedFiles = this.selectedFiles.filter(file => file.id !== fileObject.id);
-            this.setSelectedFilesUrlParameter();
+            setSelectedFilesUrlParameter();
         };
+
+        const setActionsLabel = (count: number): void => {
+            if (count === 1) {
+                this.selectedFilesLabel.textContent = this.translation['selection']['one-media-selected'];
+            } else {
+                this.selectedFilesLabel.textContent = this.translation['selection']['n-medias-selected'].replace(':count', count.toString());
+            }
+        }
 
         const handleMediaElement = (isSelected: boolean): void => {
             if (mediaElement !== null) {
@@ -467,24 +492,22 @@ class MediaLibrary {
         if (this.selectedFiles.includes(fileObject) && !firstPostRenderFiles) {
             removeSelectedFile();
             handleMediaElement(false);
+            setActionsLabel(this.selectedFiles.length);
 
             if (this.selectedFiles.length === 0) {
                 this.mediaLibraryElement.classList.remove('selection-mode');
+                this.actionsElement.classList.remove('selection-mode');
             }
         } else {
             if (!firstPostRenderFiles) {
                 this.selectedFiles.push(fileObject);
-                this.setSelectedFilesUrlParameter();
+                setSelectedFilesUrlParameter();
             }
 
+            setActionsLabel(this.selectedFiles.length);
+            this.actionsElement.classList.add('selection-mode');
             handleMediaElement(true);
         }
-    }
-
-    private setSelectedFilesUrlParameter() {
-        this.setParameter('selected-files', this.selectedFiles.map((file: FileObjectJson): string => {
-            return file.id.toString();
-        }).join(','));
     }
 
     /**

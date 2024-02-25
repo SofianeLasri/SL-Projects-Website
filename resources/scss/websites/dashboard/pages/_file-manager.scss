@@ -51,251 +51,274 @@
         }
     }
 
-    .medias {
+    .content {
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        gap: map.get($spacers, 3);
-        overflow-y: auto;
 
-        .parent-section {
+        .medias {
             display: flex;
             flex-direction: column;
-            gap: map.get($spacers, 4);
+            flex-grow: 1;
+            gap: map.get($spacers, 3);
+            overflow-y: auto;
 
-            .parent-section-container {
+            .parent-section {
                 display: flex;
                 flex-direction: column;
-                gap: map.get($spacers, 3);
+                gap: map.get($spacers, 4);
 
-                .section {
+                .parent-section-container {
                     display: flex;
                     flex-direction: column;
-                    gap: map.get($spacers, 2);
-                }
-            }
-        }
+                    gap: map.get($spacers, 3);
 
-        .media-element {
-            overflow: hidden;
-            cursor: pointer;
-
-            .meta {
-                flex-grow: 1;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-
-                .icon {
-                    background-size: cover;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                }
-            }
-        }
-
-        &.grid {
-            .section-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: map.get($spacers, 3);
-
-                // In grid mode, media-element are shown in different ways
-                .media-element {
-                    display: flex;
-                    position: relative;
-
-                    $width: 8rem;
-                    border: $border-width solid $border-color;
-                    border-radius: $border-radius;
-                    width: $width;
-                    aspect-ratio: 1 / 1;
-
-                    .select-action {
-                        display: none;
-                        position: absolute;
-                        top: map.get($spacers, 1);
-                        left: map.get($spacers, 1);
-                        z-index: 11;
+                    .section {
+                        display: flex;
+                        flex-direction: column;
+                        gap: map.get($spacers, 2);
                     }
+                }
+            }
 
-                    &.selected {
-                        border-color: $primary;
+            .media-element {
+                overflow: hidden;
+                cursor: pointer;
+
+                .meta {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 100%;
+
+                    .icon {
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    }
+                }
+            }
+
+            &.grid {
+                .section-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: map.get($spacers, 3);
+
+                    // In grid mode, media-element are shown in different ways
+                    .media-element {
+                        display: flex;
+                        position: relative;
+
+                        $width: 8rem;
+                        border: $border-width solid $border-color;
+                        border-radius: $border-radius;
+                        width: $width;
+                        aspect-ratio: 1 / 1;
 
                         .select-action {
-                            display: flex;
+                            display: none;
+                            position: absolute;
+                            top: map.get($spacers, 1);
+                            left: map.get($spacers, 1);
+                            z-index: 11;
                         }
-                    }
 
-                    &:hover {
-                        border-color: $primary;
-                    }
+                        &.selected {
+                            border-color: $primary;
 
-                    .meta {
-                        .name {
-                            display: inline-block !important;
-                            height: 1.75rem;
-                            flex-shrink: 0;
-                            font-size: $small-font-size;
-                            color: $white;
-                            word-wrap: anywhere;
-                            text-align: center;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
-                            width: 100%;
-                            padding: 0 map.get($spacers, 1);
-                        }
-                    }
-
-                    &.type-image {
-                        .meta {
-                            position: relative;
-                            align-items: center;
-                            justify-content: flex-end;
-
-                            > * {
-                                display: none;
-                            }
-
-                            .icon {
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                right: 0;
-                                bottom: 0;
+                            .select-action {
                                 display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                font-size: 3rem;
-                                color: $gray-600;
-
-                                background-image: url('/resources/images/logos/og-logo-orange.jpg');
-                            }
-
-                            .name {
-                                display: none;
                             }
                         }
 
                         &:hover {
+                            border-color: $primary;
+                        }
+
+                        .meta {
+                            .name {
+                                display: inline-block !important;
+                                height: 1.75rem;
+                                flex-shrink: 0;
+                                font-size: $small-font-size;
+                                color: $white;
+                                word-wrap: anywhere;
+                                text-align: center;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                width: 100%;
+                                padding: 0 map.get($spacers, 1);
+                            }
+                        }
+
+                        &.type-image {
                             .meta {
-                                .icon:after {
-                                    content: '';
+                                position: relative;
+                                align-items: center;
+                                justify-content: flex-end;
+
+                                > * {
+                                    display: none;
+                                }
+
+                                .icon {
                                     position: absolute;
                                     top: 0;
                                     left: 0;
                                     right: 0;
                                     bottom: 0;
-                                    background-color: color.adjust($dark, $alpha: -0.5);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 3rem;
+                                    color: $gray-600;
+
+                                    background-image: url('/resources/images/logos/og-logo-orange.jpg');
                                 }
 
                                 .name {
-                                    display: inline-block;
-                                    z-index: 10;
+                                    display: none;
+                                }
+                            }
+
+                            &:hover {
+                                .meta {
+                                    .icon:after {
+                                        content: '';
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        right: 0;
+                                        bottom: 0;
+                                        background-color: color.adjust($dark, $alpha: -0.5);
+                                    }
+
+                                    .name {
+                                        display: inline-block;
+                                        z-index: 10;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.type-file {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            background-color: $light;
+
+                            .meta {
+                                > * {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+
+                                .name {
+                                    color: $body-color;
+                                }
+
+                                .icon {
+                                    flex-grow: 1;
+                                    font-size: 3rem;
+                                    color: $gray-600;
+                                }
+
+                                .size {
+                                    display: none;
                                 }
                             }
                         }
                     }
+                }
+            }
 
-                    &.type-file {
+            &.list {
+                .section-container {
+                    display: flex;
+                    flex-direction: column;
+
+                    // On list mode, media-element are shown in the same way
+                    .media-element {
                         display: flex;
-                        flex-direction: column;
                         align-items: center;
-                        background-color: $light;
+                        padding: map.get($spacers, 1);
+
+                        .select-action {
+                            display: none;
+                        }
+
+                        &:nth-child(even) {
+                            background-color: $gray-100;
+                        }
+
+                        &:not(:last-child) {
+                            border-bottom: $border-width solid $border-color;
+                        }
+
+                        &:hover {
+                            background-color: $light;
+                        }
 
                         .meta {
-                            > * {
+                            flex-grow: 1;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: map.get($spacers, 1);
+
+                            .icon {
+                                font-size: 1rem;
+                                color: $gray-600;
+                                height: map.get($spacers, 4);
+                                aspect-ratio: 1;
+                                flex-shrink: 0;
+
                                 display: flex;
                                 align-items: center;
                                 justify-content: center;
                             }
 
                             .name {
-                                color: $body-color;
-                            }
-
-                            .icon {
                                 flex-grow: 1;
-                                font-size: 3rem;
-                                color: $gray-600;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
                             }
 
                             .size {
-                                display: none;
+                                flex-shrink: 0;
+                                color: $text-muted;
                             }
                         }
                     }
                 }
             }
-        }
 
-        &.list {
-            .section-container {
-                display: flex;
-                flex-direction: column;
-
-                // On list mode, media-element are shown in the same way
-                .media-element {
-                    display: flex;
-                    align-items: center;
-                    padding: map.get($spacers, 1);
-
-                    .select-action {
-                        display: none;
-                    }
-
-                    &:nth-child(even) {
-                        background-color: $gray-100;
-                    }
-
-                    &:not(:last-child) {
-                        border-bottom: $border-width solid $border-color;
-                    }
-
-                    &:hover {
-                        background-color: $light;
-                    }
-
-                    .meta {
-                        flex-grow: 1;
-                        display: flex;
-                        flex-direction: row;
-                        align-items: center;
-                        gap: map.get($spacers, 1);
-
-                        .icon {
-                            font-size: 1rem;
-                            color: $gray-600;
-                            height: map.get($spacers, 4);
-                            aspect-ratio: 1;
-                            flex-shrink: 0;
-
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                        }
-
-                        .name {
-                            flex-grow: 1;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
-                        }
-
-                        .size {
-                            flex-shrink: 0;
-                            color: $text-muted;
-                        }
-                    }
+            &.selection-mode {
+                .media-element .select-action {
+                    display: flex!important;
                 }
             }
         }
 
-        &.selection-mode {
-            .media-element .select-action {
-                display: flex!important;
+        .actions {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            gap: map.get($spacers, 2);
+            padding: map.get($spacers, 2);
+            border-top: $border-width solid $primary;
+
+            &.selection-mode {
+                display: flex;
+            }
+
+            .selected-files-label {
+                font-weight: $font-weight-bold;
             }
         }
     }
