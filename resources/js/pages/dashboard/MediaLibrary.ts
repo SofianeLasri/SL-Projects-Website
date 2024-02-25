@@ -19,6 +19,7 @@ type FileObjectsListJson = {
     files: Array<FileObjectJson>,
     total: number,
 };
+type MediaLibraryOperationMode = 'page' | 'selection';
 
 class MediaLibrary {
     private parentElement: HTMLElement;
@@ -32,6 +33,7 @@ class MediaLibrary {
     private totalFiles: number = 0;
     private isCtrlPressed: boolean = false;
     private selectedFiles: Array<FileObjectJson> = [];
+    private operationMode: MediaLibraryOperationMode;
 
     private viewLayout: string = 'grid';
     private readonly possibleViewLayouts: Array<string> = ['grid', 'list'];
@@ -62,7 +64,7 @@ class MediaLibrary {
             'date': 'Date',
             'type': 'Type'
         },
-        'selection' : {
+        'selection': {
             'selected-medias': 'Selected medias',
             'n-medias-selected': ':count medias selected',
             'one-media-selected': '1 media selected'
@@ -73,9 +75,12 @@ class MediaLibrary {
         'image/vnd.adobe.photoshop'
     ];
 
-    constructor(id: string = 'mediaLibrary') {
+    constructor(id: string = 'mediaLibrary', operationMode: MediaLibraryOperationMode = 'page') {
         this.csrfToken = this.getCSRFToken();
         this.translationLocale = document.documentElement.lang;
+
+        this.operationMode = operationMode;
+
         let parentElement: HTMLElement | null = document.getElementById(id);
         if (parentElement === null) {
             throw new Error("MediaLibrary: Parent element not found");

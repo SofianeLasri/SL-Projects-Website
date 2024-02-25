@@ -20,3 +20,4 @@ window.MediaLibrary = MediaLibrary;
 window.Notification = Notification;
 window.StepsGroupsList = StepsGroupsList;
 window.TuiEditor = TuiEditor;
+window.BsModal = Modal;

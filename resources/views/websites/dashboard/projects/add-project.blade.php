@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-xl-6 mb-3">
                         <h5>Illustrations du projet</h5>
-                        <x-input type="number" name="square-cover" label="ID Fileupload cover carrée" class="mb-2"/>
+                        <x-input id="squareCoverInput" type="number" name="square-cover" label="ID Fileupload cover carrée" class="mb-2"/>
                         <x-input type="number" name="dvd-cover" label="ID Fileupload cover dvd" class="mb-2"/>
                     </div>
                 </div>
@@ -80,6 +80,103 @@
             </div>
         </form>
     </x-dashboard.steps-group-list>
+
+    <div class="modal modal-lg fade" id="chooseMediaModal" tabindex="-1" aria-labelledby="chooseMediaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="chooseMediaModalLabel">Choisir un média</h1>
+                    <x-button type="button" class="btn-link text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <x-square-icon size="1rem">
+                            <i class="fa-solid fa-xmark"></i>
+                        </x-square-icon>
+                    </x-button>
+                </div>
+                <div class="modal-body">
+                    <div class="media-library" id="mediasMountPoint">
+                        <div class="filters">
+                            <h4>Filtres</h4>
+                            <div class="content">
+                                <div class="d-flex flex-column flex-shrink-0 gap-2">
+                                    <h6>Types</h6>
+                                    <x-button type="button"
+                                              class="text-start"
+                                              role="filter-by-type"
+                                              data-filter-by-type="all"
+                                    >Tous les médias
+                                    </x-button>
+                                    <x-button type="button"
+                                              class="text-start"
+                                              role="filter-by-type"
+                                              data-filter-by-type="image"
+                                    >Images
+                                    </x-button>
+                                    <x-button type="button"
+                                              class="text-start"
+                                              role="filter-by-type"
+                                              data-filter-by-type="video"
+                                    >Vidéos
+                                    </x-button>
+                                    <x-button type="button"
+                                              class="text-start"
+                                              role="filter-by-type"
+                                              data-filter-by-type="other"
+                                    >Autres
+                                    </x-button>
+                                </div>
+                                <div class="d-flex flex-column flex-shrink-0 gap-2">
+                                    <h6>Affichage</h6>
+                                    <x-button type="button"
+                                              class="text-start"
+                                              role="view"
+                                              data-view="list"
+                                    >Liste
+                                    </x-button>
+                                    <x-button type="button"
+                                              class="text-start btn-primary"
+                                              role="view"
+                                              data-view="grid"
+                                              aria-selected="true"
+                                    >Grille
+                                    </x-button>
+                                </div>
+                                <div class="d-flex flex-column flex-shrink-0 gap-2">
+                                    <h6>Regrouper</h6>
+                                    <x-button type="button"
+                                              class="text-start"
+                                              role="group"
+                                              data-group="none"
+                                    >Ne pas regrouper
+                                    </x-button>
+                                    <x-button type="button"
+                                              class="text-start btn-primary"
+                                              role="group"
+                                              data-group="date"
+                                              aria-selected="true"
+                                    >Par date
+                                    </x-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="medias">
+                            </div>
+                            <div class="actions">
+                                <div class="selected-files-label">5 médias sélectionnés</div>
+                                <div class="d-flex gap-2">
+                                    <x-button type="button" class="btn-danger">Supprimer</x-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -92,6 +189,9 @@
         const projectNameInput = document.getElementById('projectNameInput');
         const projectNameInputInstance = new Input(projectNameInput);
         const projectSlugShowUp = document.getElementById('projectSlugShowUp');
+
+        const chooseMediaModal = new BsModal(document.getElementById('chooseMediaModal'));
+        const squareCoverInput = document.getElementById('squareCoverInput');
 
         projectNameInput.addEventListener('change', event => {
             generateSlugAndVerifySlugAndProjectName();
@@ -152,8 +252,17 @@
             document.getElementById('publishBtn').disabled = true;
         });
 
+        squareCoverInput.addEventListener('focus', event => {
+            event.preventDefault();
+            chooseMediaModal.show();
+        });
+
         document.addEventListener("DOMContentLoaded", (event) => {
             generateSlugAndVerifySlugAndProjectName();
+
+            const mediaLibrary = new MediaLibrary('mediasMountPoint');
+            mediaLibrary.setDebug({{ config('app.debug') ? 'true' : 'false' }});
+            mediaLibrary.initialize();
         });
 
         const editor = new TuiEditor({
