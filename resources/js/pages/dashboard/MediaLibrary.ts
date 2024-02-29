@@ -115,11 +115,20 @@ class MediaLibrary {
     private createButtonClickListener(parameterName: ToolBoxButtonType, defaultValue: string): (event: Event) => void {
         return (event: Event): void => {
             event.preventDefault();
-            const button = event.target as Element;
+            const findButtonElement = (element: Element): Element => {
+                if (element.tagName === 'BUTTON') {
+                    return element;
+                }
+                if (element.parentElement === null) {
+                    throw new Error('MediaLibrary: Button not found');
+                }
+                return findButtonElement(element.parentElement);
+            }
+            const button: Element = findButtonElement(event.target as Element);
             const value = button.getAttribute(`data-${parameterName}`) ?? defaultValue;
 
             if (this[parameterName] !== value) {
-                this.setParameter(parameterName, value);
+                this.setFilterProperty(parameterName, value);
                 this.setToolBoxButtonActive(button, parameterName);
             }
         };
@@ -154,7 +163,7 @@ class MediaLibrary {
      * @param value The value of the parameter.
      * @private
      */
-    private setParameter(role: string, value: string): void {
+    private setFilterProperty(role: string, value: string): void {
         switch (role) {
             case 'order':
                 this.order = value;
@@ -176,11 +185,17 @@ class MediaLibrary {
                 break;
         }
 
-        let url: URL = new URL(window.location.href);
-        let searchParams: URLSearchParams = url.searchParams;
-        searchParams.set(role, value);
-        url.search = searchParams.toString();
-        window.history.pushState({}, '', url.toString());
+        this.setUrlParameter(role, value);
+    }
+
+    private setUrlParameter(name: string, value: string): void {
+        if(this.operationMode === 'page') {
+            let url: URL = new URL(window.location.href);
+            let searchParams: URLSearchParams = url.searchParams;
+            searchParams.set(name, value);
+            url.search = searchParams.toString();
+            window.history.pushState({}, '', url.toString());
+        }
     }
 
     /**
@@ -309,6 +324,10 @@ class MediaLibrary {
      * Initialize the media library.
      */
     public async initialize(): Promise<void> {
+        if (this.operationMode === 'selection') {
+            this.parentElement.classList.add('embedded');
+        }
+
         this.changeViewLayout();
         this.resetFiles();
         await this.getFiles();
@@ -468,7 +487,7 @@ class MediaLibrary {
         const mediaElement: MediaElement | null = this.getMediaElement(fileObject);
 
         const setSelectedFilesUrlParameter = (): void => {
-            this.setParameter('selected-files', this.selectedFiles.map((file: FileObjectJson): string => {
+            this.setUrlParameter('selected-files', this.selectedFiles.map((file: FileObjectJson): string => {
                 return file.id.toString();
             }).join(','));
         };

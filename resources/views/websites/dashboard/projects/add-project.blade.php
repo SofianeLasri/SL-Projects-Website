@@ -59,7 +59,7 @@
                         <x-input type="date" name="startDate" label="Date de début" class="mb-2" required/>
                         <select class="form-select" aria-label="Default select example">
                             <option selected>Status du projet</option>
-                            @foreach(\App\Models\Showcase\Project::RELEASE_STATUS_ENUMS  as $status)
+                            @foreach(\App\Models\Showcase\Project::RELEASE_STATUS_ENUMS as $status)
                                 <option value="{{ $status }}">{{ $status }}</option>
                             @endforeach
                         </select>
@@ -93,82 +93,7 @@
                     </x-button>
                 </div>
                 <div class="modal-body">
-                    <div class="media-library" id="mediasMountPoint">
-                        <div class="filters">
-                            <h4>Filtres</h4>
-                            <div class="content">
-                                <div class="d-flex flex-column flex-shrink-0 gap-2">
-                                    <h6>Types</h6>
-                                    <x-button type="button"
-                                              class="text-start"
-                                              role="filter-by-type"
-                                              data-filter-by-type="all"
-                                    >Tous les médias
-                                    </x-button>
-                                    <x-button type="button"
-                                              class="text-start"
-                                              role="filter-by-type"
-                                              data-filter-by-type="image"
-                                    >Images
-                                    </x-button>
-                                    <x-button type="button"
-                                              class="text-start"
-                                              role="filter-by-type"
-                                              data-filter-by-type="video"
-                                    >Vidéos
-                                    </x-button>
-                                    <x-button type="button"
-                                              class="text-start"
-                                              role="filter-by-type"
-                                              data-filter-by-type="other"
-                                    >Autres
-                                    </x-button>
-                                </div>
-                                <div class="d-flex flex-column flex-shrink-0 gap-2">
-                                    <h6>Affichage</h6>
-                                    <x-button type="button"
-                                              class="text-start"
-                                              role="view"
-                                              data-view="list"
-                                    >Liste
-                                    </x-button>
-                                    <x-button type="button"
-                                              class="text-start btn-primary"
-                                              role="view"
-                                              data-view="grid"
-                                              aria-selected="true"
-                                    >Grille
-                                    </x-button>
-                                </div>
-                                <div class="d-flex flex-column flex-shrink-0 gap-2">
-                                    <h6>Regrouper</h6>
-                                    <x-button type="button"
-                                              class="text-start"
-                                              role="group"
-                                              data-group="none"
-                                    >Ne pas regrouper
-                                    </x-button>
-                                    <x-button type="button"
-                                              class="text-start btn-primary"
-                                              role="group"
-                                              data-group="date"
-                                              aria-selected="true"
-                                    >Par date
-                                    </x-button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="content">
-                            <div class="medias">
-                            </div>
-                            <div class="actions">
-                                <div class="selected-files-label">5 médias sélectionnés</div>
-                                <div class="d-flex gap-2">
-                                    <x-button type="button" class="btn-danger">Supprimer</x-button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <x-dashboard.media-library id="mediasMountPoint"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -260,7 +185,7 @@
         document.addEventListener("DOMContentLoaded", (event) => {
             generateSlugAndVerifySlugAndProjectName();
 
-            const mediaLibrary = new MediaLibrary('mediasMountPoint');
+            const mediaLibrary = new MediaLibrary('mediasMountPoint', 'selection');
             mediaLibrary.setDebug({{ config('app.debug') ? 'true' : 'false' }});
             mediaLibrary.initialize();
         });
