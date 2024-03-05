@@ -1,6 +1,5 @@
 import route from 'ziggy-js';
 import {formatBytes} from "../../utils/helpers";
-import {afterWrite} from "@popperjs/core";
 
 type ToolBoxButtonType = "filter-by-type" | "order" | "view" | "group";
 type FileObjectJson = {
@@ -33,7 +32,7 @@ class MediaLibrary {
     private totalFiles: number = 0;
     private isCtrlPressed: boolean = false;
     private selectedFiles: Array<FileObjectJson> = [];
-    private operationMode: MediaLibraryOperationMode;
+    private readonly operationMode: MediaLibraryOperationMode;
 
     private viewLayout: string = 'grid';
     private readonly possibleViewLayouts: Array<string> = ['grid', 'list'];
@@ -129,7 +128,7 @@ class MediaLibrary {
 
             if (this[parameterName] !== value) {
                 this.setFilterProperty(parameterName, value);
-                this.setToolBoxButtonActive(button, parameterName);
+                this.setActiveToolBoxBtn(button, parameterName);
             }
         };
     }
@@ -189,7 +188,7 @@ class MediaLibrary {
     }
 
     private setUrlParameter(name: string, value: string): void {
-        if(this.operationMode === 'page') {
+        if (this.operationMode === 'page') {
             let url: URL = new URL(window.location.href);
             let searchParams: URLSearchParams = url.searchParams;
             searchParams.set(name, value);
@@ -230,10 +229,10 @@ class MediaLibrary {
             }
         }
 
-        this.findAndActivateButton("filter-by-type", this.filterByType);
-        this.findAndActivateButton("order", this.order);
-        this.findAndActivateButton("view", this.viewLayout);
-        this.findAndActivateButton("group", this.groupBy);
+        this.bindFilterBtn("filter-by-type", this.filterByType);
+        this.bindFilterBtn("order", this.order);
+        this.bindFilterBtn("view", this.viewLayout);
+        this.bindFilterBtn("group", this.groupBy);
     }
 
     /**
@@ -242,11 +241,11 @@ class MediaLibrary {
      * @param dataValue The data value of the button.
      * @private
      */
-    private findAndActivateButton(type: ToolBoxButtonType, dataValue: string): void {
+    private bindFilterBtn(type: ToolBoxButtonType, dataValue: string): void {
         const correspondingButton: Element | null = this.parentElement.querySelector(`button[role="${type}"][data-${type}="${dataValue}"]`);
 
         if (correspondingButton !== null) {
-            this.setToolBoxButtonActive(correspondingButton, type);
+            this.setActiveToolBoxBtn(correspondingButton, type);
         }
     }
 
@@ -291,7 +290,7 @@ class MediaLibrary {
      * @param role The role of the button.
      * @private
      */
-    private setToolBoxButtonActive(button: Element, role: string): void {
+    private setActiveToolBoxBtn(button: Element, role: string): void {
         this.parentElement.querySelectorAll(`button[role="${role}"]`).forEach((button: Element): void => {
             button.classList.remove('active');
             button.setAttribute('aria-selected', 'false');
