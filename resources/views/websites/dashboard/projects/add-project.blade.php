@@ -28,8 +28,8 @@
                     'title' => 'Contenu'
                 ],
                 [
-                    'id' => 'chronology',
-                    'title' => 'Chronologie'
+                    'id' => 'medias',
+                    'title' => 'Médias'
                 ]
             ]"
         :use-check-icon="true" >
@@ -75,7 +75,7 @@
                 <h5>Éditeur</h5>
                 <div id="editor"></div>
             </div>
-            <div id="chronology" class="d-none">
+            <div id="medias" class="d-none">
 
             </div>
         </form>
