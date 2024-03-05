@@ -10,6 +10,7 @@
 
     @mixin mobile {
         .filters {
+            $reduced-width: 2.25rem; // Déduit depuis le dom à 36px
             width: fit-content;
 
             .mobile-wrapper {
@@ -27,7 +28,7 @@
             }
 
             &:hover {
-                width: 2.25rem;
+                width: $reduced-width;
 
                 .mobile-wrapper {
                     position: absolute;
@@ -58,7 +59,6 @@
             gap: map.get($spacers, 4);
             z-index: 10;
             background-color: $white;
-            transition: width .3s ease-in-out;
             overflow-y: auto;
 
             .content {
