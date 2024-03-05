@@ -10,7 +10,7 @@
 @endsection
 
 @section('pageContent')
-    <x-dashboard.media-library class="px-3 pt-2" />
+    <x-dashboard.media-library class="px-3 pt-2 flex-grow-1" />
 @endsection
 
 @push('scripts')
