@@ -41,4 +41,15 @@ class Project extends Model
         'started_at' => 'date',
         'ended_at' => 'date',
     ];
+
+    private const CONTENT_TRANSLATION_KEY_PREFIX = 'project_content_';
+
+    public static function createEmptyProjectForDraft(string $slug, string $name): Project
+    {
+        return Project::create([
+            'slug' => $slug,
+            'name' => $name,
+            'status' => self::STATUS_DRAFT,
+        ]);
+    }
 }

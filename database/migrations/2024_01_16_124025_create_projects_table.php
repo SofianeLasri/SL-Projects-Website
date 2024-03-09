@@ -20,10 +20,11 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->foreignIdFor(TranslationKey::class, 'content_translation_id')
+                ->nullable()
                 ->constrained(table: "$mainConnectionDbName.translations_indices")
                 ->restrictOnDelete();
             $table->enum('release_status', ['running', 'finished', 'cancelled'])->default('running');
-            $table->date('started_at');
+            $table->date('started_at')->nullable();
             $table->date('ended_at')->nullable();
             $table->timestamps();
         });

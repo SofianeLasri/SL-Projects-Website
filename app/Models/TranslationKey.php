@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TranslationKey extends Model
 {
@@ -15,4 +16,9 @@ class TranslationKey extends Model
     protected $fillable = [
         'key',
     ];
+
+    public function translations(): HasMany
+    {
+        return $this->hasMany(Translation::class, 'id', 'translation_key_id');
+    }
 }

@@ -9,7 +9,7 @@
     <x-button id="saveDraftBtn" type="button" class="btn-dark">
         Enregistrer le brouillon
     </x-button>
-    <x-button id="publishProjectBtn" type="button" class="btn-primary" disabled>
+    <x-button id="publishProjectBtn" type="button" class="btn-primary">
         Publier
     </x-button>
 @endsection
@@ -43,6 +43,7 @@
                         <x-input id="projectNameInput" name="name" label="Nom du projet"
                                  placeholder="Entrez le nom du projet"
                                  class="mb-2" required/>
+                        <x-input id="projectSlugInput" name="slug" hidden/>
                         <x-textarea name="description" label="Description du projet"
                                     placeholder="Entrez la description du projets" rows="2" validation="valid" required
                                     feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
@@ -51,7 +52,8 @@
                         <h5>Illustrations du projet</h5>
                         <x-input id="squareCoverInput" type="number" name="square-cover"
                                  label="ID Fileupload cover carrée" class="mb-2"/>
-                        <x-input type="number" name="dvd-cover" label="ID Fileupload cover dvd" class="mb-2"/>
+                        <x-input type="number" name="poster-cover" label="ID Fileupload cover dvd" class="mb-2"/>
+                        <x-input type="number" name="fullwide-cover" label="ID Fileupload poster" class="mb-2"/>
                     </div>
                 </div>
 
@@ -59,8 +61,8 @@
                 <div class="row">
                     <div class="col-xl-6 mb-3">
                         <x-input type="date" name="startDate" label="Date de début" class="mb-2" required/>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Status du projet</option>
+                        <label for="release_status" class="form-label>">Statut du projet</label>
+                        <select class="form-select" aria-label="Default select example" name="release_status">
                             @foreach(\App\Models\Showcase\Project::RELEASE_STATUS_ENUMS as $status)
                                 <option value="{{ $status }}">{{ $status }}</option>
                             @endforeach
