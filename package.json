@@ -19,6 +19,7 @@
         "blueimp-md5": "^2.19.0",
         "bootstrap": "^5.2.3",
         "bootstrap-icons": "^1.10.5",
+        "glob": "^10.3.10",
         "qs": "^6.11.2",
         "slugify": "^1.6.6"
     }

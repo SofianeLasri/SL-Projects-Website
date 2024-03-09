@@ -14,6 +14,7 @@
 @endsection
 
 @push('scripts')
+    @vite(['resources/js/components/dashboard/MediaUploadZone.ts', 'resources/js/pages/dashboard/MediaLibrary.ts'])
     <script type="module">
         const mediaUploadZone = new MediaUploadZone();
         mediaUploadZone.setDebug({{ config('app.debug') ? 'true' : 'false' }});

@@ -465,3 +465,4 @@ class MediaUploadZone {
 }
 
 export default MediaUploadZone;
+window.MediaUploadZone = MediaUploadZone;

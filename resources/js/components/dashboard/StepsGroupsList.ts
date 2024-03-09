@@ -68,3 +68,4 @@ class StepsGroupsList {
 }
 
 export default StepsGroupsList;
+window.StepsGroupsList = StepsGroupsList;

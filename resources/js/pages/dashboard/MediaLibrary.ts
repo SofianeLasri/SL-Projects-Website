@@ -904,3 +904,4 @@ class FileTypeIcon {
 }
 
 export default MediaLibrary;
+window.MediaLibrary = MediaLibrary;
