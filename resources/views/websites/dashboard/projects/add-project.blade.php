@@ -9,7 +9,7 @@
     <x-button id="saveDraftBtn" type="button" class="btn-dark">
         Enregistrer le brouillon
     </x-button>
-    <x-button id="publishProjectBtn" id="publishBtn" type="button" class="btn-primary" disabled>
+    <x-button id="publishProjectBtn" type="button" class="btn-primary" disabled>
         Publier
     </x-button>
 @endsection
@@ -32,7 +32,7 @@
                     'title' => 'Médias'
                 ]
             ]"
-        :use-check-icon="true" >
+        :use-check-icon="true">
         <form method="post" id="addProjectForm">
             @csrf
             <div id="generalInformations">
@@ -40,7 +40,8 @@
                     <div class="col-xl-6 mb-3">
                         <h5>Identité</h5>
                         <p class="d-none" id="projectSlugShowUp">Permalien : {{ getWebsiteUrl('showcase') }}</p>
-                        <x-input id="projectNameInput" name="name" label="Nom du projet" placeholder="Entrez le nom du projet"
+                        <x-input id="projectNameInput" name="name" label="Nom du projet"
+                                 placeholder="Entrez le nom du projet"
                                  class="mb-2" required/>
                         <x-textarea name="description" label="Description du projet"
                                     placeholder="Entrez la description du projets" rows="2" validation="valid" required
@@ -48,7 +49,8 @@
                     </div>
                     <div class="col-xl-6 mb-3">
                         <h5>Illustrations du projet</h5>
-                        <x-input id="squareCoverInput" type="number" name="square-cover" label="ID Fileupload cover carrée" class="mb-2"/>
+                        <x-input id="squareCoverInput" type="number" name="square-cover"
+                                 label="ID Fileupload cover carrée" class="mb-2"/>
                         <x-input type="number" name="dvd-cover" label="ID Fileupload cover dvd" class="mb-2"/>
                     </div>
                 </div>
@@ -81,7 +83,8 @@
         </form>
     </x-dashboard.steps-group-list>
 
-    <div class="modal modal-lg fade" id="chooseMediaModal" tabindex="-1" aria-labelledby="chooseMediaModalLabel" aria-hidden="true">
+    <div class="modal modal-lg fade" id="chooseMediaModal" tabindex="-1" aria-labelledby="chooseMediaModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -105,15 +108,5 @@
 @endsection
 
 @push('scripts')
-    @vite(['resources/js/components/dashboard/TuiEditor.ts'])
-    <script type="module">
-        const editor = new TuiEditor({
-            el: document.querySelector('#editor'),
-            height: '500px',
-            initialEditType: 'markdown',
-            previewStyle: 'vertical'
-        });
-
-        editor.getMarkdown();
-    </script>
+    @vite(['resources/js/pages/dashboard/AddProject.ts'])
 @endpush

@@ -23,6 +23,7 @@
 </div>
 
 @push('scripts')
+    @vite(['resources/js/components/dashboard/StepsGroupsList.ts'])
     <script type="module">
         const stepsGroupList = new StepsGroupsList('{{ $id }}');
     </script>
