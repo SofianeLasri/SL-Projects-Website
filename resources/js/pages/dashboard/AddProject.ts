@@ -14,6 +14,7 @@ const editor: Editor = new Editor({
     initialEditType: 'markdown',
     previewStyle: 'vertical'
 });
+const projectContentElement: HTMLTextAreaElement = document.getElementById('projectContent') as HTMLTextAreaElement;
 
 addProjectForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -39,6 +40,7 @@ publishProjectBtn.addEventListener('click', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
     editor.getMarkdown();
+    editor.setMarkdown(projectContentElement.value);
 });
 
 function sendProjectFormToServer(isDraft: boolean = false): void {

@@ -16,8 +16,8 @@
 
 @section('pageContent')
     <x-dashboard.steps-group-list
-        title="Étapes"
-        :steps="[
+            title="Étapes"
+            :steps="[
                 [
                     'id' => 'generalInformations',
                     'title' => 'Informations générales',
@@ -32,44 +32,52 @@
                     'title' => 'Médias'
                 ]
             ]"
-        :use-check-icon="true">
+            :use-check-icon="true">
         <form method="post" id="addProjectForm">
             @csrf
+            <input type="hidden" name="project_id" value="{{ $fields['project_id'] }}">
             <div id="generalInformations">
                 <div class="row">
                     <div class="col-xl-6 mb-3">
                         <h5>Identité</h5>
                         <p class="d-none" id="projectSlugShowUp">Permalien : {{ getWebsiteUrl('showcase') }}</p>
                         <x-input id="projectNameInput" name="name" label="Nom du projet"
-                                 placeholder="Entrez le nom du projet"
+                                 placeholder="Entrez le nom du projet" value="{{ $fields['name'] }}"
                                  class="mb-2" required/>
-                        <x-input id="projectSlugInput" name="slug" hidden/>
+                        <x-input id="projectSlugInput" name="slug" value="{{ $fields['slug'] }}" hidden/>
                         <x-textarea name="description" label="Description du projet"
+                                    value="{{ $fields['description'] }}"
                                     placeholder="Entrez la description du projets" rows="2" validation="valid" required
                                     feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
                     </div>
                     <div class="col-xl-6 mb-3">
                         <h5>Illustrations du projet</h5>
                         <x-input id="squareCoverInput" type="number" name="square-cover"
-                                 label="ID Fileupload cover carrée" class="mb-2"/>
-                        <x-input type="number" name="poster-cover" label="ID Fileupload cover dvd" class="mb-2"/>
-                        <x-input type="number" name="fullwide-cover" label="ID Fileupload poster" class="mb-2"/>
+                                 label="ID Fileupload cover carrée" class="mb-2" value="{{ $fields['square-cover'] }}"/>
+                        <x-input type="number" name="poster-cover" label="ID Fileupload poster" class="mb-2"
+                                 value="{{ $fields['poster-cover'] }}"/>
+                        <x-input type="number" name="fullwide-cover" label="ID Fileupload full wide" class="mb-2"
+                                 value="{{ $fields['fullwide-cover'] }}"/>
                     </div>
                 </div>
 
                 <h5>Dates clés</h5>
                 <div class="row">
                     <div class="col-xl-6 mb-3">
-                        <x-input type="date" name="startDate" label="Date de début" class="mb-2" required/>
+                        <x-input type="date" name="startDate" label="Date de début" class="mb-2"
+                                 value="{{ $fields['startDate'] }}" required/>
                         <label for="release_status" class="form-label>">Statut du projet</label>
                         <select class="form-select" aria-label="Default select example" name="release_status">
                             @foreach(\App\Models\Showcase\Project::RELEASE_STATUS_ENUMS as $status)
-                                <option value="{{ $status }}">{{ $status }}</option>
+                                <option value="{{ $status }}"
+                                        @if($fields['release_status'] === $status) selected @endif
+                                >{{ $status }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="col-xl-6 mb-3">
-                        <x-input type="date" name="endDate" label="Date de fin" class="mb-2"/>
+                        <x-input type="date" name="endDate" label="Date de fin" class="mb-2"
+                                 value="{{ $fields['endDate'] }}"/>
                     </div>
                 </div>
 
@@ -83,6 +91,7 @@
                 <x-input type="text" name="medias" label="Médias" class="mb-2"/>
             </div>
         </form>
+        <textarea id="projectContent" class="d-none" hidden>{{ $fields['content'] }}</textarea>
     </x-dashboard.steps-group-list>
 
     <div class="modal modal-lg fade" id="chooseMediaModal" tabindex="-1" aria-labelledby="chooseMediaModalLabel"

@@ -2,7 +2,10 @@
 
 namespace App\Models\Showcase;
 
+use App\Models\ProjectDraftMedia;
+use App\Models\Translation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProjectDraft extends Model
 {
@@ -41,5 +44,24 @@ class ProjectDraft extends Model
     public function getContentTranslationKey(): string
     {
         return self::CONTENT_TRANSLATION_KEY_PREFIX.$this->id;
+    }
+
+    /**
+     * Get the content translation of the project.
+     *
+     * @param  string|null  $locale  The locale of the translation. If null, the app locale will be used.
+     * @return string The content translation of the project. If the translation does not exist, an empty string will be returned.
+     */
+    public function getTranslationContent(?string $locale = null): string
+    {
+        $locale = $locale ?? config('app.locale');
+        $translation = Translation::getTranslation($this->getContentTranslationKey(), $locale);
+
+        return $translation ? $translation->message : '';
+    }
+
+    public function medias(): HasMany
+    {
+        return $this->hasMany(ProjectDraftMedia::class);
     }
 }

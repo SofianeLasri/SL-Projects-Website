@@ -19,6 +19,6 @@ class TranslationKey extends Model
 
     public function translations(): HasMany
     {
-        return $this->hasMany(Translation::class, 'id', 'translation_key_id');
+        return $this->hasMany(Translation::class, 'translation_key_id', 'id');
     }
 }
