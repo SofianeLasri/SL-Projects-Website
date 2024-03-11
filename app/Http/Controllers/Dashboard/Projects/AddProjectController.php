@@ -17,8 +17,6 @@ class AddProjectController extends Controller
             'project_id' => 'nullable|integer|exists:showcase.projects,id',
         ]);
 
-        $fields = [];
-
         if ($request->input('project_id')) {
             $project = Project::find($request->input('project_id'));
             $draft = $project->draft;
@@ -84,13 +82,13 @@ class AddProjectController extends Controller
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
             'description' => 'sometimes|nullable|string',
+            'content' => 'sometimes|nullable|string',
             'square-cover' => 'sometimes|nullable|integer|exists:file_uploads,id',
             'poster-cover' => 'sometimes|nullable|integer|exists:file_uploads,id',
             'fullwide-cover' => 'sometimes|nullable|integer|exists:file_uploads,id',
             'startDate' => 'sometimes|nullable|date',
             'endDate' => 'sometimes|nullable|date',
             'release_status' => ['sometimes', 'nullable', 'string', 'in:'.implode(',', Project::RELEASE_STATUS_ENUMS)],
-            'content' => 'sometimes|nullable|string',
             'medias' => 'sometimes|nullable|array',
         ]);
 
@@ -108,7 +106,7 @@ class AddProjectController extends Controller
         $contentTranslation = Translation::updateOrCreateTranslation(
             $draft->getContentTranslationKey(),
             config('app.locale'),
-            $request->input('content'),
+            $request->input('content') ?? ''
         );
 
         $draft->content_translation_id = $contentTranslation->id;
