@@ -78,7 +78,7 @@ class AddProjectController extends Controller
     public function saveDraft(Request $request): JsonResponse
     {
         $request->validate([
-            'project_id' => 'sometimes|nullable|integer|exists:projects,id',
+            'project_id' => 'sometimes|nullable|integer|exists:showcase.projects,id',
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
             'description' => 'sometimes|nullable|string',

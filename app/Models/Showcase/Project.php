@@ -3,12 +3,14 @@
 namespace App\Models\Showcase;
 
 use App\Models\Translation;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Project extends Model
 {
+    use HasFactory;
     public const STATUS_DRAFT = 'draft';
 
     public const STATUS_PUBLISHED = 'published';
@@ -69,17 +71,17 @@ class Project extends Model
 
     public function square_cover(): HasOne
     {
-        return $this->hasOne(ProjectCover::class, 'id', 'project_id')->where('ratio', 'square');
+        return $this->hasOne(ProjectCover::class, 'project_id', 'id')->where('ratio', ProjectCover::SQUARE_RATIO);
     }
 
     public function poster_cover(): HasOne
     {
-        return $this->hasOne(ProjectCover::class, 'id', 'project_id')->where('ratio', 'poster');
+        return $this->hasOne(ProjectCover::class, 'project_id', 'id')->where('ratio', ProjectCover::POSTER_RATIO);
     }
 
     public function fullwide_cover(): HasOne
     {
-        return $this->hasOne(ProjectCover::class, 'id', 'project_id')->where('ratio', 'fullwide');
+        return $this->hasOne(ProjectCover::class, 'project_id', 'id')->where('ratio', ProjectCover::FULLWIDE_RATIO);
     }
 
     public function getContentTranslationKey(): string

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class Translation extends Model
 {
+    use HasFactory;
     protected $connection = 'main';
 
     public $timestamps = false;
@@ -16,6 +18,8 @@ class Translation extends Model
         'country_code',
         'message',
     ];
+
+    const COUNTRY_CODES_ENUM = ['FR', 'EN'];
 
     /**
      * Update or create a translation into the database for the given index and country code.
