@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\FileUpload;
 use App\Models\Showcase\Project;
+use App\Models\Showcase\ProjectDraft;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Tests\TestCase;
 
@@ -89,7 +90,6 @@ class CreateProjectDraftTest extends TestCase
             'startDate' => $project->started_at,
             'endDate' => $project->ended_at,
             'release_status' => $project->release_status,
-            'medias' => $project->medias->pluck('id')->toArray(),
         ];
 
         $editedFields = array_merge($fields, [
@@ -116,6 +116,10 @@ class CreateProjectDraftTest extends TestCase
             'started_at' => $editedFields['startDate'],
             'ended_at' => $editedFields['endDate'],
         ]);
+
+        $draftContent = ProjectDraft::find($draftId)->getTranslationContent();
+
+        $this->assertEquals($editedFields['content'], $draftContent);
     }
 
     private function getAllFields(): array
@@ -134,7 +138,6 @@ class CreateProjectDraftTest extends TestCase
             'startDate' => '2021-01-01',
             'endDate' => '2021-01-31',
             'release_status' => Project::RELEASE_STATUS_RUNNING,
-            'medias' => $mediaFileUploads->pluck('id')->toArray(),
         ];
     }
 }

@@ -89,7 +89,6 @@ class AddProjectController extends Controller
             'startDate' => 'sometimes|nullable|date',
             'endDate' => 'sometimes|nullable|date',
             'release_status' => ['sometimes', 'nullable', 'string', 'in:'.implode(',', Project::RELEASE_STATUS_ENUMS)],
-            'medias' => 'sometimes|nullable|array',
         ]);
 
         if ($request->input('project_id')) {
