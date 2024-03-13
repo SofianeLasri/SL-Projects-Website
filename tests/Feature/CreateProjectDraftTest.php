@@ -76,7 +76,7 @@ class CreateProjectDraftTest extends TestCase
         ]);
     }
 
-    public function testPostNewProjectDraftFromExistingPublishedProject()
+    public function testPostNewProjectDraftFromExistingPublishedProjectAndEditNameDescContent()
     {
         $project = Project::factory()->withCovers()->withMedias()->create();
 
@@ -123,6 +123,51 @@ class CreateProjectDraftTest extends TestCase
         $draftContent = ProjectDraft::find($draftId)->getTranslationContent(config('app.locale'));
 
         $this->assertEquals($editedFields['content'], $draftContent);
+
+        $draftMedias = ProjectDraft::find($draftId)->medias;
+
+        $this->assertCount(count($editedFields['medias']), $draftMedias);
+        $this->assertCount(count($project->medias), $draftMedias);
+    }
+
+    public function testPostNewProjectDraftFromExistingPublishedProjectAndEditMedias()
+    {
+        $project = Project::factory()->withCovers()->withMedias()->create();
+
+        $fields = [
+            'project_id' => $project->id,
+            'name' => $project->name,
+            'slug' => $project->slug,
+            'description' => $project->description,
+            'content' => $project->getTranslationContent(config('app.locale')),
+            'square-cover' => $project->square_cover->id,
+            'poster-cover' => $project->poster_cover->id,
+            'fullwide-cover' => $project->fullwide_cover->id,
+            'startDate' => $project->started_at,
+            'endDate' => $project->ended_at,
+            'release_status' => $project->release_status,
+            'medias' => $this->createMediasArrayFromFileUploads($project->medias),
+        ];
+
+        $newMediaFileUploads = FileUpload::factory()->image()->count(2)->create();
+
+        $editedFields = array_merge($fields, [
+            'medias' => $this->createMediasArrayFromFileUploads($newMediaFileUploads),
+        ]);
+
+        $response = $this->post(route(self::ROUTE), $editedFields);
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+        ]);
+
+        $draftId = $response->json('draft_id');
+
+        $draftMedias = ProjectDraft::find($draftId)->medias;
+
+        $this->assertCount(2, $draftMedias);
+        $this->assertNotCount(count($project->medias), $draftMedias);
     }
 
     private function getAllFields(): array
