@@ -25,6 +25,7 @@ unit_test:
     - echo "CREATE DATABASE IF NOT EXISTS sl_projects_showcase;" | mariadb -u root -h mariadb
   script:
     - cp .env.example .env
+    - php -v
     - php --ini
     - composer install
     - php artisan key:generate
