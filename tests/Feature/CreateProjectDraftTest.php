@@ -22,7 +22,9 @@ class CreateProjectDraftTest extends TestCase
     {
         parent::setUp();
         $this->artisan('migrate:refresh');
-        $this->projectDraftTable = config('database.connections.showcase.database').'.project_drafts';
+
+        $projectDraft = new ProjectDraft();
+        $this->projectDraftTable = config('database.connections.'.$projectDraft->getConnectionName().'.database').'.'.$projectDraft->getTable();
     }
 
     public function testPostNewProjectDraftWithAllFields()
