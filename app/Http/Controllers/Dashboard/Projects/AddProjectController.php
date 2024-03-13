@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Dashboard\Projects;
 use App\Http\Controllers\Controller;
 use App\Models\Showcase\Project;
 use App\Models\Showcase\ProjectDraft;
-use App\Models\Translation;
+use App\Models\Showcase\ProjectDraftCover;
+use App\Models\Showcase\ProjectDraftMedia;
+use App\Rules\ProjectMediasArraySchemeRule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -36,7 +38,7 @@ class AddProjectController extends Controller
                     'startDate' => $draft->started_at,
                     'endDate' => $draft->ended_at,
                     'release_status' => $draft->release_status,
-                    'content' => $draft->getTranslationContent(),
+                    'content' => $draft->getTranslationContent(config('app.locale')),
                     'medias' => $draft->medias,
                 ]);
             } else {
@@ -49,7 +51,7 @@ class AddProjectController extends Controller
                     'startDate' => $project->started_at,
                     'endDate' => $project->ended_at,
                     'release_status' => $project->release_status,
-                    'content' => $project->getTranslationContent(),
+                    'content' => $project->getTranslationContent(config('app.locale')),
                     'medias' => $project->medias,
                 ]);
             }
@@ -89,7 +91,10 @@ class AddProjectController extends Controller
             'startDate' => 'sometimes|nullable|date',
             'endDate' => 'sometimes|nullable|date',
             'release_status' => ['sometimes', 'nullable', 'string', 'in:'.implode(',', Project::RELEASE_STATUS_ENUMS)],
+            'medias' => ['sometimes', 'nullable', 'array', new ProjectMediasArraySchemeRule],
         ]);
+
+        $locale = config('app.locale');
 
         if ($request->input('project_id')) {
             $project = Project::find($request->input('project_id'));
@@ -101,18 +106,56 @@ class AddProjectController extends Controller
 
         $draft->name = $request->input('name');
         $draft->description = $request->input('description');
-
-        $contentTranslation = Translation::updateOrCreateTranslation(
-            $draft->getContentTranslationKey(),
-            config('app.locale'),
-            $request->input('content') ?? ''
-        );
-
-        $draft->content_translation_id = $contentTranslation->id;
         $draft->release_status = $request->input('release_status');
         $draft->started_at = $request->input('startDate');
         $draft->ended_at = $request->input('endDate');
         $draft->save();
+
+        $draft->setTranslationContent($request->input('content', ''), $locale);
+
+        $savedMedias = ProjectDraftMedia::forProject($draft);
+        if ($savedMedias->exists()) {
+            $savedMedias->delete();
+        }
+
+        if ($request->input('medias')) {
+            foreach ($request->input('medias') as $media) {
+                $newlySavedMedia = ProjectDraftMedia::create([
+                    'project_draft_id' => $draft->id,
+                    'display_order' => $media['display_order'],
+                    'type' => $media['type'],
+                    'file_upload_id' => $media['file_upload_id'],
+                    'link' => $media['link'],
+                ]);
+                $newlySavedMedia->setNameTranslation($media['name'], $locale);
+            }
+        }
+
+        $savedCovers = ProjectDraftCover::forProjectDraft($draft);
+        if ($savedCovers->exists()) {
+            $savedCovers->delete();
+        }
+
+        if ($request->input('square-cover')) {
+            $draft->covers()->create([
+                'ratio' => ProjectDraftCover::SQUARE_RATIO,
+                'file_upload_id' => $request->input('square-cover'),
+            ]);
+        }
+
+        if ($request->input('poster-cover')) {
+            $draft->covers()->create([
+                'ratio' => ProjectDraftCover::POSTER_RATIO,
+                'file_upload_id' => $request->input('poster-cover'),
+            ]);
+        }
+
+        if ($request->input('fullwide-cover')) {
+            $draft->covers()->create([
+                'ratio' => ProjectDraftCover::FULLWIDE_RATIO,
+                'file_upload_id' => $request->input('fullwide-cover'),
+            ]);
+        }
 
         return response()->json([
             'success' => true,

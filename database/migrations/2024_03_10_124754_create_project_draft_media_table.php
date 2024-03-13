@@ -28,6 +28,7 @@ return new class extends Migration
                 ->restrictOnDelete();
             $table->string('link')->nullable();
             $table->foreignIdFor(TranslationKey::class, 'name_translation_id')
+                ->nullable()
                 ->constrained(table: "$mainConnectionDbName.translations_indices")
                 ->restrictOnDelete();
             $table->timestamps();

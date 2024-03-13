@@ -2,10 +2,11 @@
 
 namespace App\Models\Showcase;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectCover extends Model
+class ProjectDraftCover extends Model
 {
     use HasFactory;
 
@@ -30,8 +31,8 @@ class ProjectCover extends Model
         self::FULLWIDE_RATIO,
     ];
 
-    public function scopeForProject($query, Project $project)
+    public function scopeForProjectDraft(Builder $query, ProjectDraft $projectDraft): void
     {
-        return $query->where('project_id', $project->id);
+        $query->where('project_draft_id', $projectDraft->id);
     }
 }

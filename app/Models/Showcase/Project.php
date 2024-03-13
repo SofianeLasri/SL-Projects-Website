@@ -95,9 +95,8 @@ class Project extends Model
      * @param  string|null  $locale  The locale of the translation. If null, the app locale will be used.
      * @return string The content translation of the project. If the translation does not exist, an empty string will be returned.
      */
-    public function getTranslationContent(?string $locale = null): string
+    public function getTranslationContent(string $locale): string
     {
-        $locale = $locale ?? config('app.locale');
         $translation = Translation::getTranslation($this->getContentTranslationKey(), $locale);
 
         return $translation ? $translation->message : '';

@@ -5,7 +5,9 @@ namespace Tests\Feature;
 use App\Models\FileUpload;
 use App\Models\Showcase\Project;
 use App\Models\Showcase\ProjectDraft;
+use App\Models\Showcase\ProjectMedia;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 class CreateProjectDraftTest extends TestCase
@@ -83,13 +85,14 @@ class CreateProjectDraftTest extends TestCase
             'name' => $project->name,
             'slug' => $project->slug,
             'description' => $project->description,
-            'content' => $project->getTranslationContent(),
+            'content' => $project->getTranslationContent(config('app.locale')),
             'square-cover' => $project->square_cover->id,
             'poster-cover' => $project->poster_cover->id,
             'fullwide-cover' => $project->fullwide_cover->id,
             'startDate' => $project->started_at,
             'endDate' => $project->ended_at,
             'release_status' => $project->release_status,
+            'medias' => $this->createMediasArrayFromFileUploads($project->medias),
         ];
 
         $editedFields = array_merge($fields, [
@@ -117,7 +120,7 @@ class CreateProjectDraftTest extends TestCase
             'ended_at' => $editedFields['endDate'],
         ]);
 
-        $draftContent = ProjectDraft::find($draftId)->getTranslationContent();
+        $draftContent = ProjectDraft::find($draftId)->getTranslationContent(config('app.locale'));
 
         $this->assertEquals($editedFields['content'], $draftContent);
     }
@@ -138,6 +141,24 @@ class CreateProjectDraftTest extends TestCase
             'startDate' => '2021-01-01',
             'endDate' => '2021-01-31',
             'release_status' => Project::RELEASE_STATUS_RUNNING,
+            'medias' => $this->createMediasArrayFromFileUploads($mediaFileUploads),
         ];
+    }
+
+    private function createMediasArrayFromFileUploads(Collection $fileUploads): array
+    {
+        $mediasArray = [];
+        $displayOrder = 1;
+        foreach ($fileUploads as $fileUpload) {
+            $mediasArray[] = [
+                'display_order' => $displayOrder,
+                'name' => 'Media Name '.$displayOrder,
+                'type' => ProjectMedia::TYPE_FILEUPLOAD,
+                'file_upload_id' => $fileUpload->id,
+                'link' => null,
+            ];
+        }
+
+        return $mediasArray;
     }
 }
