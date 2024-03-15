@@ -113,7 +113,7 @@ class AddProjectController extends Controller
 
         $draft->setTranslationContent($request->input('content', ''), $locale);
 
-        $savedMedias = ProjectDraftMedia::forProject($draft);
+        $savedMedias = ProjectDraftMedia::forProjectDraft($draft);
         if ($savedMedias->exists()) {
             $savedMedias->delete();
         }
