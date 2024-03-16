@@ -25,6 +25,7 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
                 Route::post('/check-slug', [AddProjectController::class, 'checkSlug'])->name('check-slug');
                 Route::post('/check-name', [AddProjectController::class, 'checkName'])->name('check-name');
                 Route::post('/save-draft', [AddProjectController::class, 'saveDraft'])->name('save-draft');
+                Route::post('/publish', [AddProjectController::class, 'publishProject'])->name('publish');
             });
 
             // Composants

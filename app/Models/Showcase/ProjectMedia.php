@@ -2,6 +2,7 @@
 
 namespace App\Models\Showcase;
 
+use App\Models\Translation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,12 +22,19 @@ class ProjectMedia extends Model
         'name_translation_id',
     ];
 
+    private const NAME_TRANSLATION_KEY_PREFIX = 'project_media_name_';
+
     const TYPE_FILEUPLOAD = 'fileupload';
     const TYPE_LINK = 'link';
     const TYPE_ENUMS = [
         self::TYPE_FILEUPLOAD,
         self::TYPE_LINK,
     ];
+
+    public function getNameTranslationKey(): string
+    {
+        return self::NAME_TRANSLATION_KEY_PREFIX.$this->id;
+    }
 
     public static function boot(): void
     {
@@ -61,5 +69,16 @@ class ProjectMedia extends Model
     public function scopeForProject($query, Project $project)
     {
         return $query->where('project_id', $project->id);
+    }
+
+    public function setNameTranslation(string $name, string $locale): void
+    {
+        $translation = Translation::updateOrCreateTranslation(
+            $this->getNameTranslationKey(),
+            $locale,
+            $name
+        );
+
+        $this->name_translation_id = $translation->translationKey->id;
     }
 }

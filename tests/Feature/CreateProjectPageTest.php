@@ -10,13 +10,15 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Collection;
 use Tests\TestCase;
 
-class CreateProjectDraftTest extends TestCase
+class CreateProjectPageTest extends TestCase
 {
     use WithoutMiddleware;
 
-    const ROUTE = 'dashboard.ajax.projects.save-draft';
+    const DRAFT_ROUTE = 'dashboard.ajax.projects.save-draft';
+    const PUBLISH_ROUTE = 'dashboard.ajax.projects.publish';
 
     private string $projectDraftTable;
+    private string $projectTable;
 
     public function setUp(): void
     {
@@ -25,13 +27,14 @@ class CreateProjectDraftTest extends TestCase
 
         $projectDraft = new ProjectDraft();
         $this->projectDraftTable = config('database.connections.'.$projectDraft->getConnectionName().'.database').'.'.$projectDraft->getTable();
+        $this->projectTable = config('database.connections.'.$projectDraft->getConnectionName().'.database').'.'.app(Project::class)->getTable();
     }
 
     public function testPostNewProjectDraftWithAllFields()
     {
         $fields = $this->getAllFields();
 
-        $response = $this->post(route(self::ROUTE), $fields);
+        $response = $this->post(route(self::DRAFT_ROUTE), $fields);
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -58,7 +61,7 @@ class CreateProjectDraftTest extends TestCase
             'slug' => 'project-draft-name',
         ];
 
-        $response = $this->post(route(self::ROUTE), $fields);
+        $response = $this->post(route(self::DRAFT_ROUTE), $fields);
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -104,7 +107,7 @@ class CreateProjectDraftTest extends TestCase
             'release_status' => Project::RELEASE_STATUS_FINISHED,
         ]);
 
-        $response = $this->post(route(self::ROUTE), $editedFields);
+        $response = $this->post(route(self::DRAFT_ROUTE), $editedFields);
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -157,7 +160,7 @@ class CreateProjectDraftTest extends TestCase
             'medias' => $this->createMediasArrayFromFileUploads($newMediaFileUploads),
         ]);
 
-        $response = $this->post(route(self::ROUTE), $editedFields);
+        $response = $this->post(route(self::DRAFT_ROUTE), $editedFields);
 
         $response->assertStatus(200);
         $response->assertJson([
@@ -172,6 +175,30 @@ class CreateProjectDraftTest extends TestCase
         $this->assertNotCount(count($project->medias), $draftMedias);
     }
 
+    public function testPostNewProjectWithAllFields()
+    {
+        $fields = $this->getAllFields();
+
+        $response = $this->post(route(self::PUBLISH_ROUTE), $fields);
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+        ]);
+
+        $projectId = $response->json('project_id');
+
+        $this->assertDatabaseHas($this->projectTable, [
+            'id' => $projectId,
+            'name' => $fields['name'],
+            'description' => $fields['description'],
+            'content_translation_id' => 1,
+            'release_status' => $fields['release_status'],
+            'started_at' => $fields['startDate'],
+            'ended_at' => $fields['endDate'],
+        ]);
+    }
+
     private function getAllFields(): array
     {
         $coverFileUploads = FileUpload::factory()->image()->count(3)->create();
@@ -180,8 +207,8 @@ class CreateProjectDraftTest extends TestCase
         return [
             'name' => 'Project Name',
             'slug' => 'project-name',
-            'description' => 'Project Draft Description',
-            'content' => 'Project Draft Content',
+            'description' => 'Project Description',
+            'content' => 'Project Content',
             'square-cover' => $coverFileUploads[0]->id,
             'poster-cover' => $coverFileUploads[1]->id,
             'fullwide-cover' => $coverFileUploads[2]->id,

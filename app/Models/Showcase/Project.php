@@ -89,6 +89,14 @@ class Project extends Model
         return self::CONTENT_TRANSLATION_KEY_PREFIX.$this->id;
     }
 
+    public function setTranslationContent(string $content, string $locale): void
+    {
+        $translation = Translation::updateOrCreateTranslation($this->getContentTranslationKey(), $locale, $content);
+        $this->content_translation_id = $translation->translationKey->id;
+
+        $this->save();
+    }
+
     /**
      * Get the content translation of the project.
      *
@@ -105,5 +113,10 @@ class Project extends Model
     public function medias(): HasMany
     {
         return $this->hasMany(ProjectMedia::class);
+    }
+
+    public function covers(): HasMany
+    {
+        return $this->hasMany(ProjectCover::class);
     }
 }

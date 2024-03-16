@@ -69,7 +69,7 @@ class ProjectDraftMedia extends Model
         return $maxDisplayOrder + 1;
     }
 
-    public function scopeForProject(Builder $query, ProjectDraft $project): void
+    public function scopeForProjectDraft(Builder $query, ProjectDraft $project): void
     {
         $query->where('project_draft_id', $project->id);
     }

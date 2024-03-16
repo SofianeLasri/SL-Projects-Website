@@ -50,7 +50,7 @@ class FileUploadFactory extends Factory
     private function createFileUpload(?string $filetype = null): array
     {
         $filetype = $filetype ?? $this->faker->randomElement(array_keys(self::FILE_TYPES));
-        $name = $this->faker->word();
+        $name = "file-{$filetype}-".$this->faker->unique()->text(10);
         $extension = $this->faker->randomElement(self::FILE_TYPES[$filetype]);
         $filename = Str::kebab($name).'.'.$extension;
         $path = $this->faker->numberBetween(2022, 2025).'/'.$this->faker->numberBetween(1, 12).'/'.$this->faker->numberBetween(1, 28).'/'.$filename;
