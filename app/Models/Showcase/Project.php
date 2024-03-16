@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Project extends Model
+class Project extends ProjectBase
 {
     use HasFactory;
     public const STATUS_DRAFT = 'draft';
@@ -53,8 +53,6 @@ class Project extends Model
         'ended_at' => 'date',
     ];
 
-    private const CONTENT_TRANSLATION_KEY_PREFIX = 'project_content_';
-
     public static function createEmptyProjectForDraft(string $slug, string $name): Project
     {
         return Project::create([
@@ -71,52 +69,26 @@ class Project extends Model
 
     public function square_cover(): HasOne
     {
-        return $this->hasOne(ProjectCover::class, 'project_id', 'id')->where('ratio', ProjectCover::SQUARE_RATIO);
+        return $this->hasOne(ProjectCover::class)->where('ratio', ProjectCover::SQUARE_RATIO);
     }
 
     public function poster_cover(): HasOne
     {
-        return $this->hasOne(ProjectCover::class, 'project_id', 'id')->where('ratio', ProjectCover::POSTER_RATIO);
+        return $this->hasOne(ProjectCover::class)->where('ratio', ProjectCover::POSTER_RATIO);
     }
 
     public function fullwide_cover(): HasOne
     {
-        return $this->hasOne(ProjectCover::class, 'project_id', 'id')->where('ratio', ProjectCover::FULLWIDE_RATIO);
-    }
-
-    public function getContentTranslationKey(): string
-    {
-        return self::CONTENT_TRANSLATION_KEY_PREFIX.$this->id;
-    }
-
-    public function setTranslationContent(string $content, string $locale): void
-    {
-        $translation = Translation::updateOrCreateTranslation($this->getContentTranslationKey(), $locale, $content);
-        $this->content_translation_id = $translation->translationKey->id;
-
-        $this->save();
-    }
-
-    /**
-     * Get the content translation of the project.
-     *
-     * @param  string|null  $locale  The locale of the translation. If null, the app locale will be used.
-     * @return string The content translation of the project. If the translation does not exist, an empty string will be returned.
-     */
-    public function getTranslationContent(string $locale): string
-    {
-        $translation = Translation::getTranslation($this->getContentTranslationKey(), $locale);
-
-        return $translation ? $translation->message : '';
-    }
-
-    public function medias(): HasMany
-    {
-        return $this->hasMany(ProjectMedia::class);
+        return $this->hasOne(ProjectCover::class)->where('ratio', ProjectCover::FULLWIDE_RATIO);
     }
 
     public function covers(): HasMany
     {
         return $this->hasMany(ProjectCover::class);
+    }
+
+    public function medias(): HasMany
+    {
+        return $this->hasMany(ProjectMedia::class);
     }
 }

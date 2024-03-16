@@ -34,4 +34,6 @@ class ProjectCover extends Model
     {
         return $query->where('project_id', $project->id);
     }
+
+
 }
