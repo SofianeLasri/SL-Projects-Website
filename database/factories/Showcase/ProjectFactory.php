@@ -17,7 +17,10 @@ class ProjectFactory extends Factory
     {
         $startedAt = Carbon::parse($this->faker->dateTimeThisYear());
         $endedAt = $startedAt->copy()->addDays($this->faker->numberBetween(1, 30));
-        $contentTranslation = Translation::factory()->create();
+        $projectIdPrediction = Project::latest('id')->first() ? Project::latest('id')->first()->id + 1 : 1;
+        $contentTranslationKey = Project::getContentTranslationKeyPrefix().$projectIdPrediction;
+        $contentTranslation = Translation::updateOrCreateTranslation($contentTranslationKey, $this->faker->randomElement(Translation::COUNTRY_CODES_ENUM), $this->faker->text());
+
         return [
             'status' => $this->faker->randomElement(Project::STATUS_ENUMS),
             'name' => $this->faker->name(),

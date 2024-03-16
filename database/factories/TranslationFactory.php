@@ -19,4 +19,12 @@ class TranslationFactory extends Factory
             'message' => $this->faker->word(),
         ];
     }
+
+    public function withKey(string $key): TranslationFactory
+    {
+        return $this->afterCreating(function (Translation $translation) use ($key) {
+            $translation->translationKey()->associate(TranslationKey::factory()->create(['key' => $key]));
+            $translation->save();
+        });
+    }
 }

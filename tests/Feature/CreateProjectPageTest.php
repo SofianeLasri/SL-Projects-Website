@@ -15,9 +15,11 @@ class CreateProjectPageTest extends TestCase
     use WithoutMiddleware;
 
     const DRAFT_ROUTE = 'dashboard.ajax.projects.save-draft';
+
     const PUBLISH_ROUTE = 'dashboard.ajax.projects.publish';
 
     private string $projectDraftTable;
+
     private string $projectTable;
 
     public function setUp(): void
@@ -47,7 +49,6 @@ class CreateProjectPageTest extends TestCase
             'id' => $draftId,
             'name' => $fields['name'],
             'description' => $fields['description'],
-            'content_translation_id' => 1,
             'release_status' => $fields['release_status'],
             'started_at' => $fields['startDate'],
             'ended_at' => $fields['endDate'],
@@ -74,7 +75,6 @@ class CreateProjectPageTest extends TestCase
             'id' => $draftId,
             'name' => $fields['name'],
             'description' => null,
-            'content_translation_id' => 1,
             'release_status' => null,
             'started_at' => null,
             'ended_at' => null,
@@ -192,11 +192,96 @@ class CreateProjectPageTest extends TestCase
             'id' => $projectId,
             'name' => $fields['name'],
             'description' => $fields['description'],
-            'content_translation_id' => 1,
             'release_status' => $fields['release_status'],
             'started_at' => $fields['startDate'],
             'ended_at' => $fields['endDate'],
         ]);
+    }
+
+    public function testPostNewProjectWithRequiredFields()
+    {
+        $fields = $this->getAllFields();
+        unset($fields['square-cover']);
+        unset($fields['poster-cover']);
+        unset($fields['fullwide-cover']);
+        unset($fields['medias']);
+        unset($fields['endDate']);
+
+        $response = $this->post(route(self::PUBLISH_ROUTE), $fields);
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+        ]);
+
+        $projectId = $response->json('project_id');
+
+        $this->assertDatabaseHas($this->projectTable, [
+            'id' => $projectId,
+            'name' => $fields['name'],
+            'description' => $fields['description'],
+            'release_status' => $fields['release_status'],
+            'started_at' => $fields['startDate'],
+            'ended_at' => null,
+        ]);
+    }
+
+    public function testPostNewProjectWithMissingFields()
+    {
+        $fields = [
+            'name' => 'Project Name',
+            'slug' => 'project-name',
+            'status' => Project::STATUS_DRAFT,
+        ];
+
+        $response = $this->post(route(self::PUBLISH_ROUTE), $fields);
+
+        $response->assertStatus(302);
+    }
+
+    public function testModifyExistingProject()
+    {
+        $project = Project::factory()->withCovers()->withMedias()->create();
+
+        echo $project->content_translation_id;
+
+        $fields = [
+            'project_id' => $project->id,
+            'name' => $project->name,
+            'slug' => $project->slug,
+            'description' => $project->description,
+            'content' => $project->getTranslationContent(config('app.locale')),
+            'square-cover' => $project->square_cover->id,
+            'poster-cover' => $project->poster_cover->id,
+            'fullwide-cover' => $project->fullwide_cover->id,
+            'startDate' => $project->started_at,
+            'endDate' => $project->ended_at,
+            'release_status' => Project::RELEASE_STATUS_FINISHED,
+            'medias' => $this->createMediasArrayFromFileUploads($project->medias),
+        ];
+
+        $updatedData = array_merge($fields, [
+            'name' => 'Updated Project Name',
+            'description' => 'Updated Project Description',
+            'content' => 'Updated Project Content',
+        ]);
+
+        $this->post(route(self::PUBLISH_ROUTE, $project->id), $updatedData)
+            ->assertStatus(200)
+            ->assertJson(['success' => true]);
+
+        $this->assertDatabaseHas($this->projectTable, [
+            'id' => $project->id,
+            'name' => $updatedData['name'],
+            'description' => $updatedData['description'],
+            'content_translation_id' => $project->content_translation_id,
+            'release_status' => $updatedData['release_status'],
+            'started_at' => $updatedData['startDate'],
+            'ended_at' => $updatedData['endDate'],
+        ]);
+
+        $updatedProjectContent = Project::find($project->id)->getTranslationContent(config('app.locale'));
+        $this->assertEquals($updatedData['content'], $updatedProjectContent);
     }
 
     private function getAllFields(): array

@@ -7,8 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectBase extends Model
 {
-
-    public function getContentTranslationKeyPrefix(): string
+    public static function getContentTranslationKeyPrefix(): string
     {
         return 'project_content_';
     }
@@ -29,7 +28,7 @@ class ProjectBase extends Model
     /**
      * Get the content translation of the project.
      *
-     * @param string $locale The locale of the translation. If null, the app locale will be used.
+     * @param  string  $locale  The locale of the translation. If null, the app locale will be used.
      * @return string The content translation of the project. If the translation does not exist, an empty string will be returned.
      */
     public function getTranslationContent(string $locale): string

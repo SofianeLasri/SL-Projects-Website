@@ -25,7 +25,7 @@ class ProjectDraft extends ProjectBase
         'ended_at' => 'date',
     ];
 
-    public function getContentTranslationKeyPrefix(): string
+    public static function getContentTranslationKeyPrefix(): string
     {
         return 'project_draft_content_';
     }
