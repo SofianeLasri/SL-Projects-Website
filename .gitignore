@@ -49,20 +49,34 @@ $RECYCLE.BIN/
 # ====== JETBRAINS IDEs ===========================================
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 ## Directory-based project format
-.idea/
+#.idea/
 # if you remove the above rule, at least ignore user-specific stuff:
-#.idea/workspace.xml
-#.idea/tasks.xml
+.idea/workspace.xml
+.idea/tasks.xml
 # and these sensitive or high-churn files:
-#.idea/dataSources.ids
-#.idea/dataSources.xml
-#.idea/sqlDataSources.xml
-#.idea/dynamic.xml
+.idea/dataSources.ids
+.idea/dataSources.xml
+.idea/sqlDataSources.xml
+.idea/dynamic.xml
+.idea/deployment.xml
+.idea/webServers.xml
+.idea/sshConfigs.xml
+.idea/commandlinetools
+.idea/modules.xml
+.idea/jsLibraryMappings.xml
+.idea/blade.xml
+.idea/codeception.xml
+
+# Extensions
+.idea/discord.xml
+.idea/laravel*.xml
+
 
 ## File-based project format
 *.ipr
 *.iws
 *.iml
+*.xsd
 
 ## Additional for IntelliJ
 out/

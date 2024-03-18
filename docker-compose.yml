@@ -1,0 +1,48 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: registry.gitlab.sl-projects.com/sl-projects/sl-projects-website:latest
+    container_name: sl-projects-website
+    restart: unless-stopped
+    tty: true
+    environment:
+      MAIN_DB_HOST: "mariadb"
+      MAIN_DB_USERNAME: "root"
+      SC_DB_HOST: "mariadb"
+      SC_DB_USERNAME: "root"
+      MAIN_DB_DATABASE: sl_projects_main
+      SC_DB_DATABASE: sl_projects_showcase
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    networks:
+      - app-network
+    depends_on:
+        - mariadb
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_DATABASE: "sl_projects_main"
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./docker-init:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+    mariadb_data:
+        driver: local
