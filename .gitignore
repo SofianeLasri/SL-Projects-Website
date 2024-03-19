@@ -66,6 +66,7 @@ $RECYCLE.BIN/
 .idea/jsLibraryMappings.xml
 .idea/blade.xml
 .idea/codeception.xml
+.idea/php-test-framework.xml
 
 # Extensions
 .idea/discord.xml
@@ -93,3 +94,5 @@ com_crashlytics_export_strings.xml
 # ====== VAGRANT ========================================
 .vagrant/
 /.phpunit.cache/
+/.idea/watcherTasks.xml
+/.idea/jsonSchemas.xml
