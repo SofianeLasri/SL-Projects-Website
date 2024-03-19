@@ -51,3 +51,6 @@
         </div>
     </div>
 </div>
+@pushonce('scripts')
+    @vite('resources/js/components/dashboard/MediaUploadZone.ts')
+@endpushonce

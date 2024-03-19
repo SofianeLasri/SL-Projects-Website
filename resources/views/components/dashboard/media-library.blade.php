@@ -121,3 +121,7 @@
         </div>
     </div>
 </div>
+
+@pushonce('scripts')
+    @vite(['resources/js/pages/dashboard/MediaLibrary.ts'])
+@endpushonce
