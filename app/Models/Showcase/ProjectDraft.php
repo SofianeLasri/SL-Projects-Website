@@ -26,6 +26,11 @@ class ProjectDraft extends ProjectBase
         'ended_at' => 'date',
     ];
 
+    protected function getCoverClass(): string
+    {
+        return ProjectDraftCover::class;
+    }
+
     public static function getContentTranslationKeyPrefix(): string
     {
         return 'project_draft_content_';
@@ -42,16 +47,6 @@ class ProjectDraft extends ProjectBase
         }
 
         return $draft;
-    }
-
-    public function medias(): HasMany
-    {
-        return $this->hasMany(ProjectDraftMedia::class);
-    }
-
-    public function covers(): HasMany
-    {
-        return $this->hasMany(ProjectDraftCover::class);
     }
 
     public function project(): HasOne

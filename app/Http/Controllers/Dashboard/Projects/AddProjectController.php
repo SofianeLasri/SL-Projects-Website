@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard\Projects;
 
 use App\Http\Controllers\Controller;
 use App\Models\Showcase\Project;
+use App\Models\Showcase\ProjectBase;
 use App\Models\Showcase\ProjectCover;
 use App\Models\Showcase\ProjectDraft;
 use App\Models\Showcase\ProjectDraftCover;
@@ -34,9 +35,19 @@ class AddProjectController extends Controller
             $fields = [
                 'project_id' => $project->id,
                 'slug' => $project->slug,
+                'name' => $project->name,
+                'description' => $project->description,
+                'square-cover' => $project->square_cover,
+                'poster-cover' => $project->poster_cover,
+                'fullwide-cover' => $project->fullwide_cover,
+                'startDate' => $project->started_at,
+                'endDate' => $project->ended_at,
+                'release_status' => $project->release_status,
+                'content' => $project->getTranslationContent(config('app.locale')),
+                'medias' => $project->medias,
             ];
 
-            if (!empty($draft)) {
+            if (! empty($draft)) {
                 $fields = array_merge($fields, [
                     'name' => $draft->name,
                     'description' => $draft->description,
@@ -48,19 +59,6 @@ class AddProjectController extends Controller
                     'release_status' => $draft->release_status,
                     'content' => $draft->getTranslationContent(config('app.locale')),
                     'medias' => $draft->medias,
-                ]);
-            } else {
-                $fields = array_merge($fields, [
-                    'name' => $project->name,
-                    'description' => $project->description,
-                    'square-cover' => $project->square_cover,
-                    'poster-cover' => $project->poster_cover,
-                    'fullwide-cover' => $project->fullwide_cover,
-                    'startDate' => $project->started_at,
-                    'endDate' => $project->ended_at,
-                    'release_status' => $project->release_status,
-                    'content' => $project->getTranslationContent(config('app.locale')),
-                    'medias' => $project->medias,
                 ]);
             }
         } else {
@@ -112,14 +110,7 @@ class AddProjectController extends Controller
 
         $draft = ProjectDraft::findOrCreateDraft($project->id, $request->input('name'));
 
-        $draft->name = $request->input('name');
-        $draft->description = $request->input('description');
-        $draft->release_status = $request->input('release_status');
-        $draft->started_at = $request->input('startDate');
-        $draft->ended_at = $request->input('endDate');
-        $draft->save();
-
-        $draft->setTranslationContent($request->input('content', ''), $locale);
+        $this->setProjectAttributes($request, $draft, $locale);
 
         $savedMedias = ProjectDraftMedia::forProjectDraft($draft);
         if ($savedMedias->exists()) {
@@ -197,14 +188,7 @@ class AddProjectController extends Controller
         }
 
         $project->slug = $request->input('slug');
-        $project->name = $request->input('name');
-        $project->description = $request->input('description');
-        $project->release_status = $request->input('release_status');
-        $project->started_at = $request->input('startDate');
-        $project->ended_at = $request->input('endDate');
-        $project->save();
-
-        $project->setTranslationContent($request->input('content', ''), $locale);
+        $this->setProjectAttributes($request, $project, $locale);
 
         $savedMedias = ProjectMedia::forProject($project);
         if ($savedMedias->exists()) {
@@ -282,5 +266,23 @@ class AddProjectController extends Controller
         return response()->json([
             'nameAlreadyUsed' => $nameAlreadyUsed,
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param ProjectDraft $project
+     * @param mixed $locale
+     * @return void
+     */
+    private function setProjectAttributes(Request $request, ProjectBase $project, string $locale): void
+    {
+        $project->name = $request->input('name');
+        $project->description = $request->input('description');
+        $project->release_status = $request->input('release_status');
+        $project->started_at = $request->input('startDate');
+        $project->ended_at = $request->input('endDate');
+        $project->save();
+
+        $project->setTranslationContent($request->input('content', ''), $locale);
     }
 }

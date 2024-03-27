@@ -67,26 +67,6 @@ class Project extends ProjectBase
         return $this->hasOne(ProjectDraft::class);
     }
 
-    public function square_cover(): HasOne
-    {
-        return $this->hasOne(ProjectCover::class)->where('ratio', ProjectCover::SQUARE_RATIO);
-    }
-
-    public function poster_cover(): HasOne
-    {
-        return $this->hasOne(ProjectCover::class)->where('ratio', ProjectCover::POSTER_RATIO);
-    }
-
-    public function fullwide_cover(): HasOne
-    {
-        return $this->hasOne(ProjectCover::class)->where('ratio', ProjectCover::FULLWIDE_RATIO);
-    }
-
-    public function covers(): HasMany
-    {
-        return $this->hasMany(ProjectCover::class);
-    }
-
     public function medias(): HasMany
     {
         return $this->hasMany(ProjectMedia::class);

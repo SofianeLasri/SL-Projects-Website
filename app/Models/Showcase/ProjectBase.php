@@ -4,9 +4,16 @@ namespace App\Models\Showcase;
 
 use App\Models\Translation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ProjectBase extends Model
 {
+    protected function getCoverClass(): string
+    {
+        return ProjectCover::class;
+    }
+
     public static function getContentTranslationKeyPrefix(): string
     {
         return 'project_content_';
@@ -17,6 +24,12 @@ class ProjectBase extends Model
         return $this->getContentTranslationKeyPrefix().$this->id;
     }
 
+    /**
+     * Set the content translation of the project.
+     *
+     * @param  string  $content  The content translation of the project.
+     * @param  string  $locale  The locale of the translation.
+     */
     public function setTranslationContent(string $content, string $locale): void
     {
         $translation = Translation::updateOrCreateTranslation($this->getContentTranslationKey(), $locale, $content);
@@ -38,8 +51,28 @@ class ProjectBase extends Model
         return $translation ? $translation->message : '';
     }
 
-    protected function getCoverClass()
+    public function medias(): HasMany
     {
-        return ProjectCover::class;
+        return $this->hasMany(ProjectDraftMedia::class);
+    }
+
+    public function covers(): HasMany
+    {
+        return $this->hasMany($this->getCoverClass());
+    }
+
+    public function square_cover(): HasOne
+    {
+        return $this->hasOne($this->getCoverClass())->where('ratio', ProjectCover::SQUARE_RATIO);
+    }
+
+    public function poster_cover(): HasOne
+    {
+        return $this->hasOne($this->getCoverClass())->where('ratio', ProjectCover::POSTER_RATIO);
+    }
+
+    public function fullwide_cover(): HasOne
+    {
+        return $this->hasOne($this->getCoverClass())->where('ratio', ProjectCover::FULLWIDE_RATIO);
     }
 }
