@@ -5,6 +5,7 @@ namespace App\Models\Showcase;
 use App\Models\Translation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ProjectDraft extends ProjectBase
 {
@@ -51,5 +52,10 @@ class ProjectDraft extends ProjectBase
     public function covers(): HasMany
     {
         return $this->hasMany(ProjectDraftCover::class);
+    }
+
+    public function project(): HasOne
+    {
+        return $this->hasOne(Project::class, 'id', 'project_id');
     }
 }

@@ -18,19 +18,25 @@ class AddProjectController extends Controller
     public function index(Request $request)
     {
         $request->validate([
-            'project_id' => 'nullable|integer|exists:showcase.projects,id',
+            'project_id' => 'sometimes|integer|exists:showcase.projects,id',
+            'project_draft_id' => 'sometimes|integer|exists:showcase.project_drafts,id',
         ]);
 
-        if ($request->input('project_id')) {
-            $project = Project::find($request->input('project_id'));
-            $draft = $project->draft;
+        if ($request->has('project_id') || $request->has('project_draft_id')) {
+
+            if ($request->input('project_id')) {
+                $project = Project::find($request->input('project_id'));
+            } else {
+                $draft = ProjectDraft::find($request->input('project_draft_id'));
+                $project = $draft->project;
+            }
 
             $fields = [
                 'project_id' => $project->id,
                 'slug' => $project->slug,
             ];
 
-            if ($draft) {
+            if (!empty($draft)) {
                 $fields = array_merge($fields, [
                     'name' => $draft->name,
                     'description' => $draft->description,
