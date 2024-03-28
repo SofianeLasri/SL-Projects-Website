@@ -44,7 +44,7 @@
                         <x-input id="projectNameInput" name="name" label="Nom du projet"
                                  placeholder="Entrez le nom du projet" value="{{ $fields['name'] }}"
                                  class="mb-2" required/>
-                        <x-input id="projectSlugInput" name="slug" value="{{ $fields['slug'] }}" hidden/>
+                        <x-input id="projectSlugInput" name="slug" value="{{ $fields['slug'] }}" class="mb-2" hidden/>
                         <x-textarea name="description" label="Description du projet"
                                     value="{{ $fields['description'] }}"
                                     placeholder="Entrez la description du projets" rows="2" validation="valid" required

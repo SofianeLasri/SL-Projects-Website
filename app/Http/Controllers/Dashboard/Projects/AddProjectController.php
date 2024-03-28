@@ -25,7 +25,7 @@ class AddProjectController extends Controller
 
         if ($request->has('project_id') || $request->has('project_draft_id')) {
 
-            if ($request->input('project_id')) {
+            if ($request->has('project_id')) {
                 $project = Project::find($request->input('project_id'));
             } else {
                 $draft = ProjectDraft::find($request->input('project_draft_id'));
@@ -78,7 +78,7 @@ class AddProjectController extends Controller
             ];
         }
 
-        return view('websites.dashboard.projects.add-project', [
+        return view('websites.dashboard.projects.editor', [
             'fields' => $fields,
         ]);
     }
@@ -269,10 +269,8 @@ class AddProjectController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param ProjectDraft $project
-     * @param mixed $locale
-     * @return void
+     * @param  ProjectDraft  $project
+     * @param  mixed  $locale
      */
     private function setProjectAttributes(Request $request, ProjectBase $project, string $locale): void
     {

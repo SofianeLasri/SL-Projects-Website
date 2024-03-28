@@ -14,6 +14,10 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
             Route::get('/get-uploaded-files', [MediaLibraryController::class, 'getUploadedFiles'])->name('get-uploaded-files');
         });
 
+        Route::name('projects.')->prefix('projects')->group(function () {
+            Route::get('/editor', [AddProjectController::class, 'index'])->name('editor');
+        });
+
         // Requêtes AJAX
         Route::name('ajax.')->prefix('ajax')->group(function () {
             Route::get('/set-sidebar-state', function () {
@@ -38,10 +42,6 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
                     Route::get('/media-element-html', [MediaLibraryController::class, 'getMediaElementHtml'])->name('media-element-html');
                 });
             });
-        });
-
-        Route::name('projects.')->prefix('projects')->group(function () {
-            Route::get('/add', [AddProjectController::class, 'index'])->name('add');
         });
     });
     Route::get('/robots.txt', [RobotsTxtController::class, 'index']);
