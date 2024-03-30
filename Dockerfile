@@ -142,3 +142,6 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php -- --inst
 
 # Install Laravel Envoy
 RUN composer global require "laravel/envoy:2.8.6"
+
+# Install nodejs
+RUN apt-get install -yqq nodejs npm
