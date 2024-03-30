@@ -38,6 +38,7 @@ unit_test:
     - php artisan migrate
     - php artisan dusk:chrome-driver --all
     - chmod -R 0755 vendor/laravel/dusk/bin/
+    - chmod -R 777 /builds
     - curl http://sl-projects.local
     - vendor/bin/phpunit
 
