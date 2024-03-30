@@ -39,6 +39,8 @@ unit_test:
     - php artisan dusk:chrome-driver --all
     - chmod -R 0755 vendor/laravel/dusk/bin/
     - chmod -R 777 /builds
+    - chown -R www-data:www-data /builds
+    - ls -l .
     - curl http://sl-projects.local
     - vendor/bin/phpunit
 
