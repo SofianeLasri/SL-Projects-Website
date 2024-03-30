@@ -14,13 +14,12 @@ default:
     - mariadb:10.11
 
 stages:
-  - install
   - test
   - deploy
   - purgecache
 
-install_dependencies:
-  stage: install
+unit_test:
+  stage: test
   before_script:
     - apt-get update -q && apt-get install -qqy --no-install-recommends mariadb-client
     - echo "CREATE DATABASE IF NOT EXISTS sl_projects_test_showcase;" | mariadb -u root -h mariadb
@@ -42,12 +41,7 @@ install_dependencies:
     - npm run build
     - chmod -R 0755 vendor/laravel/dusk/bin/
     - chown -R www-data:www-data /builds
-
-unit_test:
-  stage: test
-  script:
     - php artisan test
-  when: on_success
 
 deploy_production:
   stage: deploy
