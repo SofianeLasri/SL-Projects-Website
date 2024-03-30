@@ -23,15 +23,17 @@ unit_test:
   before_script:
     - apt-get update -q && apt-get install -qqy --no-install-recommends mariadb-client
     - echo "CREATE DATABASE IF NOT EXISTS sl_projects_showcase;" | mariadb -u root -h mariadb
-  script:
     - echo "127.0.0.1 api.sl-projects.local" >> /etc/hosts
     - echo "127.0.0.1 sl-projects.local" >> /etc/hosts
     - echo "127.0.0.1 blog.sl-projects.local" >> /etc/hosts
     - echo "127.0.0.1 dashboard.sl-projects.local" >> /etc/hosts
     - echo "127.0.0.1 auth.sl-projects.local" >> /etc/hosts
     - echo "127.0.0.1 sofianelasri.local" >> /etc/hosts
+  script:
     # debug: we want see hosts file content
     - cat /etc/hosts
+    # debug: test docker url
+    - curl app
     - cp .env.example .env
     - composer install
     - php artisan key:generate
