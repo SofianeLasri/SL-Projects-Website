@@ -14,6 +14,7 @@ class ExampleTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             echo route('showcase.home');
+            echo env('SHOWCASE_DOMAIN');
             $browser->visit(route('showcase.home'))
                 ->assertSee('Sofiane Lasri');
         });

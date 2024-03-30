@@ -40,6 +40,7 @@ unit_test:
     - chmod -R 0755 vendor/laravel/dusk/bin/
     - chmod -R 777 /builds
     - chown -R www-data:www-data /builds
+    - curl http://sl-projects.local
     - vendor/bin/phpunit
 
 deploy_production:
