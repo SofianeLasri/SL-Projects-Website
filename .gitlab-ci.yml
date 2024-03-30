@@ -46,7 +46,8 @@ install_dependencies:
 unit_test:
   stage: test
   script:
-    - vendor/bin/phpunit
+    - php artisan test
+  when: on_success
 
 deploy_production:
   stage: deploy
@@ -74,3 +75,4 @@ purgecache:
       curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
       -H "Authorization: Bearer $CF_API_TOKEN" \
       -H "Content-Type:application/json"
+  when: on_success
