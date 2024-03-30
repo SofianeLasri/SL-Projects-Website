@@ -30,6 +30,8 @@ unit_test:
     - echo "127.0.0.1 dashboard.sl-projects.local" >> /etc/hosts
     - echo "127.0.0.1 auth.sl-projects.local" >> /etc/hosts
     - echo "127.0.0.1 sofianelasri.local" >> /etc/hosts
+    # debug: we want see hosts file content
+    - cat /etc/hosts
     - cp .env.example .env
     - composer install
     - php artisan key:generate
