@@ -1,5 +1,5 @@
 # Set the base image for subsequent instructions
-FROM php:8.3
+FROM php:8.3-apache
 
 # Update packages
 RUN apt-get update
@@ -46,6 +46,12 @@ RUN apt-get update; \
           procps \
           libbz2-dev
 
+# Install Chromium dependencies
+RUN apt-get install -yqq libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
+RUN apt-get install -yqq chromium
+
+# Setting apache2 configuration
+COPY docker-init/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 ###########################################
 # ftp
