@@ -32,7 +32,7 @@ unit_test:
     - sed -i 's@/var/www@/builds/sl-projects/sl-projects-website@g' /etc/apache2/sites-available/000-default.conf
     - service apache2 start
   script:
-    - cp .env.example .env
+    - cp .env.testing .env
     - composer install
     - php artisan key:generate
     - php artisan migrate
@@ -40,8 +40,6 @@ unit_test:
     - chmod -R 0755 vendor/laravel/dusk/bin/
     - chmod -R 777 /builds
     - chown -R www-data:www-data /builds
-    - ls -l .
-    - curl http://sl-projects.local
     - vendor/bin/phpunit
 
 deploy_production:
