@@ -33,7 +33,7 @@ unit_test:
     # debug: we want see hosts file content
     - cat /etc/hosts
     # debug: test docker url
-    - curl app
+    - curl http://sofianelasri.local
     - cp .env.example .env
     - composer install
     - php artisan key:generate
