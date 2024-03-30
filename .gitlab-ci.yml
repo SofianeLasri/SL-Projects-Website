@@ -31,7 +31,7 @@ unit_test:
     - echo "127.0.0.1 sofianelasri.local" >> /etc/hosts
   script:
     # debug apache2 status
-    - service apache2 status
+    - cat /var/log/apache2/error.log
     # debug: we want see hosts file content
     - cat /etc/hosts
     # debug: test docker url
