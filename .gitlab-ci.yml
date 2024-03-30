@@ -29,6 +29,8 @@ unit_test:
     - echo "127.0.0.1 dashboard.sl-projects.local" >> /etc/hosts
     - echo "127.0.0.1 auth.sl-projects.local" >> /etc/hosts
     - echo "127.0.0.1 sofianelasri.local" >> /etc/hosts
+    - sed -i 's@/var/www@/builds/sl-projects/sl-projects-website@g' /etc/apache2/sites-available/000-default.conf
+    - service apache2 start
   script:
     - cp .env.example .env
     - composer install
@@ -36,8 +38,7 @@ unit_test:
     - php artisan migrate
     - php artisan dusk:chrome-driver --all
     - chmod -R 0755 vendor/laravel/dusk/bin/
-    - sed -i 's@/var/www@/builds/sl-projects/sl-projects-website@g' /etc/apache2/sites-available/000-default.conf
-    - service apache2 start
+    - curl http://sl-projects.local
     - vendor/bin/phpunit
 
 deploy_production:
