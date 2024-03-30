@@ -36,6 +36,7 @@ unit_test:
     - php artisan migrate
     - php artisan dusk:chrome-driver --all
     - chmod -R 0755 vendor/laravel/dusk/bin/
+    - sed -i 's@/var/www@/builds/sl-projects/sl-projects-website@g' /etc/apache2/sites-available/000-default.conf
     - service apache2 start
     - vendor/bin/phpunit
 
