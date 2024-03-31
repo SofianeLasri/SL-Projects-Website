@@ -28,6 +28,7 @@ git reset --hard {{ $commit }}
 echo "Starting deployment ({{ $release }})"
 cd {{ $new_release_dir }}
 composer install --prefer-dist --no-scripts -q -o
+php artisan ziggy:generate
 @endtask
 
 @task('run_npm')

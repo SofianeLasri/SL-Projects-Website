@@ -18,9 +18,13 @@ services:
         working_dir: /var/www
         volumes:
             - ./:/var/www
+            - /var/www/vendor
+            - /var/www/node_modules
+            - /var/www/public/build
         ports:
             - "9515:9515"
             - "80:80"
+            - "22:22"
         extra_hosts:
             - "api.sl-projects.local:127.0.0.1"
             - "sl-projects.local:127.0.0.1"

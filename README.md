@@ -33,3 +33,10 @@ Ce projet est la plateforme web de SL-Projects. Il concentre les sous projets su
 4. Générer une clé d'application (en local uniquement) : `php artisan key:generate`
 5. Copier les routes avec Ziggy : `php artisan ziggy:generate`
 6. Compiler les assets : `npm run build`
+
+## Usage image Docker (en local)
+
+1. Le serveur web plante au démarrage, probablement à cause des points de montage qui se font légèrement après avoir lancé le serveur. Il faut donc relancer le serveur depuis la console.
+2. Les identifiants de connexion ssh sont les suivants :
+   - Utilisateur : `root`
+   - Mot de passe : `password`

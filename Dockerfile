@@ -53,6 +53,9 @@ RUN apt-get install -yqq chromium
 # Setting apache2 configuration
 COPY docker-init/000-default.conf /etc/apache2/sites-available/000-default.conf
 
+# Enable apache2 modules
+RUN a2enmod rewrite
+
 ###########################################
 # ftp
 ###########################################
@@ -145,3 +148,12 @@ RUN composer global require "laravel/envoy:2.8.6"
 
 # Install nodejs
 RUN apt-get install -yqq nodejs npm
+
+# Install SSH Server
+RUN apt-get install -yqq openssh-server
+RUN mkdir /var/run/sshd
+
+RUN echo 'root:password' | chpasswd
+RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+
+CMD ["/usr/sbin/sshd", "-D"]
