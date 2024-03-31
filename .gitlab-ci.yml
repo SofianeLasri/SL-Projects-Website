@@ -70,3 +70,5 @@ purgecache:
       -H "Authorization: Bearer $CF_API_TOKEN" \
       -H "Content-Type:application/json"
   when: on_success
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
