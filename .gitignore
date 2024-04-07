@@ -67,6 +67,7 @@ $RECYCLE.BIN/
 .idea/blade.xml
 .idea/codeception.xml
 .idea/php-test-framework.xml
+.idea/phpspec.xml
 
 # Extensions
 .idea/discord.xml
