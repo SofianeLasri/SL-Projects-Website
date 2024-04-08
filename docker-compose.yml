@@ -10,11 +10,7 @@ services:
         tty: true
         environment:
             MAIN_DB_HOST: "mariadb"
-            MAIN_DB_USERNAME: "root"
             SC_DB_HOST: "mariadb"
-            SC_DB_USERNAME: "root"
-            MAIN_DB_DATABASE: sl_projects_test_main
-            SC_DB_DATABASE: sl_projects_test_showcase
         working_dir: /var/www
         volumes:
             - ./:/var/www
