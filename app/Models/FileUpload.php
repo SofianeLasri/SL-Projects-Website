@@ -113,7 +113,7 @@ class FileUpload extends Model
 
     public function getFile(): string
     {
-        return Storage::disk('ftp')->get($this->path);
+        return Storage::get($this->path);
     }
 
     public function getPendingImageConversions(): HasMany
@@ -190,7 +190,7 @@ class FileUpload extends Model
         $newFilename = $this->checkFileName($uploadFolder, Str::beforeLast($filename, '.').'_'.$conversionType.'.'.$format);
 
         try {
-            Storage::disk('ftp')->put($uploadFolder.$newFilename, $image->__toString());
+            Storage::put($uploadFolder.$newFilename, $image->__toString());
         } catch (\Exception $e) {
             $this->removeFromConversionQueueAndPlaceToUnprocessable($conversionType, 'Error while storing image', $e);
 
@@ -281,7 +281,7 @@ class FileUpload extends Model
         Cache::forget($cacheKey);
 
         return Cache::remember($cacheKey, 120, function () use ($folder) {
-            return collect(Storage::disk('ftp')->files($folder))->map(function ($path) {
+            return collect(Storage::files($folder))->map(function ($path) {
                 return pathinfo($path, PATHINFO_BASENAME);
             })->toArray();
         });

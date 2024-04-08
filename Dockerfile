@@ -50,8 +50,9 @@ RUN apt-get update; \
 RUN apt-get install -yqq libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
 RUN apt-get install -yqq chromium
 
-# Setting apache2 configuration
+# Setting Apache2 & PHP configuration
 COPY docker-init/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY docker-init/php.ini "$PHP_INI_DIR/php.ini"
 
 # Enable apache2 modules
 RUN a2enmod rewrite

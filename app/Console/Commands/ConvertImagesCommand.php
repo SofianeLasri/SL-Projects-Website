@@ -22,7 +22,7 @@ class ConvertImagesCommand extends Command
             $this->info("Starting to convert $count images");
 
             foreach ($imagesToConvert as $image) {
-                Bus::dispatch(new ConvertImageJob($image));
+                Bus::dispatchSync(new ConvertImageJob($image));
             }
         }
     }

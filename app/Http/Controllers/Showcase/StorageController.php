@@ -20,6 +20,6 @@ class StorageController extends Controller
             abort(404);
         }
 
-        return Storage::disk('ftp')->response($path);
+        return Storage::response($path);
     }
 }
