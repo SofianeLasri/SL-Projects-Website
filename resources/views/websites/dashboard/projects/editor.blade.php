@@ -36,6 +36,10 @@
         <form method="post" id="addProjectForm">
             @csrf
             <input type="hidden" name="project_id" value="{{ $fields['project_id'] }}">
+            @if(!empty($fields['draft_id']))
+                <input type="hidden" name="draft_id" value="{{ $fields['draft_id'] }}"/>
+            @endif
+
             <div id="generalInformations">
                 <div class="row">
                     <div class="col-xl-6 mb-3">
@@ -50,6 +54,7 @@
                                     placeholder="Entrez la description du projets" rows="2" validation="valid" required
                                     feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
                     </div>
+
                     <div class="col-xl-6 mb-3">
                         <h5>Illustrations du projet</h5>
                         <x-input id="squareCoverInput" type="number" name="square-cover"
@@ -64,8 +69,8 @@
                 <h5>Dates clés</h5>
                 <div class="row">
                     <div class="col-xl-6 mb-3">
-                        <x-input type="date" name="startDate" label="Date de début" class="mb-2"
-                                 value="{{ $fields['startDate'] }}" required/>
+                        <x-input type="date" name="start_date" label="Date de début" class="mb-2"
+                                 value="{{ $fields['start_date'] }}" required/>
                         <label for="release_status" class="form-label>">Statut du projet</label>
                         <select class="form-select" aria-label="Default select example" name="release_status">
                             @foreach(\App\Models\Showcase\Project::RELEASE_STATUS_ENUMS as $status)
@@ -76,17 +81,17 @@
                         </select>
                     </div>
                     <div class="col-xl-6 mb-3">
-                        <x-input type="date" name="endDate" label="Date de fin" class="mb-2"
-                                 value="{{ $fields['endDate'] }}"/>
+                        <x-input type="date" name="end_date" label="Date de fin" class="mb-2"
+                                 value="{{ $fields['end_date'] }}"/>
                     </div>
                 </div>
-
-                <h5></h5>
             </div>
+
             <div id="content" class="d-none">
                 <h5>Éditeur</h5>
                 <div id="editor"></div>
             </div>
+
             <div id="medias" class="d-none">
                 <x-input type="text" name="medias" label="Médias" class="mb-2"/>
             </div>

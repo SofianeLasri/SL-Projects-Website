@@ -1,8 +1,9 @@
 import {Editor} from '@toast-ui/editor';
 import route from 'ziggy-js';
+import {ProjectEditorResponse} from "../../types";
 
 const saveDraftRoute: string = route('dashboard.ajax.projects.save-draft');
-const publishProjectRoute: string = "";
+const publishProjectRoute: string = route('dashboard.ajax.projects.publish');
 const addProjectForm: HTMLFormElement = document.getElementById('addProjectForm') as HTMLFormElement;
 const previewProjectBtn: HTMLButtonElement = document.getElementById('previewProjectBtn') as HTMLButtonElement;
 const saveDraftBtn: HTMLButtonElement = document.getElementById('saveDraftBtn') as HTMLButtonElement;
@@ -20,8 +21,13 @@ addProjectForm.addEventListener('submit', (event) => {
     event.preventDefault();
 });
 
-previewProjectBtn.addEventListener('click', () => {
+previewProjectBtn.addEventListener('click', async () => {
     console.log('Preview project');
+    const data: ProjectEditorResponse | null = await sendProjectFormToServer(true);
+
+    if (data !== null) {
+        window.open(data.url, '_blank');
+    }
 });
 
 saveDraftBtn.addEventListener('click', () => {
@@ -31,8 +37,9 @@ saveDraftBtn.addEventListener('click', () => {
 
 publishProjectBtn.addEventListener('click', () => {
     console.log('Publish project');
-    if(addProjectForm.reportValidity()){
+    if (addProjectForm.reportValidity()) {
         console.log("Form is valid");
+        sendProjectFormToServer();
     } else {
         console.log("Form is invalid");
     }
@@ -43,15 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
     editor.setMarkdown(projectContentElement.value);
 });
 
-function sendProjectFormToServer(isDraft: boolean = false): void {
-    const route = isDraft ? saveDraftRoute : publishProjectRoute;
-    const formData = new FormData(addProjectForm);
+async function sendProjectFormToServer(isDraft: boolean = false): Promise<ProjectEditorResponse | null> {
+    const route: string = isDraft ? saveDraftRoute : publishProjectRoute;
+    const formData: FormData = new FormData(addProjectForm);
     formData.append('content', editor.getMarkdown());
 
     const data = Object.fromEntries(formData);
+    let returnedData: ProjectEditorResponse | null = null;
 
     console.log(data);
-    fetch(route, {
+    await fetch(route, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -60,11 +68,14 @@ function sendProjectFormToServer(isDraft: boolean = false): void {
         },
         body: JSON.stringify(data)
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => response.json())
+        .then(responseData => {
+            console.log(responseData);
+            returnedData = responseData;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+    return returnedData;
 }

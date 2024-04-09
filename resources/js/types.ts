@@ -6,6 +6,13 @@ export type LaravelValidationError = {
 }
 
 export type MUZUploadedFileResponse = {
-    "success": boolean,
-    "url": string,
+    success: boolean,
+    url: string,
+}
+
+export type ProjectEditorResponse = {
+    success: boolean,
+    url: string,
+    project_id?: number,
+    draft_id?: number,
 }

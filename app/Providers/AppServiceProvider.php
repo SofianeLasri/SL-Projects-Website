@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Middleware\SaveRequestMiddleware;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use URL;
 
@@ -26,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         URL::forceScheme(config('app.http_protocol'));
+        Carbon::setLocale(config('app.locale'));
     }
 }

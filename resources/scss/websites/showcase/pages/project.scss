@@ -149,6 +149,10 @@ $project-logo-width: 20rem;
         flex-direction: row;
     }
 
+    .content {
+        flex-grow: 1;
+    }
+
     .right-part {
         flex-shrink: 0;
         @include media-breakpoint-up(lg) {

@@ -1,5 +1,5 @@
 <div class="project-card">
-    <a href="{{ route('showcase.project', ['project' => $projectSlug]) }}" class="cover"
+    <a href="{{ route('showcase.project', ['projectSlug' => $projectSlug]) }}" class="cover"
        @if($coverFile)
            style="background-image: url('{{ $coverFile->getFileUrl() }}')"
        @else
@@ -11,6 +11,6 @@
         </div>
     </a>
     <div class="meta">
-        <a href="{{ route('showcase.project', ['project' => $projectSlug]) }}" class="title">{{ $projectName }}</a>
+        <a href="{{ route('showcase.project', ['projectSlug' => $projectSlug]) }}" class="title">{{ $projectName }}</a>
     </div>
 </div>

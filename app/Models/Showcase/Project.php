@@ -2,11 +2,8 @@
 
 namespace App\Models\Showcase;
 
-use App\Models\Translation;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Project extends ProjectBase
 {
@@ -62,9 +59,9 @@ class Project extends ProjectBase
         ]);
     }
 
-    public function draft(): HasOne
+    public function draft(): HasMany
     {
-        return $this->hasOne(ProjectDraft::class);
+        return $this->hasMany(ProjectDraft::class);
     }
 
     public function medias(): HasMany

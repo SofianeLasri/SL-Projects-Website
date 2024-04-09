@@ -50,8 +50,8 @@ class CreateProjectPageTest extends TestCase
             'name' => $fields['name'],
             'description' => $fields['description'],
             'release_status' => $fields['release_status'],
-            'started_at' => $fields['startDate'],
-            'ended_at' => $fields['endDate'],
+            'started_at' => $fields['start_date'],
+            'ended_at' => $fields['end_date'],
         ]);
     }
 
@@ -94,8 +94,8 @@ class CreateProjectPageTest extends TestCase
             'square-cover' => $project->square_cover->id,
             'poster-cover' => $project->poster_cover->id,
             'fullwide-cover' => $project->fullwide_cover->id,
-            'startDate' => $project->started_at,
-            'endDate' => $project->ended_at,
+            'start_date' => $project->started_at,
+            'end_date' => $project->ended_at,
             'release_status' => $project->release_status,
             'medias' => $this->createMediasArrayFromFileUploads($project->medias),
         ];
@@ -121,8 +121,8 @@ class CreateProjectPageTest extends TestCase
             'name' => $editedFields['name'],
             'description' => $editedFields['description'],
             'release_status' => $editedFields['release_status'],
-            'started_at' => $editedFields['startDate'],
-            'ended_at' => $editedFields['endDate'],
+            'started_at' => $editedFields['start_date'],
+            'ended_at' => $editedFields['end_date'],
         ]);
 
         $draftContent = ProjectDraft::find($draftId)->getTranslationContent(config('app.locale'));
@@ -148,8 +148,8 @@ class CreateProjectPageTest extends TestCase
             'square-cover' => $project->square_cover->id,
             'poster-cover' => $project->poster_cover->id,
             'fullwide-cover' => $project->fullwide_cover->id,
-            'startDate' => $project->started_at,
-            'endDate' => $project->ended_at,
+            'start_date' => $project->started_at,
+            'end_date' => $project->ended_at,
             'release_status' => $project->release_status,
             'medias' => $this->createMediasArrayFromFileUploads($project->medias),
         ];
@@ -193,8 +193,8 @@ class CreateProjectPageTest extends TestCase
             'name' => $fields['name'],
             'description' => $fields['description'],
             'release_status' => $fields['release_status'],
-            'started_at' => $fields['startDate'],
-            'ended_at' => $fields['endDate'],
+            'started_at' => $fields['start_date'],
+            'ended_at' => $fields['end_date'],
         ]);
     }
 
@@ -205,7 +205,7 @@ class CreateProjectPageTest extends TestCase
         unset($fields['poster-cover']);
         unset($fields['fullwide-cover']);
         unset($fields['medias']);
-        unset($fields['endDate']);
+        unset($fields['end_date']);
 
         $response = $this->post(route(self::PUBLISH_ROUTE), $fields);
 
@@ -221,7 +221,7 @@ class CreateProjectPageTest extends TestCase
             'name' => $fields['name'],
             'description' => $fields['description'],
             'release_status' => $fields['release_status'],
-            'started_at' => $fields['startDate'],
+            'started_at' => $fields['start_date'],
             'ended_at' => null,
         ]);
     }
@@ -254,8 +254,8 @@ class CreateProjectPageTest extends TestCase
             'square-cover' => $project->square_cover->id,
             'poster-cover' => $project->poster_cover->id,
             'fullwide-cover' => $project->fullwide_cover->id,
-            'startDate' => $project->started_at,
-            'endDate' => $project->ended_at,
+            'start_date' => $project->started_at,
+            'end_date' => $project->ended_at,
             'release_status' => Project::RELEASE_STATUS_FINISHED,
             'medias' => $this->createMediasArrayFromFileUploads($project->medias),
         ];
@@ -276,8 +276,8 @@ class CreateProjectPageTest extends TestCase
             'description' => $updatedData['description'],
             'content_translation_id' => $project->content_translation_id,
             'release_status' => $updatedData['release_status'],
-            'started_at' => $updatedData['startDate'],
-            'ended_at' => $updatedData['endDate'],
+            'started_at' => $updatedData['start_date'],
+            'ended_at' => $updatedData['end_date'],
         ]);
 
         $updatedProjectContent = Project::find($project->id)->getTranslationContent(config('app.locale'));
@@ -297,8 +297,8 @@ class CreateProjectPageTest extends TestCase
             'square-cover' => $coverFileUploads[0]->id,
             'poster-cover' => $coverFileUploads[1]->id,
             'fullwide-cover' => $coverFileUploads[2]->id,
-            'startDate' => '2021-01-01',
-            'endDate' => '2021-01-31',
+            'start_date' => '2021-01-01',
+            'end_date' => '2021-01-31',
             'release_status' => Project::RELEASE_STATUS_RUNNING,
             'medias' => $this->createMediasArrayFromFileUploads($mediaFileUploads),
         ];

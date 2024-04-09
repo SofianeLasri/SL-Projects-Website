@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Dashboard\Components\MediaUploadZoneController;
 use App\Http\Controllers\Dashboard\MediaLibraryController;
-use App\Http\Controllers\Dashboard\Projects\AddProjectController;
+use App\Http\Controllers\Dashboard\Projects\ProjectEditorController;
 use App\Http\Controllers\RobotsTxtController;
 
 Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(function () {
@@ -15,7 +15,7 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
         });
 
         Route::name('projects.')->prefix('projects')->group(function () {
-            Route::get('/editor', [AddProjectController::class, 'index'])->name('editor');
+            Route::get('/editor', [ProjectEditorController::class, 'index'])->name('editor');
         });
 
         // Requêtes AJAX
@@ -26,10 +26,10 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
 
             // Propres à la création de projets
             Route::name('projects.')->prefix('projects')->group(function () {
-                Route::post('/check-slug', [AddProjectController::class, 'checkSlug'])->name('check-slug');
-                Route::post('/check-name', [AddProjectController::class, 'checkName'])->name('check-name');
-                Route::post('/save-draft', [AddProjectController::class, 'saveDraft'])->name('save-draft');
-                Route::post('/publish', [AddProjectController::class, 'publishProject'])->name('publish');
+                Route::post('/check-slug', [ProjectEditorController::class, 'checkSlug'])->name('check-slug');
+                Route::post('/check-name', [ProjectEditorController::class, 'checkName'])->name('check-name');
+                Route::post('/save-draft', [ProjectEditorController::class, 'saveDraft'])->name('save-draft');
+                Route::post('/publish', [ProjectEditorController::class, 'publishProject'])->name('publish');
             });
 
             // Composants

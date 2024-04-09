@@ -14,25 +14,26 @@ use App\Rules\ProjectMediasArraySchemeRule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AddProjectController extends Controller
+class ProjectEditorController extends Controller
 {
     public function index(Request $request)
     {
         $request->validate([
             'project_id' => 'sometimes|integer|exists:showcase.projects,id',
-            'project_draft_id' => 'sometimes|integer|exists:showcase.project_drafts,id',
+            'draft_id' => 'sometimes|integer|exists:showcase.project_drafts,id',
         ]);
 
-        if ($request->has('project_id') || $request->has('project_draft_id')) {
+        if ($request->has('project_id') || $request->has('draft_id')) {
 
-            if ($request->has('project_id')) {
-                $project = Project::find($request->input('project_id'));
-            } else {
-                $draft = ProjectDraft::find($request->input('project_draft_id'));
+            if ($request->has('draft_id')) {
+                $draft = ProjectDraft::find($request->input('draft_id'));
                 $project = $draft->project;
+                $fields = ['draft_id' => $draft->id];
+            } else {
+                $project = Project::find($request->input('project_id'));
             }
 
-            $fields = [
+            $fields = array_merge($fields, [
                 'project_id' => $project->id,
                 'slug' => $project->slug,
                 'name' => $project->name,
@@ -40,12 +41,12 @@ class AddProjectController extends Controller
                 'square-cover' => $project->square_cover,
                 'poster-cover' => $project->poster_cover,
                 'fullwide-cover' => $project->fullwide_cover,
-                'startDate' => $project->started_at,
-                'endDate' => $project->ended_at,
+                'start_date' => $project->started_at,
+                'end_date' => $project->ended_at,
                 'release_status' => $project->release_status,
                 'content' => $project->getTranslationContent(config('app.locale')),
                 'medias' => $project->medias,
-            ];
+            ]);
 
             if (! empty($draft)) {
                 $fields = array_merge($fields, [
@@ -54,8 +55,8 @@ class AddProjectController extends Controller
                     'square-cover' => $project->square_cover,
                     'poster-cover' => $project->poster_cover,
                     'fullwide-cover' => $project->fullwide_cover,
-                    'startDate' => $draft->started_at,
-                    'endDate' => $draft->ended_at,
+                    'start_date' => $draft->started_at,
+                    'end_date' => $draft->ended_at,
                     'release_status' => $draft->release_status,
                     'content' => $draft->getTranslationContent(config('app.locale')),
                     'medias' => $draft->medias,
@@ -70,8 +71,8 @@ class AddProjectController extends Controller
                 'square-cover' => null,
                 'poster-cover' => null,
                 'fullwide-cover' => null,
-                'startDate' => null,
-                'endDate' => null,
+                'start_date' => null,
+                'end_date' => null,
                 'release_status' => Project::RELEASE_STATUS_RUNNING,
                 'content' => '',
                 'medias' => [],
@@ -86,6 +87,7 @@ class AddProjectController extends Controller
     public function saveDraft(Request $request): JsonResponse
     {
         $request->validate([
+            'draft_id' => 'sometimes|nullable|integer|exists:showcase.project_drafts,id',
             'project_id' => 'sometimes|nullable|integer|exists:showcase.projects,id',
             'name' => 'required|string|max:255',
             'slug' => 'required|string|max:255',
@@ -94,21 +96,25 @@ class AddProjectController extends Controller
             'square-cover' => 'sometimes|nullable|integer|exists:file_uploads,id',
             'poster-cover' => 'sometimes|nullable|integer|exists:file_uploads,id',
             'fullwide-cover' => 'sometimes|nullable|integer|exists:file_uploads,id',
-            'startDate' => 'sometimes|nullable|date',
-            'endDate' => 'sometimes|nullable|date',
+            'start_date' => 'sometimes|nullable|date',
+            'end_date' => 'sometimes|nullable|date',
             'release_status' => ['sometimes', 'nullable', 'string', 'in:'.implode(',', Project::RELEASE_STATUS_ENUMS)],
             'medias' => ['sometimes', 'nullable', 'array', new ProjectMediasArraySchemeRule],
         ]);
 
         $locale = config('app.locale');
 
-        if ($request->input('project_id')) {
-            $project = Project::find($request->input('project_id'));
+        if ($request->input('draft_id')) {
+            $draft = ProjectDraft::find($request->input('draft_id'));
         } else {
-            $project = Project::createEmptyProjectForDraft($request->input('slug'), $request->input('name'));
-        }
+            if ($request->input('project_id')) {
+                $project = Project::find($request->input('project_id'));
+            } else {
+                $project = Project::createEmptyProjectForDraft($request->input('slug'), $request->input('name'));
+            }
 
-        $draft = ProjectDraft::findOrCreateDraft($project->id, $request->input('name'));
+            $draft = ProjectDraft::findOrCreateDraft($project->id, $request->input('name'));
+        }
 
         $this->setProjectAttributes($request, $draft, $locale);
 
@@ -159,6 +165,7 @@ class AddProjectController extends Controller
         return response()->json([
             'success' => true,
             'draft_id' => $draft->id,
+            'url' => route('showcase.preview-project', ['projectSlug' => $draft->project->slug, 'draftId' => $draft->id]),
         ]);
     }
 
@@ -173,8 +180,8 @@ class AddProjectController extends Controller
             'square-cover' => 'sometimes|integer|exists:file_uploads,id',
             'poster-cover' => 'sometimes|integer|exists:file_uploads,id',
             'fullwide-cover' => 'sometimes|integer|exists:file_uploads,id',
-            'startDate' => 'required|date',
-            'endDate' => 'sometimes|nullable|date',
+            'start_date' => 'required|date',
+            'end_date' => 'sometimes|nullable|date',
             'release_status' => ['required', 'string', 'in:'.implode(',', Project::RELEASE_STATUS_ENUMS)],
             'medias' => ['sometimes', 'nullable', 'array', new ProjectMediasArraySchemeRule],
         ]);
@@ -237,6 +244,7 @@ class AddProjectController extends Controller
         return response()->json([
             'success' => true,
             'project_id' => $project->id,
+            'url' => route('showcase.project', ['projectSlug' => $project->slug]),
         ]);
     }
 
@@ -277,8 +285,8 @@ class AddProjectController extends Controller
         $project->name = $request->input('name');
         $project->description = $request->input('description');
         $project->release_status = $request->input('release_status');
-        $project->started_at = $request->input('startDate');
-        $project->ended_at = $request->input('endDate');
+        $project->started_at = $request->input('start_date');
+        $project->ended_at = $request->input('end_date');
         $project->save();
 
         $project->setTranslationContent($request->input('content', ''), $locale);
