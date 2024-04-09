@@ -16,9 +16,13 @@ class PictureType extends Model
     ];
 
     public const TYPE_THUMBNAIL = 'thumbnail';
+
     public const TYPE_SMALL = 'small';
+
     public const TYPE_MEDIUM = 'medium';
+
     public const TYPE_LARGE = 'large';
+
     public const TYPE_ORIGINAL = 'original';
 
     public function associatedFile(): BelongsTo
@@ -29,5 +33,25 @@ class PictureType extends Model
     public function getOriginalFile(): BelongsTo
     {
         return $this->belongsTo(FileUpload::class, 'original_file_upload_id');
+    }
+
+    public function scopeThumbnail($query)
+    {
+        return $query->where($this->getTable().'.type', self::TYPE_THUMBNAIL);
+    }
+
+    public function scopeSmall($query)
+    {
+        return $query->where($this->getTable().'.type', self::TYPE_SMALL);
+    }
+
+    public function scopeMedium($query)
+    {
+        return $query->where($this->getTable().'.type', self::TYPE_MEDIUM);
+    }
+
+    public function scopeLarge($query)
+    {
+        return $query->where($this->getTable().'.type', self::TYPE_LARGE);
     }
 }

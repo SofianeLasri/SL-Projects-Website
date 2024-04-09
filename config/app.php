@@ -64,7 +64,7 @@ return [
         'sofianelasri' => env('SOFIANELASRI_DOMAIN', 'sofianelasri.fr'),
     ],
 
-    'url' => env('APP_URL', 'https://sl-projects.com'), // Only used by Ziggy to force it to use https
+    'url' => env('SHOWCASE_DOMAIN', 'https://sl-projects.com'), // Only used by Ziggy to force it to use https
     'asset_url' => env('ASSET_URL'),
 
     /*
@@ -245,8 +245,6 @@ return [
 
     'steam_profile_id64' => env('STEAM_PROFILE_ID64', '76561198148455403'),
     'steam_profile_avatar_hash' => env('STEAM_PROFILE_AVATAR_HASH', 'ee6f9c9ffd6bb2fd2114a378f3f03d997f79e4b9'),
-
-    'tinymce_api_key' => env('TIMYMCE_API_KEY'),
 
     /*
     |--------------------------------------------------------------------------

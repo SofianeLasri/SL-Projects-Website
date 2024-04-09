@@ -36,4 +36,9 @@ class MediaLibraryController extends Controller
             'total' => FileUpload::getFilesCount('/', $type, true),
         ]);
     }
+
+    public function getMediaElementHtml()
+    {
+        return view('components.dashboard.media-element');
+    }
 }

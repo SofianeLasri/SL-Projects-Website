@@ -59,7 +59,7 @@ class MediaUploadZoneController extends Controller
             'filename' => $filename,
         ]);
 
-        Storage::disk('ftp')->putFileAs($uploadFolder, $file, $filename);
+        Storage::putFileAs($uploadFolder, $file, $filename);
         $fileType = $file->getMimeType();
         $originalFileUpload = $this->saveFileUpload($file, $uploadFolder, $filename, $fileType);
 
@@ -82,7 +82,7 @@ class MediaUploadZoneController extends Controller
 
         return response()->json([
             'success' => true,
-            'url' => Storage::disk('ftp')->url($uploadFolder.$filename),
+            'url' => Storage::url($uploadFolder.$filename),
         ]);
     }
 

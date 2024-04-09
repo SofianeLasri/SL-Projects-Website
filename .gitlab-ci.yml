@@ -1,12 +1,12 @@
 variables:
-  MARIADB_DATABASE: "sl_projects_main"
+  MARIADB_DATABASE: "sl_projects_test_main"
   MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
   MAIN_DB_HOST: "mariadb"
   MAIN_DB_USERNAME: "root"
   SC_DB_HOST: "mariadb"
   SC_DB_USERNAME: "root"
-  MAIN_DB_DATABASE: sl_projects_main
-  SC_DB_DATABASE: sl_projects_showcase
+  MAIN_DB_DATABASE: sl_projects_test_main
+  SC_DB_DATABASE: sl_projects_test_showcase
 
 default:
   image: registry.gitlab.sl-projects.com/sl-projects/sl-projects-website:latest
@@ -22,13 +22,26 @@ unit_test:
   stage: test
   before_script:
     - apt-get update -q && apt-get install -qqy --no-install-recommends mariadb-client
-    - echo "CREATE DATABASE IF NOT EXISTS sl_projects_showcase;" | mariadb -u root -h mariadb
+    - echo "CREATE DATABASE IF NOT EXISTS sl_projects_test_showcase;" | mariadb -u root -h mariadb
+    - echo "127.0.0.1 api.sl-projects.local" >> /etc/hosts
+    - echo "127.0.0.1 sl-projects.local" >> /etc/hosts
+    - echo "127.0.0.1 blog.sl-projects.local" >> /etc/hosts
+    - echo "127.0.0.1 dashboard.sl-projects.local" >> /etc/hosts
+    - echo "127.0.0.1 auth.sl-projects.local" >> /etc/hosts
+    - echo "127.0.0.1 sofianelasri.local" >> /etc/hosts
+    - sed -i 's@/var/www@/builds/sl-projects/sl-projects-website@g' /etc/apache2/sites-available/000-default.conf
+    - service apache2 start
   script:
-    - cp .env.example .env
+    - cp .env.testing .env
     - composer install
     - php artisan key:generate
     - php artisan migrate
-    - vendor/bin/phpunit
+    - php artisan dusk:chrome-driver --all
+    - npm install
+    - npm run build
+    - chmod -R 0755 vendor/laravel/dusk/bin/
+    - chown -R www-data:www-data /builds
+    - php artisan test
 
 deploy_production:
   stage: deploy
@@ -56,3 +69,6 @@ purgecache:
       curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
       -H "Authorization: Bearer $CF_API_TOKEN" \
       -H "Content-Type:application/json"
+  when: on_success
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"

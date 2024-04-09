@@ -1,5 +1,5 @@
 # Set the base image for subsequent instructions
-FROM php:8.2
+FROM php:8.3-apache
 
 # Update packages
 RUN apt-get update
@@ -45,6 +45,23 @@ RUN apt-get update; \
           libzstd1 \
           procps \
           libbz2-dev
+
+# Install Chromium dependencies
+RUN apt-get install -yqq libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
+RUN apt-get install -yqq chromium
+
+# Setting Apache2 & PHP configuration
+COPY docker-init/000-default.conf /etc/apache2/sites-available/000-default.conf
+COPY docker-init/php.ini "$PHP_INI_DIR/php.ini"
+
+# Enable apache2 modules
+RUN a2enmod rewrite
+
+###########################################
+# ftp
+###########################################
+
+RUN docker-php-ext-install ftp;
 
 
 ###########################################
@@ -129,3 +146,15 @@ RUN curl --silent --show-error https://getcomposer.org/installer | php -- --inst
 
 # Install Laravel Envoy
 RUN composer global require "laravel/envoy:2.8.6"
+
+# Install nodejs
+RUN apt-get install -yqq nodejs npm
+
+# Install SSH Server
+RUN apt-get install -yqq openssh-server
+RUN mkdir /var/run/sshd
+
+RUN echo 'root:password' | chpasswd
+RUN echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config
+
+CMD ["/usr/sbin/sshd", "-D"]

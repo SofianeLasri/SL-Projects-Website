@@ -1,6 +1,6 @@
 <div class="breadcrumb">
     <x-button type="button" id="openSidebar"
-              class="btn-dark btn-sm btn-square rounded {{ $sidebarOpened ? 'd-none' : '' }}"
+              class="btn-white btn-sm btn-square border rounded {{ $sidebarOpened ? 'd-none' : '' }}"
               title="Ouvrir la barre de navigation">
         <x-square-icon>
             <i class="fa-solid fa-bars"></i>
@@ -9,12 +9,12 @@
     <div class="links">
         @for($i = 0; $i < count($breadcrumbs); $i++)
             @if($i === count($breadcrumbs) - 1)
-                <a href="{{ $breadcrumbs[$i]['url'] }}" class="text-white fw-bold">{{ $breadcrumbs[$i]['name'] }}</a>
+                <a href="{{ $breadcrumbs[$i]['url'] }}" class="elem active">{{ $breadcrumbs[$i]['name'] }}</a>
             @else
                 @if(!empty($breadcrumbs[$i]['url']) && $breadcrumbs[$i]['url'] !== '#')
-                    <a href="{{ $breadcrumbs[$i]['url'] }}">{{ $breadcrumbs[$i]['name'] }}</a>
+                    <a class="elem" href="{{ $breadcrumbs[$i]['url'] }}">{{ $breadcrumbs[$i]['name'] }}</a>
                 @else
-                    <div>{{ $breadcrumbs[$i]['name'] }}</div>
+                    <div class="elem">{{ $breadcrumbs[$i]['name'] }}</div>
                 @endif
             @endif
             @if($i < count($breadcrumbs) - 1)

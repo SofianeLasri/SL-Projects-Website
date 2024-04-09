@@ -1,5 +1,6 @@
 import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
+import {glob} from "glob";
 
 const path = require('path')
 
@@ -22,11 +23,20 @@ export default defineConfig({
                 'resources/scss/websites/dashboard/dashboard.scss',
                 'resources/scss/websites/sofianelasri/sofianelasri.scss',
                 'resources/js/app.js',
+                ...glob.sync('resources/js/pages/**/*.ts'),
+                ...glob.sync('resources/js/components/**/*.ts'),
             ],
             refresh: true,
         }),
     ],
     build: {
         assetsInlineLimit: "1024", // 1kb, normalement = 4kb
+        rollupOptions: {
+            output: {
+                globals: {
+                    
+                }
+            }
+        }
     },
 });

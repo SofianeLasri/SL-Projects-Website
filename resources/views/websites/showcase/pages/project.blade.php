@@ -12,6 +12,8 @@
     <meta property="og:image:height" content="512"/>
 @endsection
 
+@section('pageDesc', $draft->description)
+
 @section('body')
     <x-showcase.navbar/>
 
@@ -19,16 +21,22 @@
         <div class="container">
             <div class="title-container flex lg:px-8">
                 <div class="hidden-part">
-                    <!-- Supposée être vide -->
+                    <!-- Supposée être vide c'est l'espace derrière le titre -->
                 </div>
                 <div class="title">
-                    <h1 class="font-black text-uppercase m-0">StarIsland</h1>
+                    <h1 class="font-black text-uppercase m-0">{{ $draft->name }}</h1>
                 </div>
             </div>
             <div class="project-details-container">
                 <div class="logo-and-details">
                     <div class="logo square-primary-shadows">
-                        <img src="{{ Vite::asset('resources/images/dev/logo-starisland.jpg') }}" alt="Image du projet">
+                        <!-- TODO: Replace with real project image -->
+                        @if(!empty($draft->square_cover))
+                            <img src="{{ $draft->square_cover->fileUpload->getMediumVariant()->getFileUrl() }}" alt="Image du projet">
+                        @else
+                            <img src="{{ Vite::asset('resources/images/dev/logo-starisland.jpg') }}" alt="Image du projet">
+                        @endif
+
                     </div>
 
                     <div class="details">
@@ -38,23 +46,33 @@
                         <div class="projectMeta mb-3">
                             <div class="d-flex justify-content-between">
                                 <div><strong>Date de début</strong></div>
-                                <div class="text-end">Janvier 2017</div>
+                                <div class="text-end">{{ \Carbon\Carbon::parse($draft->started_at)->translatedFormat('d F Y') }}</div>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <div><strong>Date de fin</strong></div>
-                                <div class="text-end">Juin 2019</div>
+                                <div class="text-end">
+                                    @if($draft->ended_at)
+                                        {{ \Carbon\Carbon::parse($draft->ended_at)->translatedFormat('d F Y') }}
+                                    @else
+                                        <!-- TODO: Replace with translation -->
+                                        {{ __('showcase/message.project_status.' . $draft->release_status)  }}
+                                    @endif
+                                </div>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <div><strong>Plateforme</strong></div>
+                                <!-- TODO: Replace with real project platform -->
                                 <div class="text-end">Garry's Mod (Source Engine)</div>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <div><strong>Type de projet</strong></div>
+                                <!-- TODO: Replace with real project type -->
                                 <div class="text-end">Mapmaking</div>
                             </div>
                         </div>
 
                         <div class="d-flex gap-2">
+                            <!-- TODO: Replace with real project links -->
                             <a href="#" class="btn btn-primary" target="_blank">Voir le Workshop</a>
                             <a href="#" class="btn btn-light" target="_blank"><i
                                     class="fa-sharp fa-solid fa-download"></i></a>
@@ -84,48 +102,8 @@
     </div>
 
     <div class="project-description-container">
-        <div>
-            <h1>Présentation</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                dolore
-                magna aliqua. Ut faucibus pulvinar elementum integer enim neque. Adipiscing elit ut aliquam purus sit
-                amet.
-                Potenti nullam ac tortor vitae. Amet consectetur adipiscing elit ut aliquam purus sit. Scelerisque
-                viverra
-                mauris in aliquam sem fringilla ut morbi tincidunt. Ipsum dolor sit amet consectetur adipiscing elit
-                duis
-                tristique sollicitudin. Diam quis enim lobortis scelerisque. Mattis rhoncus urna neque viverra justo
-                nec.
-                Odio morbi quis commodo odio aenean sed adipiscing diam. Tortor at risus viverra adipiscing.</p>
-
-            <h2>Lorem ipsum</h2>
-            <p>Varius morbi enim nunc faucibus a pellentesque sit amet porttitor. Augue neque gravida in fermentum et
-                sollicitudin ac orci. Facilisis magna etiam tempor orci. Eget dolor morbi non arcu risus quis varius
-                quam.
-                Aliquam vestibulum morbi blandit cursus risus. Magna sit amet purus gravida. Convallis a cras semper
-                auctor.
-                Diam maecenas ultricies mi eget. Maecenas sed enim ut sem viverra aliquet. Tellus mauris a diam maecenas
-                sed
-                enim ut sem viverra. Diam quis enim lobortis scelerisque fermentum dui. Mi eget mauris pharetra et
-                ultrices.
-                Donec ac odio tempor orci dapibus ultrices in iaculis.</p>
-
-            <p>Non quam lacus suspendisse faucibus interdum posuere lorem ipsum dolor. Hendrerit dolor magna eget est.
-                In
-                egestas erat imperdiet sed euismod nisi porta lorem mollis. Fusce ut placerat orci nulla. Ultrices
-                tincidunt
-                arcu non sodales neque sodales ut. Posuere ac ut consequat semper viverra. Egestas dui id ornare arcu
-                odio
-                ut sem nulla pharetra. Fringilla urna porttitor rhoncus dolor. Rhoncus mattis rhoncus urna neque
-                viverra.
-                Adipiscing bibendum est ultricies integer quis auctor. Metus vulputate eu scelerisque felis imperdiet
-                proin
-                fermentum. Aliquam malesuada bibendum arcu vitae. Suspendisse faucibus interdum posuere lorem ipsum
-                dolor.
-                Amet justo donec enim diam vulputate ut pharetra sit. Massa sed elementum tempus egestas sed.
-                Pellentesque
-                elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at. Vulputate ut pharetra sit amet.
-                Semper viverra nam libero justo laoreet sit amet.</p>
+        <div class="content">
+            {!! Str::of($draft->getTranslationContent(config('app.locale')))->markdown() !!}
         </div>
         <div class="right-part">
             <div class="d-flex flex-column">

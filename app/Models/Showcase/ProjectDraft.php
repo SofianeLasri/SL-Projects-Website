@@ -2,41 +2,55 @@
 
 namespace App\Models\Showcase;
 
-use App\Models\FileUpload;
+use App\Models\Translation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class ProjectDraft extends Model
+class ProjectDraft extends ProjectBase
 {
     protected $connection = 'showcase';
 
     protected $fillable = [
+        'project_id',
         'name',
-        'slug',
         'description',
-        'project_start_date',
-        'project_end_date',
-        'status',
-        'logo_file_upload_id',
-        'cover_file_upload_id',
+        'content_translation_id',
+        'release_status',
+        'started_at',
+        'ended_at',
     ];
 
-    public function galleryPictures()
+    protected $casts = [
+        'started_at' => 'date',
+        'ended_at' => 'date',
+    ];
+
+    protected function getCoverClass(): string
     {
-        return $this->hasMany(ProjectGalleryPicture::class);
+        return ProjectDraftCover::class;
     }
 
-    public function getLogoFile()
+    public static function getContentTranslationKeyPrefix(): string
     {
-        return $this->belongsTo(FileUpload::class, 'logo_file_upload_id');
+        return 'project_draft_content_';
     }
 
-    public function getCoverFile()
+    public static function findOrCreateDraft(int $projectId, string $name): ProjectDraft
     {
-        return $this->belongsTo(FileUpload::class, 'cover_file_upload_id');
+        $draft = ProjectDraft::where('project_id', $projectId)->first();
+        if (! $draft) {
+            $draft = new ProjectDraft();
+            $draft->project_id = $projectId;
+            $draft->name = $name;
+            $draft->save();
+        }
+
+        return $draft;
     }
 
-    public function getCategories()
+    public function project(): HasOne
     {
-        return $this->belongsToMany(ProjectCategory::class, 'project_category_pivots');
+        return $this->hasOne(Project::class, 'id', 'project_id');
     }
 }

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Dashboard\Components\MediaUploadZoneController;
 use App\Http\Controllers\Dashboard\MediaLibraryController;
-use App\Http\Controllers\Dashboard\Projects\AddProjectController;
+use App\Http\Controllers\Dashboard\Projects\ProjectEditorController;
 use App\Http\Controllers\RobotsTxtController;
 
 Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(function () {
@@ -14,6 +14,10 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
             Route::get('/get-uploaded-files', [MediaLibraryController::class, 'getUploadedFiles'])->name('get-uploaded-files');
         });
 
+        Route::name('projects.')->prefix('projects')->group(function () {
+            Route::get('/editor', [ProjectEditorController::class, 'index'])->name('editor');
+        });
+
         // Requêtes AJAX
         Route::name('ajax.')->prefix('ajax')->group(function () {
             Route::get('/set-sidebar-state', function () {
@@ -22,8 +26,10 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
 
             // Propres à la création de projets
             Route::name('projects.')->prefix('projects')->group(function () {
-                Route::post('/check-slug', [AddProjectController::class, 'checkSlug'])->name('check-slug');
-                Route::post('/check-name', [AddProjectController::class, 'checkName'])->name('check-name');
+                Route::post('/check-slug', [ProjectEditorController::class, 'checkSlug'])->name('check-slug');
+                Route::post('/check-name', [ProjectEditorController::class, 'checkName'])->name('check-name');
+                Route::post('/save-draft', [ProjectEditorController::class, 'saveDraft'])->name('save-draft');
+                Route::post('/publish', [ProjectEditorController::class, 'publishProject'])->name('publish');
             });
 
             // Composants
@@ -32,11 +38,10 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
                     Route::any('/find-icon', [MediaUploadZoneController::class, 'findIcon'])->name('find-icon');
                     Route::post('/upload-file', [MediaUploadZoneController::class, 'uploadFile'])->name('upload-file');
                 });
+                Route::name('media-library.')->prefix('media-library')->group(function () {
+                    Route::get('/media-element-html', [MediaLibraryController::class, 'getMediaElementHtml'])->name('media-element-html');
+                });
             });
-        });
-
-        Route::name('projects.')->prefix('projects')->group(function () {
-            Route::get('/add', [AddProjectController::class, 'index'])->name('add');
         });
     });
     Route::get('/robots.txt', [RobotsTxtController::class, 'index']);

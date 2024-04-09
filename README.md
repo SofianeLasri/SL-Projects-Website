@@ -5,6 +5,7 @@
 <a href="https://discord.gg/9PYvGFDmDt"><img src="https://img.shields.io/badge/Join_our_Discord-7289DA?logo=discord&logoColor=white" alt="Discord"></a>
 <a href="https://gitlab.sl-projects.com/sl-projects/sl-projects-website"><img src="https://img.shields.io/badge/Visit_our_GitLab-FC6D26?logo=gitlab&logoColor=white" alt="GitLab"></a>
 <a href="https://laravel.com"><img src="https://img.shields.io/badge/Based_on_Laravel-FF2D20?logo=laravel&logoColor=white" alt="Laravel"></a>
+<a href="https://wakatime.com/badge/user/018da7b9-5ddd-4615-a805-e871e840191c/project/018da7bb-f1d4-4084-aeb1-08b113b179c5"><img src="https://wakatime.com/badge/user/018da7b9-5ddd-4615-a805-e871e840191c/project/018da7bb-f1d4-4084-aeb1-08b113b179c5.svg" alt="wakatime"></a>
 </p>
 
 ## À propos du projet
@@ -33,3 +34,10 @@ Ce projet est la plateforme web de SL-Projects. Il concentre les sous projets su
 4. Générer une clé d'application (en local uniquement) : `php artisan key:generate`
 5. Copier les routes avec Ziggy : `php artisan ziggy:generate`
 6. Compiler les assets : `npm run build`
+
+## Usage image Docker (en local)
+
+1. Le serveur web plante au démarrage, probablement à cause des points de montage qui se font légèrement après avoir lancé le serveur. Il faut donc relancer le serveur depuis la console.
+2. Les identifiants de connexion ssh sont les suivants :
+   - Utilisateur : `root`
+   - Mot de passe : `password`

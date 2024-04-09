@@ -1,4 +1,6 @@
 @import "../../app.scss";
+@import "@toast-ui/editor/dist/toastui-editor.css";
+
 @import "base";
 
 // Composants
@@ -6,5 +8,7 @@
 @import "components/sidebar";
 @import "components/profile-picture";
 @import "components/media-upload-zone";
+@import "components/steps-group-list";
 
-@import "pages/file-manager";
+@import "components/file-manager";
+@import "pages/create-project";

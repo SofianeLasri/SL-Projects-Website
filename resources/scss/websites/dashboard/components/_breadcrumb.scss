@@ -10,24 +10,35 @@ $breadcrumb-height: 3rem;
     gap: map.get($spacers, 3);
     color: $gray-500;
     font-size: 0.875rem;
-    background-color: $dark;
+    background-color: $white;
     padding: map.get($spacers, 2) map.get($spacers, 3);
-    border-bottom: .125rem solid $primary;
+    border-bottom: $border-width solid $border-color;
     z-index: 500;
 
     a {
-        color: $gray-500;
         text-decoration: none;
 
-        &:hover {
-            text-decoration: underline;
-        }
+
     }
 
     .links {
         display: flex;
         align-items: center;
         gap: map.get($spacers, 2);
+
+        .elem {
+            color: $gray-600;
+            text-decoration: none;
+
+            &.active {
+                color: $dark;
+                font-weight: $font-weight-bold;
+            }
+        }
+
+        a.elem:hover {
+            text-decoration: underline;
+        }
     }
 }
 

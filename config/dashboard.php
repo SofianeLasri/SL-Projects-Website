@@ -46,7 +46,7 @@ return [
                         [
                             'title' => 'Ajouter un projet',
                             'description' => 'Ajouter un projet à la vitrine',
-                            'url' => 'dashboard.projects.add',
+                            'url' => 'dashboard.projects.editor',
                             'icon' => 'fa-solid fa-circle-plus',
                         ],
                         ['title' => 'Lien 2', 'url' => '#', 'icon' => 'icon2'],

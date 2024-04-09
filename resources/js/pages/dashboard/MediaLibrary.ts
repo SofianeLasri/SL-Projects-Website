@@ -18,15 +18,21 @@ type FileObjectsListJson = {
     files: Array<FileObjectJson>,
     total: number,
 };
+type MediaLibraryOperationMode = 'page' | 'selection';
 
 class MediaLibrary {
     private parentElement: HTMLElement;
     private mediaLibraryElement: HTMLElement;
+    private actionsElement: HTMLElement;
+    private selectedFilesLabel: HTMLElement;
     private files: Array<FileObjectJson> = [];
     private order: string = 'desc';
     private offset: number = 0;
     private filterByType: string = 'all';
     private totalFiles: number = 0;
+    private isCtrlPressed: boolean = false;
+    private selectedFiles: Array<FileObjectJson> = [];
+    private readonly operationMode: MediaLibraryOperationMode;
 
     private viewLayout: string = 'grid';
     private readonly possibleViewLayouts: Array<string> = ['grid', 'list'];
@@ -38,7 +44,7 @@ class MediaLibrary {
 
     private readonly translationLocale: string = 'en';
     private translation: Object = {
-        'all-files': 'All files',
+        'all-medias': 'All medias',
         'images': 'Images',
         'videos': 'Videos',
         'audios': 'Audios',
@@ -56,6 +62,11 @@ class MediaLibrary {
             'none': 'None',
             'date': 'Date',
             'type': 'Type'
+        },
+        'selection': {
+            'selected-medias': 'Selected medias',
+            'n-medias-selected': ':count medias selected',
+            'one-media-selected': '1 media selected'
         }
     };
     private debug: boolean = false;
@@ -63,26 +74,35 @@ class MediaLibrary {
         'image/vnd.adobe.photoshop'
     ];
 
-    constructor(id: string = 'mediaLibrary') {
+    constructor(id: string = 'mediaLibrary', operationMode: MediaLibraryOperationMode = 'page') {
         this.csrfToken = this.getCSRFToken();
         this.translationLocale = document.documentElement.lang;
+
+        this.operationMode = operationMode;
+
         let parentElement: HTMLElement | null = document.getElementById(id);
         if (parentElement === null) {
             throw new Error("MediaLibrary: Parent element not found");
         }
         this.parentElement = parentElement;
 
-        let mediaLibraryElement: HTMLElement | null = document.getElementById('mediaLibraryMedias');
+        // We do a check for the first child element to avoid the error of the parent element not having any child.
+        let mediaLibraryElement: HTMLElement | null = parentElement.querySelector('.medias');
         if (mediaLibraryElement === null) {
             throw new Error("MediaLibrary: Media library element not found");
         }
         this.mediaLibraryElement = mediaLibraryElement;
 
+        this.actionsElement = parentElement.querySelector('.actions')!; // No needs to check if it's null.
+        this.selectedFilesLabel = this.actionsElement.querySelector('.selected-files-label')!; // Idem
+
         this.addButtonEventListeners("filter-by-type", 'all');
         this.addButtonEventListeners("view", 'grid');
         this.addButtonEventListeners("group", 'date');
 
-        this.getParameters();
+        this.defineKeyboardEventListeners();
+
+        this.getFiltersParameters();
     }
 
     /**
@@ -94,12 +114,21 @@ class MediaLibrary {
     private createButtonClickListener(parameterName: ToolBoxButtonType, defaultValue: string): (event: Event) => void {
         return (event: Event): void => {
             event.preventDefault();
-            const button = event.target as Element;
+            const findButtonElement = (element: Element): Element => {
+                if (element.tagName === 'BUTTON') {
+                    return element;
+                }
+                if (element.parentElement === null) {
+                    throw new Error('MediaLibrary: Button not found');
+                }
+                return findButtonElement(element.parentElement);
+            }
+            const button: Element = findButtonElement(event.target as Element);
             const value = button.getAttribute(`data-${parameterName}`) ?? defaultValue;
 
             if (this[parameterName] !== value) {
-                this.setParameter(parameterName, value);
-                this.setToolBoxButtonActive(button, parameterName);
+                this.setFilterProperty(parameterName, value);
+                this.setActiveToolBoxBtn(button, parameterName);
             }
         };
     }
@@ -129,11 +158,11 @@ class MediaLibrary {
 
     /**
      * Set a parameter in the url and in the class.
-     * @param role The role of the parameter (based on the button role).
+     * @param role The role of the parameter
      * @param value The value of the parameter.
      * @private
      */
-    private setParameter(role: string, value: string): void {
+    private setFilterProperty(role: string, value: string): void {
         switch (role) {
             case 'order':
                 this.order = value;
@@ -155,18 +184,24 @@ class MediaLibrary {
                 break;
         }
 
-        let url: URL = new URL(window.location.href);
-        let searchParams: URLSearchParams = url.searchParams;
-        searchParams.set(role, value);
-        url.search = searchParams.toString();
-        window.history.pushState({}, '', url.toString());
+        this.setUrlParameter(role, value);
+    }
+
+    private setUrlParameter(name: string, value: string): void {
+        if (this.operationMode === 'page') {
+            let url: URL = new URL(window.location.href);
+            let searchParams: URLSearchParams = url.searchParams;
+            searchParams.set(name, value);
+            url.search = searchParams.toString();
+            window.history.pushState({}, '', url.toString());
+        }
     }
 
     /**
      * Get the filters from the url
      * @private
      */
-    private getParameters(): void {
+    private getFiltersParameters(): void {
         let url: URL = new URL(window.location.href);
         let searchParams: URLSearchParams = url.searchParams;
 
@@ -194,10 +229,10 @@ class MediaLibrary {
             }
         }
 
-        this.findAndActivateButton("filter-by-type", this.filterByType);
-        this.findAndActivateButton("order", this.order);
-        this.findAndActivateButton("view", this.viewLayout);
-        this.findAndActivateButton("group", this.groupBy);
+        this.bindFilterBtn("filter-by-type", this.filterByType);
+        this.bindFilterBtn("order", this.order);
+        this.bindFilterBtn("view", this.viewLayout);
+        this.bindFilterBtn("group", this.groupBy);
     }
 
     /**
@@ -206,11 +241,11 @@ class MediaLibrary {
      * @param dataValue The data value of the button.
      * @private
      */
-    private findAndActivateButton(type: ToolBoxButtonType, dataValue: string): void {
+    private bindFilterBtn(type: ToolBoxButtonType, dataValue: string): void {
         const correspondingButton: Element | null = this.parentElement.querySelector(`button[role="${type}"][data-${type}="${dataValue}"]`);
 
         if (correspondingButton !== null) {
-            this.setToolBoxButtonActive(correspondingButton, type);
+            this.setActiveToolBoxBtn(correspondingButton, type);
         }
     }
 
@@ -218,13 +253,13 @@ class MediaLibrary {
      * Get the uploaded files from the server.
      * @private
      */
-    private getFiles(): void {
+    private async getFiles(): Promise<void> {
         let url: string = route('dashboard.media-library.get-uploaded-files', {
             order: this.order,
             offset: this.offset,
             type: this.filterByType
         });
-        fetch(url, {
+        const fetchPromise: Promise<void> = fetch(url, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -239,11 +274,14 @@ class MediaLibrary {
                 this.totalFiles = responseJson.total;
 
                 if (this.debug) console.log(responseJson.files);
-                this.reRenderFiles();
+                await this.reRenderFiles();
+                this.postRenderFiles();
             })
             .catch((error): void => {
                 console.error(error);
             });
+
+        await fetchPromise;
     }
 
     /**
@@ -252,7 +290,7 @@ class MediaLibrary {
      * @param role The role of the button.
      * @private
      */
-    private setToolBoxButtonActive(button: Element, role: string): void {
+    private setActiveToolBoxBtn(button: Element, role: string): void {
         this.parentElement.querySelectorAll(`button[role="${role}"]`).forEach((button: Element): void => {
             button.classList.remove('active');
             button.setAttribute('aria-selected', 'false');
@@ -274,20 +312,25 @@ class MediaLibrary {
      * Re-render cached files, it doesn't fetch the GetFiles API.
      * @private
      */
-    private reRenderFiles(): void {
-        if(this.debug) console.log('MediaLibrary: Re-rendering files');
+    private async reRenderFiles(): Promise<void> {
+        if (this.debug) console.log('MediaLibrary: Re-rendering files');
         this.mediaLibraryElement.innerHTML = '';
         this.parentContainers = [];
-        this.renderFiles();
+        await this.renderFiles();
     }
 
     /**
      * Initialize the media library.
      */
-    public initialize(): void {
+    public async initialize(): Promise<void> {
+        if (this.operationMode === 'selection') {
+            this.parentElement.classList.add('embedded');
+        }
+
         this.changeViewLayout();
         this.resetFiles();
-        this.getFiles();
+        await this.getFiles();
+        this.postInitialize();
     }
 
     /**
@@ -295,30 +338,30 @@ class MediaLibrary {
      * @param files The files to render.
      * @private
      */
-    private renderFiles(files: Array<FileObjectJson> = this.files) {
-        if(this.debug) console.log('MediaLibrary: Rendering files');
+    private async renderFiles(files: Array<FileObjectJson> = this.files) {
+        if (this.debug) console.log('MediaLibrary: Rendering files');
         if (this.groupBy === 'none') {
-            this.renderFilesWithoutGroup(files);
+            await this.renderFilesWithoutGroup(files);
         } else if (this.groupBy === 'date') {
-            this.renderFilesGroupedByDate(files);
+            await this.renderFilesGroupedByDate(files);
         }
     }
 
-    private renderFilesWithoutGroup(files: Array<FileObjectJson>) {
+    private async renderFilesWithoutGroup(files: Array<FileObjectJson>): Promise<void> {
         let parentContainer: ParentContainer = new ParentContainer('all', this.translation['all-files']);
         let childContainer: ChildContainer = new ChildContainer();
 
         for (const file of files) {
-            childContainer.addElement(new MediaElement(file));
+            childContainer.addElement(new MediaElement(file, this.fileClicked.bind(this, file)));
         }
 
         parentContainer.children.push(childContainer);
         this.parentContainers.push(parentContainer);
 
-        this.mediaLibraryElement.appendChild(parentContainer.render());
+        this.mediaLibraryElement.appendChild(await parentContainer.render());
     }
 
-    private renderFilesGroupedByDate(files: Array<FileObjectJson>) {
+    private async renderFilesGroupedByDate(files: Array<FileObjectJson>): Promise<void> {
         let parentContainers: ParentContainer[] = [];
 
         // Here, parent containers represents the months, and child containers represents the days.
@@ -349,8 +392,8 @@ class MediaLibrary {
                 parentContainer.children.push(childContainer);
             }
 
-            let fileMediaElement: MediaElement = new MediaElement(file);
-            if(childContainer.hasElement(fileMediaElement)) {
+            let fileMediaElement: MediaElement = new MediaElement(file, this.fileClicked.bind(this, file));
+            if (childContainer.hasElement(fileMediaElement)) {
                 console.debug(`MediaLibrary: File ${file.id} is already in the media library`);
             }
             childContainer.addElement(fileMediaElement);
@@ -358,7 +401,7 @@ class MediaLibrary {
 
         this.parentContainers = parentContainers;
         for (const parentContainer of parentContainers) {
-            this.mediaLibraryElement.appendChild(parentContainer.render());
+            this.mediaLibraryElement.appendChild(await parentContainer.render());
         }
     }
 
@@ -396,7 +439,156 @@ class MediaLibrary {
     public refresh(): void {
         this.resetFiles();
         this.getFiles();
-        if(this.debug) console.log('MediaLibrary: Refreshed');
+        if (this.debug) console.log('MediaLibrary: Refreshed');
+    }
+
+    /**
+     * Define the keyboard event listeners.
+     * @private
+     */
+    private defineKeyboardEventListeners(): void {
+        document.addEventListener('keydown', (event: KeyboardEvent): void => {
+            if (event.ctrlKey) {
+                this.isCtrlPressed = true;
+                this.mediaLibraryElement.classList.add('selection-mode');
+            }
+        });
+
+        document.addEventListener('keyup', (event: KeyboardEvent): void => {
+            if (!event.ctrlKey) {
+                this.isCtrlPressed = false;
+
+                if (this.selectedFiles.length === 0) {
+                    this.mediaLibraryElement.classList.remove('selection-mode');
+                }
+            }
+        });
+    }
+
+    /**
+     * File clicked event.
+     * @param fileObject
+     */
+    public fileClicked(fileObject: FileObjectJson) {
+        console.log('MediaLibrary: File clicked', fileObject);
+        if (this.isCtrlPressed || this.selectedFiles.length > 0) {
+            this.toggleMediaElementSelection(fileObject);
+        }
+    }
+
+    /**
+     * Toggle the selection of a media element.
+     * @param fileObject The file object to toggle the selection.
+     * @param firstPostRenderFiles If it's the first time the files are rendered -> needed to draw selection.
+     * @private
+     */
+    private toggleMediaElementSelection(fileObject: FileObjectJson, firstPostRenderFiles: boolean = false) {
+        const mediaElement: MediaElement | null = this.getMediaElement(fileObject);
+
+        const setSelectedFilesUrlParameter = (): void => {
+            this.setUrlParameter('selected-files', this.selectedFiles.map((file: FileObjectJson): string => {
+                return file.id.toString();
+            }).join(','));
+        };
+
+        const removeSelectedFile = (): void => {
+            this.selectedFiles = this.selectedFiles.filter(file => file.id !== fileObject.id);
+            setSelectedFilesUrlParameter();
+        };
+
+        const setActionsLabel = (count: number): void => {
+            if (count === 1) {
+                this.selectedFilesLabel.textContent = this.translation['selection']['one-media-selected'];
+            } else {
+                this.selectedFilesLabel.textContent = this.translation['selection']['n-medias-selected'].replace(':count', count.toString());
+            }
+        }
+
+        const handleMediaElement = (isSelected: boolean): void => {
+            if (mediaElement !== null) {
+                mediaElement.setSelected(isSelected);
+            } else {
+                if (this.debug) console.warn('MediaLibrary: Media element not found, probably not rendered yet.');
+            }
+        };
+
+        if (this.selectedFiles.includes(fileObject) && !firstPostRenderFiles) {
+            removeSelectedFile();
+            handleMediaElement(false);
+            setActionsLabel(this.selectedFiles.length);
+
+            if (this.selectedFiles.length === 0) {
+                this.mediaLibraryElement.classList.remove('selection-mode');
+                this.actionsElement.classList.remove('selection-mode');
+            }
+        } else {
+            if (!firstPostRenderFiles) {
+                this.selectedFiles.push(fileObject);
+                setSelectedFilesUrlParameter();
+            }
+
+            setActionsLabel(this.selectedFiles.length);
+            this.actionsElement.classList.add('selection-mode');
+            handleMediaElement(true);
+        }
+    }
+
+    /**
+     * Get a media element based on its file object.
+     * @param fileObject
+     * @private
+     */
+    private getMediaElement(fileObject: FileObjectJson) {
+        for (const parentContainer of this.parentContainers) {
+            let mediaElement: MediaElement | null = parentContainer.getMediaElement(fileObject);
+            if (mediaElement !== null) {
+                return mediaElement;
+            } else {
+                if (this.debug) console.warn('MediaLibrary: Media element not found, probably not rendered yet.');
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Post initialize method.
+     * @private
+     */
+    private postInitialize(): void {
+
+    }
+
+    /**
+     * Post render files method.
+     * @private
+     */
+    private postRenderFiles() {
+        if (this.debug) console.log('MediaLibrary: Post render files');
+
+        let url: URL = new URL(window.location.href);
+        let searchParams: URLSearchParams = url.searchParams;
+
+        if (this.selectedFiles.length == 0 && searchParams.has('selected-files')) {
+            if (this.debug) console.log('MediaLibrary: Selected files found in the url');
+
+            let selectedFiles: string = searchParams.get('selected-files') ?? '';
+            let selectedFilesArray: Array<string> = selectedFiles.split(',');
+            for (const fileId of selectedFilesArray) {
+                let fileObject: FileObjectJson | undefined = this.files.find((file: FileObjectJson): boolean => {
+                    return file.id.toString() === fileId;
+                });
+                if (fileObject !== undefined) {
+                    this.selectedFiles.push(fileObject);
+                }
+            }
+        }
+
+        if (this.selectedFiles.length > 0) {
+            this.mediaLibraryElement.classList.add('selection-mode');
+            for (const file of this.selectedFiles) {
+                this.toggleMediaElementSelection(file, true);
+            }
+        }
     }
 }
 
@@ -413,7 +605,7 @@ class ParentContainer {
         }
     }
 
-    render(): HTMLElement {
+    async render(): Promise<HTMLElement> {
         const container = document.createElement('div');
         container.className = 'parent-section';
 
@@ -426,10 +618,25 @@ class ParentContainer {
         container.appendChild(containerDiv);
 
         for (const child of this.children) {
-            containerDiv.appendChild(child.render());
+            containerDiv.appendChild(await child.render());
         }
 
         return container;
+    }
+
+    /**
+     * Get a media element based on its file object.
+     * @param fileObject
+     */
+    public getMediaElement(fileObject: FileObjectJson): MediaElement | null {
+        for (const child of this.children) {
+            for (const mediaElement of child.getElements()) {
+                if (mediaElement.fileObject.id === fileObject.id) {
+                    return mediaElement;
+                }
+            }
+        }
+        return null;
     }
 }
 
@@ -454,7 +661,11 @@ class ChildContainer {
         return this.mediaElements.includes(element);
     }
 
-    render(): HTMLElement {
+    getElements(): MediaElement[] {
+        return this.mediaElements;
+    }
+
+    async render(): Promise<HTMLElement> {
         const container = document.createElement('div');
         container.className = 'section';
 
@@ -469,7 +680,7 @@ class ChildContainer {
         container.appendChild(containerDiv);
 
         for (const element of this.mediaElements) {
-            containerDiv.appendChild(element.getElement());
+            containerDiv.appendChild(await element.getElement());
         }
 
         return container;
@@ -477,33 +688,62 @@ class ChildContainer {
 }
 
 class MediaElement {
-    private readonly element: HTMLElement;
-    private readonly fileObject: FileObjectJson;
+    public readonly fileObject: FileObjectJson;
     public static fileTypeIcons: FileTypeIcon[] = [];
+    public static baseDomElement: HTMLElement;
+    private readonly callback: (fileObject: FileObjectJson) => void;
+    private renderedElement: HTMLElement | null = null;
 
-    constructor(fileObject: FileObjectJson) {
+    constructor(fileObject: FileObjectJson, callback: (fileObject: FileObjectJson) => void) {
         this.fileObject = fileObject;
-        this.element = this.render();
+        this.callback = callback;
     }
 
-    private render(): HTMLElement {
+    private async render(): Promise<HTMLElement> {
         let fileType: string = this.fileObject.type.split('/')[0];
 
         if (fileType === 'image' && !MediaLibrary.excludeImagesMimeTypes.includes(this.fileObject.type)) {
-            return this.renderImageDomElement();
+            this.renderedElement = await this.renderImageDomElement();
+        } else {
+            this.renderedElement = await this.renderFileDomElement();
         }
-        return this.renderFileDomElement();
+        return this.renderedElement;
     }
 
-    public getElement(): HTMLElement {
-        return this.element;
+    public async getElement(): Promise<HTMLElement> {
+        return await this.render();
     }
 
     /**
      * This method creates the base dom element of a file, whether it's an image or not.
      * @private
      */
-    private renderBaseDomElement(): HTMLElement {
+    private async renderBaseDomElement(): Promise<HTMLElement> {
+        if (MediaElement.baseDomElement === undefined) {
+            const fetchPromise = fetch(route("dashboard.ajax.components.media-library.media-element-html"), {
+                method: "GET",
+                headers: {
+                    'Accept': 'text/html',
+                },
+            })
+                .then(async response => {
+                    if (!response.ok) {
+                        throw new Error('MediaElement: Failed to fetch the media element html');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    MediaElement.baseDomElement = new DOMParser().parseFromString(html, 'text/html').body.firstChild as HTMLElement;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+            await fetchPromise;
+        }
+
+        let mediaRootElement: HTMLElement = MediaElement.baseDomElement.cloneNode(true) as HTMLElement;
+
         /* File element model
         <div class="media-element type-media/type-file">
             <div class="meta">
@@ -513,38 +753,24 @@ class MediaElement {
             </div>
         </div>*/
 
-        let mediaRootElement: HTMLElement = document.createElement('div');
-        mediaRootElement.className = 'media-element';
         mediaRootElement.setAttribute('data-file-id', String(this.fileObject.id));
         mediaRootElement.setAttribute('data-file-mime-type', this.fileObject.type);
 
-        let metaElement: HTMLElement = document.createElement('div');
-        metaElement.className = 'meta';
-        mediaRootElement.appendChild(metaElement);
-
-        let iconContainerElement: HTMLElement = document.createElement('div');
-        iconContainerElement.className = 'icon';
-
-        let iconElement: HTMLElement = document.createElement('i');
-        iconElement.className = 'fa-solid fa-file';
+        let iconContainerElement: HTMLElement = mediaRootElement.querySelector('.icon') as HTMLElement;
+        let iconElement: HTMLElement = iconContainerElement.querySelector('i') as HTMLElement;
 
         this.getFileTypeIcon(this.fileObject.type).then((iconClassName: string) => {
             iconElement.className = iconClassName;
         });
 
-        iconContainerElement.appendChild(iconElement);
-        metaElement.appendChild(iconContainerElement);
-
-        let nameElement: HTMLElement = document.createElement('div');
-        nameElement.className = 'name';
+        let nameElement: HTMLElement = mediaRootElement.querySelector('.name') as HTMLElement;
         nameElement.textContent = this.fileObject.name;
         nameElement.setAttribute('title', this.fileObject.name);
-        metaElement.appendChild(nameElement);
 
-        let sizeElement: HTMLElement = document.createElement('div');
-        sizeElement.className = 'size';
+        let sizeElement: HTMLElement = mediaRootElement.querySelector('.size') as HTMLElement;
         sizeElement.textContent = formatBytes(this.fileObject.size);
-        metaElement.appendChild(sizeElement);
+
+        mediaRootElement = await this.addEventListeners(mediaRootElement);
 
         return mediaRootElement;
     }
@@ -553,8 +779,8 @@ class MediaElement {
      * Render an image media element.
      * @private
      */
-    private renderImageDomElement(): HTMLElement {
-        let baseDomElement: HTMLElement = this.renderBaseDomElement();
+    private async renderImageDomElement(): Promise<HTMLElement> {
+        let baseDomElement: HTMLElement = await this.renderBaseDomElement();
 
         let filePath: string = this.fileObject.path;
         if (this.fileObject.thumbnail_path !== null) {
@@ -575,8 +801,8 @@ class MediaElement {
      * Render a file media element.
      * @private
      */
-    private renderFileDomElement(): HTMLElement {
-        let baseDomElement: HTMLElement = this.renderBaseDomElement();
+    private async renderFileDomElement(): Promise<HTMLElement> {
+        let baseDomElement: HTMLElement = await this.renderBaseDomElement();
         baseDomElement.classList.add('type-file');
 
         return baseDomElement;
@@ -602,6 +828,44 @@ class MediaElement {
         }
 
         return icon;
+    }
+
+    /**
+     * Add event listeners to the media element.
+     * @param mediaRootElement
+     * @private
+     */
+    private async addEventListeners(mediaRootElement: HTMLElement): Promise<HTMLElement> {
+        mediaRootElement.addEventListener('click', (event: Event): void => {
+            event.preventDefault();
+            this.callback(this.fileObject);
+        });
+
+        return mediaRootElement;
+    }
+
+    /**
+     * Set the selection of the media element.
+     * @param selected
+     */
+    public setSelected(selected: boolean): void {
+        if (this.renderedElement === null) {
+            console.error('MediaElement: Rendered element not found');
+            return;
+        }
+        let inputElement: HTMLInputElement | undefined = this.renderedElement.getElementsByTagName('input')[0];
+
+        if (inputElement === undefined) {
+            console.error('MediaElement: Input element not found');
+            return;
+        }
+        if (selected) {
+            this.renderedElement?.classList.add('selected');
+            inputElement.checked = true;
+        } else {
+            this.renderedElement?.classList.remove('selected');
+            inputElement.checked = false;
+        }
     }
 }
 
@@ -640,3 +904,4 @@ class FileTypeIcon {
 }
 
 export default MediaLibrary;
+window.MediaLibrary = MediaLibrary;

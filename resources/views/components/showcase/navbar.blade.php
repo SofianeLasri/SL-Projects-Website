@@ -18,7 +18,7 @@
             <x-showcase.nav-link href="#">
                 {{ __('general/noun.community') }}
             </x-showcase.nav-link>
-            <x-showcase.nav-link href="https://sofianelasri.fr">
+            <x-showcase.nav-link :href="route('sofianelasri.home')">
                 {{ __('general/non-verbal.about-me') }}
             </x-showcase.nav-link>
         </div>

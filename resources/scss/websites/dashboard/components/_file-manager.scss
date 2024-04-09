@@ -1,0 +1,360 @@
+@use "sass:color";
+@use "sass:map";
+
+.media-library {
+    position: relative;
+    display: flex;
+    gap: map.get($spacers, 4);
+    min-height: 0;
+    $filter-width: 16rem;
+
+    @mixin mobile {
+        .filters {
+            $reduced-width: 2.25rem; // Déduit depuis le dom à 36px
+            width: fit-content;
+
+            .mobile-wrapper {
+                .content .btn {
+                    padding: .375rem;
+
+                    .label {
+                        display: none;
+                    }
+                }
+
+                h4, h6 {
+                    display: none;
+                }
+            }
+
+            &:hover {
+                width: $reduced-width;
+
+                .mobile-wrapper {
+                    position: absolute;
+                    $padding: $modal-inner-padding;
+                    width: $filter-width + $padding;
+                    padding-right: $padding;
+                    left: 0;
+                    top: 0;
+                    bottom: 0;
+
+                    .content .btn .label, h4, h6 {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    .filters {
+        width: $filter-width;
+        position: relative;
+        flex-shrink: 0;
+        height: 100%;
+
+        .mobile-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: map.get($spacers, 4);
+            z-index: 10;
+            background-color: $white;
+            overflow-y: auto;
+
+            .content {
+                display: flex;
+                flex-direction: column;
+                gap: map.get($spacers, 4);
+
+                button {
+                    @extend .btn-white;
+
+                    &.active {
+                        @extend .btn-primary;
+                    }
+                }
+            }
+        }
+    }
+
+    &.embedded {
+        @include mobile;
+        height: 35rem;
+    }
+
+    @include media-breakpoint-down(lg) {
+        @include mobile;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+
+        .medias {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: map.get($spacers, 3);
+            overflow-y: auto;
+
+            .parent-section {
+                display: flex;
+                flex-direction: column;
+                gap: map.get($spacers, 4);
+
+                .parent-section-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: map.get($spacers, 3);
+
+                    .section {
+                        display: flex;
+                        flex-direction: column;
+                        gap: map.get($spacers, 2);
+                    }
+                }
+            }
+
+            .media-element {
+                overflow: hidden;
+                cursor: pointer;
+
+                .meta {
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    width: 100%;
+
+                    .icon {
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                    }
+                }
+            }
+
+            &.grid {
+                .section-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: map.get($spacers, 3);
+
+                    // In grid mode, media-element are shown in different ways
+                    .media-element {
+                        display: flex;
+                        position: relative;
+
+                        $width: 8rem;
+                        border: $border-width solid $border-color;
+                        border-radius: $border-radius;
+                        width: $width;
+                        aspect-ratio: 1 / 1;
+
+                        .select-action {
+                            display: none;
+                            position: absolute;
+                            top: map.get($spacers, 1);
+                            left: map.get($spacers, 1);
+                            z-index: 11;
+                        }
+
+                        &.selected {
+                            border-color: $primary;
+
+                            .select-action {
+                                display: flex;
+                            }
+                        }
+
+                        &:hover {
+                            border-color: $primary;
+                        }
+
+                        .meta {
+                            .name {
+                                display: inline-block !important;
+                                height: 1.75rem;
+                                flex-shrink: 0;
+                                font-size: $small-font-size;
+                                color: $white;
+                                word-wrap: anywhere;
+                                text-align: center;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                width: 100%;
+                                padding: 0 map.get($spacers, 1);
+                            }
+                        }
+
+                        &.type-image {
+                            .meta {
+                                position: relative;
+                                align-items: center;
+                                justify-content: flex-end;
+
+                                > * {
+                                    display: none;
+                                }
+
+                                .icon {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    right: 0;
+                                    bottom: 0;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 3rem;
+                                    color: $gray-600;
+
+                                    background-image: url('/resources/images/logos/og-logo-orange.jpg');
+                                }
+
+                                .name {
+                                    display: none;
+                                }
+                            }
+
+                            &:hover {
+                                .meta {
+                                    .icon:after {
+                                        content: '';
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        right: 0;
+                                        bottom: 0;
+                                        background-color: color.adjust($dark, $alpha: -0.5);
+                                    }
+
+                                    .name {
+                                        display: inline-block;
+                                        z-index: 10;
+                                    }
+                                }
+                            }
+                        }
+
+                        &.type-file {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            background-color: $light;
+
+                            .meta {
+                                > * {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+
+                                .name {
+                                    color: $body-color;
+                                }
+
+                                .icon {
+                                    flex-grow: 1;
+                                    font-size: 3rem;
+                                    color: $gray-600;
+                                }
+
+                                .size {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.list {
+                .section-container {
+                    display: flex;
+                    flex-direction: column;
+
+                    // On list mode, media-element are shown in the same way
+                    .media-element {
+                        display: flex;
+                        align-items: center;
+                        padding: map.get($spacers, 1);
+
+                        .select-action {
+                            display: none;
+                        }
+
+                        &:nth-child(even) {
+                            background-color: $gray-100;
+                        }
+
+                        &:not(:last-child) {
+                            border-bottom: $border-width solid $border-color;
+                        }
+
+                        &:hover {
+                            background-color: $light;
+                        }
+
+                        .meta {
+                            flex-grow: 1;
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            gap: map.get($spacers, 1);
+
+                            .icon {
+                                font-size: 1rem;
+                                color: $gray-600;
+                                height: map.get($spacers, 4);
+                                aspect-ratio: 1;
+                                flex-shrink: 0;
+
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+
+                            .name {
+                                flex-grow: 1;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                            }
+
+                            .size {
+                                flex-shrink: 0;
+                                color: $text-muted;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.selection-mode {
+                .media-element .select-action {
+                    display: flex !important;
+                }
+            }
+        }
+
+        .actions {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            gap: map.get($spacers, 2);
+            padding: map.get($spacers, 2);
+            border-top: $border-width solid $primary;
+
+            &.selection-mode {
+                display: flex;
+            }
+
+            .selected-files-label {
+                font-weight: $font-weight-bold;
+            }
+        }
+    }
+}

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\FileUpload;
 use App\Models\PendingImageConversion;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,16 +15,15 @@ class ConvertImageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct()
+    private PendingImageConversion $imageToConvert;
+
+    public function __construct(PendingImageConversion $imageToConvert)
     {
+        $this->imageToConvert = $imageToConvert;
     }
 
     public function handle(): void
     {
-        $imagesToConvert = PendingImageConversion::get();
-        foreach ($imagesToConvert as $image) {
-            Log::debug('Converting image '.$image->fileUpload->filename.' to '.$image->type);
-            $image->fileUpload->convertImage($image->type);
-        }
+        $this->imageToConvert->fileUpload->convertImage($this->imageToConvert->type);
     }
 }
