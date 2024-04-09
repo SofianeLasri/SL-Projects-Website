@@ -5,6 +5,7 @@
 <a href="https://discord.gg/9PYvGFDmDt"><img src="https://img.shields.io/badge/Join_our_Discord-7289DA?logo=discord&logoColor=white" alt="Discord"></a>
 <a href="https://gitlab.sl-projects.com/sl-projects/sl-projects-website"><img src="https://img.shields.io/badge/Visit_our_GitLab-FC6D26?logo=gitlab&logoColor=white" alt="GitLab"></a>
 <a href="https://laravel.com"><img src="https://img.shields.io/badge/Based_on_Laravel-FF2D20?logo=laravel&logoColor=white" alt="Laravel"></a>
+<a href="https://wakatime.com/badge/user/018da7b9-5ddd-4615-a805-e871e840191c/project/018da7bb-f1d4-4084-aeb1-08b113b179c5"><img src="https://wakatime.com/badge/user/018da7b9-5ddd-4615-a805-e871e840191c/project/018da7bb-f1d4-4084-aeb1-08b113b179c5.svg" alt="wakatime"></a>
 </p>
 
 ## À propos du projet
