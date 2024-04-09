@@ -12,6 +12,8 @@
     <meta property="og:image:height" content="512"/>
 @endsection
 
+@section('pageDesc', $draft->description)
+
 @section('body')
     <x-showcase.navbar/>
 
@@ -19,7 +21,7 @@
         <div class="container">
             <div class="title-container flex lg:px-8">
                 <div class="hidden-part">
-                    <!-- Supposée être vide -->
+                    <!-- Supposée être vide c'est l'espace derrière le titre -->
                 </div>
                 <div class="title">
                     <h1 class="font-black text-uppercase m-0">{{ $draft->name }}</h1>
