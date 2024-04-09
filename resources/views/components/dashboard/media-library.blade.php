@@ -109,7 +109,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Envoyer un média</h1>
-                <x-button type="button" class="btn-link text-dark" data-bs-dismiss="modal" aria-label="Close">
+                <x-button type="button" class="btn-link text-dark btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <x-square-icon size="1rem">
                         <i class="fa-solid fa-xmark"></i>
                     </x-square-icon>

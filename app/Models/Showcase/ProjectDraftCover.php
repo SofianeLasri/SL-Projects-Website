@@ -2,6 +2,7 @@
 
 namespace App\Models\Showcase;
 
+use App\Models\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,5 +35,10 @@ class ProjectDraftCover extends Model
     public function scopeForProjectDraft(Builder $query, ProjectDraft $projectDraft): void
     {
         $query->where('project_draft_id', $projectDraft->id);
+    }
+
+    public function fileUpload()
+    {
+        return $this->belongsTo(FileUpload::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Showcase;
 
+use App\Models\FileUpload;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,5 +36,8 @@ class ProjectCover extends Model
         return $query->where('project_id', $project->id);
     }
 
-
+    public function fileUpload()
+    {
+        return $this->belongsTo(FileUpload::class, 'file_upload_id', 'id');
+    }
 }

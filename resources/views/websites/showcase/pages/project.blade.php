@@ -29,7 +29,12 @@
                 <div class="logo-and-details">
                     <div class="logo square-primary-shadows">
                         <!-- TODO: Replace with real project image -->
-                        <img src="{{ Vite::asset('resources/images/dev/logo-starisland.jpg') }}" alt="Image du projet">
+                        @if(!empty($draft->square_cover))
+                            <img src="{{ $draft->square_cover->fileUpload->getMediumVariant()->getFileUrl() }}" alt="Image du projet">
+                        @else
+                            <img src="{{ Vite::asset('resources/images/dev/logo-starisland.jpg') }}" alt="Image du projet">
+                        @endif
+
                     </div>
 
                     <div class="details">

@@ -16,6 +16,7 @@ use Image;
 class FileUpload extends Model
 {
     use HasFactory;
+
     protected $connection = 'main';
 
     protected $fillable = [
@@ -29,9 +30,9 @@ class FileUpload extends Model
     /**
      * Get the query builder for the files in the given folder.
      *
-     * @param  string|null  $type The type of the files to get.
-     * @param  bool  $originalFilesOnly Whether to get only original files or all files.
-     * @param  string  $path The path to get the files from.
+     * @param  string|null  $type  The type of the files to get.
+     * @param  bool  $originalFilesOnly  Whether to get only original files or all files.
+     * @param  string  $path  The path to get the files from.
      * @return Builder The query builder.
      */
     public static function getUploadQB(?string $type, bool $originalFilesOnly, string $path): Builder
@@ -76,34 +77,75 @@ class FileUpload extends Model
         return $this->hasOne(PictureType::class);
     }
 
-    public function getVariantsIfPicture(): HasMany
+    public function pictureTypes(): HasMany
     {
         return $this->hasMany(PictureType::class, 'original_file_upload_id');
     }
 
-    public function getThumbnailVariants(): HasMany
+    public function getThumbnailVariant(string $format = 'webp'): ?FileUpload
     {
-        return $this->hasMany(PictureType::class)->where('type', PictureType::TYPE_THUMBNAIL);
+        $thumbNailVariant = $this->pictureTypes()
+            ->join('file_uploads as thumbnail_variant_file_upload', 'thumbnail_variant_file_upload.id', '=', 'picture_types.file_upload_id')
+            ->where('type', PictureType::TYPE_THUMBNAIL)
+            ->where('thumbnail_variant_file_upload.type', 'image/'.$format)
+            ->first();
+        if ($thumbNailVariant) {
+            return FileUpload::find($thumbNailVariant->file_upload_id);
+        }
+
+        return null;
     }
 
-    public function getSmallVariants(): HasMany
+    public function getSmallVariant(string $format = 'webp'): ?FileUpload
     {
-        return $this->hasMany(PictureType::class)->where('type', PictureType::TYPE_SMALL);
+        $smallVariant = $this->pictureTypes()
+            ->small()
+            ->join('file_uploads as small_variant_file_upload', 'small_variant_file_upload.id', '=', 'picture_types.file_upload_id')
+            ->where('small_variant_file_upload.type', 'image/'.$format)
+            ->first();
+        if ($smallVariant) {
+            return FileUpload::find($smallVariant->file_upload_id);
+        }
+
+        return null;
     }
 
-    public function getMediumVariants(): HasMany
+    public function getMediumVariant(string $format = 'webp'): ?FileUpload
     {
-        return $this->hasMany(PictureType::class)->where('type', PictureType::TYPE_MEDIUM);
+        $mediumVariant = $this->pictureTypes()
+            ->medium()
+            ->join('file_uploads as medium_variant_file_upload', 'medium_variant_file_upload.id', '=', 'picture_types.file_upload_id')
+            ->where('medium_variant_file_upload.type', 'image/'.$format)
+            ->first();
+        if ($mediumVariant) {
+            return FileUpload::find($mediumVariant->file_upload_id);
+        }
+
+        return null;
     }
 
-    public function getLargeVariant(): HasOne
+    public function getLargeVariant(string $format = 'webp'): ?FileUpload
     {
-        return $this->hasOne(PictureType::class)->where('type', 'large');
+        $largeVariant = $this->pictureTypes()
+            ->where('type', PictureType::TYPE_LARGE)
+            ->join('file_uploads as large_variant_file_upload', 'large_variant_file_upload.id', '=', 'picture_types.file_upload_id')
+            ->where('large_variant_file_upload.type', 'image/'.$format)
+            ->first();
+        if ($largeVariant) {
+            return FileUpload::find($largeVariant->file_upload_id);
+        }
+
+        return null;
     }
 
-    public function getOriginalVariant(): HasOne
+    public function getOriginalVariant(): FileUpload
     {
-        return $this->hasOne(PictureType::class)->where('type', 'original');
+        $originalVariant = $this->pictureTypes()->where('type', PictureType::TYPE_ORIGINAL)->first();
+        if ($originalVariant) {
+            return FileUpload::find($originalVariant->file_upload_id);
+        }
+
+        return $this;
     }
 
     public function getFileUrl(): string
@@ -155,7 +197,7 @@ class FileUpload extends Model
     /**
      * Convert the image to the given conversion type.
      *
-     * @param  string  $conversionType The conversion type to convert the image to.
+     * @param  string  $conversionType  The conversion type to convert the image to.
      */
     public function convertImage(string $conversionType): void
     {
@@ -246,9 +288,9 @@ class FileUpload extends Model
     /**
      * Check if a file already exists in the given folder.
      *
-     * @param  string  $folder The folder to check in.
-     * @param  string  $filename The filename to check.
-     * @param  int  $iteration The iteration of the filename.
+     * @param  string  $folder  The folder to check in.
+     * @param  string  $filename  The filename to check.
+     * @param  int  $iteration  The iteration of the filename.
      * @return string The new filename.
      */
     public static function checkFileName(string $folder, string $filename, int $iteration = 0): string
@@ -271,7 +313,7 @@ class FileUpload extends Model
     /**
      * Refresh the cache for the specified folder.
      *
-     * @param  string  $folder The folder for which to refresh the cache.
+     * @param  string  $folder  The folder for which to refresh the cache.
      */
     public static function refreshCache(string $folder): array
     {
@@ -290,7 +332,7 @@ class FileUpload extends Model
     /**
      * Generate the cache key for the specified folder.
      *
-     * @param  string  $folder The folder for which to generate the cache key.
+     * @param  string  $folder  The folder for which to generate the cache key.
      */
     public static function gerenateFolderCacheKey(string $folder): string
     {
@@ -304,12 +346,12 @@ class FileUpload extends Model
     /**
      * Get the files in the given folder, based on database records.
      *
-     * @param  string  $path The path to get the files from.
-     * @param  string|null  $type The type of the files to get.
-     * @param  bool  $originalFilesOnly Whether to get only original files or all files.
-     * @param  int  $offset The offset of the files to get.
-     * @param  int  $limit The limit of the files to get.
-     * @param  string  $order The order of the files to get.
+     * @param  string  $path  The path to get the files from.
+     * @param  string|null  $type  The type of the files to get.
+     * @param  bool  $originalFilesOnly  Whether to get only original files or all files.
+     * @param  int  $offset  The offset of the files to get.
+     * @param  int  $limit  The limit of the files to get.
+     * @param  string  $order  The order of the files to get.
      * @return array The files.
      */
     public static function getFiles(string $path = '/', ?string $type = null, bool $originalFilesOnly = true, int $offset = 0, int $limit = 20, string $order = 'desc'): array
@@ -327,9 +369,9 @@ class FileUpload extends Model
     /**
      * Get the picture type associated with the file upload.
      *
-     * @param  string  $path The path to get the files from.
-     * @param  string|null  $type The type of the files to get.
-     * @param  bool  $originalFilesOnly Whether to get only original files or all files.
+     * @param  string  $path  The path to get the files from.
+     * @param  string|null  $type  The type of the files to get.
+     * @param  bool  $originalFilesOnly  Whether to get only original files or all files.
      * @return int The number of files.
      */
     public static function getFilesCount(string $path = '/', ?string $type = null, bool $originalFilesOnly = false): int
