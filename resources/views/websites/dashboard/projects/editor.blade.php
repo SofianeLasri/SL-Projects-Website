@@ -35,9 +35,9 @@
             :use-check-icon="true">
         <form method="post" id="addProjectForm">
             @csrf
-            <input type="hidden" name="project_id" value="{{ $fields['project-id'] }}">
+            <input type="hidden" name="project-id" value="{{ $fields['project-id'] }}">
             @if(!empty($fields['draft-id']))
-                <input type="hidden" name="draft_id" value="{{ $fields['draft-id'] }}"/>
+                <input type="hidden" name="draft-id" value="{{ $fields['draft-id'] }}"/>
             @endif
 
             <div id="generalInformations">
@@ -69,10 +69,10 @@
                 <h5>Dates clés</h5>
                 <div class="row">
                     <div class="col-xl-6 mb-3">
-                        <x-input type="date" name="start_date" label="Date de début" class="mb-2"
+                        <x-input type="date" name="start-date" label="Date de début" class="mb-2"
                                  value="{{ $fields['start-date'] }}" required/>
-                        <label for="release_status" class="form-label>">Statut du projet</label>
-                        <select class="form-select" aria-label="Default select example" name="release_status">
+                        <label for="release-status" class="form-label>">Statut du projet</label>
+                        <select class="form-select" aria-label="Default select example" name="release-status">
                             @foreach(\App\Models\Showcase\Project::RELEASE_STATUS_ENUMS as $status)
                                 <option value="{{ $status }}"
                                         @if($fields['release-status'] === $status) selected @endif
@@ -81,7 +81,7 @@
                         </select>
                     </div>
                     <div class="col-xl-6 mb-3">
-                        <x-input type="date" name="end_date" label="Date de fin" class="mb-2"
+                        <x-input type="date" name="end-date" label="Date de fin" class="mb-2"
                                  value="{{ $fields['end-date'] }}"/>
                     </div>
                 </div>

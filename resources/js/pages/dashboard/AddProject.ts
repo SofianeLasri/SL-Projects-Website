@@ -25,8 +25,10 @@ previewProjectBtn.addEventListener('click', async () => {
     console.log('Preview project');
     const data: ProjectEditorResponse | null = await sendProjectFormToServer(true);
 
-    if (data !== null) {
+    if (data !== null && data.hasOwnProperty('success') && data.success) {
         window.open(data.url, '_blank');
+    } else {
+        console.error('Error:', data);
     }
 });
 
