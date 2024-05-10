@@ -7,12 +7,12 @@
 @section('route', route('login'))
 
 @section("form")
-    <x-input name="username" type="text" data-form-type="username"
+    <x-gui.input name="username" type="text" data-form-type="username"
              label="{{ __('general/compound.username') }}"
              value="{{ old('username') }}"
              placeholder="{{ __('general/verbal.authentication.enter_your_username') }}" required/>
 
-    <x-input name="password" type="password" data-form-type="password"
+    <x-gui.input name="password" type="password" data-form-type="password"
              label="{{ __('general/compound.password') }}"
              value="{{ old('password') }}"
              placeholder="{{ __('general/verbal.authentication.enter_your_password') }}" required/>

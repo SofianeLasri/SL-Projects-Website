@@ -7,19 +7,19 @@
 @section('route', route('register'))
 
 @section("form")
-    <x-input name="username" type="text" data-form-type="username"
+    <x-gui.input name="username" type="text" data-form-type="username"
              label="{{ __('general/compound.username') }}"
              value="{{ old('username') }}" required/>
 
-    <x-input name="email" type="text" data-form-type="email"
+    <x-gui.input name="email" type="text" data-form-type="email"
              label="{{ __('general/compound.email_adress') }}"
              value="{{ old('email') }}" required/>
 
-    <x-input name="password" type="password" data-form-type="password"
+    <x-gui.input name="password" type="password" data-form-type="password"
              label="{{ __('general/compound.password') }}"
              value="{{ old('password') }}" required/>
 
-    <x-input name="password_confirmation" type="password" data-form-type="password"
+    <x-gui.input name="password_confirmation" type="password" data-form-type="password"
              label="{{ __('general/non-verbal.password_confirmation') }}"
              value="{{ old('password_confirmation') }}" required/>
 

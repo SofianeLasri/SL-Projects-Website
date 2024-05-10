@@ -48,7 +48,7 @@ RUN apt-get update; \
 
 # Install Chromium dependencies
 RUN apt-get install -yqq libxpm4 libxrender1 libgtk2.0-0 libnss3 libgconf-2-4
-RUN apt-get install -yqq chromium
+RUN apt-get update && apt-get install -y chromium=124.0.6367.201-1~deb12u1
 
 # Setting Apache2 & PHP configuration
 COPY docker-init/000-default.conf /etc/apache2/sites-available/000-default.conf

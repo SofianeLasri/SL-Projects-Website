@@ -36,7 +36,7 @@ unit_test:
     - composer install
     - php artisan key:generate
     - php artisan migrate
-    - php artisan dusk:chrome-driver --all
+    - php artisan dusk:chrome-driver --all 124
     - npm install
     - npm run build
     - chmod -R 0755 vendor/laravel/dusk/bin/
