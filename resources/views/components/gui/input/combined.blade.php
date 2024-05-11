@@ -1,4 +1,4 @@
-<fieldset class="input-fieldset {{ $class }}" data-validation="{{ $validation }}">
+{{--<fieldset class="input-fieldset {{ $class }}" data-validation="{{ $validation }}">
     @if($type === "password")
         <span class="input-span is-password">
                 <span class="input-span">
@@ -31,10 +31,15 @@
             {{ html_entity_decode($feedback ?? '') }}
         </div>
     @endif
-</fieldset>
+</fieldset>--}}
+
+<div class="form-floating {{ $class }}" data-validation="{{ $validation }}">
+    <input type="{{ $type }}" class="form-control" id="{{ $id }}" placeholder="{{ html_entity_decode($placeholder) }}">
+    <label for="{{ $id }}">{{ html_entity_decode($label) }}</label>
+</div>
 
 @pushonce('scripts')
-    <script type="text/javascript">
+    {{--<script type="text/javascript">
         class Input {
             fieldset;
             input;
@@ -139,5 +144,5 @@
                 new Input(input);
             });
         });
-    </script>
+    </script>--}}
 @endpushonce

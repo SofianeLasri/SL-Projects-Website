@@ -1,6 +1,33 @@
 @use "sass:map";
 @use "sass:math";
 
+.form-floating {
+    > label {
+        line-height: $form-floating-height;
+        padding: 0 $input-padding-x;
+    }
+
+    > .form-control,
+    > .form-control-plaintext{
+        padding: 0 $form-floating-padding-x;
+        padding-top: .75rem;
+    }
+
+    > .form-control:focus,
+    > .form-control:not(:placeholder-shown),
+    > .form-control-plaintext,
+    > .form-select {
+        ~ label {
+            font-size: $small-font-size;
+
+            &::after {
+                background-color: transparent;
+            }
+        }
+    }
+}
+
+
 .input-fieldset {
     border: none;
     margin: 0;
