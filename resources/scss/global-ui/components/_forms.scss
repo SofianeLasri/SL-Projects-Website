@@ -1,7 +1,7 @@
 @use "sass:map";
 @use "sass:math";
 
-.form-floating {
+/*.form-floating {
     > label {
         line-height: $form-floating-height;
         padding: 0 $input-padding-x;
@@ -25,7 +25,7 @@
             }
         }
     }
-}
+}*/
 
 
 .input-fieldset {
@@ -229,25 +229,3 @@
     }
 }
 
-
-.form-label {
-    font-weight: $font-weight-bold;
-}
-
-.form-control {
-    position: relative;
-    padding: map.get($spacers, 2);
-    margin-top: map.get($spacers, 1);
-    background-color: $white;
-    border: $border-width solid $border-color;
-    border-radius: $border-radius;
-    outline: none;
-
-    &::placeholder {
-        color: $dark;
-    }
-
-    &:focus {
-        border: $border-width solid $primary;
-    }
-}
