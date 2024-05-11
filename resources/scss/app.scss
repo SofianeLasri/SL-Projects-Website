@@ -38,10 +38,7 @@
 @import "~bootstrap/scss/helpers";
 @import "~bootstrap/scss/badge";
 @import "~bootstrap/scss/modal";
-@import "~bootstrap/scss/forms/form-check";
-@import "~bootstrap/scss/forms/form-range";
-@import "~bootstrap/scss/forms/form-select";
-@import "~bootstrap/scss/forms/form-text";
+@import "~bootstrap/scss/forms";
 
 // 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
 @import "~bootstrap/scss/utilities/api";

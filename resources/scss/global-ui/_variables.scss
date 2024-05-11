@@ -1,4 +1,5 @@
 @use "sass:color";
+
 $enable-negative-margins: true;
 
 // Color system
@@ -255,8 +256,26 @@ $blur-radius: 8px;
 // Buttons
 //
 // For each of Bootstrap's buttons, define text, background, and border color.
+$input-btn-padding-y: .375rem;
+$input-btn-padding-x: .75rem;
 
 // Allows for customizing button radius independently from global border radius
 $btn-border-radius: 0;
 $btn-border-radius-sm: 0;
 $btn-border-radius-lg: 0;
+
+// Forms
+$input-height-border: calc(#{$border-width} * 2);
+
+$input-padding-y: $input-btn-padding-y;
+$input-padding-x: $input-btn-padding-x;
+
+$form-floating-height: add(3rem, $input-height-border);
+$form-floating-padding-x: .5rem;
+$form-floating-padding-y: .75rem;
+
+// scss-docs-start form-floating-variables
+/*$form-floating-height: 3rem;
+$form-floating-input-padding-t: .75rem;
+$form-floating-input-padding-b: 0;*/
+// scss-docs-end form-floating-variables
