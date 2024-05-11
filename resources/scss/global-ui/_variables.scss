@@ -1,4 +1,5 @@
 @use "sass:color";
+
 $enable-negative-margins: true;
 
 // Color system
@@ -264,8 +265,14 @@ $btn-border-radius-sm: 0;
 $btn-border-radius-lg: 0;
 
 // Forms
+$input-height-border: calc(#{$border-width} * 2);
+
 $input-padding-y: $input-btn-padding-y;
 $input-padding-x: $input-btn-padding-x;
+
+$form-floating-height: add(3rem, $input-height-border);
+$form-floating-padding-x: .5rem;
+$form-floating-padding-y: .75rem;
 
 // scss-docs-start form-floating-variables
 /*$form-floating-height: 3rem;

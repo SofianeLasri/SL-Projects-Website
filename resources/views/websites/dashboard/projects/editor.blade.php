@@ -16,8 +16,8 @@
 
 @section('pageContent')
     <x-dashboard.steps-group-list
-            title="Étapes"
-            :steps="[
+        title="Étapes"
+        :steps="[
                 [
                     'id' => 'generalInformations',
                     'title' => 'Informations générales',
@@ -32,7 +32,7 @@
                     'title' => 'Médias'
                 ]
             ]"
-            :use-check-icon="true">
+        :use-check-icon="true">
         <form method="post" id="addProjectForm">
             @csrf
             <input type="hidden" name="project-id" value="{{ $fields['project-id'] }}">
@@ -46,23 +46,26 @@
                         <h5>Identité</h5>
                         <p class="d-none" id="projectSlugShowUp">Permalien : {{ getWebsiteUrl('showcase') }}</p>
                         <x-gui.input id="projectNameInput" name="name" label="Nom du projet"
-                                 placeholder="Entrez le nom du projet" value="{{ $fields['name'] }}"
-                                 class="mb-2" required/>
-                        <x-gui.input id="projectSlugInput" name="slug" value="{{ $fields['slug'] }}" class="mb-2" hidden/>
+                                     placeholder="Entrez le nom du projet" value="{{ $fields['name'] }}"
+                                     class="mb-2" required/>
+                        <x-gui.input id="projectSlugInput" name="slug" value="{{ $fields['slug'] }}" class="mb-2"
+                                     hidden/>
                         <x-gui.textarea name="description" label="Description du projet"
-                                    value="{{ $fields['description'] }}"
-                                    placeholder="Entrez la description du projets" rows="2" validation="valid" required
-                                    feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
+                                        value="{{ $fields['description'] }}"
+                                        placeholder="Entrez la description du projets" rows="2" validation="valid"
+                                        required
+                                        feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
                     </div>
 
                     <div class="col-xl-6 mb-3">
                         <h5>Illustrations du projet</h5>
                         <x-gui.input id="squareCoverInput" type="number" name="square-cover"
-                                 label="ID Fileupload cover carrée" class="mb-2" value="{{ $fields['square-cover'] }}"/>
+                                     label="ID Fileupload cover carrée" class="mb-2"
+                                     value="{{ $fields['square-cover'] }}"/>
                         <x-gui.input type="number" name="poster-cover" label="ID Fileupload poster" class="mb-2"
-                                 value="{{ $fields['poster-cover'] }}"/>
+                                     value="{{ $fields['poster-cover'] }}"/>
                         <x-gui.input type="number" name="fullwide-cover" label="ID Fileupload full wide" class="mb-2"
-                                 value="{{ $fields['fullwide-cover'] }}"/>
+                                     value="{{ $fields['fullwide-cover'] }}"/>
                     </div>
                 </div>
 
@@ -70,7 +73,7 @@
                 <div class="row">
                     <div class="col-xl-6 mb-3">
                         <x-gui.input type="date" name="start-date" label="Date de début" class="mb-2"
-                                 value="{{ $fields['start-date'] }}" required/>
+                                     value="{{ $fields['start-date'] }}" required/>
                         <label for="release-status" class="form-label>">Statut du projet</label>
                         <select class="form-select" aria-label="Default select example" name="release-status">
                             @foreach(\App\Models\Showcase\Project::RELEASE_STATUS_ENUMS as $status)
@@ -82,7 +85,7 @@
                     </div>
                     <div class="col-xl-6 mb-3">
                         <x-gui.input type="date" name="end-date" label="Date de fin" class="mb-2"
-                                 value="{{ $fields['end-date'] }}"/>
+                                     value="{{ $fields['end-date'] }}"/>
                     </div>
                 </div>
             </div>

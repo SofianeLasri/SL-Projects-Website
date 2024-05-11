@@ -1,16 +1,14 @@
 @use "sass:map";
 @use "sass:math";
 
-/*.form-floating {
+.form-floating {
     > label {
-        line-height: $form-floating-height;
-        padding: 0 $input-padding-x;
+
     }
 
     > .form-control,
     > .form-control-plaintext{
-        padding: 0 $form-floating-padding-x;
-        padding-top: .75rem;
+
     }
 
     > .form-control:focus,
@@ -18,14 +16,19 @@
     > .form-control-plaintext,
     > .form-select {
         ~ label {
-            font-size: $small-font-size;
+            //font-size: $small-font-size;
 
             &::after {
-                background-color: transparent;
+                //background-color: transparent;
+                height: 1.3rem
             }
         }
     }
-}*/
+
+    textarea {
+        padding-top: 1.17rem!important;
+    }
+}
 
 
 .input-fieldset {
