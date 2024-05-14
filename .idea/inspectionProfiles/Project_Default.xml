@@ -8,7 +8,6 @@
     </inspection_tool>
     <inspection_tool class="IncorrectFormatting" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="JSClassNamingConvention" enabled="true" level="WARNING" enabled_by_default="true" />
-    <inspection_tool class="LaravelPintValidationInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="LocalVariableNamingConventionJS" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="m_regex" value="[a-z][A-Za-z]*" />
       <option name="m_minLength" value="1" />
@@ -25,6 +24,9 @@
     </inspection_tool>
     <inspection_tool class="PhpMethodNamingConventionInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
     <inspection_tool class="PhpPropertyNamingConventionInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true" />
+    <inspection_tool class="PhpUndefinedVariableInspection" enabled="true" level="ERROR" enabled_by_default="true">
+      <option name="IGNORE_INCLUDE" value="true" />
+    </inspection_tool>
     <inspection_tool class="PhpVariableNamingConventionInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="m_regex" value="[a-z][A-Za-z\d]*" />
     </inspection_tool>
