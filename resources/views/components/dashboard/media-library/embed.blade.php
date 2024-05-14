@@ -103,25 +103,6 @@
     </div>
 </div>
 
-
-<div class="modal modal-lg fade" id="mediaUploadModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Envoyer un média</h1>
-                <x-button type="button" class="btn-link text-dark btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <x-square-icon size="1rem">
-                        <i class="fa-solid fa-xmark"></i>
-                    </x-square-icon>
-                </x-button>
-            </div>
-            <div class="modal-body">
-                <x-dashboard.media-upload-zone/>
-            </div>
-        </div>
-    </div>
-</div>
-
 @pushonce('scripts')
-    @vite(['resources/js/pages/dashboard/MediaLibrary.ts'])
+    @vite(['resources/js/components/dashboard/media-library/MediaLibrary.ts'])
 @endpushonce

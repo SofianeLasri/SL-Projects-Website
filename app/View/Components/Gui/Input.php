@@ -2,11 +2,10 @@
 
 namespace App\View\Components\Gui;
 
+use App\View\Components\BaseComponentWithValidation;
 use Illuminate\Contracts\View\View;
-use Illuminate\Validation\ValidationException;
-use Illuminate\View\Component;
 
-class Input extends Component
+class Input extends BaseComponentWithValidation
 {
     public string $id;
 
@@ -156,39 +155,12 @@ class Input extends Component
         return view('components.gui.input.'.$this->apparence);
     }
 
-    public function validateName(string $name): void
-    {
-        if (! preg_match('/^[a-zA-Z][a-zA-Z0-9:_.-]*$/', $name)) {
-            $this->throwValidationException(
-                'name',
-                "Input name '$name' is incorrect. The name attribute must begin with a letter and can only contain letters (a-z, A-Z), digits (0-9), colons (:), periods (.), underscores (_), and hyphens (-)."
-            );
-        }
-    }
-
-    /**
-     * Validate if the value is in the array of valid values.
-     *
-     * @param  string  $attribute  The attribute name
-     * @param  mixed  $value  The value to validate
-     * @param  array  $validValues  The array of valid values
-     */
-    public function validateInArray(string $attribute, mixed $value, array $validValues): void
-    {
-        if (! in_array($value, $validValues)) {
-            $this->throwValidationException(
-                $attribute,
-                "Input $attribute '$value' is incorrect. Possible types are ".implode(', ', $validValues).'.'
-            );
-        }
-    }
-
     /**
      * Validate the input attributes. Throw an exception if an attribute is incorrect.
      */
     public function validateAttributes(string $name, string $type, string $dataFormType, string $apparence, string $validation): void
     {
-        $this->validateName($name);
+        $this->validateNameId($name);
         $this->validateInArray('type', $type, $this->types);
         if (! empty($dataFormType)) {
             $this->validateInArray('data_form_type', $dataFormType, $this->dataFormTypes);
@@ -204,10 +176,5 @@ class Input extends Component
                 "Input apparence '$apparence' is incompatible with type '$type'. Possible types are ".implode(', ', $this->combinedCompatibleTypes).'.'
             );
         }
-    }
-
-    public function throwValidationException(string $attribute, string $message)
-    {
-        throw ValidationException::withMessages([$attribute => $message]);
     }
 }

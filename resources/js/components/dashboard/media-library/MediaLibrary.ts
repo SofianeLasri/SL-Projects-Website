@@ -1,5 +1,5 @@
 import route from 'ziggy-js';
-import {formatBytes} from "../../utils/helpers";
+import {formatBytes} from "../../../utils/helpers";
 
 type ToolBoxButtonType = "filter-by-type" | "order" | "view" | "group";
 type FileObjectJson = {

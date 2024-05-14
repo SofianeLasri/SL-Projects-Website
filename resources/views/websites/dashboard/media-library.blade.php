@@ -10,7 +10,11 @@
 @endsection
 
 @section('pageContent')
-    <x-dashboard.media-library class="px-3 pt-2 flex-grow-1" />
+    <x-dashboard.media-library.embed class="px-3 pt-2 flex-grow-1" />
+
+    <x-gui.modal id="mediaUploadModal" title="Envoyer un média">
+        <x-dashboard.media-library.media-upload-zone/>
+    </x-gui.modal>
 @endsection
 
 @push('scripts')

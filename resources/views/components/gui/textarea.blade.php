@@ -18,6 +18,6 @@
 
 <div class="form-floating {{ $class }}">
     <textarea class="form-control" placeholder="{{ html_entity_decode($placeholder) }}"
-              id="{{ $id }}" {{ $name }}>{{ $value }}</textarea>
+              id="{{ $id }}" name="{{ $name }}" rows="{{ $rows }}">{{ $value }}</textarea>
     <label for="{{ $id }}">{{ html_entity_decode($label) }}</label>
 </div>

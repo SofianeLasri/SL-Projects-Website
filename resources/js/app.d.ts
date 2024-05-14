@@ -1,5 +1,5 @@
 import routeFn from 'ziggy-js';
-import MediaUploadZone from "./components/dashboard/MediaUploadZone";
+import MediaUploadZone from "./components/dashboard/media-library/MediaUploadZone";
 import StepsGroupsList from "./components/dashboard/StepsGroupsList";
 
 declare global {

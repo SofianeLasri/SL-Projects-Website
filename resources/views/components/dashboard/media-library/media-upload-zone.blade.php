@@ -52,5 +52,5 @@
     </div>
 </div>
 @pushonce('scripts')
-    @vite('resources/js/components/dashboard/MediaUploadZone.ts')
+    @vite('resources/js/components/dashboard/media-library/MediaUploadZone.ts')
 @endpushonce
