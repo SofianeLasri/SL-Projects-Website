@@ -25,7 +25,7 @@ class Input extends BaseComponentWithValidation
 
     public string $apparence;
 
-    public string $class;
+    public string $validationClass;
 
     public string $validation;
 
@@ -111,7 +111,6 @@ class Input extends BaseComponentWithValidation
         ?string $value = '',
         bool $required = false,
         string $apparence = '',
-        string $class = '',
         string $validation = 'none',
         string $feedback = ''
     ) {
@@ -123,9 +122,11 @@ class Input extends BaseComponentWithValidation
         $value = ! empty($value) ? $value : old($name);
 
         if ($validation === 'invalid') {
-            $class .= ' is-invalid';
+            $validationClass = ' is-invalid';
         } elseif ($validation === 'valid') {
-            $class .= ' is-valid';
+            $validationClass = ' is-valid';
+        } else {
+            $validationClass = '';
         }
 
         if (empty($apparence)) {
@@ -145,7 +146,7 @@ class Input extends BaseComponentWithValidation
         $this->value = $value;
         $this->required = $required;
         $this->apparence = $apparence;
-        $this->class = $class;
+        $this->validationClass = $validationClass;
         $this->validation = $validation;
         $this->feedback = $feedback;
     }

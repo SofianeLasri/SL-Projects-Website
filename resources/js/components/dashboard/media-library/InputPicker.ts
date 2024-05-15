@@ -1,32 +1,52 @@
+import {Modal} from 'bootstrap';
+import MediaLibrary from "./MediaLibrary";
 type Apparence = 'input' | 'square';
 
 class InputPicker {
-    private id: string;
-    private input: HTMLInputElement;
-    private apparence: Apparence;
-    private parentElement: HTMLElement;
+    private readonly input: HTMLInputElement;
+    private readonly modal: Modal;
+    private readonly apparence: Apparence;
+    private elementToListen: HTMLElement;
+    private embeddedMediaLibrary: MediaLibrary;
 
-    constructor(id: string, apparence: Apparence) {
-        this.id = id;
-        this.input = document.getElementById(id) as HTMLInputElement;
-        this.apparence = apparence;
+    constructor(container: HTMLElement) {
+        this.apparence = container.classList.contains('square') ? 'square' : 'input';
 
         if (this.apparence === 'input') {
-            this.parentElement = this.input as HTMLElement;
+            this.elementToListen = container.querySelector('input') as HTMLElement;
         } else {
-            this.parentElement = this.input.parentElement as HTMLElement;
+            this.elementToListen = container;
         }
+
+        let targetId = this.elementToListen.dataset.targetId!;
+        this.input = document.getElementById(targetId) as HTMLInputElement;
+
+        this.modal = new Modal("#mediaPickerModal", {
+            keyboard: false,
+            backdrop: 'static'
+        });
+
+        this.embeddedMediaLibrary = new MediaLibrary('mediaPickerModal', 'selection');
 
         this.init();
     }
 
     private init() {
-        this.parentElement.addEventListener('click', () => {
+        this.embeddedMediaLibrary.initialize();
+        this.elementToListen.addEventListener('click', () => {
             this.openPicker();
         });
     }
 
     private openPicker() {
         console.log('open picker');
+        this.modal.show();
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const inputPickers: NodeListOf<Element> = document.querySelectorAll('.media-picker');
+    inputPickers.forEach((inputPicker: Element) => {
+        new InputPicker(inputPicker as HTMLElement);
+    });
+});

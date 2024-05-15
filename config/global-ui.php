@@ -3,9 +3,11 @@
 return [
     'fa-file-types-icons' => [
         'default' => 'fa-solid fa-file',
+        'document' => 'fa-solid fa-file-word',
         'image' => 'fa-solid fa-file-image',
         'video' => 'fa-solid fa-file-video',
         'audio' => 'fa-solid fa-file-audio',
+        'archive' => 'fa-solid fa-file-archive',
         'application/pdf' => 'fa-solid fa-file-pdf',
         'application/msword' => 'fa-solid fa-file-word',
         'application/vnd.ms-word' => 'fa-solid fa-file-word',

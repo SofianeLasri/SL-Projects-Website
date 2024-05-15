@@ -8,12 +8,20 @@ use Illuminate\Contracts\View\View;
 class InputPicker extends BaseComponentWithValidation
 {
     public string $id;
+
     public string $name;
+
     public string $type;
+
     public string $apparence;
+
     public string $label;
 
-    private const AVAILABLE_TYPES = ['image', 'video', 'audio', 'document', 'archive'];
+    public string $fakeInputName;
+    public string $fakeInputId;
+
+    private const AVAILABLE_TYPES = ['file', 'image', 'video', 'audio', 'document', 'archive'];
+
     private const AVAILABLE_APPARENCES = ['input', 'square'];
 
     public function __construct(string $id, string $name, string $type = 'image', string $apparence = 'input', string $label = '')
@@ -23,6 +31,11 @@ class InputPicker extends BaseComponentWithValidation
         $this->setApparence($apparence);
         $this->setId($id);
         $this->label = $label;
+
+        if($this->apparence === 'input') {
+            $this->fakeInputName = $this->name.'_fake';
+            $this->fakeInputId = $this->id.'_fake';
+        }
     }
 
     public function render(): View
@@ -32,7 +45,7 @@ class InputPicker extends BaseComponentWithValidation
 
     private function setId(string $id): void
     {
-        $this->id = !empty($id) ? $id : 'fileupload_picker_' . $this->name;
+        $this->id = ! empty($id) ? $id : 'fileupload_picker_'.$this->name;
     }
 
     private function setName(string $name): void

@@ -43,6 +43,7 @@
             @yield('breadcrumbHeaderContent')
         </x-dashboard.breadcrumb>
         @yield('pageContent')
+        @stack('afterPageContent')
     </div>
 </div>
 

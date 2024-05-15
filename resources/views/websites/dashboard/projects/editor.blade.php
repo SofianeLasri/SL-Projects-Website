@@ -59,9 +59,12 @@
 
                     <div class="col-xl-6 mb-3">
                         <h5>Illustrations du projet</h5>
-                        <x-gui.input id="squareCoverInput" type="number" name="square-cover"
+                        <x-dashboard.media-library.input-picker id="squareCoverInput" name="square-cover" type="image"
+                                                                apparence="input" label="Illustration carrée"
+                                                                class="mb-2"/>
+                        {{--<x-gui.input id="squareCoverInput" type="number" name="square-cover"
                                      label="ID Fileupload cover carrée" class="mb-2"
-                                     value="{{ $fields['square-cover'] }}"/>
+                                     value="{{ $fields['square-cover'] }}"/>--}}
                         <x-gui.input type="number" name="poster-cover" label="ID Fileupload poster" class="mb-2"
                                      value="{{ $fields['poster-cover'] }}"/>
                         <x-gui.input type="number" name="fullwide-cover" label="ID Fileupload full wide" class="mb-2"
