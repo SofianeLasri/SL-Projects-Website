@@ -13,7 +13,7 @@
 <input type="hidden" name="{{ $name }}" id="{{ $id }}"/>
 
 @pushonce('afterPageContent')
-    <x-gui.modal id="mediaPickerModal" title="Choisir un média">
+    <x-gui.modal id="mediaPickerModal" title="Choisir un média" size="xl" scrollable>
         <x-dashboard.media-library.embed id="embededMediaLibrary"/>
         <x-slot:footer>
             <x-button type="button" class="btn-light" data-bs-dismiss="modal">
