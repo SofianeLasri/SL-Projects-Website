@@ -183,7 +183,9 @@ class MediaLibrary {
                 break;
             case 'group':
                 this.groupBy = value;
-                this.reRenderFiles();
+                this.reRenderFiles().then(() => {
+                    this.postRenderFiles();
+                });
                 break;
         }
 
@@ -503,10 +505,10 @@ class MediaLibrary {
     /**
      * Toggle the selection of a media element.
      * @param fileObject The file object to toggle the selection.
-     * @param firstPostRenderFiles If it's the first time the files are rendered -> needed to draw selection.
+     * @param dontUpdateSelectedFilesList If it's the first time the files are rendered -> needed to draw selection.
      * @private
      */
-    private toggleMediaElementSelection(fileObject: FileObjectJson, firstPostRenderFiles: boolean = false) {
+    private toggleMediaElementSelection(fileObject: FileObjectJson, dontUpdateSelectedFilesList: boolean = false) {
         const mediaElement: MediaElement | null = this.getMediaElement(fileObject);
 
         /**
@@ -543,7 +545,7 @@ class MediaLibrary {
             }
         };
 
-        if (this.selectedFiles.includes(fileObject) && !firstPostRenderFiles) {
+        if (this.selectedFiles.includes(fileObject) && !dontUpdateSelectedFilesList) {
             unselectFile();
             handleMediaElement(false);
             if (this.operationMode == MediaLibraryOperationModePage) {
@@ -558,13 +560,13 @@ class MediaLibrary {
                 }
             }
         } else {
-            if (this.operationMode === MediaLibraryOperationModeEmbededSelection && this.selectedFiles.length >= this.selectionOperationModeMaxFiles) {
-                // TODO: Notification alert
-                console.log("MediaLibrary: Maximum files selected");
-                return;
-            }
+            if (!dontUpdateSelectedFilesList) {
+                if (this.operationMode === MediaLibraryOperationModeEmbededSelection && this.selectedFiles.length >= this.selectionOperationModeMaxFiles) {
+                    // TODO: Notification alert
+                    console.log("MediaLibrary: Maximum files selected");
+                    return;
+                }
 
-            if (!firstPostRenderFiles) {
                 this.selectedFiles.push(fileObject);
                 setSelectedFilesUrlParameter();
             }
@@ -606,7 +608,7 @@ class MediaLibrary {
      * Post render files method.
      * @private
      */
-    private postRenderFiles() {
+    private postRenderFiles(): void {
         if (this.debug) console.log('MediaLibrary: Post render files');
 
         let url: URL = new URL(window.location.href);
@@ -616,21 +618,31 @@ class MediaLibrary {
             if (this.debug) console.log('MediaLibrary: Selected files found in the url');
 
             let selectedFiles: string = searchParams.get('selected-files') ?? '';
-            let selectedFilesArray: Array<string> = selectedFiles.split(',');
-            for (const fileId of selectedFilesArray) {
-                let fileObject: FileObjectJson | undefined = this.files.find((file: FileObjectJson): boolean => {
-                    return file.id.toString() === fileId;
-                });
-                if (fileObject !== undefined) {
-                    this.selectedFiles.push(fileObject);
+            let selectedFilesArray: Array<number> = selectedFiles.split(',').map((id: string) => parseInt(id));
+            this.setSelectedFiles(selectedFilesArray);
+        } else {
+            if (this.selectedFiles.length > 0) {
+                this.toggleSelectionMode(true);
+                for (const file of this.selectedFiles) {
+                    this.toggleMediaElementSelection(file, true);
                 }
             }
         }
+    }
 
-        if (this.selectedFiles.length > 0) {
-            this.mediaLibraryElement.classList.add('selection-mode');
-            for (const file of this.selectedFiles) {
-                this.toggleMediaElementSelection(file, true);
+    /**
+     * Set the selected files based on their id.
+     * MUST BE CALLED AFTER THE FILES ARE RENDERED (because we need to have all the files in cache).
+     * @param selectedFilesId
+     */
+    public setSelectedFiles(selectedFilesId: number[]): void {
+        for (const fileId of selectedFilesId) {
+            let fileObject: FileObjectJson | undefined = this.files.find((file: FileObjectJson): boolean => {
+                return file.id === fileId;
+            });
+            if (fileObject !== undefined) {
+                this.selectedFiles.push(fileObject);
+                this.toggleMediaElementSelection(fileObject, true);
             }
         }
     }

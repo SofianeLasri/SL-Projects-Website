@@ -2,7 +2,8 @@
     <div {{ $attributes->merge(['class' => 'media-picker input-group']) }}
          data-target-id="{{$id}}"
          data-target-name="{{$name}}"
-         data-file-count="{{$fileCount}}">
+         data-file-count="{{$fileCount}}"
+         data-selected-files="{{ $getSelectedFiles() }}">
         <span class="input-group-text">
             <i class="{{ config('global-ui.fa-file-types-icons.' . $type) }}"></i>
         </span>
@@ -11,7 +12,7 @@
 @else
 
 @endif
-<input type="hidden" name="{{ $name }}" id="{{ $id }}"/>
+<input type="hidden" name="{{ $name }}" id="{{ $id }}" value="{{ $getSelectedFiles() }}"/>
 
 @pushonce('afterPageContent')
     <x-gui.modal id="mediaPickerModal" title="Choisir un média" size="xl" scrollable>

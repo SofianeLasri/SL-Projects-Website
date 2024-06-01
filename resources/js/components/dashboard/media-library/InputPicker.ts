@@ -13,6 +13,7 @@ class InputPicker {
     private embeddedMediaLibrary: MediaLibrary;
     private readonly confirmButton: HTMLButtonElement;
     private readonly maxFileCount: number;
+    private selectedFilesId: number[] = [];
 
     constructor(container: HTMLElement) {
         this.apparence = container.classList.contains('square') ? 'square' : 'input';
@@ -32,6 +33,9 @@ class InputPicker {
         this.confirmButton = modalElement.querySelector('.modal-footer .btn-primary') as HTMLButtonElement;
 
         this.maxFileCount = parseInt(container.dataset.fileCount!);
+        let selectedFiles: string = container.dataset.selectedFiles!; // Only list of numbers
+        this.selectedFilesId = selectedFiles.split(',').map((id: string) => parseInt(id));
+        console.log("Selected files: ", this.selectedFilesId);
 
         this.embeddedMediaLibrary = new MediaLibrary('mediaPickerModal', 'embeded-selection');
         this.embeddedMediaLibrary.setSelectionOperationModeMaxFiles(this.maxFileCount);
@@ -40,7 +44,9 @@ class InputPicker {
     }
 
     private init() {
-        this.embeddedMediaLibrary.initialize();
+        this.embeddedMediaLibrary.initialize().then(() => {
+            this.embeddedMediaLibrary.setSelectedFiles(this.selectedFilesId);
+        });
         this.elementToListen.addEventListener('click', () => {
             this.openPicker();
         });
@@ -56,11 +62,13 @@ class InputPicker {
 
     private confirmSelection() {
         console.log('confirm selection');
-        let selectedMedia: FileObjectJson[] = this.embeddedMediaLibrary.getSelectedFiles();
-        if (selectedMedia.length > 0) {
+        let selectedMedias: FileObjectJson[] = this.embeddedMediaLibrary.getSelectedFiles();
+        this.selectedFilesId = selectedMedias.map((file: FileObjectJson) => file.id);
+
+        if (selectedMedias.length > 0) {
             if (this.apparence === 'input') {
-                this.input.value = selectedMedia.map((file: FileObjectJson) => file.id).join(',');
-                this.fakeInput.value = selectedMedia.map((file: FileObjectJson) => file.name).join(',');
+                this.input.value = selectedMedias.map((file: FileObjectJson) => file.id).join(',');
+                this.fakeInput.value = selectedMedias.map((file: FileObjectJson) => file.name).join(',');
             } else {
                 // TODO: Do the code for square apparence
             }

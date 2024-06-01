@@ -15,6 +15,7 @@ class InputPicker extends BaseComponentWithValidation
     public string $fakeInputName;
     public string $fakeInputId;
     public int $fileCount;
+    public array $value;
 
     private const AVAILABLE_TYPES = ['file', 'image', 'video', 'audio', 'document', 'archive'];
     private const AVAILABLE_APPARENCES = ['input', 'square'];
@@ -25,7 +26,8 @@ class InputPicker extends BaseComponentWithValidation
         string $type = 'image',
         string $apparence = 'input',
         string $label = '',
-        int $fileCount = 1
+        int   $fileCount = 1,
+        mixed $value = []
     ) {
         $this->setName($name);
         $this->setType($type);
@@ -33,8 +35,9 @@ class InputPicker extends BaseComponentWithValidation
         $this->setId($id);
         $this->label = $label;
         $this->fileCount = $fileCount;
+        $this->setValue($value);
 
-        if($this->apparence === 'input') {
+        if ($this->apparence === 'input') {
             $this->fakeInputName = $this->name.'_fake';
             $this->fakeInputId = $this->id.'_fake';
         }
@@ -66,5 +69,21 @@ class InputPicker extends BaseComponentWithValidation
     {
         $this->validateInArray('apparence', $apparence, self::AVAILABLE_APPARENCES);
         $this->apparence = $apparence;
+    }
+
+    private function setValue(mixed $value): void
+    {
+        if (is_int($value)) {
+            $this->value = [$value];
+        } elseif (is_array($value)) {
+            $this->value = $value;
+        } else {
+            throw new \InvalidArgumentException('The value must be an integer or an array of integers.');
+        }
+    }
+
+    public function getSelectedFiles(): string
+    {
+        return implode(',', $this->value);
     }
 }
