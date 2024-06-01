@@ -61,7 +61,7 @@
                         <h5>Illustrations du projet</h5>
                         <x-dashboard.media-library.input-picker id="squareCoverInput" name="square-cover" type="image"
                                                                 apparence="input" label="Illustration carrée" file-count="2"
-                                                                class="mb-2" :value="[8,5]"/>
+                                                                class="mb-2" :value="$fields['square-cover']"/>
                         {{--<x-gui.input id="squareCoverInput" type="number" name="square-cover"
                                      label="ID Fileupload cover carrée" class="mb-2"
                                      value="{{ $fields['square-cover'] }}"/>--}}
