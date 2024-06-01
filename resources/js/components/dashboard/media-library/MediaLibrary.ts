@@ -2,7 +2,7 @@ import route from 'ziggy-js';
 import {formatBytes} from "../../../utils/helpers";
 
 type ToolBoxButtonType = "filter-by-type" | "order" | "view" | "group";
-type FileObjectJson = {
+export type FileObjectJson = {
     id: number,
     name: string,
     description: string | null,
@@ -18,7 +18,9 @@ type FileObjectsListJson = {
     files: Array<FileObjectJson>,
     total: number,
 };
-type MediaLibraryOperationMode = 'page' | 'selection';
+type MediaLibraryOperationMode = 'page' | 'embeded-selection';
+const MediaLibraryOperationModePage: MediaLibraryOperationMode = 'page';
+const MediaLibraryOperationModeEmbededSelection: MediaLibraryOperationMode = 'embeded-selection';
 
 class MediaLibrary {
     private parentElement: HTMLElement;
@@ -328,6 +330,10 @@ class MediaLibrary {
         this.resetFiles();
         await this.getFiles();
         this.postInitialize();
+
+        if (this.operationMode === MediaLibraryOperationModeEmbededSelection) {
+            this.toggleSelectionMode(true);
+        }
     }
 
     /**
@@ -454,13 +460,10 @@ class MediaLibrary {
     private defineKeyboardEventListeners(): void {
         document.addEventListener('keydown', (event: KeyboardEvent): void => {
             if (event.ctrlKey) {
-                if (this.operationMode === 'selection' && this.selectionOperationModeMaxFiles === 1) {
-                    // TODO: Notification alert
-                    console.log("MediaLibrary: Selection operation mode is set to single file selection, you can't use the ctrl key.");
-                    return;
-                }
                 this.isCtrlPressed = true;
-                this.mediaLibraryElement.classList.add('selection-mode');
+                if (this.operationMode == MediaLibraryOperationModePage) {
+                    this.toggleSelectionMode(true);
+                }
             }
         });
 
@@ -468,11 +471,23 @@ class MediaLibrary {
             if (!event.ctrlKey) {
                 this.isCtrlPressed = false;
 
-                if (this.selectedFiles.length === 0) {
-                    this.mediaLibraryElement.classList.remove('selection-mode');
+                if (this.selectedFiles.length === 0 && this.operationMode == MediaLibraryOperationModePage) {
+                    this.toggleSelectionMode(false);
                 }
             }
         });
+    }
+
+    /**
+     * Visual only, toggle the selection mode. Has nothing to do with the operation mode.
+     * @param enable
+     */
+    private toggleSelectionMode(enable: boolean): void {
+        if (enable) {
+            this.mediaLibraryElement.classList.add('selection-mode');
+        } else {
+            this.mediaLibraryElement.classList.remove('selection-mode');
+        }
     }
 
     /**
@@ -480,8 +495,7 @@ class MediaLibrary {
      * @param fileObject
      */
     public fileClicked(fileObject: FileObjectJson) {
-        console.log('MediaLibrary: File clicked', fileObject);
-        if (this.isCtrlPressed || this.selectedFiles.length > 0) {
+        if (this.isCtrlPressed || this.selectedFiles.length > 0 || this.operationMode == MediaLibraryOperationModeEmbededSelection) {
             this.toggleMediaElementSelection(fileObject);
         }
     }
@@ -532,14 +546,19 @@ class MediaLibrary {
         if (this.selectedFiles.includes(fileObject) && !firstPostRenderFiles) {
             unselectFile();
             handleMediaElement(false);
-            setActionsLabel(this.selectedFiles.length);
+            if (this.operationMode == MediaLibraryOperationModePage) {
+                setActionsLabel(this.selectedFiles.length);
+            }
 
             if (this.selectedFiles.length === 0) {
                 this.mediaLibraryElement.classList.remove('selection-mode');
-                this.actionsElement.classList.remove('selection-mode');
+
+                if (this.operationMode == MediaLibraryOperationModePage) {
+                    this.actionsElement.classList.remove('selection-mode');
+                }
             }
         } else {
-            if (this.operationMode === 'selection' && this.selectedFiles.length >= this.selectionOperationModeMaxFiles) {
+            if (this.operationMode === MediaLibraryOperationModeEmbededSelection && this.selectedFiles.length >= this.selectionOperationModeMaxFiles) {
                 // TODO: Notification alert
                 console.log("MediaLibrary: Maximum files selected");
                 return;
@@ -550,8 +569,10 @@ class MediaLibrary {
                 setSelectedFilesUrlParameter();
             }
 
-            setActionsLabel(this.selectedFiles.length);
-            this.actionsElement.classList.add('selection-mode');
+            if (this.operationMode == MediaLibraryOperationModePage) {
+                setActionsLabel(this.selectedFiles.length);
+                this.actionsElement.classList.add('selection-mode');
+            }
             handleMediaElement(true);
         }
     }
@@ -612,6 +633,10 @@ class MediaLibrary {
                 this.toggleMediaElementSelection(file, true);
             }
         }
+    }
+
+    public getSelectedFiles(): Array<FileObjectJson> {
+        return this.selectedFiles;
     }
 }
 
