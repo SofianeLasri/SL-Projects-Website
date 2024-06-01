@@ -35,7 +35,12 @@ class InputPicker extends BaseComponentWithValidation
         $this->setId($id);
         $this->label = $label;
         $this->fileCount = $fileCount;
-        $this->setValue($value);
+
+        if (!empty($value)) {
+            $this->setValue($value);
+        } else {
+            $this->value = [];
+        }
 
         if ($this->apparence === 'input') {
             $this->fakeInputName = $this->name.'_fake';
