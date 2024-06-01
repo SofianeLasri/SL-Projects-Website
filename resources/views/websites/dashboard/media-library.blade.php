@@ -12,7 +12,7 @@
 @section('pageContent')
     <x-dashboard.media-library.embed class="px-3 pt-2 flex-grow-1" />
 
-    <x-gui.modal id="mediaUploadModal" title="Envoyer un média">
+    <x-gui.modal id="mediaUploadModal" title="Envoyer un média" size="lg">
         <x-dashboard.media-library.media-upload-zone/>
     </x-gui.modal>
 @endsection

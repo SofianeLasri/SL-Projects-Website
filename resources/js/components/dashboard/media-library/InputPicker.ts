@@ -1,5 +1,6 @@
 import {Modal} from 'bootstrap';
 import MediaLibrary from "./MediaLibrary";
+
 type Apparence = 'input' | 'square';
 
 class InputPicker {
@@ -18,7 +19,7 @@ class InputPicker {
             this.elementToListen = container;
         }
 
-        let targetId = this.elementToListen.dataset.targetId!;
+        let targetId: string = container.dataset.targetId!;
         this.input = document.getElementById(targetId) as HTMLInputElement;
 
         this.modal = new Modal("#mediaPickerModal", {
@@ -26,7 +27,10 @@ class InputPicker {
             backdrop: 'static'
         });
 
+        let maxFileCount: number = parseInt(container.dataset.fileCount!);
+
         this.embeddedMediaLibrary = new MediaLibrary('mediaPickerModal', 'selection');
+        this.embeddedMediaLibrary.setSelectionOperationModeMaxFiles(maxFileCount);
 
         this.init();
     }

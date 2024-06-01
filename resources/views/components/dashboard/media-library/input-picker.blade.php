@@ -1,7 +1,8 @@
 @if($apparence === "input")
     <div {{ $attributes->merge(['class' => 'media-picker input-group']) }}
          data-target-id="{{$id}}"
-         data-target-name="{{$name}}">
+         data-target-name="{{$name}}"
+         data-file-count="{{$fileCount}}">
         <span class="input-group-text">
             <i class="{{ config('global-ui.fa-file-types-icons.' . $type) }}"></i>
         </span>

@@ -33,6 +33,7 @@ class MediaLibrary {
     private isCtrlPressed: boolean = false;
     private selectedFiles: Array<FileObjectJson> = [];
     private readonly operationMode: MediaLibraryOperationMode;
+    private selectionOperationModeMaxFiles: number = 1;
 
     private viewLayout: string = 'grid';
     private readonly possibleViewLayouts: Array<string> = ['grid', 'list'];
@@ -323,10 +324,6 @@ class MediaLibrary {
      * Initialize the media library.
      */
     public async initialize(): Promise<void> {
-        if (this.operationMode === 'selection') {
-            this.parentElement.classList.add('embedded');
-        }
-
         this.changeViewLayout();
         this.resetFiles();
         await this.getFiles();
@@ -436,6 +433,14 @@ class MediaLibrary {
         this.debug = debug;
     }
 
+    /**
+     * Set the maximum files that can be selected in the selection operation mode.
+     * @param maxFiles The maximum files that can be selected.
+     */
+    public setSelectionOperationModeMaxFiles(maxFiles: number): void {
+        this.selectionOperationModeMaxFiles = maxFiles;
+    }
+
     public refresh(): void {
         this.resetFiles();
         this.getFiles();
@@ -449,6 +454,11 @@ class MediaLibrary {
     private defineKeyboardEventListeners(): void {
         document.addEventListener('keydown', (event: KeyboardEvent): void => {
             if (event.ctrlKey) {
+                if (this.operationMode === 'selection' && this.selectionOperationModeMaxFiles === 1) {
+                    // TODO: Notification alert
+                    console.log("MediaLibrary: Selection operation mode is set to single file selection, you can't use the ctrl key.");
+                    return;
+                }
                 this.isCtrlPressed = true;
                 this.mediaLibraryElement.classList.add('selection-mode');
             }
@@ -485,13 +495,16 @@ class MediaLibrary {
     private toggleMediaElementSelection(fileObject: FileObjectJson, firstPostRenderFiles: boolean = false) {
         const mediaElement: MediaElement | null = this.getMediaElement(fileObject);
 
+        /**
+         * Fill the selected-files url parameter with the actual selected files.
+         */
         const setSelectedFilesUrlParameter = (): void => {
             this.setUrlParameter('selected-files', this.selectedFiles.map((file: FileObjectJson): string => {
                 return file.id.toString();
             }).join(','));
         };
 
-        const removeSelectedFile = (): void => {
+        const unselectFile = (): void => {
             this.selectedFiles = this.selectedFiles.filter(file => file.id !== fileObject.id);
             setSelectedFilesUrlParameter();
         };
@@ -504,6 +517,10 @@ class MediaLibrary {
             }
         }
 
+        /**
+         * Visual only, set the selection state of the media element. Doesn't change the selected files array.
+         * @param isSelected
+         */
         const handleMediaElement = (isSelected: boolean): void => {
             if (mediaElement !== null) {
                 mediaElement.setSelected(isSelected);
@@ -513,7 +530,7 @@ class MediaLibrary {
         };
 
         if (this.selectedFiles.includes(fileObject) && !firstPostRenderFiles) {
-            removeSelectedFile();
+            unselectFile();
             handleMediaElement(false);
             setActionsLabel(this.selectedFiles.length);
 
@@ -522,6 +539,12 @@ class MediaLibrary {
                 this.actionsElement.classList.remove('selection-mode');
             }
         } else {
+            if (this.operationMode === 'selection' && this.selectedFiles.length >= this.selectionOperationModeMaxFiles) {
+                // TODO: Notification alert
+                console.log("MediaLibrary: Maximum files selected");
+                return;
+            }
+
             if (!firstPostRenderFiles) {
                 this.selectedFiles.push(fileObject);
                 setSelectedFilesUrlParameter();
@@ -534,7 +557,7 @@ class MediaLibrary {
     }
 
     /**
-     * Get a media element based on its file object.
+     * Get a media element based on its JSON file object.
      * @param fileObject
      * @private
      */

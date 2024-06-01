@@ -8,29 +8,31 @@ use Illuminate\Contracts\View\View;
 class InputPicker extends BaseComponentWithValidation
 {
     public string $id;
-
     public string $name;
-
     public string $type;
-
     public string $apparence;
-
     public string $label;
-
     public string $fakeInputName;
     public string $fakeInputId;
+    public int $fileCount;
 
     private const AVAILABLE_TYPES = ['file', 'image', 'video', 'audio', 'document', 'archive'];
-
     private const AVAILABLE_APPARENCES = ['input', 'square'];
 
-    public function __construct(string $id, string $name, string $type = 'image', string $apparence = 'input', string $label = '')
-    {
+    public function __construct(
+        string $id,
+        string $name,
+        string $type = 'image',
+        string $apparence = 'input',
+        string $label = '',
+        int $fileCount = 1
+    ) {
         $this->setName($name);
         $this->setType($type);
         $this->setApparence($apparence);
         $this->setId($id);
         $this->label = $label;
+        $this->fileCount = $fileCount;
 
         if($this->apparence === 'input') {
             $this->fakeInputName = $this->name.'_fake';

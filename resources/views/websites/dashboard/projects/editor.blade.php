@@ -60,7 +60,7 @@
                     <div class="col-xl-6 mb-3">
                         <h5>Illustrations du projet</h5>
                         <x-dashboard.media-library.input-picker id="squareCoverInput" name="square-cover" type="image"
-                                                                apparence="input" label="Illustration carrée"
+                                                                apparence="input" label="Illustration carrée" file-count="2"
                                                                 class="mb-2"/>
                         {{--<x-gui.input id="squareCoverInput" type="number" name="square-cover"
                                      label="ID Fileupload cover carrée" class="mb-2"
