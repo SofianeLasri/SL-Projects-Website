@@ -1,7 +1,7 @@
 import route from 'ziggy-js';
 import md5 from "blueimp-md5";
-import {LaravelValidationError, MUZUploadedFileResponse} from "../../types";
-import {formatBytes} from "../../utils/helpers";
+import {LaravelValidationError, MUZUploadedFileResponse} from "../../../types";
+import {formatBytes} from "../../../utils/helpers";
 
 type MediaUploadZoneEvents = "onChoosenFile" | "onFileUploaded" | "onAllFileUploaded";
 

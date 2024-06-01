@@ -7,7 +7,7 @@
     }
 
     > .form-control,
-    > .form-control-plaintext{
+    > .form-control-plaintext {
 
     }
 
@@ -26,7 +26,11 @@
     }
 
     textarea {
-        padding-top: 1.17rem!important;
+        padding-top: 1.17rem !important;
+
+        &.form-control {
+            height: auto !important;
+        }
     }
 }
 

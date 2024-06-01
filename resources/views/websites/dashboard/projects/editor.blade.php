@@ -51,7 +51,7 @@
                         <x-gui.input id="projectSlugInput" name="slug" value="{{ $fields['slug'] }}" class="mb-2"
                                      hidden/>
                         <x-gui.textarea name="description" label="Description du projet"
-                                        value="{{ $fields['description'] }}"
+                                        value="{{ $fields['description'] }}" rows="2"
                                         placeholder="Entrez la description du projets" rows="2" validation="valid"
                                         required
                                         feedback="Ceci est un feedback de test afin de vérifier que l'affichage est correct."/>
@@ -59,9 +59,12 @@
 
                     <div class="col-xl-6 mb-3">
                         <h5>Illustrations du projet</h5>
-                        <x-gui.input id="squareCoverInput" type="number" name="square-cover"
+                        <x-dashboard.media-library.input-picker id="squareCoverInput" name="square-cover" type="image"
+                                                                apparence="input" label="Illustration carrée" file-count="2"
+                                                                class="mb-2" :value="$fields['square-cover']"/>
+                        {{--<x-gui.input id="squareCoverInput" type="number" name="square-cover"
                                      label="ID Fileupload cover carrée" class="mb-2"
-                                     value="{{ $fields['square-cover'] }}"/>
+                                     value="{{ $fields['square-cover'] }}"/>--}}
                         <x-gui.input type="number" name="poster-cover" label="ID Fileupload poster" class="mb-2"
                                      value="{{ $fields['poster-cover'] }}"/>
                         <x-gui.input type="number" name="fullwide-cover" label="ID Fileupload full wide" class="mb-2"
@@ -101,29 +104,6 @@
         </form>
         <textarea id="projectContent" class="d-none" hidden>{{ $fields['content'] }}</textarea>
     </x-dashboard.steps-group-list>
-
-    <div class="modal modal-lg fade" id="chooseMediaModal" tabindex="-1" aria-labelledby="chooseMediaModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="chooseMediaModalLabel">Choisir un média</h1>
-                    <x-button type="button" class="btn-link text-dark" data-bs-dismiss="modal" aria-label="Close">
-                        <x-square-icon size="1rem">
-                            <i class="fa-solid fa-xmark"></i>
-                        </x-square-icon>
-                    </x-button>
-                </div>
-                <div class="modal-body">
-                    <x-dashboard.media-library id="mediasMountPoint"/>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
 
 @push('scripts')

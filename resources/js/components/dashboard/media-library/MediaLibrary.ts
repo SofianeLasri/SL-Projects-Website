@@ -1,8 +1,8 @@
 import route from 'ziggy-js';
-import {formatBytes} from "../../utils/helpers";
+import {formatBytes} from "../../../utils/helpers";
 
 type ToolBoxButtonType = "filter-by-type" | "order" | "view" | "group";
-type FileObjectJson = {
+export type FileObjectJson = {
     id: number,
     name: string,
     description: string | null,
@@ -18,7 +18,9 @@ type FileObjectsListJson = {
     files: Array<FileObjectJson>,
     total: number,
 };
-type MediaLibraryOperationMode = 'page' | 'selection';
+type MediaLibraryOperationMode = 'page' | 'embeded-selection';
+const MediaLibraryOperationModePage: MediaLibraryOperationMode = 'page';
+const MediaLibraryOperationModeEmbededSelection: MediaLibraryOperationMode = 'embeded-selection';
 
 class MediaLibrary {
     private parentElement: HTMLElement;
@@ -33,6 +35,7 @@ class MediaLibrary {
     private isCtrlPressed: boolean = false;
     private selectedFiles: Array<FileObjectJson> = [];
     private readonly operationMode: MediaLibraryOperationMode;
+    private selectionOperationModeMaxFiles: number = 1;
 
     private viewLayout: string = 'grid';
     private readonly possibleViewLayouts: Array<string> = ['grid', 'list'];
@@ -180,7 +183,9 @@ class MediaLibrary {
                 break;
             case 'group':
                 this.groupBy = value;
-                this.reRenderFiles();
+                this.reRenderFiles().then(() => {
+                    this.postRenderFiles();
+                });
                 break;
         }
 
@@ -323,14 +328,14 @@ class MediaLibrary {
      * Initialize the media library.
      */
     public async initialize(): Promise<void> {
-        if (this.operationMode === 'selection') {
-            this.parentElement.classList.add('embedded');
-        }
-
         this.changeViewLayout();
         this.resetFiles();
         await this.getFiles();
         this.postInitialize();
+
+        if (this.operationMode === MediaLibraryOperationModeEmbededSelection) {
+            this.toggleSelectionMode(true);
+        }
     }
 
     /**
@@ -436,6 +441,14 @@ class MediaLibrary {
         this.debug = debug;
     }
 
+    /**
+     * Set the maximum files that can be selected in the selection operation mode.
+     * @param maxFiles The maximum files that can be selected.
+     */
+    public setSelectionOperationModeMaxFiles(maxFiles: number): void {
+        this.selectionOperationModeMaxFiles = maxFiles;
+    }
+
     public refresh(): void {
         this.resetFiles();
         this.getFiles();
@@ -450,7 +463,9 @@ class MediaLibrary {
         document.addEventListener('keydown', (event: KeyboardEvent): void => {
             if (event.ctrlKey) {
                 this.isCtrlPressed = true;
-                this.mediaLibraryElement.classList.add('selection-mode');
+                if (this.operationMode == MediaLibraryOperationModePage) {
+                    this.toggleSelectionMode(true);
+                }
             }
         });
 
@@ -458,11 +473,23 @@ class MediaLibrary {
             if (!event.ctrlKey) {
                 this.isCtrlPressed = false;
 
-                if (this.selectedFiles.length === 0) {
-                    this.mediaLibraryElement.classList.remove('selection-mode');
+                if (this.selectedFiles.length === 0 && this.operationMode == MediaLibraryOperationModePage) {
+                    this.toggleSelectionMode(false);
                 }
             }
         });
+    }
+
+    /**
+     * Visual only, toggle the selection mode. Has nothing to do with the operation mode.
+     * @param enable
+     */
+    private toggleSelectionMode(enable: boolean): void {
+        if (enable) {
+            this.mediaLibraryElement.classList.add('selection-mode');
+        } else {
+            this.mediaLibraryElement.classList.remove('selection-mode');
+        }
     }
 
     /**
@@ -470,8 +497,7 @@ class MediaLibrary {
      * @param fileObject
      */
     public fileClicked(fileObject: FileObjectJson) {
-        console.log('MediaLibrary: File clicked', fileObject);
-        if (this.isCtrlPressed || this.selectedFiles.length > 0) {
+        if (this.isCtrlPressed || this.selectedFiles.length > 0 || this.operationMode == MediaLibraryOperationModeEmbededSelection) {
             this.toggleMediaElementSelection(fileObject);
         }
     }
@@ -479,19 +505,22 @@ class MediaLibrary {
     /**
      * Toggle the selection of a media element.
      * @param fileObject The file object to toggle the selection.
-     * @param firstPostRenderFiles If it's the first time the files are rendered -> needed to draw selection.
+     * @param dontUpdateSelectedFilesList If it's the first time the files are rendered -> needed to draw selection.
      * @private
      */
-    private toggleMediaElementSelection(fileObject: FileObjectJson, firstPostRenderFiles: boolean = false) {
+    private toggleMediaElementSelection(fileObject: FileObjectJson, dontUpdateSelectedFilesList: boolean = false) {
         const mediaElement: MediaElement | null = this.getMediaElement(fileObject);
 
+        /**
+         * Fill the selected-files url parameter with the actual selected files.
+         */
         const setSelectedFilesUrlParameter = (): void => {
             this.setUrlParameter('selected-files', this.selectedFiles.map((file: FileObjectJson): string => {
                 return file.id.toString();
             }).join(','));
         };
 
-        const removeSelectedFile = (): void => {
+        const unselectFile = (): void => {
             this.selectedFiles = this.selectedFiles.filter(file => file.id !== fileObject.id);
             setSelectedFilesUrlParameter();
         };
@@ -504,6 +533,10 @@ class MediaLibrary {
             }
         }
 
+        /**
+         * Visual only, set the selection state of the media element. Doesn't change the selected files array.
+         * @param isSelected
+         */
         const handleMediaElement = (isSelected: boolean): void => {
             if (mediaElement !== null) {
                 mediaElement.setSelected(isSelected);
@@ -512,29 +545,42 @@ class MediaLibrary {
             }
         };
 
-        if (this.selectedFiles.includes(fileObject) && !firstPostRenderFiles) {
-            removeSelectedFile();
+        if (this.selectedFiles.includes(fileObject) && !dontUpdateSelectedFilesList) {
+            unselectFile();
             handleMediaElement(false);
-            setActionsLabel(this.selectedFiles.length);
+            if (this.operationMode == MediaLibraryOperationModePage) {
+                setActionsLabel(this.selectedFiles.length);
+            }
 
             if (this.selectedFiles.length === 0) {
                 this.mediaLibraryElement.classList.remove('selection-mode');
-                this.actionsElement.classList.remove('selection-mode');
+
+                if (this.operationMode == MediaLibraryOperationModePage) {
+                    this.actionsElement.classList.remove('selection-mode');
+                }
             }
         } else {
-            if (!firstPostRenderFiles) {
+            if (!dontUpdateSelectedFilesList) {
+                if (this.operationMode === MediaLibraryOperationModeEmbededSelection && this.selectedFiles.length >= this.selectionOperationModeMaxFiles) {
+                    // TODO: Notification alert
+                    console.log("MediaLibrary: Maximum files selected");
+                    return;
+                }
+
                 this.selectedFiles.push(fileObject);
                 setSelectedFilesUrlParameter();
             }
 
-            setActionsLabel(this.selectedFiles.length);
-            this.actionsElement.classList.add('selection-mode');
+            if (this.operationMode == MediaLibraryOperationModePage) {
+                setActionsLabel(this.selectedFiles.length);
+                this.actionsElement.classList.add('selection-mode');
+            }
             handleMediaElement(true);
         }
     }
 
     /**
-     * Get a media element based on its file object.
+     * Get a media element based on its JSON file object.
      * @param fileObject
      * @private
      */
@@ -562,7 +608,7 @@ class MediaLibrary {
      * Post render files method.
      * @private
      */
-    private postRenderFiles() {
+    private postRenderFiles(): void {
         if (this.debug) console.log('MediaLibrary: Post render files');
 
         let url: URL = new URL(window.location.href);
@@ -572,23 +618,37 @@ class MediaLibrary {
             if (this.debug) console.log('MediaLibrary: Selected files found in the url');
 
             let selectedFiles: string = searchParams.get('selected-files') ?? '';
-            let selectedFilesArray: Array<string> = selectedFiles.split(',');
-            for (const fileId of selectedFilesArray) {
-                let fileObject: FileObjectJson | undefined = this.files.find((file: FileObjectJson): boolean => {
-                    return file.id.toString() === fileId;
-                });
-                if (fileObject !== undefined) {
-                    this.selectedFiles.push(fileObject);
+            let selectedFilesArray: Array<number> = selectedFiles.split(',').map((id: string) => parseInt(id));
+            this.setSelectedFiles(selectedFilesArray);
+        } else {
+            if (this.selectedFiles.length > 0) {
+                this.toggleSelectionMode(true);
+                for (const file of this.selectedFiles) {
+                    this.toggleMediaElementSelection(file, true);
                 }
             }
         }
+    }
 
-        if (this.selectedFiles.length > 0) {
-            this.mediaLibraryElement.classList.add('selection-mode');
-            for (const file of this.selectedFiles) {
-                this.toggleMediaElementSelection(file, true);
+    /**
+     * Set the selected files based on their id.
+     * MUST BE CALLED AFTER THE FILES ARE RENDERED (because we need to have all the files in cache).
+     * @param selectedFilesId
+     */
+    public setSelectedFiles(selectedFilesId: number[]): void {
+        for (const fileId of selectedFilesId) {
+            let fileObject: FileObjectJson | undefined = this.files.find((file: FileObjectJson): boolean => {
+                return file.id === fileId;
+            });
+            if (fileObject !== undefined) {
+                this.selectedFiles.push(fileObject);
+                this.toggleMediaElementSelection(fileObject, true);
             }
         }
+    }
+
+    public getSelectedFiles(): Array<FileObjectJson> {
+        return this.selectedFiles;
     }
 }
 
