@@ -8,28 +8,19 @@ use Illuminate\Contracts\View\View;
 class Input extends BaseComponentWithValidation
 {
     public string $id;
-
     public string $name;
-
     public string $type;
-
     public string $dataFormType;
-
     public string $placeholder;
-
     public string $label;
-
     public ?string $value;
-
     public string $required;
-
     public string $apparence;
-
     public string $validationClass;
-
-    public string $validation;
-
+    public string $validationState;
     public string $feedback;
+    public string $validFeedback;
+    public string $invalidFeedback;
 
     private array $types = [
         'text',
@@ -72,7 +63,6 @@ class Input extends BaseComponentWithValidation
     ];
 
     const APPARENCE_COMBINED = 'combined';
-
     const APPARENCE_SEPARATED = 'separated'; // Classic
 
     private array $apparences = [
@@ -95,7 +85,7 @@ class Input extends BaseComponentWithValidation
         'week',
     ];
 
-    private array $validationTypes = [
+    private array $validationStates = [
         'none',
         'invalid',
         'valid',
@@ -111,19 +101,21 @@ class Input extends BaseComponentWithValidation
         ?string $value = '',
         bool $required = false,
         string $apparence = '',
-        string $validation = 'none',
-        string $feedback = ''
+        string $validationState = 'none',
+        string $feedback = '',
+        string $validFeedback = '',
+        string $invalidFeedback = ''
     ) {
-        $this->validateAttributes($name, $type, $dataFormType, $apparence, $validation);
+        $this->validateAttributes($name, $type, $dataFormType, $apparence, $validationState);
 
         $id = ! empty($id) ? $id : 'input_'.$name;
         $required = $required ? 'required' : '';
         $label = ! empty($label) ? $label : $name;
         $value = ! empty($value) ? $value : old($name);
 
-        if ($validation === 'invalid') {
+        if ($validationState === 'invalid') {
             $validationClass = ' is-invalid';
-        } elseif ($validation === 'valid') {
+        } elseif ($validationState === 'valid') {
             $validationClass = ' is-valid';
         } else {
             $validationClass = '';
@@ -147,8 +139,10 @@ class Input extends BaseComponentWithValidation
         $this->required = $required;
         $this->apparence = $apparence;
         $this->validationClass = $validationClass;
-        $this->validation = $validation;
+        $this->validationState = $validationState;
         $this->feedback = $feedback;
+        $this->validFeedback = $validFeedback;
+        $this->invalidFeedback = $invalidFeedback;
     }
 
     public function render(): View
@@ -159,7 +153,7 @@ class Input extends BaseComponentWithValidation
     /**
      * Validate the input attributes. Throw an exception if an attribute is incorrect.
      */
-    public function validateAttributes(string $name, string $type, string $dataFormType, string $apparence, string $validation): void
+    public function validateAttributes(string $name, string $type, string $dataFormType, string $apparence, string $validationState): void
     {
         $this->validateNameId($name);
         $this->validateInArray('type', $type, $this->types);
@@ -169,7 +163,7 @@ class Input extends BaseComponentWithValidation
         if (! empty($apparence)) {
             $this->validateInArray('apparence', $apparence, $this->apparences);
         }
-        $this->validateInArray('validation', $validation, $this->validationTypes);
+        $this->validateInArray('validation-state', $validationState, $this->validationStates);
 
         if ($apparence === self::APPARENCE_COMBINED && ! in_array($type, $this->combinedCompatibleTypes)) {
             $this->throwValidationException(
