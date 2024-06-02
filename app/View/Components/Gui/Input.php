@@ -21,7 +21,7 @@ class Input extends BaseComponentWithValidation
 
     public ?string $value;
 
-    public bool $required;
+    public string $required;
 
     public string $apparence;
 
@@ -105,7 +105,7 @@ class Input extends BaseComponentWithValidation
         string $name,
         string $id = '',
         string $type = 'text',
-        string $dataFormType = '',
+        string $dataFormType = 'other',
         string $placeholder = '',
         string $label = '',
         ?string $value = '',

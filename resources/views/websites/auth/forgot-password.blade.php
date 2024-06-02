@@ -10,8 +10,8 @@
     <p class="">{{ __('general/verbal.authentication.forgotten_password_page_explaination') }}</p>
 
     <x-gui.input name="email" type="text" data-form-type="email"
-             label="{{ __('general/compound.email_adress') }}"
-             value="{{ old('email') }}" required/>
+                 label="{{ __('general/compound.email_adress') }}"
+                 value="{{ old('email') }}" required/>
 
     <button type="submit"
             class="btn btn-primary p-2 mt-3">{{ __('general/verbal.authentication.reset_password') }}

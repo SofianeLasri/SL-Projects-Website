@@ -49,7 +49,7 @@
                                      placeholder="Entrez le nom du projet" value="{{ $fields['name'] }}"
                                      class="mb-2" required/>
                         <x-gui.input id="projectSlugInput" name="slug" value="{{ $fields['slug'] }}" class="mb-2"
-                                     hidden/>
+                                     label="Permalien" required/>
                         <x-gui.textarea name="description" label="Description du projet"
                                         value="{{ $fields['description'] }}" rows="2"
                                         placeholder="Entrez la description du projets" rows="2" validation="valid"

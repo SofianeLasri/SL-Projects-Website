@@ -8,14 +8,14 @@
 
 @section("form")
     <x-gui.input name="username" type="text" data-form-type="username"
-             label="{{ __('general/compound.username') }}"
-             value="{{ old('username') }}"
-             placeholder="{{ __('general/verbal.authentication.enter_your_username') }}" required/>
+                 label="{{ __('general/compound.username') }}"
+                 value="{{ old('username') }}"
+                 placeholder="{{ __('general/verbal.authentication.enter_your_username') }}" required/>
 
     <x-gui.input name="password" type="password" data-form-type="password"
-             label="{{ __('general/compound.password') }}"
-             value="{{ old('password') }}"
-             placeholder="{{ __('general/verbal.authentication.enter_your_password') }}" required/>
+                 label="{{ __('general/compound.password') }}"
+                 value="{{ old('password') }}"
+                 placeholder="{{ __('general/verbal.authentication.enter_your_password') }}" required/>
 
     <x-checkbox name="remember" id="remember" label="{{ __('general/verbal.authentication.remember_me') }}"/>
 

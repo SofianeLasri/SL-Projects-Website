@@ -1,6 +1,7 @@
 import {Editor} from '@toast-ui/editor';
 import route from 'ziggy-js';
 import {ProjectEditorResponse} from "../../types";
+import slugify from "slugify";
 
 const saveDraftRoute: string = route('dashboard.ajax.projects.save-draft');
 const publishProjectRoute: string = route('dashboard.ajax.projects.publish');
@@ -16,6 +17,16 @@ const editor: Editor = new Editor({
     previewStyle: 'vertical'
 });
 const projectContentElement: HTMLTextAreaElement = document.getElementById('projectContent') as HTMLTextAreaElement;
+
+const projectNameInput: HTMLInputElement = document.getElementById('projectNameInput') as HTMLInputElement;
+const projectSlugInput: HTMLInputElement = document.getElementById('projectSlugInput') as HTMLInputElement;
+
+projectNameInput.addEventListener('input', () => {
+    projectSlugInput.value = slugify(projectNameInput.value, {
+        lower: true,
+        strict: true
+    });
+});
 
 addProjectForm.addEventListener('submit', (event) => {
     event.preventDefault();
