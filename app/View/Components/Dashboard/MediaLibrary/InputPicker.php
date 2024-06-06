@@ -21,13 +21,13 @@ class InputPicker extends BaseComponentWithValidation
     private const AVAILABLE_APPARENCES = ['input', 'square'];
 
     public function __construct(
-        string $id,
         string $name,
         string $type = 'image',
         string $apparence = 'input',
         string $label = '',
         int   $fileCount = 1,
-        mixed $value = []
+        mixed $value = [],
+        string $id = ''
     ) {
         $this->setName($name);
         $this->setType($type);

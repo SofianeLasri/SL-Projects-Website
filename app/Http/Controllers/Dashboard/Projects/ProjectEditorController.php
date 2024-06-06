@@ -289,6 +289,10 @@ class ProjectEditorController extends Controller
         $project->ended_at = $request->input('end-date');
         $project->save();
 
-        $project->setTranslationContent($request->input('content', ''), $locale);
+        if(empty($request->input('content'))){
+            $project->setTranslationContent('', $locale);
+        }else{
+            $project->setTranslationContent($request->input('content'), $locale);
+        }
     }
 }

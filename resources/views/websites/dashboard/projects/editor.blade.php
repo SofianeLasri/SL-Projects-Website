@@ -59,16 +59,15 @@
 
                     <div class="col-xl-6 mb-3">
                         <h5>Illustrations du projet</h5>
-                        <x-dashboard.media-library.input-picker id="squareCoverInput" name="square-cover" type="image"
-                                                                apparence="input" label="Illustration carrée" file-count="2"
+                        <x-dashboard.media-library.input-picker name="square-cover" type="image"
+                                                                apparence="input" label="Illustration carrée"
                                                                 class="mb-2" :value="$fields['square-cover']"/>
-                        {{--<x-gui.input id="squareCoverInput" type="number" name="square-cover"
-                                     label="ID Fileupload cover carrée" class="mb-2"
-                                     value="{{ $fields['square-cover'] }}"/>--}}
-                        <x-gui.input type="number" name="poster-cover" label="ID Fileupload poster" class="mb-2"
-                                     value="{{ $fields['poster-cover'] }}"/>
-                        <x-gui.input type="number" name="fullwide-cover" label="ID Fileupload full wide" class="mb-2"
-                                     value="{{ $fields['fullwide-cover'] }}"/>
+                        <x-dashboard.media-library.input-picker type="image" name="poster-cover"
+                                                                label="Illustration poster" class="mb-2"
+                                                                :value="$fields['poster-cover']"/>
+                        <x-dashboard.media-library.input-picker type="image" name="fullwide-cover"
+                                                                label="Illustration 16/9" class="mb-2"
+                                                                :value="$fields['fullwide-cover']"/>
                     </div>
                 </div>
 
