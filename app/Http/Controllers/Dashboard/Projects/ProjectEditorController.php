@@ -258,7 +258,7 @@ class ProjectEditorController extends Controller
         $slugAlreadyUsed = Project::where('slug', $slug)->exists();
 
         return response()->json([
-            'slugAlreadyUsed' => $slugAlreadyUsed,
+            'exists' => $slugAlreadyUsed,
         ]);
     }
 
@@ -272,7 +272,7 @@ class ProjectEditorController extends Controller
         $nameAlreadyUsed = Project::where('name', $name)->exists();
 
         return response()->json([
-            'nameAlreadyUsed' => $nameAlreadyUsed,
+            'exists' => $nameAlreadyUsed,
         ]);
     }
 

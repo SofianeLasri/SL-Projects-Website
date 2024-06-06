@@ -2,6 +2,7 @@ import {Editor} from '@toast-ui/editor';
 import route from 'ziggy-js';
 import {ProjectEditorResponse} from "../../types";
 import slugify from "slugify";
+import Input from "../../components/gui/Input";
 
 const saveDraftRoute: string = route('dashboard.ajax.projects.save-draft');
 const publishProjectRoute: string = route('dashboard.ajax.projects.publish');
@@ -19,13 +20,35 @@ const editor: Editor = new Editor({
 const projectContentElement: HTMLTextAreaElement = document.getElementById('projectContent') as HTMLTextAreaElement;
 
 const projectNameInput: HTMLInputElement = document.getElementById('projectNameInput') as HTMLInputElement;
-const projectSlugInput: HTMLInputElement = document.getElementById('projectSlugInput') as HTMLInputElement;
+const projectSlugInput: Input = new Input(document.getElementById('projectSlugInput') as HTMLInputElement)
 
 projectNameInput.addEventListener('input', () => {
-    projectSlugInput.value = slugify(projectNameInput.value, {
+
+    projectSlugInput.getInput().value = slugify(projectNameInput.value, {
         lower: true,
         strict: true
     });
+
+    fetch(route('dashboard.ajax.projects.check-slug'), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content
+        },
+        body: JSON.stringify({slug: projectSlugInput.getInput().value})
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.hasOwnProperty('exists') && data.exists) {
+                projectSlugInput.setValidationState('invalid', 'This slug is already used.');
+            } else {
+                projectSlugInput.setValidationState('valid', null);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
 });
 
 addProjectForm.addEventListener('submit', (event) => {
