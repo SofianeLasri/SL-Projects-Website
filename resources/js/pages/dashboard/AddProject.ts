@@ -19,12 +19,12 @@ const editor: Editor = new Editor({
 });
 const projectContentElement: HTMLTextAreaElement = document.getElementById('projectContent') as HTMLTextAreaElement;
 
-const projectNameInput: HTMLInputElement = document.getElementById('projectNameInput') as HTMLInputElement;
+const projectNameInput: Input = new Input(document.getElementById('projectNameInput') as HTMLInputElement);
 const projectSlugInput: Input = new Input(document.getElementById('projectSlugInput') as HTMLInputElement)
 
-projectNameInput.addEventListener('input', () => {
+projectNameInput.getInput().addEventListener('input', () => {
 
-    projectSlugInput.getInput().value = slugify(projectNameInput.value, {
+    projectSlugInput.getInput().value = slugify(projectNameInput.getInput().value, {
         lower: true,
         strict: true
     });
@@ -48,6 +48,24 @@ projectNameInput.addEventListener('input', () => {
         })
         .catch(error => {
             console.error('Error:', error);
+        })
+
+    fetch(route('dashboard.ajax.projects.check-name'), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement).content
+        },
+        body: JSON.stringify({name: projectNameInput.getInput().value})
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.hasOwnProperty('exists') && data.exists) {
+                projectNameInput.setValidationState('invalid', 'This name is already used.');
+            } else {
+                projectNameInput.setValidationState('valid', null);
+            }
         })
 });
 
