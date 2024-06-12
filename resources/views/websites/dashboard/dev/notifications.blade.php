@@ -3,5 +3,5 @@
 @section('pageName', 'Notifications')
 
 @section('pageContent')
-
+    <x-dashboard.notification/>
 @endsection

@@ -13,10 +13,11 @@ use App\Models\Showcase\ProjectMedia;
 use App\Rules\ProjectMediasArraySchemeRule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ProjectEditorController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $request->validate([
             'project-id' => 'sometimes|integer|exists:showcase.projects,id',

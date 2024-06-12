@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\FileUpload;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class MediaLibraryController extends Controller
 {
-    public function page()
+    public function page(): View
     {
         return view('websites.dashboard.media-library');
     }
@@ -35,10 +36,5 @@ class MediaLibraryController extends Controller
             'files' => $fileUploads,
             'total' => FileUpload::getFilesCount('/', $type, true),
         ]);
-    }
-
-    public function getMediaElementHtml()
-    {
-        return view('components.dashboard.media-element');
     }
 }
