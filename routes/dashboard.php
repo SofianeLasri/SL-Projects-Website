@@ -18,6 +18,10 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
             Route::get('/editor', [ProjectEditorController::class, 'index'])->name('editor');
         });
 
+        Route::name('dev.')->prefix('dev')->group(function () {
+            Route::view('/notifications', 'websites.dashboard.dev.notifications')->name('notifications');
+        });
+
         // Requêtes AJAX
         Route::name('ajax.')->prefix('ajax')->group(function () {
             Route::get('/set-sidebar-state', function () {
