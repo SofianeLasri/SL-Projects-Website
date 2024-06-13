@@ -3,6 +3,7 @@ import route from 'ziggy-js';
 import {ProjectEditorResponse} from "../../types";
 import slugify from "slugify";
 import Input from "../../components/gui/Input";
+import {Notification} from "../../components/dashboard/Notification";
 
 const saveDraftRoute: string = route('dashboard.ajax.projects.save-draft');
 const publishProjectRoute: string = route('dashboard.ajax.projects.publish');
@@ -81,6 +82,11 @@ previewProjectBtn.addEventListener('click', async () => {
         window.open(data.url, '_blank');
     } else {
         console.error('Error:', data);
+        new Notification({
+            title: 'Éditeur de projet',
+            message: 'Une erreur est survenue lors de la prévisualisation du projet. Veuillez réessayer.',
+            type: 'error'
+        });
     }
 });
 
@@ -96,6 +102,11 @@ publishProjectBtn.addEventListener('click', () => {
         sendProjectFormToServer();
     } else {
         console.log("Form is invalid");
+        new Notification({
+            title: 'Éditeur de projet',
+            message: 'Veuillez remplir correctement tous les champs du formulaire.',
+            type: 'warning'
+        });
     }
 });
 
@@ -129,6 +140,11 @@ async function sendProjectFormToServer(isDraft: boolean = false): Promise<Projec
         })
         .catch(error => {
             console.error('Error:', error);
+            new Notification({
+                title: 'Éditeur de projet',
+                message: 'Une erreur est survenue lors de l\'enregistrement du projet. Veuillez réessayer.',
+                type: 'error'
+            });
         });
 
     return returnedData;

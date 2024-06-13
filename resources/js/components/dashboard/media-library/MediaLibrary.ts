@@ -1,5 +1,6 @@
 import route from 'ziggy-js';
 import {formatBytes} from "../../../utils/helpers";
+import {Notification} from "../Notification";
 
 type ToolBoxButtonType = "filter-by-type" | "order" | "view" | "group";
 export type FileObjectJson = {
@@ -562,8 +563,11 @@ class MediaLibrary {
         } else {
             if (!dontUpdateSelectedFilesList) {
                 if (this.operationMode === MediaLibraryOperationModeEmbededSelection && this.selectedFiles.length >= this.selectionOperationModeMaxFiles) {
-                    // TODO: Notification alert
                     console.log("MediaLibrary: Maximum files selected");
+                    new Notification({
+                        title: 'Médiathèque',
+                        message: 'Vous avez atteint le nombre maximum de fichiers sélectionnés',
+                    });
                     return;
                 }
 

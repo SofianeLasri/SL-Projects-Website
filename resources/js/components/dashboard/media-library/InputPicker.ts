@@ -1,5 +1,6 @@
 import {Modal} from 'bootstrap';
 import MediaLibrary, {FileObjectJson} from "./MediaLibrary";
+import {Notification} from "../Notification";
 
 type Apparence = 'input' | 'square';
 
@@ -74,8 +75,11 @@ class InputPicker {
             }
             this.modal.hide();
         } else {
-            // TODO: Alert
             console.log('No file selected');
+            new Notification({
+                title: 'Sélecteur de médias',
+                message: 'Aucun fichier sélectionné.',
+            });
         }
     }
 }
