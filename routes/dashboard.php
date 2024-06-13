@@ -45,6 +45,7 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
                 Route::name('media-library.')->prefix('media-library')->group(function () {
                     Route::view('/media-element-html', 'components.dashboard.media-element')->name('media-element-html');
                 });
+                Route::view('notification-html', 'components.dashboard.notification')->name('notification-html');
             });
         });
     });
