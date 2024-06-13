@@ -39,7 +39,8 @@
 <div id="app">
     <x-dashboard.sidebar/>
     <div id="pageContent">
-        <x-dashboard.breadcrumb>
+        <x-dashboard.breadcrumb :disable-header="$disableHeader ?? false"
+                                :disable-breadcrumbs="$disableBreadcrumbs ?? false">
             @yield('breadcrumbHeaderContent')
         </x-dashboard.breadcrumb>
         @yield('pageContent')
