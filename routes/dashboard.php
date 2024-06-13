@@ -18,6 +18,10 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
             Route::get('/editor', [ProjectEditorController::class, 'index'])->name('editor');
         });
 
+        Route::name('dev.')->prefix('dev')->group(function () {
+            Route::view('/notifications', 'websites.dashboard.dev.notifications')->name('notifications');
+        });
+
         // Requêtes AJAX
         Route::name('ajax.')->prefix('ajax')->group(function () {
             Route::get('/set-sidebar-state', function () {
@@ -39,8 +43,9 @@ Route::domain(config('app.domain.dashboard'))->name('dashboard.')->group(functio
                     Route::post('/upload-file', [MediaUploadZoneController::class, 'uploadFile'])->name('upload-file');
                 });
                 Route::name('media-library.')->prefix('media-library')->group(function () {
-                    Route::get('/media-element-html', [MediaLibraryController::class, 'getMediaElementHtml'])->name('media-element-html');
+                    Route::view('/media-element-html', 'components.dashboard.media-element')->name('media-element-html');
                 });
+                Route::view('notification-html', 'components.dashboard.notification')->name('notification-html');
             });
         });
     });

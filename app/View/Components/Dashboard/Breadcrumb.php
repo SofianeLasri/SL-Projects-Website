@@ -18,22 +18,34 @@ class Breadcrumb extends Component
     private string $pageIcon;
 
     public bool $disableHeader = false;
+    public bool $disableBreadcrumbs = false;
 
-    public function __construct(bool $disableHeader = false)
+    public function __construct(bool $disableHeader = false, bool $disableBreadcrumbs = false)
     {
         $this->disableHeader = $disableHeader;
-        $this->breadcrumbs = $this->buildBreadcrumbs();
-        $this->pageTitle = $this->breadcrumbs[count($this->breadcrumbs) - 1]['name'];
-        $this->pageDescription = $this->breadcrumbs[count($this->breadcrumbs) - 1]['description'] ?? '';
-        $this->pageIcon = $this->breadcrumbs[count($this->breadcrumbs) - 1]['icon'] ?? '';
+        $this->disableBreadcrumbs = $disableBreadcrumbs;
+        $this->breadcrumbs = [];
+        $this->pageTitle = '';
+        $this->pageDescription = '';
+        $this->pageIcon = '';
+
+        if (!$this->disableBreadcrumbs) {
+            $this->breadcrumbs = $this->buildBreadcrumbs();
+
+            if (!empty($this->breadcrumbs)) {
+                $this->pageTitle = $this->breadcrumbs[count($this->breadcrumbs) - 1]['name'];
+                $this->pageDescription = $this->breadcrumbs[count($this->breadcrumbs) - 1]['description'] ?? '';
+                $this->pageIcon = $this->breadcrumbs[count($this->breadcrumbs) - 1]['icon'] ?? '';
+            }
+        }
     }
 
-    private function buildBreadcrumbs()
+    private function buildBreadcrumbs(): array
     {
         $currentUrl = url()->current();
         $breadcrumbs = [];
 
-        // Obtenez toutes les catégories et parcourrez-les pour trouver l'URL actuelle
+        // Obtenez toutes les catégories et parcourez-les pour trouver l'URL actuelle
         foreach (NavigationLinkCategory::all() as $category) {
             foreach ($category->children as $child) {
                 if (! empty($child->links)) {
@@ -68,12 +80,12 @@ class Breadcrumb extends Component
         return $breadcrumbs;
     }
 
-    private function isMatchingUrl($currentUrl, $url)
+    private function isMatchingUrl($currentUrl, $url): bool
     {
         return $currentUrl == $this->resolveUrl($url);
     }
 
-    private function resolveUrl($url)
+    private function resolveUrl($url): string
     {
         if (Route::has($url)) {
             return route($url);
