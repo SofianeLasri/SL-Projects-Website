@@ -37,7 +37,7 @@ readme :
 ![Ajout de projet](arts/Ajouter_un_projet_Administration.png)
 ![Médiathèque](arts/Gestionnaire_de_fichiers_Administration.png)
 ![Envoi de fichiers](arts/Envoi_de_fichiers_Gestionnaire_de_fichiers_Administration.png)
-![Affichage en liste - Médiathèque]('arts/Liste Gestionnaire de fichiers Administration.png')
+![Affichage en liste - Médiathèque](arts/Liste_Gestionnaire_de_fichiers_Administration.png)
 ![Vitrine](arts/Vitrine.png)
 
 Le texte ci-dessous est laissé tel quel à titre historique.
