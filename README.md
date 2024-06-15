@@ -8,6 +8,40 @@
 <a href="https://wakatime.com/badge/user/018da7b9-5ddd-4615-a805-e871e840191c/project/018da7bb-f1d4-4084-aeb1-08b113b179c5"><img src="https://wakatime.com/badge/user/018da7b9-5ddd-4615-a805-e871e840191c/project/018da7bb-f1d4-4084-aeb1-08b113b179c5.svg" alt="wakatime"></a>
 </p>
 
+## Information 15 Juin 2024
+
+J'ai décidé de cesser le développement du projet, après presque 2 ans de développement.
+
+La principale raison de cette décision est le temps monstrueux que me demandais ce projet pour sa réalisation, mais 
+également les divers changements de direction que j'ai pris le concernant. En effet, si au départ, il était question de 
+réaliser une plateforme web qui regrouperait l'ensemble de mes projets (site perso, blog, portfolio, etc.), j'ai 
+rapidement décidé de séparer ces projets pour les rendre indépendants les uns des autres. 
+
+De plus, l'envie de séparer le nom "SL-Projects" de mes projets personnels, afin de pouvoir l'utiliser dans des projets 
+plus sérieux, m'a poussé à revoir entièrement mes plans et à réorienter l'intérêt de certains projets. Ainsi, la 
+décision de cesser le développement de cette plateforme m'est rapidement venue à l'esprit. Si toutefois, il était prévu 
+de la terminer avant de l'abandonner, la nécessité de recréer entièrement le site vitrine et le site portfolio afin 
+d'exploiter les nouvelles maquettes, m'a convaincu de ne pas continuer.
+
+C'est ainsi que se termine l'aventure de ce projet. J'en reste très satisfait. Ayant pu expérimenter et apprendre 
+énormement de choses, il m'a permis d'acquérir une bonne expérience avec Laravel, TypeScript et la création de libraires 
+graphiques basées sur Bootstrap.
+
+Pour ceux qui se demandent, le projet était loin d'être terminé. Voici un aperçu du Trello au moment où j'écris ce 
+readme :
+
+![Trello](arts/Trello 15 Juin 2024.png) 
+
+## Captures d'écrans
+
+![Ajout de projet](arts/Ajouter un projet Administration.png)
+![Médiathèque](arts/Gestionnaire de fichiers Administration.png)
+![Envoi de fichiers](arts/Envoi de fichiers Gestionnaire de fichiers Administration.png)
+![Affichage en liste - Médiathèque](arts/Liste Gestionnaire de fichiers Administration.png)
+![Vitrine](arts/Vitrine.png)
+
+Le texte ci-dessous est laissé tel quel à titre historique.
+
 ## À propos du projet
 
 Ce projet est la plateforme web de SL-Projects. Il concentre les sous projets suivants :
