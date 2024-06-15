@@ -71,7 +71,8 @@ Ce projet est la plateforme web de SL-Projects. Il concentre les sous projets su
 
 ## Usage image Docker (en local)
 
-1. Le serveur web plante au démarrage, probablement à cause des points de montage qui se font légèrement après avoir lancé le serveur. Il faut donc relancer le serveur depuis la console.
+1. Le serveur web plante au démarrage, probablement à cause des points de montage qui se font légèrement après avoir lancé le serveur. Il faut donc relancer le serveur depuis la console (`service apache2 start`).
 2. Les identifiants de connexion ssh sont les suivants :
    - Utilisateur : `root`
    - Mot de passe : `password`
+3. Le dossier de travail est `/var/www`
