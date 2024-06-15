@@ -30,14 +30,14 @@ graphiques basées sur Bootstrap.
 Pour ceux qui se demandent, le projet était loin d'être terminé. Voici un aperçu du Trello au moment où j'écris ce 
 readme :
 
-![Trello](arts/Trello 15 Juin 2024.png) 
+![Trello](arts/Trello_15_Juin_2024.png) 
 
 ## Captures d'écrans
 
-![Ajout de projet](arts/Ajouter un projet Administration.png)
-![Médiathèque](arts/Gestionnaire de fichiers Administration.png)
-![Envoi de fichiers](arts/Envoi de fichiers Gestionnaire de fichiers Administration.png)
-![Affichage en liste - Médiathèque](arts/Liste Gestionnaire de fichiers Administration.png)
+![Ajout de projet](arts/Ajouter_un_projet_Administration.png)
+![Médiathèque](arts/Gestionnaire_de_fichiers_Administration.png)
+![Envoi de fichiers](arts/Envoi_de_fichiers_Gestionnaire_de_fichiers_Administration.png)
+![Affichage en liste - Médiathèque]('arts/Liste Gestionnaire de fichiers Administration.png')
 ![Vitrine](arts/Vitrine.png)
 
 Le texte ci-dessous est laissé tel quel à titre historique.
