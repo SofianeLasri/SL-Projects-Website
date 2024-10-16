@@ -27,7 +27,7 @@ git reset --hard {{ $commit }}
 @task('run_composer')
 echo "Starting deployment ({{ $release }})"
 cd {{ $new_release_dir }}
-composer install --prefer-dist --no-scripts -q -o
+composer install --no-scripts -q -o
 php artisan ziggy:generate
 @endtask
 
